@@ -1,0 +1,62 @@
+#base {
+ border: 0px solid #000;
+ border-radius: 5px;
+ margin: 2em;
+ padding: 10px;
+ color: #6F6F6A;
+ }
+ ul {
+ list-style-image: url(viajarseguro.jpg);
+ font-family: Arial, Helvetica, sans-serif;
+ }
+ .header{
+ 
+ }
+ .footer{
+   font-size: .5em; 
+   font-style: oblique;
+ }
+ .nombre{
+  font-size: 1.5em; 
+  font-weight: bold;
+  margin-right: 1em;
+ 
+ }
+ .content{
+ font-size: .9em;
+ clear:both;
+ }
+ .fecha{
+  margin-right: 2em;
+  color: #999966;
+  float:right;
+  font-size: .8em; 
+ 
+ }
+ .subheader{
+  float:right
+ }
+ .severa{
+   
+ }
+ .normal{
+    
+ }
+ .normal{
+    background-color: #a0c4de
+ }
+ #wachsam-container{
+  border: 1px solid #EBEBE0; border-radius: 5px;
+  border-radius: 5px;
+}
+.mainContent{
+ display: inline-block;
+ overflow-y: scroll;
+ overflow-x: hidden;
+ height:300px;
+ }
+ .caption{
+ border-bottom: 1px solid #EBEBE0;
+ padding:.5em;
+ font-size: 1.5em; 
+ }
