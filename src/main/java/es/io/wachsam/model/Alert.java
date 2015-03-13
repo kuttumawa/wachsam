@@ -97,7 +97,7 @@ public class Alert {
 		Date fechapub=new Date();
 		try{
 			id=Long.parseLong(t[0].trim());
-			fechapub=new SimpleDateFormat("dd/mm/yyyy").parse(t[9].trim());
+			fechapub=new SimpleDateFormat("dd/MM/yyyy").parse(t[9].trim());
 		}catch(Exception e){
 			System.out.println("Error:: " + t);
 			return new Alert();
@@ -106,7 +106,7 @@ public class Alert {
 		return alert;
 	}
 	public String getFechaPubFormatted() {
-		SimpleDateFormat df=new SimpleDateFormat("dd-mm-yyyy");
+		SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy");
 		try{
 			fechaPubFormatted=df.format(fechaPub);
 		}catch(Exception e){
@@ -115,7 +115,7 @@ public class Alert {
 		return fechaPubFormatted;
 	}
 	public void setFechaPubFormatted() {
-		SimpleDateFormat df=new SimpleDateFormat("dd-mm-yyyy");
+		SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy");
 		try{
 			fechaPubFormatted=df.format(fechaPub);
 		}catch(Exception e){

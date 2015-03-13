@@ -5,6 +5,7 @@ var jQuery;
 var jsonp_url = "http://localhost:8080/wachsam/Magno?callback=?";
 var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption">Alertas</div><div id="mainContent" class="mainContent" style="height:#HEIGHT"></div></div>';
 var timer= 11;  //in minutes
+var english = false;
 /******** Load jQuery if not present *********/
 
 
@@ -24,9 +25,11 @@ function init(o){
   if(o.lugar) jsonp_url += "&lugar="+o.lugar; 
   if(o.fecha) jsonp_url += "&fecha="+o.fecha; 
   if(o.tipo)  jsonp_url += "&tipo="+o.fecha;
+  if(o.order)  jsonp_url += "&order="+o.order;
   if(o.height) code=code.replace("#HEIGHT",o.height);
   if(o.width) code=code.replace("#WIDTH",o.width);
   if(o.timer) timer=o.timer;
+  if(o.english) english=true;
  
 
  if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.4.2') {
@@ -77,20 +80,31 @@ function main() {
 }
 
 function fetchContent($){
+	  $.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
 	  $.getJSON(jsonp_url, function(data) {
-          var codeList ='<ul>';
-          if(data.length==0) codeList='<div class="noResult">No hay resultados</div>';
-          $.each(data, function(i, obj) {
-        	  codeList += "<li id=base>"+createDivContent(obj) + "</li>";
-          });
-          codeList +="</ul>";
+		  var codeList ='';
+          if(data.length==0){
+        	  codeList='<div class="noResult">No hay resultados</div>';
+          }else{
+        	  codeList +='<ul>';
+        	  $.each(data, function(i, obj) {
+	        	  codeList += "<li id=base>"+createDivContent(obj) + "</li>";
+	          });
+	          codeList +="</ul>";
+          }
           $('#mainContent').html(codeList);
         });
 }
 function createDivContent(o){
 var a='<div class="header"><span class="nombre">#NOMBRE</span><span>#LUGAR</span><div class="fecha">#FECHA</div></div>';
 a +='<div class="content">#TEXTO</div><div class="footer"><a href="#LINK1">FUENTE</a></div>';
-return a.replace("#NOMBRE",o.nombre).replace("#LUGAR",o.lugar).replace("#FECHA",o.fechaPubFormatted).replace("#TEXTO",o.texto).replace("#LINK1",o.link1);
+var r=a.replace("#NOMBRE",o.nombre).replace("#LUGAR",o.lugar).replace("#FECHA",o.fechaPubFormatted).replace("#LINK1",o.link1);
+if(english){ 
+	if(o.text!=null && o.text.length > 3) r=r.replace("#TEXTO",o.text);
+	else  r=r.replace("#TEXTO",o.texto);
+}
+else r=r.replace("#TEXTO",o.texto);
+return r;
 } 
 
 

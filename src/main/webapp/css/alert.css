@@ -52,7 +52,7 @@
 }
 .mainContent{
  display: inline-block;
- overflow-y: scroll;
+ overflow-y: auto;
  overflow-x: hidden;
  height:300px;
  }
@@ -60,4 +60,8 @@
  border-bottom: 1px solid #EBEBE0;
  padding:.5em;
  font-size: 1.5em; 
+ }
+ .noResult{
+  width: 50%;
+  margin: 0 auto;
  }

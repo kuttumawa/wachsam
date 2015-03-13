@@ -6,6 +6,7 @@
     <persistence-unit name="jpaData">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <class>es.io.wachsam.model.Alert</class>
+      <class>es.io.wachsam.model.DB</class>
 	  <properties>
          <property name="hibernate.dialect" 
                   value="org.hibernate.dialect.HSQLDialect"/>

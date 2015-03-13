@@ -6,11 +6,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.DB;
 
 /**
  * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
@@ -64,13 +67,22 @@ public class AlertService {
 	      return alertas;
 	}
 	
-	public void startDB(InputStream ie) throws IOException{
+	public void startDB() throws IOException{
+		URL url = this.getClass().getResource("/alert.csv");
+		File f=new File(url.getPath());
+		DB db=dao.getDB(1L);
+		if(db==null || !db.getSize().equals(f.length())) {
+			dao.save(new DB(1L,f.length()));
+		}else{
+			return;
+		}
 		InputStream is=getClass().getClassLoader().getResourceAsStream("/alert.csv");
-	    List<Alert> alertas=unMarshallIt(is);
+		List<Alert> alertas=unMarshallIt(is);
 	    for(Alert a: alertas){
 	    	 dao.save(a);
 	    }
 	}
+	
 	
 	
 

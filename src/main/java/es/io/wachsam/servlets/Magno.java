@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,7 +28,7 @@ import es.io.wachsam.services.AlertService;
  */
 public class Magno extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	ClassPathXmlApplicationContext context;  
+	 WebApplicationContext context;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,23 +43,22 @@ public class Magno extends HttpServlet {
 	 * http://web.ontuts.com/tutoriales/jsonp-llamadas-ajax-entre-dominios/
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		context = new 
-                ClassPathXmlApplicationContext("applicationContext.xml");
-		  String message="Hello ";
+		
+		  context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		  response.setContentType("text/html");
 		  PrintWriter out = response.getWriter();
 		  AlertService service=(AlertService) context.getBean("alertService");
 	      AlertasDao dao = (AlertasDao) context.getBean("alertasDao"); 
 	      
-	      InputStream is=getClass().getClassLoader().getResourceAsStream("/alert.csv");
-	      service.startDB(is);
+	      service.startDB();
 	      
 	      
 	      String callback=request.getParameter("callback");
 	      String texto=request.getParameter("texto");
 	      String lugar=request.getParameter("lugar");
 	      String fecha=request.getParameter("fecha");
-	      String tipo=request.getParameter("fecha");//ddmmyyyy
+	      String tipo=request.getParameter("tipo");
+	      String order=request.getParameter("order");
 	      Date fechapub=null;
 	      if(fecha!=null && fecha.length()>0){
 	      try{
@@ -66,16 +67,16 @@ public class Magno extends HttpServlet {
 			   //void
 			}
 	      }
-	      List<Alert> alerts = dao.getAlertas(texto,lugar,fechapub,null);
+	      List<Alert> alerts = dao.getAlertas(texto,lugar,fechapub,tipo,order);
 	      final Gson gson=new Gson();
 	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
 	      System.out.println("----------------------------------------------------");
 	      System.out.println(prettyGson.toJson(alerts));
 	      System.out.println("----------------------------------------------------");
-	      context.close(); 
+	      
 		 
 	     out.println(callback + "("+prettyGson.toJson(alerts)+")");
-	     //out.println(callback + "('XXXXXXXXXXX')");
+	     
 	}
 
 	/**
