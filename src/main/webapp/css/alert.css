@@ -1,48 +1,48 @@
-#base {
+.base_wachsam{
  border: 0px solid #000;
  border-radius: 5px;
- margin: 2em;
+ margin: 2em 2em 2em 4em;
  padding: 10px;
  color: #6F6F6A;
  }
- ul {
+ .lista_wachsam {
  list-style-image: url(viajarseguro.jpg);
  font-family: Arial, Helvetica, sans-serif;
  }
- .header{
+ .header_wachsam{
  
  }
- .footer{
+ .footer_wachsam{
    font-size: .5em; 
    font-style: oblique;
  }
- .nombre{
+ .nombre_wachsam{
   font-size: 1.5em; 
   font-weight: bold;
   margin-right: 1em;
  
  }
- .content{
+ .content_wachsam{
  font-size: .9em;
  clear:both;
  }
- .fecha{
+ .fecha_wachsam{
   margin-right: 2em;
   color: #999966;
   float:right;
   font-size: .8em; 
  
  }
- .subheader{
+ .subheader_wachsam{
   float:right
  }
- .severa{
+ .severa_wachsam{
    
  }
- .normal{
+ .normal_wachsam{
     
  }
- .normal{
+ .normal_wachsam{
     background-color: #a0c4de
  }
  #wachsam-container{
@@ -50,18 +50,18 @@
   border-radius: 5px;
   width:600px;
 }
-.mainContent{
+.mainContent_wachsam{
  display: inline-block;
  overflow-y: auto;
  overflow-x: hidden;
  height:300px;
  }
- .caption{
+ .caption_wachsam{
  border-bottom: 1px solid #EBEBE0;
  padding:.5em;
  font-size: 1.5em; 
  }
- .noResult{
+ .noResult_wachsam{
   width: 50%;
   margin: 0 auto;
  }

@@ -2,8 +2,10 @@ var wachsam=(function() {
 
 // Localize jQuery variable
 var jQuery;
-var jsonp_url = "http://localhost:8080/wachsam/Magno?callback=?";
-var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption">Alertas</div><div id="mainContent" class="mainContent" style="height:#HEIGHT"></div></div>';
+var context="http://viajarseguro.elasticbeanstalk.com/";
+//var context="http://localhost:8080/wachsam/";
+var jsonp_url = context + "Magno?callback=?";
+var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption_wachsam">Alertas</div><div id="mainContent" class="mainContent_wachsam" style="height:#HEIGHT"></div></div>';
 var timer= 11;  //in minutes
 var english = false;
 /******** Load jQuery if not present *********/
@@ -51,7 +53,7 @@ function init(o){
 } else {
     // The jQuery version on the window is the one we want to use
     jQuery = window.jQuery;
-    main();
+    main(); 
 }
 
 }
@@ -65,7 +67,7 @@ function main() {
         var css_link = $("<link>", { 
             rel: "stylesheet", 
             type: "text/css", 
-            href: "css/alert.css" 
+            href: context+ "css/alert.css" 
         });
         css_link.appendTo('head');   
         $('#wachsam-widget-container').html(code);
@@ -84,11 +86,11 @@ function fetchContent($){
 	  $.getJSON(jsonp_url, function(data) {
 		  var codeList ='';
           if(data.length==0){
-        	  codeList='<div class="noResult">No hay resultados</div>';
+        	  codeList='<div class="noResult_wachsam">No hay resultados</div>';
           }else{
-        	  codeList +='<ul>';
+        	  codeList +='<ul class="lista_wachsam">';
         	  $.each(data, function(i, obj) {
-	        	  codeList += "<li id=base>"+createDivContent(obj) + "</li>";
+	        	  codeList += "<li class=base_wachsam>"+createDivContent(obj) + "</li>";
 	          });
 	          codeList +="</ul>";
           }
@@ -96,8 +98,8 @@ function fetchContent($){
         });
 }
 function createDivContent(o){
-var a='<div class="header"><span class="nombre">#NOMBRE</span><span>#LUGAR</span><div class="fecha">#FECHA</div></div>';
-a +='<div class="content">#TEXTO</div><div class="footer"><a href="#LINK1">FUENTE</a></div>';
+var a='<div class="header_wachsam"><span class="nombre_wachsam">#NOMBRE</span><span>#LUGAR</span><div class="fecha_wachsam">#FECHA</div></div>';
+a +='<div class="content_wachsam">#TEXTO</div><div class="footer_wachsam"><a href="#LINK1">FUENTE</a></div>';
 var r=a.replace("#NOMBRE",o.nombre).replace("#LUGAR",o.lugar).replace("#FECHA",o.fechaPubFormatted).replace("#LINK1",o.link1);
 if(english){ 
 	if(o.text!=null && o.text.length > 3) r=r.replace("#TEXTO",o.text);

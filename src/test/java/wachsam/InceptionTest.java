@@ -62,7 +62,7 @@ public class InceptionTest extends TestCase {
 	      for(Alert a: alertas){
 	    	 dao.save(a);
 	      }
-	      List<Alert> alerts = dao.getAlertas(null,"PAKISTAN",null,"seve");
+	      List<Alert> alerts = dao.getAlertas(null,"PAKISTAN",null,"seve", null);
 	      final Gson gson=new Gson();
 	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
 	      System.out.println("----------------------------------------------------");

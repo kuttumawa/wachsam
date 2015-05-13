@@ -6,11 +6,12 @@
 </head> 
  
    
+<script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
     
-<script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script>
+<!--script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script-->
 <script>
 
-wachsam.init({texto:"australia",height:"300px",width:"500px",timer:"10",order:"tipo",english:true});
+wachsam.init({lugar:"australia",height:"300px",width:"500px"});
 
 </script>
 <div id="wachsam-widget-container"/> 
