@@ -5,7 +5,7 @@ var jQuery;
 var context="http://viajarseguro.elasticbeanstalk.com/";
 //var context="http://localhost:8080/wachsam/";
 var jsonp_url = context + "Magno?callback=?";
-var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption_wachsam">Alertas</div><div id="mainContent" class="mainContent_wachsam" style="height:#HEIGHT"></div></div>';
+var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption_wachsam">#CAPTION</div><div id="mainContent" class="mainContent_wachsam" style="height:#HEIGHT"></div></div>';
 var timer= 11;  //in minutes
 var english = false;
 /******** Load jQuery if not present *********/
@@ -30,8 +30,13 @@ function init(o){
   if(o.order)  jsonp_url += "&order="+o.order;
   if(o.height) code=code.replace("#HEIGHT",o.height);
   if(o.width) code=code.replace("#WIDTH",o.width);
+  if(o.caption){
+	  code=code.replace("#CAPTION",o.caption);
+  }
+  else code=code.replace("#CAPTION","Alertas");
   if(o.timer) timer=o.timer;
   if(o.english) english=true;
+  if(o.ultimosdias) jsonp_url += "&ultimosdias="+o.ultimosdias; 
  
 
  if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.4.2') {
@@ -82,8 +87,8 @@ function main() {
 }
 
 function fetchContent($){
-	  $.ajaxSetup({ scriptCharset: "utf-8" , contentType: "application/json; charset=utf-8"});
-	  $.getJSON(jsonp_url, function(data) {
+	  $.ajaxSetup({ scriptCharset: "UTF-8" , contentType: "application/json; charset=UTF-8"});
+	  $.getJSON(encodeURI(jsonp_url), function(data) {
 		  var codeList ='';
           if(data.length==0){
         	  codeList='<div class="noResult_wachsam">No hay resultados</div>';
@@ -98,9 +103,12 @@ function fetchContent($){
         });
 }
 function createDivContent(o){
-var a='<div class="header_wachsam"><span class="nombre_wachsam">#NOMBRE</span><span>#LUGAR</span><div class="fecha_wachsam">#FECHA</div></div>';
+var a='<div class="header_wachsam"><span class="nombre_wachsam"><a href="#LINK3">#NOMBRE</a></span><span>#LUGAR</span><div class="fecha_wachsam">#FECHA</div></div>';
 a +='<div class="content_wachsam">#TEXTO</div><div class="footer_wachsam"><a href="#LINK1">FUENTE</a></div>';
 var r=a.replace("#NOMBRE",o.nombre).replace("#LUGAR",o.lugar).replace("#FECHA",o.fechaPubFormatted).replace("#LINK1",o.link1);
+if(o.link3){
+	r=r.replace("#LINK3",o.link3);
+}
 if(english){ 
 	if(o.text!=null && o.text.length > 3) r=r.replace("#TEXTO",o.text);
 	else  r=r.replace("#TEXTO",o.texto);

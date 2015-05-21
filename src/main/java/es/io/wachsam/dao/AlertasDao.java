@@ -51,22 +51,54 @@ public class AlertasDao {
 	public List<Alert> getAlertas(String texto, String pais, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
-		texto=removeAcentos(texto);
-		pais=removeAcentos(pais);
+		String[] paisArray=pais!=null?removeAcentos(pais.trim()).split("\\|"):new String[]{};
+		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
 		tipo=removeAcentos(tipo);
-		if (texto != null && texto.length() > 0) {
-			sb.append(" and (TRANSLATE( UCASE(texto),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜ','ACEIOUAEIOUAEIOUAOEU') like :texto");
-			sb.append(" or TRANSLATE( UCASE(text),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜ','ACEIOUAEIOUAEIOUAOEU') like :text");
-			sb.append(" or TRANSLATE( UCASE(nombre),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜ','ACEIOUAEIOUAEIOUAOEU') like :nombre)");
+		boolean flag=false;
+		int index=0;
+		
+		
+		for(String texto_i:textoArray){
+			if (texto_i != null && texto_i.length() > 0) {
+				if(!flag){
+					 sb.append(" and (");
+					 flag=true;
+				}
+				else sb.append(" or ");
+				sb.append("(TRANSLATE( UCASE(texto),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :texto"+index);
+				sb.append(" or TRANSLATE( UCASE(text),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :text"+index);
+				sb.append(" or TRANSLATE( UCASE(nombre),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :nombre"+index+")");
+			}
+			index++;
 		}
-		if (pais != null && pais.length() > 0) {
-			sb.append(" and TRANSLATE( UCASE(lugar),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜ','ACEIOUAEIOUAEIOUAOEU') like :lugar");
+		index=0;
+		if(flag) {
+			sb.append(")");
+			flag=!flag;
 		}
+			
+		for(String pais_i:paisArray){
+			if (pais_i != null && pais_i.length() > 0) {
+				if(!flag){
+					 sb.append(" and (");
+					 flag=true;
+				}
+				else sb.append(" or ");
+				sb.append("TRANSLATE( UCASE(lugar),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :lugar"+index);
+			}
+			index++;
+		}
+		index=0;
+		if(flag) {
+			sb.append(")");
+			flag=!flag;
+		}
+		
 		if (fecha != null) {
-			sb.append(" and fechaPub < :fecha");
+			sb.append(" and fechaPub > :fecha");
 		}
 		if (tipo != null && tipo.length() > 3) {
-			sb.append(" and TRANSLATE( UCASE(tipo),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜ','ACEIOUAEIOUAEIOUAOEU') like :tipo");
+			sb.append(" and TRANSLATE( UCASE(tipo),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :tipo");
 		}
 		if(order != null && order.length() > 0){
 			String[] orden=order.split("\\s");
@@ -88,14 +120,23 @@ public class AlertasDao {
 		    sb.append(" ORDER BY nombre,fechaPub DESC");
 		}
 		Query q = em.createQuery(sb.toString(), Alert.class);
-		if (texto != null && texto.length() > 0) {
-			q.setParameter("texto", "%" + texto+ "%");
-			q.setParameter("text", "%" + texto + "%");
-			q.setParameter("nombre", "%" + texto + "%");
+		index=0;
+		for(String texto_i:textoArray){
+			if (texto_i != null && texto_i.length() > 0) {
+				q.setParameter("texto"+index, "%" + texto_i+ "%");
+				q.setParameter("text"+index, "%" + texto_i + "%");
+				q.setParameter("nombre"+index, "%" + texto_i + "%");
+			}
+			index++;
 		}
-		if (pais != null && pais.length() > 0) {
-			q.setParameter("lugar", "%" + pais+ "%");
+		index=0;
+		for(String pais_i:paisArray){
+			if (pais_i != null && pais_i.length() > 0) {
+				q.setParameter("lugar"+index,pais_i);
+			}
+			index++;
 		}
+		
 		if (fecha != null) {
 			q.setParameter("fecha", fecha);
 		}

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class Magno extends HttpServlet {
 	 * http://web.ontuts.com/tutoriales/jsonp-llamadas-ajax-entre-dominios/
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		  //request.setCharacterEncoding("UTF-8");
 		  context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		  response.setContentType("text/html");
 		  PrintWriter out = response.getWriter();
@@ -54,15 +55,21 @@ public class Magno extends HttpServlet {
 	      
 	      
 	      String callback=request.getParameter("callback");
-	      String texto=request.getParameter("texto");
-	      String lugar=request.getParameter("lugar");
+	      String texto=(request.getParameter("texto")!=null?new String(request.getParameter("texto").getBytes(),"UTF-8"):null);
+	      String lugar=(request.getParameter("lugar")!=null?new String(request.getParameter("lugar").getBytes(),"UTF-8"):null);
 	      String fecha=request.getParameter("fecha");
 	      String tipo=request.getParameter("tipo");
 	      String order=request.getParameter("order");
+	      String ultimosdias=request.getParameter("ultimosdias");
 	      Date fechapub=null;
+	      if(ultimosdias!=null && ultimosdias.matches("\\d+")){
+	    	  Calendar calendar = Calendar.getInstance(); 
+	    	  calendar.add(Calendar.DAY_OF_YEAR,new Integer("-" + ultimosdias));
+	    	  fechapub=calendar.getTime();
+	      }
 	      if(fecha!=null && fecha.length()>0){
 	      try{
-			   fechapub=new SimpleDateFormat("ddmmyyyy").parse(fecha);
+			   fechapub=new SimpleDateFormat("ddMMyyyy").parse(fecha);
 			}catch(Exception e){
 			   //void
 			}
@@ -70,13 +77,14 @@ public class Magno extends HttpServlet {
 	      List<Alert> alerts = dao.getAlertas(texto,lugar,fechapub,tipo,order);
 	      final Gson gson=new Gson();
 	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
-	      System.out.println("----------------------------------------------------");
-	      System.out.println(prettyGson.toJson(alerts));
-	      System.out.println("----------------------------------------------------");
+	     // System.out.println("----------------------------------------------------");
+	     // System.out.println(prettyGson.toJson(alerts));
+	     // System.out.println("----------------------------------------------------");
 	      
-		 
-	     out.println(callback + "("+prettyGson.toJson(alerts)+")");
-	     
+		  if(callback!=null)
+	      out.println(callback + "("+prettyGson.toJson(alerts)+")");
+		  else out.println(prettyGson.toJson(alerts));
+			  
 	}
 
 	/**
