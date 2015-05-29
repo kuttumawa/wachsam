@@ -4,6 +4,7 @@ package wachsam;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -15,7 +16,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import es.io.wachsam.dao.AlertasDao;
+import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.Lugar;
 import es.io.wachsam.services.AlertService;
 
 public class InceptionTest extends TestCase {
@@ -23,7 +26,7 @@ public class InceptionTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		context = new 
-                ClassPathXmlApplicationContext("applicationContext.xml");
+                ClassPathXmlApplicationContext("applicationContext_test.xml");
 	}
 
 	protected void tearDown() throws Exception {
@@ -58,7 +61,7 @@ public class InceptionTest extends TestCase {
 		  assertEquals(true,true);
 		  AlertService service=(AlertService) context.getBean("alertService");
 	      AlertasDao dao = (AlertasDao) context.getBean("alertasDao");
-	      List<Alert> alertas=service.unMarshallIt(new File("alert.csv"));
+	      List<Alert> alertas=service.unMarshallIt(new File("src/main/resources/alert.csv"));
 	      for(Alert a: alertas){
 	    	 dao.save(a);
 	      }
@@ -71,4 +74,32 @@ public class InceptionTest extends TestCase {
 	      context.close();
 		
 	}
+	@Test
+	public void testLugarAlerta(){
+		 LugarDao dao=(LugarDao) context.getBean("lugarDao"); 
+		 AlertasDao daoAlert=(AlertasDao) context.getBean("alertasDao"); 
+		 assertNotNull(dao);
+		 assertNotNull(daoAlert);
+		 Lugar universo=new Lugar(0L,"Universo","Universe",null,null,null,"0","0",0);
+		 Lugar europa=new Lugar(1L,"Europa","Europe",universo,null,null,"0","0",0);
+		 dao.save(universo);
+		 Long id=dao.save(europa);
+		 Lugar lugar=dao.getLugar(id);
+		 assertNotNull(lugar);
+		 
+		 Alert _alert=new Alert(0L,"Tiburón","severa","xxxxxx",null,null,null,"xxxxxxxxxxccccccccccx","xxxxxxxxxsssss",new Date(),lugar);
+		 Long idAlert=daoAlert.save(_alert);
+		 assertNotNull(idAlert);
+		 Alert alert=daoAlert.getAlert(idAlert);
+		 assertNotNull(alert);
+		 System.out.println(alert);
+		 final Gson gson=new Gson();
+	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+	      System.out.println("----------------------------------------------------");
+	      System.out.println(prettyGson.toJson(alert));
+	      System.out.println("----------------------------------------------------");
+	}
+	
+	
+	
 }

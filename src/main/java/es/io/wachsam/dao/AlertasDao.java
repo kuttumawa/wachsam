@@ -32,6 +32,9 @@ public class AlertasDao {
 		em.persist(db);
 		return db.getId();
 	}
+	public Alert getAlert(Long id){
+		return em.find(Alert.class,id);
+	}
 	public DB getDB(Long id){
 		return em.find(DB.class,id);
 	}
@@ -60,14 +63,19 @@ public class AlertasDao {
 		
 		for(String texto_i:textoArray){
 			if (texto_i != null && texto_i.length() > 0) {
+				
 				if(!flag){
 					 sb.append(" and (");
 					 flag=true;
 				}
 				else sb.append(" or ");
-				sb.append("(TRANSLATE( UCASE(texto),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :texto"+index);
-				sb.append(" or TRANSLATE( UCASE(text),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :text"+index);
-				sb.append(" or TRANSLATE( UCASE(nombre),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :nombre"+index+")");
+				if(!texto_i.contains("{-TEXTO}")){
+				  sb.append("(TRANSLATE( UCASE(texto),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :texto"+index);
+				  sb.append(" or TRANSLATE( UCASE(text),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :text"+index);
+				  sb.append(" or TRANSLATE( UCASE(nombre),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :nombre"+index+")");
+				}else{
+				  sb.append("(TRANSLATE( UCASE(nombre),'ÁÇÉÍÓÚÀÈÌÒÙÂÊÎÔÛÃÕËÜÑ','ACEIOUAEIOUAEIOUAOEUN') like :nombre"+index+")");
+				}
 			}
 			index++;
 		}
@@ -123,9 +131,13 @@ public class AlertasDao {
 		index=0;
 		for(String texto_i:textoArray){
 			if (texto_i != null && texto_i.length() > 0) {
-				q.setParameter("texto"+index, "%" + texto_i+ "%");
-				q.setParameter("text"+index, "%" + texto_i + "%");
-				q.setParameter("nombre"+index, "%" + texto_i + "%");
+				if(!texto_i.contains("{-TEXTO}")){
+					q.setParameter("texto"+index, "%" + texto_i+ "%");
+					q.setParameter("text"+index, "%" + texto_i + "%");
+					q.setParameter("nombre"+index, "%" + texto_i + "%");
+				}else{
+					q.setParameter("nombre"+index, texto_i.replaceAll("\\{\\-TEXTO\\}",""));
+				}
 			}
 			index++;
 		}

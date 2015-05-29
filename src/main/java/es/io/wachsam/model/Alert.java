@@ -5,9 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -28,6 +30,8 @@ public class Alert {
 	String lugar;
 	Date fechaPub;
 	String fechaPubFormatted;
+	@ManyToOne(fetch = FetchType.EAGER)
+	Lugar lugarObj;
 	
 	
 	public Alert() {
@@ -83,13 +87,19 @@ public class Alert {
 	public void setFechaPub(Date fechaPub) {
 		this.fechaPub = fechaPub;
 	}
+	public Lugar getLugarObj() {
+		return lugarObj;
+	}
+	public void setLugarObj(Lugar lugarObj) {
+		this.lugarObj = lugarObj;
+	}
 
 	public static Alert createAlert(String[] t){
 		Alert alert=null;
 		Long id=null;
+		Lugar lugar=null;
 		for(String x:t){
 			if(x.length()>1000){
-				System.out.println("XXXXXXXXXXX");
 				return  new Alert();
 			}
 			x.replaceAll("<SEMICOLON>", ";");
@@ -98,11 +108,17 @@ public class Alert {
 		try{
 			id=Long.parseLong(t[0].trim());
 			fechapub=new SimpleDateFormat("dd/MM/yyyy").parse(t[9].trim());
+			if(t[10]!=null){
+				lugar=new Lugar();
+				lugar.setId(Long.parseLong(t[10].trim()));
+			}
 		}catch(Exception e){
 			System.out.println("Error:: " + t);
 			return new Alert();
 		}
-		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub); 
+		
+		
+		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar); 
 		return alert;
 	}
 	public String getFechaPubFormatted() {
@@ -125,7 +141,7 @@ public class Alert {
 	}
 	public Alert(Long id, String nombre, String tipo, String link1,
 			String link2, String link3, String texto, String text,
-			String lugar, Date fechaPub) {
+			String lugar, Date fechaPub,Lugar lugarObj) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -138,12 +154,22 @@ public class Alert {
 		this.lugar = lugar;
 		this.fechaPub = fechaPub;
 		setFechaPubFormatted();
+		this.lugarObj=lugarObj;
 	}
 	@Override
 	public String toString() {
-		return "Alert [id=" + id + ", tipo=" + tipo + ", link1=" + link1
-				+ ", link2=" + link2 + ", link3=" + link3 + ", texto=" + texto
-				+ ", text=" + text + ", lugar=" + lugar + ", fechaPub="
-				+ fechaPub + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Alert [id=").append(id).append(", nombre=")
+				.append(nombre).append(", tipo=").append(tipo)
+				.append(", link1=").append(link1).append(", link2=")
+				.append(link2).append(", link3=").append(link3)
+				.append(", texto=").append(texto).append(", text=")
+				.append(text).append(", lugar=").append(lugar)
+				.append(", fechaPub=").append(fechaPub)
+				.append(", fechaPubFormatted=").append(fechaPubFormatted)
+				.append(", lugarObj=").append(lugarObj).append("]");
+		return builder.toString();
 	}
+	
+	
 }

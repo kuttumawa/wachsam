@@ -7,10 +7,10 @@
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <class>es.io.wachsam.model.Alert</class>
       <class>es.io.wachsam.model.DB</class>
-	  <properties>
+	  <!--properties>
          <property name="hibernate.dialect" 
-                  value="org.hibernate.dialect.HSQLDialect"/>
-      </properties>
+                  value="org.hibernate.dialect.MySQL5Dialect"/>
+       </properties-->
       
 	</persistence-unit>
 
