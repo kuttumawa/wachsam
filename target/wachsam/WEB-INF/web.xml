@@ -20,10 +20,20 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.Magno</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalAlertUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalAlertUpdaterForYou</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
   	<url-pattern>/Magno</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalAlertUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 </web-app>

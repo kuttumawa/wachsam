@@ -17,9 +17,10 @@ public class LugarDao {
 	private EntityManager em;
 
 	public Long save(Lugar lugar) {
-		if (lugar == null || lugar.getId() == null)
+		if (lugar == null)
 			return -1L;
-		em.persist(lugar);
+		if(lugar.getId() == null) em.persist(lugar);
+		else em.merge(lugar);
 		return lugar.getId();
 	}
 	
@@ -28,7 +29,7 @@ public class LugarDao {
 	}
 
 	public List<Lugar> getAll() {
-		return em.createQuery("SELECT p FROM Lugar p", Lugar.class)
+		return em.createQuery("SELECT p FROM Lugar p order by p.nombre", Lugar.class)
 				.getResultList();
 	}
 
@@ -39,7 +40,10 @@ public class LugarDao {
 		return q.getResultList();
 	}
 
-	
+	public void deleteById(Long id) throws Exception {
+		Lugar ent = em.find(Lugar.class, id);
+		em.remove(ent); 
+	}
 	
 	
 }

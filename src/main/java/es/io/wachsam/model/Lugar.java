@@ -2,12 +2,15 @@ package es.io.wachsam.model;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Lugar {
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
 	
 	String nombre;
@@ -41,6 +44,54 @@ public class Lugar {
 		this.nivel = nivel;
 	}
 	
+	public Lugar(String id, String nombre, String nombreEn, String padre1,
+			String padre2, String padre3, String latitud, String longitud,
+			String nivel) {
+		super();
+		try{
+			this.id= Long.parseLong(id.trim());
+		}catch(Exception e){
+			
+		}
+		this.nombre = nombre;
+		this.nombreEn = nombreEn;
+		if(padre1!=null && padre1.length()>0){
+			try{
+				Lugar lugar=new Lugar();
+				lugar.setId( Long.parseLong(padre1.trim()));
+				this.padre1=lugar;
+			}catch(Exception e){
+				//void
+			}
+		}
+		if(padre2!=null && padre2.length()>0){
+			try{
+				Lugar lugar=new Lugar();
+				lugar.setId( Long.parseLong(padre2.trim()));
+				this.padre2=lugar;
+			}catch(Exception e){
+				//void
+			}
+		}
+		if(padre3!=null && padre3.length()>0){
+			try{
+				Lugar lugar=new Lugar();
+				lugar.setId( Long.parseLong(padre3.trim()));
+				this.padre3=lugar;
+			}catch(Exception e){
+				//void
+			}
+		}
+		this.latitud = latitud;
+		this.longitud = longitud;
+		try{
+			this.nivel = Integer.parseInt(nivel.trim());
+		}catch(Exception e){
+			//void
+		}
+		
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -99,12 +150,26 @@ public class Lugar {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Lugar [id=").append(id).append(", nombre=")
-				.append(nombre).append(", nombreEn=").append(nombreEn)
-				.append(", padre1=").append(padre1).append(", padre2=")
-				.append(padre2).append(", padre3=").append(padre3)
-				.append(", latitud=").append(latitud).append(", longitud=")
-				.append(longitud).append(", nivel=").append(nivel).append("]");
+		builder.append("Lugar [");
+		if (id != null)
+			builder.append("id=").append(id).append(", ");
+		if (nombre != null)
+			builder.append("nombre=").append(nombre).append(", ");
+		if (nombreEn != null)
+			builder.append("nombreEn=").append(nombreEn).append(", ");
+		if (padre1 != null)
+			builder.append("padre1=").append(padre1).append(", ");
+		if (padre2 != null)
+			builder.append("padre2=").append(padre2).append(", ");
+		if (padre3 != null)
+			builder.append("padre3=").append(padre3).append(", ");
+		if (latitud != null)
+			builder.append("latitud=").append(latitud).append(", ");
+		if (longitud != null)
+			builder.append("longitud=").append(longitud).append(", ");
+		if (nivel != null)
+			builder.append("nivel=").append(nivel);
+		builder.append("]");
 		return builder.toString();
 	}
 	

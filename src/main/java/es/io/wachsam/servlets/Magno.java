@@ -75,6 +75,9 @@ public class Magno extends HttpServlet {
 			}
 	      }
 	      List<Alert> alerts = dao.getAlertas(texto,lugar,fechapub,tipo,order);
+	      for(Alert a:alerts){
+	    	  a.setFechaPubFormatted();
+	      }
 	      final Gson gson=new Gson();
 	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
 	     // System.out.println("----------------------------------------------------");

@@ -20,10 +20,40 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.Magno</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalAlertUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalAlertUpdaterForYou</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>ProvisionalPeligroUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalPeligroUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalPeligroUpdaterForYou</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>ProvisionalLugarUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalLugarUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalLugarUpdaterForYou</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
   	<url-pattern>/Magno</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalAlertUpdaterForYou</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalPeligroUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalPeligroUpdaterForYou</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>ProvisionalLugarUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalLugarUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 </web-app>

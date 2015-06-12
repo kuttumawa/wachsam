@@ -33,7 +33,12 @@ function init(o){
   if(o.caption){
 	  code=code.replace("#CAPTION",o.caption);
   }
-  else code=code.replace("#CAPTION","Alertas");
+  else{
+	  if(o.english)
+	      code=code.replace("#CAPTION","Alerts");
+	  else
+		  code=code.replace("#CAPTION","Alertas");
+  }
   if(o.timer) timer=o.timer;
   if(o.english) english=true;
   if(o.ultimosdias) jsonp_url += "&ultimosdias="+o.ultimosdias; 
@@ -103,9 +108,16 @@ function fetchContent($){
         });
 }
 function createDivContent(o){
+var fuente_texto="Fuente";
+if(english) fuente_texto="Source";
 var a='<div class="header_wachsam"><span class="nombre_wachsam"><a href="#LINK3">#NOMBRE</a></span><span>#LUGAR</span><div class="fecha_wachsam">#FECHA</div></div>';
-a +='<div class="content_wachsam">#TEXTO</div><div class="footer_wachsam"><a href="#LINK1">FUENTE</a></div>';
+a +='<div class="content_wachsam">#TEXTO</div><div class="footer_wachsam"><a href="#LINK1">'+fuente_texto+'</a>#LINK2</div>';
 var r=a.replace("#NOMBRE",o.nombre).replace("#LUGAR",o.lugar).replace("#FECHA",o.fechaPubFormatted).replace("#LINK1",o.link1);
+if(o.link2){
+  r=r.replace("#LINK2",'<a style="margin-left:1em" href="'+o.link2+'">'+fuente_texto+'</a>');
+}else{
+  r=r.replace("#LINK2",'');
+}
 if(o.link3){
 	r=r.replace("#LINK3",o.link3);
 }

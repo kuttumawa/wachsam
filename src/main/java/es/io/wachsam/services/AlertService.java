@@ -78,8 +78,11 @@ public class AlertService {
 		}
 		InputStream is=getClass().getClassLoader().getResourceAsStream("/alert.csv");
 		List<Alert> alertas=unMarshallIt(is);
+		System.out.println("Cargados----> " + alertas.size());
 	    for(Alert a: alertas){
-	    	 dao.save(a);
+	    	 
+	    	System.out.println(a);
+	    	dao.save(a);
 	    }
 	}
 	

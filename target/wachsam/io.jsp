@@ -16,7 +16,7 @@
 
 <script>
 
-wachsam.init({texto:"{-texto}fiebre%",order:"fecha",height:"300px",width:"500px",caption:"<img src=\"css/viajarseguro.jpg\"/>Alertas"});
+wachsam.init({english:"true",texto:"rabia",order:"fecha",height:"300px",width:"500px"});
 
 </script>
 <div id="wachsam-widget-container"/> 

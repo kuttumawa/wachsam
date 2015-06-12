@@ -3,14 +3,16 @@
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
  http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
-    <persistence-unit name="jpaData">
+    <persistence-unit name="jpaData_file">
       <provider>org.hibernate.ejb.HibernatePersistence</provider>
       <class>es.io.wachsam.model.Alert</class>
       <class>es.io.wachsam.model.DB</class>
+      <class>es.io.wachsam.model.Lugar</class>
+      <class>es.io.wachsam.model.Peligro</class>
 	  <properties>
          <property name="hibernate.dialect" 
-                  value="org.hibernate.dialect.HSQLDialect"/>
-      </properties>
+                  value="org.hibernate.dialect.MySQL5Dialect"/>
+       </properties>
       
 	</persistence-unit>
 
