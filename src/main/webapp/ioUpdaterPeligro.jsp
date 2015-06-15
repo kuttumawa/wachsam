@@ -43,10 +43,14 @@ function clearFields(){
 	document.getElementById("nombre").value="";
 	document.getElementById("nombreEn").value="";
 	document.getElementById("damage").value="";
+	document.getElementById("oper").value="";
 	
 }
 function deleteOper(){
-	document.getElementById("oper").value="delete";
+	if(confirm('Seguro?')){
+		document.getElementById("oper").value="delete";
+	    document.getElementById('form2').submit();
+	}
 	
 }
 </script>
@@ -119,7 +123,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 <input type="hidden" id="oper" name="oper"/>
 
 <input type="submit" value="grabar">
-<input type="submit" value="delete" onclick="deleteOper()">
+<input type="button" value="delete" onclick="deleteOper()">
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>

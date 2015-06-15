@@ -171,6 +171,15 @@ public class Alert {
 				.append(nombre).append("]");
 		return builder.toString();
 	}
+	public String prettyPrint() {
+		StringBuilder builder = new StringBuilder();
+		try{
+		builder.append(id).append(" - ").append(nombre).append(" - ").append(texto.substring(0,Math.min(50,texto.length()))).append("..");
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		return builder.toString();
+	}
 
 
 

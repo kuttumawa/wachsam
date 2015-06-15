@@ -2,8 +2,8 @@ var wachsam=(function() {
 
 // Localize jQuery variable
 var jQuery;
-var context="http://viajarseguro.elasticbeanstalk.com/";
-//var context="http://localhost:8080/wachsam/";
+//var context="http://viajarseguro.elasticbeanstalk.com/";
+var context="http://localhost:8080/wachsam/";
 var jsonp_url = context + "Magno?callback=?";
 var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption_wachsam">#CAPTION</div><div id="mainContent" class="mainContent_wachsam" style="height:#HEIGHT"></div></div>';
 var timer= 11;  //in minutes

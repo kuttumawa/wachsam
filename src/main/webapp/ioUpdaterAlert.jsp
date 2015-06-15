@@ -39,16 +39,24 @@ input[type="text"]:focus {
 <script>
 function clearFields(){
 	document.getElementById("id0").value="";
-    //document.getElementById("id").value="";
+    document.getElementById("id").value="";
 	document.getElementById("nombre").value="";
 	document.getElementById("nombreEn").value="";
-	document.getElementById("latitud").value="";
-	document.getElementById("longitud").value="";
-	document.getElementById("nivel").value="";
+	document.getElementById("text").value="";
+	document.getElementById("texto").value="";
+	document.getElementById("link1").value="";
+	document.getElementById("link2").value="";
+	document.getElementById("link3").value="";
+	document.getElementById("oper").value="";
 	
 }
 function deleteOper(){
-	document.getElementById("oper").value="delete";
+
+	if(confirm('Seguro?')){
+		document.getElementById("oper").value="delete";
+	    document.getElementById('form2').submit();
+	}
+	
 	
 }
 </script>
@@ -67,7 +75,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 
 
-<form id="form1" action="ProvisionalLugarUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalAlertUpdaterForYou" method="get">
 <div>
 <label for="">Alerta</label>
 <select name="alert" onchange="document.getElementById('form1').submit();">
@@ -75,7 +83,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 <%    
           List<Alert> alertas =  (List<Alert>)request.getAttribute("alertas");
           for(Alert alert_i:alertas){
-        	  out.println("<option value=\""+alert_i.getId()+"\">"+alert_i.getNombre()+"</option>");
+        	  out.println("<option value=\""+alert_i.getId()+"\">"+alert_i.prettyPrint()+"</option>");
           }
          
 %> 
@@ -84,14 +92,14 @@ Alert alert = (Alert)request.getAttribute("alert");
 </form>
 
 
-<form action="ProvisionalAlertUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalAlertUpdaterForYou" method="post">
 <fieldset>
 
 
 <div>
 <label for="">Id</label>
 <input type="text"  id="id0" value="<%= alert.getId()!=null?alert.getId():""  %>" disabled="disabled" />
-<input type="hidden" name="id" value="<%= alert.getId()!=null?alert.getId():"" %>"  />
+<input type="hidden" id="id" name="id" value="<%= alert.getId()!=null?alert.getId():"" %>"  />
 </div>
 
 <div>
@@ -150,40 +158,40 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 <div>
 <label for="">Fecha (dd/mm/yyyy)</label>
-<input type="text" name="fechaPub" value="<%=alert.getFechaPubFormatted()!=null?alert.getFechaPubFormatted():""%>/>
+<input type="text" id="fechaPub" name="fechaPub" value="<%=alert.getFechaPubFormatted()!=null?alert.getFechaPubFormatted():""  %>"/>
 </div>
 
 
 
 <div>
 <label for="">Texto</label><br>
-<textarea name="texto" cols="100"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
+<textarea name="texto" id="texto" cols="100"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
 </div>
 
 <div>
 <label for="">Text</label><br>
-<textarea name="text" cols="100"><%= alert.getText()!=null?alert.getText():"" %></textarea>
+<textarea name="text" id="text" cols="100"><%= alert.getText()!=null?alert.getText():"" %></textarea>
 </div>
 
 <div>
 <label for="">link1</label>
-<input type="text" name="link1" value="<%= alert.getLink1()!=null?alert.getLink1():"" %>"/>
+<input type="text" id="link1" name="link1" value="<%= alert.getLink1()!=null?alert.getLink1():"" %>"/>
 </div>
 
 <div>
 <label for="">link2</label>
-<input type="text" name="link2" value="<%= alert.getLink2()!=null?alert.getLink2():"" %>"/>
+<input type="text" id="link2" name="link2" value="<%= alert.getLink2()!=null?alert.getLink2():"" %>"/>
 </div>
 
 <div>
 <label for="">link3</label>
-<input type="text" name="link3" value="<%= alert.getLink3()!=null?alert.getLink3():"" %>"/>
+<input type="text" id="link3" name="link3" value="<%= alert.getLink3()!=null?alert.getLink3():"" %>"/>
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
 
 <input type="submit" value="grabar">
-<input type="submit" value="delete" onclick="deleteOper()">
+<input type="button" value="delete" onclick="deleteOper()">
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>

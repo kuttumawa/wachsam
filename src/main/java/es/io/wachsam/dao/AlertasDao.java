@@ -25,10 +25,10 @@ public class AlertasDao {
 		/*if (alert == null || alert.getId() == null)
 			return -1L;*/
 		if(alert.getPeligro()!=null && alert.getPeligro().getId()!=null){
-			em.find(Peligro.class,alert.getPeligro().getId());
+			alert.setPeligro(em.find(Peligro.class,alert.getPeligro().getId()));
 		}
 		if(alert.getLugarObj()!=null && alert.getLugarObj().getId()!=null){
-			em.find(Lugar.class,alert.getLugarObj().getId());
+			alert.setLugarObj(em.find(Lugar.class,alert.getLugarObj().getId()));
 		}
 		em.persist(alert);
 		return alert.getId();
@@ -282,5 +282,9 @@ public class AlertasDao {
 			q.setParameter("tipo", "%" + tipo + "%");
 		}
 		return q.getResultList();
+	}
+	public void deleteById(Long id) throws Exception {
+		Alert ent = em.find(Alert.class, id);
+		em.remove(ent); 
 	}
 }

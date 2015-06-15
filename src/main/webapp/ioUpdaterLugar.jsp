@@ -45,10 +45,15 @@ function clearFields(){
 	document.getElementById("latitud").value="";
 	document.getElementById("longitud").value="";
 	document.getElementById("nivel").value="";
+	document.getElementById("oper").value="";
 	
 }
 function deleteOper(){
-	document.getElementById("oper").value="delete";
+	if(confirm('Seguro?')){
+		document.getElementById("oper").value="delete";
+	    document.getElementById('form2').submit();
+	}
+
 	
 }
 </script>
@@ -174,7 +179,7 @@ Lugar lugar = (Lugar)request.getAttribute("lugar");
 <input type="hidden" id="oper" name="oper"/>
 
 <input type="submit" value="grabar">
-<input type="submit" value="delete" onclick="deleteOper()">
+<input type="button" value="delete" onclick="deleteOper()">
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>

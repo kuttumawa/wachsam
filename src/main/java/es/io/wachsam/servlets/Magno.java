@@ -51,7 +51,7 @@ public class Magno extends HttpServlet {
 		  AlertService service=(AlertService) context.getBean("alertService");
 	      AlertasDao dao = (AlertasDao) context.getBean("alertasDao"); 
 	      
-	      service.startDB();
+	      //service.startDB();
 	      
 	      
 	      String callback=request.getParameter("callback");
@@ -74,7 +74,7 @@ public class Magno extends HttpServlet {
 			   //void
 			}
 	      }
-	      List<Alert> alerts = dao.getAlertas(texto,lugar,fechapub,tipo,order);
+	      List<Alert> alerts = dao.getAlertasMysql(texto,lugar,fechapub,tipo,order);
 	      for(Alert a:alerts){
 	    	  a.setFechaPubFormatted();
 	      }

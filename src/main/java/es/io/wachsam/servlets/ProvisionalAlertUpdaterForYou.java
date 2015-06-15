@@ -81,15 +81,36 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		String fechaPub=request.getParameter("fechaPub");
 		String lugarObj=request.getParameter("lugarObj");
 		String peligro=request.getParameter("peligro");
+		String oper=request.getParameter("oper");
+		String id=request.getParameter("id");
 		
-		if(validar(request)==null){
+		Alert alert=new Alert();
+		
+		if(oper!=null && oper.equalsIgnoreCase("delete")){
+			if(id!=null){
+				AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
+				try {
+					alertDao.deleteById(Long.parseLong(id));
+				
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				request.setAttribute("resultado","Borrado Correcto");
+			}else{
+				request.setAttribute("resultado","Error al borrar");
+			}
+			
+		} else if(validar(request)==null){
 			String[] _alert={null,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro};
-			Alert alert=Alert.createAlertSinId(_alert);
-			System.out.println(alert);
+			alert=Alert.createAlertSinId(_alert);
 			AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
 			alertDao.save(alert);
 			request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite());
 		}else{
+			String[] _alert={null,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,peligro,lugar};
+			alert=Alert.createAlertSinId(_alert);
 			request.setAttribute("resultado",validar(request));
 		}
 		PeligroDao peligroDao = (PeligroDao) context.getBean("peligroDao");
@@ -99,6 +120,14 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		LugarDao lugarDao = (LugarDao) context.getBean("lugarDao");
 		List<Lugar> lugares =lugarDao.getAll();
 		request.setAttribute("lugares",lugares);
+		
+		AlertasDao alertasDao = (AlertasDao) context.getBean("alertasDao");
+		List<Alert> alertas =alertasDao.getAll();
+		request.setAttribute("alertas",alertas);
+		
+		request.setAttribute("alert",alert);
+		
+		
 		String nextJSP = "/ioUpdaterAlert.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
@@ -115,20 +144,20 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		String tipo=request.getParameter("tipo");
 		String lugar=request.getParameter("lugar");
 		String fechaPub=request.getParameter("fechaPub");
-		String lugarObj=request.getParameter("lugarObj");
+		//String lugarObj=request.getParameter("lugarObj");
 		String peligro=request.getParameter("peligro");
 		
-		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
-		if(texto==null || texto.length()<1) resultado.append("Texto Obligatorio;");
-		if(tipo==null || tipo.length()<1) resultado.append("Tipo Obligatorio;");
-		if(lugarObj==null) resultado.append("Lugar Obligatorio;");
-		if(peligro==null) resultado.append("Peligro Obligatorio;");
-		if(fechaPub==null  || fechaPub.length()<1) resultado.append("Fecha Obligatorio;");
+		if(nombre==null || nombre.length()<1) resultado.append(" Nombre Obligatorio;");
+		if(texto==null || texto.length()<1) resultado.append(" Texto Obligatorio;");
+		if(tipo==null || tipo.length()<1) resultado.append(" Tipo Obligatorio;");
+		if(lugar==null || lugar.length()<1) resultado.append(" Lugar Obligatorio;");
+		if(peligro==null || peligro.length()<1) resultado.append(" Peligro Obligatorio;");
+		if(fechaPub==null  || fechaPub.length()<1) resultado.append(" Fecha Obligatorio;");
 		if(fechaPub!=null && fechaPub.length()>0){
 		      try{
 				   new SimpleDateFormat("dd/MM/yyyy").parse(fechaPub);
 				}catch(Exception e){
-					 resultado.append("Fecha Formato Erróneo");
+					 resultado.append(" Fecha Formato Erróneo");
 				}
 		      }
 		if(resultado.length() > 0) return resultado.toString();

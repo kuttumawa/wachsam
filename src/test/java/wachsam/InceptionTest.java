@@ -59,14 +59,15 @@ public class InceptionTest extends TestCase {
 	 assertTrue(alerts.size()>0);
 		
 	}*/
-	/*@Test
+	@Test
 	public void testToJson() throws IOException{
 		  assertEquals(true,true);
 		  AlertService service=(AlertService) context.getBean("alertService");
 	      AlertasDao dao = (AlertasDao) context.getBean("alertasDao");
 	      List<Alert> alertas=service.unMarshallIt(new File("src/main/resources/alert.csv"));
 	      for(Alert a: alertas){
-	    	 dao.save(a);
+	    	  a.setId(null);
+	    	  dao.save(a);
 	      }
 	      List<Alert> alerts = dao.getAlertas(null,"PAKISTAN",null,"seve", null);
 	      final Gson gson=new Gson();
@@ -76,7 +77,7 @@ public class InceptionTest extends TestCase {
 	      System.out.println("----------------------------------------------------");
 	      context.close();
 		
-	}*/
+	}
 	/*@Test
 	public void testLugarAlerta(){
 		 LugarDao dao=(LugarDao) context.getBean("lugarDao"); 
@@ -111,7 +112,7 @@ public class InceptionTest extends TestCase {
 	}
 	*/
 	
-	@Test
+	/*@Test
 	public void testComboLugares() throws IOException{
 		  assertEquals(true,true);
 		  LugarDao dao = (LugarDao) context.getBean("lugarDao");
@@ -126,6 +127,6 @@ public class InceptionTest extends TestCase {
 	      context.close();
 		
 	}
-	
+	*/
 	
 }
