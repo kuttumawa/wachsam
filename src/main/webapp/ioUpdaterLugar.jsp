@@ -57,6 +57,8 @@ function deleteOper(){
 	
 }
 </script>
+
+
 </head>  
 <body>
 <%
@@ -86,7 +88,10 @@ Lugar lugar = (Lugar)request.getAttribute("lugar");
 </select>
 </div>
 </form>
-
+<div id="Der" style="float:right">
+<div id="googleMap" style="width:700px;height:450px;"></div>
+</div>
+<div id="Izq" style="width:40%">
 <form id="form2" action="ProvisionalLugarUpdaterForYou" method="post">
 <fieldset>
 
@@ -183,5 +188,45 @@ Lugar lugar = (Lugar)request.getAttribute("lugar");
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+function initialize() {
+  var myCenter=new google.maps.LatLng(<%= lugar.getLatitud()!=null && lugar.getLatitud().length()>0 ?lugar.getLatitud():"0"%>,<%= lugar.getLongitud()!=null && lugar.getLatitud().length()>0?lugar.getLongitud():"0"%>);
+  var mapProp = {
+    center:myCenter,
+    zoom:<%= lugar.getNivel()!=null?lugar.getNivel():"1"%>,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  google.maps.event.addListener(map, 'click', function(event) {
+	  placeMarker(event.latLng);
+	  });
+    
+	function placeMarker(location) {
+	  var currentMark = new google.maps.Marker({
+	    position: location,
+	    map: map,
+	  });
+	  var infowindow = new google.maps.InfoWindow({
+	    content: 'Latitude: ' + location.lat() +
+	    '<br>Longitude: ' + location.lng() + '<br>' + ''
+	    + '<input style="float:right" type="button" onclick="document.getElementById(\'latitud\').value='+location.lat()+';document.getElementById(\'longitud\').value='+location.lng()+';"/>'});
+	  infowindow.open(map,currentMark);
+      
+	  google.maps.event.addListener(infowindow,'closeclick',function(){
+		   currentMark.setMap(null);
+		});
+	}
+  var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+
+   marker.setMap(map);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+</div>
+
 </body> 
 </html>
