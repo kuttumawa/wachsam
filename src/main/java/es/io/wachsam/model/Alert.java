@@ -10,33 +10,49 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
+@Table(name="alert")
 public class Alert {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Expose
 	Long id;
+	@Expose
 	String nombre;
+	@Expose
 	String tipo;
 	@Column(length=500) 
+	@Expose
 	String link1;
 	@Column(length=500)
+	@Expose
 	String link2;
 	@Column(length=500)
+	@Expose
 	String link3;
 	@Column(length=1000) 
+	@Expose
 	String texto;
 	@Column(length=1000) 
+	@Expose
 	String text;
+	@Expose
 	String lugar;
 	Date fechaPub;
 	@Transient
+	@Expose
 	String fechaPubFormatted;
 	@ManyToOne(fetch = FetchType.EAGER)
+	@Expose
 	Lugar lugarObj;
 	@ManyToOne(fetch = FetchType.EAGER)
+	@Expose
 	Peligro peligro;
 	
 	
@@ -66,11 +82,11 @@ public class Alert {
 			
 			if(t.length>10 && t[10]!=null){
 				peligro=new Peligro();
-				peligro.setId(Long.parseLong(t[10].trim()));
+				peligro.setId(Long.parseLong(t[11].trim()));
 			}
 			if(t.length>11 && t[11]!=null){
 				lugar=new Lugar();
-				lugar.setId(Long.parseLong(t[11].trim()));
+				lugar.setId(Long.parseLong(t[10].trim()));
 			}
 		}catch(Exception e){
 			if(t!=null && t.length>1) System.out.println("Error:: " + t[0] + "," + t[1]+" ::  "+ e.getMessage());
@@ -90,16 +106,16 @@ public class Alert {
 		
 		Date fechapub=new Date();
 		try{
-			if(t[0]!=null) id=Long.parseLong(t[0].trim());
+			if(t[0]!=null && t[0].length()>0) id=Long.parseLong(t[0].trim());
 			fechapub=new SimpleDateFormat("dd/MM/yyyy").parse(t[9].trim());
 			
-			if(t.length>10 && t[10]!=null){
+			if(t.length>10 && t[11]!=null){
 				peligro=new Peligro();
-				peligro.setId(Long.parseLong(t[10].trim()));
+				peligro.setId(Long.parseLong(t[11].trim()));
 			}
-			if(t.length>11 && t[11]!=null){
+			if(t.length>11 && t[10]!=null){
 				lugar=new Lugar();
-				lugar.setId(Long.parseLong(t[11].trim()));
+				lugar.setId(Long.parseLong(t[10].trim()));
 			}
 		}catch(Exception e){
 			if(t!=null && t.length>1) System.out.println("Error:: " + t[0] + "," + t[1]+" ::  "+ e.getMessage());
@@ -112,7 +128,7 @@ public class Alert {
 		return alert;
 	}
 	public String getFechaPubFormatted() {
-		SimpleDateFormat df=new SimpleDateFormat("dd-MM-yyyy");
+		SimpleDateFormat df=new SimpleDateFormat("dd/MM/yyyy");
 		try{
 			fechaPubFormatted=df.format(fechaPub);
 		}catch(Exception e){

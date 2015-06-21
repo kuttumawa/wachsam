@@ -40,6 +40,13 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		
+		if(request.getSession().getAttribute("user")==null){
+			   String nextJSP = "/login.jsp";
+			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+			   dispatcher.forward(request,response);
+			   return;
+		}
+		
 		AlertasDao alertasDao = (AlertasDao) context.getBean("alertasDao");
 		List<Alert> alertas =alertasDao.getAll();
 		request.setAttribute("alertas",alertas);
@@ -69,7 +76,13 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-		request.getCharacterEncoding();
+		if(request.getSession().getAttribute("user")==null){
+			   String nextJSP = "/login.jsp";
+			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+			   dispatcher.forward(request,response);
+			   return;
+		}
+		
 		String nombre=request.getParameter("nombre");
 		String texto=request.getParameter("texto");
 		String text=request.getParameter("text");
@@ -103,13 +116,13 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			}
 			
 		} else if(validar(request)==null){
-			String[] _alert={null,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro};
+			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro};
 			alert=Alert.createAlertSinId(_alert);
 			AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
 			alertDao.save(alert);
 			request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite());
 		}else{
-			String[] _alert={null,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,peligro,lugar};
+			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,peligro,lugar};
 			alert=Alert.createAlertSinId(_alert);
 			request.setAttribute("resultado",validar(request));
 		}

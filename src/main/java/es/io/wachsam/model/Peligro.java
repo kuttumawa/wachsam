@@ -4,16 +4,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.google.gson.annotations.Expose;
 
 @Entity
+@Table(name="peligro")
 public class Peligro {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Expose
 	Long id;
+	@Expose
 	String nombre;
+	@Expose
 	String nombreEn;
+	@Expose
 	CategoriaPeligro categoria;
+	@Expose
 	Integer damage;
 	
 	public Peligro() {

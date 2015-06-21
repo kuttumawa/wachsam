@@ -6,14 +6,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.google.gson.annotations.Expose;
 
 @Entity
+@Table(name="lugar")
 public class Lugar {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Expose
 	Long id;
-	
+	@Expose
 	String nombre;
+	@Expose
 	String nombreEn;
 	@ManyToOne(fetch = FetchType.EAGER)
 	Lugar padre1;
@@ -21,8 +27,11 @@ public class Lugar {
 	Lugar padre2;
 	@ManyToOne(fetch = FetchType.EAGER)
 	Lugar padre3;
+	@Expose
 	String latitud;
+	@Expose
 	String longitud;
+	@Expose
 	Integer nivel;
 	
 	public Lugar(){

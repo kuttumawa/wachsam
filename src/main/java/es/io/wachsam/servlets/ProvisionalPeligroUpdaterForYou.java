@@ -38,6 +38,12 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getSession().getAttribute("user")==null){
+			   String nextJSP = "/login.jsp";
+			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+			   dispatcher.forward(request,response);
+			   return;
+		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		PeligroDao peligroDao = (PeligroDao) context.getBean("peligroDao");
 		List<Peligro> peligros =peligroDao.getAll();
@@ -58,6 +64,12 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if(request.getSession().getAttribute("user")==null){
+			   String nextJSP = "/login.jsp";
+			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+			   dispatcher.forward(request,response);
+			   return;
+		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");

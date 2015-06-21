@@ -79,7 +79,7 @@ public class Magno extends HttpServlet {
 	    	  a.setFechaPubFormatted();
 	      }
 	      final Gson gson=new Gson();
-	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+	      final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 	     // System.out.println("----------------------------------------------------");
 	     // System.out.println(prettyGson.toJson(alerts));
 	     // System.out.println("----------------------------------------------------");

@@ -4,42 +4,11 @@
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
 <html> 
-<head>
-<style>
-input[type="text"] {
-  display: block;
-  margin: 0;
-  width: 50%;
-  font-family: sans-serif;
-  font-size: 18px;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
-  
-  padding: 10px;
-  border: solid 1px #dcdcdc;
-  transition: box-shadow 0.3s, border 0.3s;
-}
-input[type="text"]:focus {
-  outline: none;
-  border: solid 1px #707070;
-  box-shadow: 0 0 5px 1px #969696;
-}
-#info{
-    border: 1px solid red;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-    color: red;
-    font-style: italic;
-    padding: 10px;
-}
-</style>
+
 <script>
 function clearFields(){
 	document.getElementById("id0").value="";
-    //document.getElementById("id").value="";
+    document.getElementById("id").value="";
 	document.getElementById("nombre").value="";
 	document.getElementById("nombreEn").value="";
 	document.getElementById("damage").value="";
@@ -54,8 +23,12 @@ function deleteOper(){
 	
 }
 </script>
-</head>  
+ 
+
 <body>
+<jsp:include page="cabecera.jsp"/>
+
+
 <%
 Peligro peligro = (Peligro)request.getAttribute("peligro");
 %>
@@ -93,7 +66,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 <div>
 <label for="">Id</label>
 <input type="text"  id="id0" value="<%= peligro.getId()!=null?peligro.getId():""  %>" disabled="disabled" />
-<input type="hidden" name="id" value="<%= peligro.getId()!=null?peligro.getId():"" %>"  />
+<input type="hidden" name="id" id="id" value="<%= peligro.getId()!=null?peligro.getId():"" %>"  />
 </div>
 
 <div>
@@ -115,10 +88,23 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </select>
 </div>
 
+
+
+
 <div>
 <label for="">Daño</label>
-<input type="text" id="damage" name="damage" value="<%= peligro.getDamage()!=null?peligro.getDamage():""%>"/>
+</div><div>
+<select id="damage" name="damage"" >
+<option value="6" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(6)?" selected ":"") %>>Mortal</option>
+<option value="4" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(4)?" selected ":"") %>>Muy Grave</option>
+<option value="3" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(3)?" selected ":"") %>>Grave</option>
+<option value="2" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(2)?" selected ":"") %>>Menor</option>
+<option value="1" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(1)?" selected ":"") %>>Molestias</option>
+
+
+</select>
 </div>
+
 
 <input type="hidden" id="oper" name="oper"/>
 

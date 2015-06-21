@@ -2,8 +2,8 @@ var wachsam=(function() {
 
 // Localize jQuery variable
 var jQuery;
-//var context="http://viajarseguro.elasticbeanstalk.com/";
-var context="http://localhost:8080/wachsam/";
+var context="http://viajarseguro.elasticbeanstalk.com/";
+//var context="http://localhost:8080/wachsam/";
 var jsonp_url = context + "Magno?callback=?";
 var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption_wachsam">#CAPTION</div><div id="mainContent" class="mainContent_wachsam" style="height:#HEIGHT"></div></div>';
 var timer= 11;  //in minutes
@@ -112,7 +112,7 @@ var fuente_texto="Fuente";
 if(english) fuente_texto="Source";
 var a='<div class="header_wachsam"><span class="nombre_wachsam"><a href="#LINK3">#NOMBRE</a></span><span>#LUGAR</span><div class="fecha_wachsam">#FECHA</div></div>';
 a +='<div class="content_wachsam">#TEXTO</div><div class="footer_wachsam"><a href="#LINK1">'+fuente_texto+'</a>#LINK2</div>';
-var r=a.replace("#NOMBRE",o.nombre).replace("#LUGAR",o.lugar).replace("#FECHA",o.fechaPubFormatted).replace("#LINK1",o.link1);
+var r=a.replace("#FECHA",o.fechaPubFormatted).replace("#LINK1",o.link1);
 if(o.link2){
   r=r.replace("#LINK2",'<a style="margin-left:1em" href="'+o.link2+'">'+fuente_texto+'</a>');
 }else{
@@ -124,8 +124,20 @@ if(o.link3){
 if(english){ 
 	if(o.text!=null && o.text.length > 3) r=r.replace("#TEXTO",o.text);
 	else  r=r.replace("#TEXTO",o.texto);
+	if(o.nombreEn!=null && o.nombreEn.length > 1) r=r.replace("#NOMBRE",o.nombreEn);
+	else if(o.peligro.nombreEn!=null && o.peligro.nombreEn.length > 1) r=r.replace("#NOMBRE",o.peligro.nombreEn);
+	else  r=r.replace("#NOMBRE",o.nombre);
+	if(o.lugarObj && o.lugarObj.nombreEn && o.lugarObj.nombreEn.length > 1) r=r.replace("#LUGAR",o.lugarObj.nombreEn);
+	else  r=r.replace("#LUGAR",o.lugarObj.nombre);
+
 }
-else r=r.replace("#TEXTO",o.texto);
+else{
+	r=r.replace("#TEXTO",o.texto);
+	r=r.replace("#NOMBRE",o.nombre);
+	if(o.lugarObj && o.lugarObj.nombre && o.lugarObj.nombre.length > 1)
+	     r=r.replace("#LUGAR",o.lugarObj.nombre);
+	else  r=r.replace("#LUGAR",o.lugar);
+}
 return r;
 } 
 

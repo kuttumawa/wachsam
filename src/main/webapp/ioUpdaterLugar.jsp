@@ -4,42 +4,11 @@
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
 <html> 
-<head>
-<style>
-input[type="text"] {
-  display: block;
-  margin: 0;
-  width: 50%;
-  font-family: sans-serif;
-  font-size: 18px;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
-  
-  padding: 10px;
-  border: solid 1px #dcdcdc;
-  transition: box-shadow 0.3s, border 0.3s;
-}
-input[type="text"]:focus {
-  outline: none;
-  border: solid 1px #707070;
-  box-shadow: 0 0 5px 1px #969696;
-}
-#info{
-    border: 1px solid red;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-    color: red;
-    font-style: italic;
-    padding: 10px;
-}
-</style>
+
 <script>
 function clearFields(){
 	document.getElementById("id0").value="";
-    //document.getElementById("id").value="";
+    document.getElementById("id").value="";
 	document.getElementById("nombre").value="";
 	document.getElementById("nombreEn").value="";
 	document.getElementById("latitud").value="";
@@ -59,8 +28,9 @@ function deleteOper(){
 </script>
 
 
-</head>  
+ 
 <body>
+<jsp:include page="cabecera.jsp"/>
 <%
 Lugar lugar = (Lugar)request.getAttribute("lugar");
 %>
@@ -88,10 +58,8 @@ Lugar lugar = (Lugar)request.getAttribute("lugar");
 </select>
 </div>
 </form>
-<div id="Der" style="float:right">
-<div id="googleMap" style="width:700px;height:450px;"></div>
-</div>
-<div id="Izq" style="width:40%">
+
+<div id="Izq" style="width:40%;float:left;">
 <form id="form2" action="ProvisionalLugarUpdaterForYou" method="post">
 <fieldset>
 
@@ -101,7 +69,7 @@ Lugar lugar = (Lugar)request.getAttribute("lugar");
 <div>
 <label for="">Id</label>
 <input type="text"  id="id0" value="<%= lugar.getId()!=null?lugar.getId():""  %>" disabled="disabled" />
-<input type="hidden" name="id" value="<%= lugar.getId()!=null?lugar.getId():"" %>"  />
+<input type="hidden" name="id" id="id" value="<%= lugar.getId()!=null?lugar.getId():"" %>"  />
 </div>
 
 <div>
@@ -178,7 +146,48 @@ Lugar lugar = (Lugar)request.getAttribute("lugar");
 
 <div>
 <label for="">Nivel</label>
-<input type="text" id="nivel" name="nivel" value="<%= lugar.getNivel()!=null?lugar.getNivel():""%>"/>
+<input type="text" id="nivel"  value="<%= lugar.getNivel()!=null?lugar.getNivel():""%>"/>
+</div>
+
+
+
+<%
+class Nivel{
+	public Integer id;
+	public String texto;
+	public Nivel(Integer id,String texto){
+		this.id=id;
+		this.texto=texto;
+	}
+}	
+	List<Nivel> niveles = new ArrayList<Nivel>();
+	niveles.add(new Nivel(1,"Supra Continental"));
+	niveles.add(new Nivel(2,"Continental"));
+	niveles.add(new Nivel(3,"Supra Nacional"));
+	niveles.add(new Nivel(4,"Nacional"));
+	niveles.add(new Nivel(5,"Regional"));
+	niveles.add(new Nivel(6,"Infra Regional"));
+	
+
+
+
+%>
+
+
+<div>
+<label for="">Nivel</label>
+</div><div>
+<select name="nivel" id="nivel">
+<%
+for(Nivel nivel_i:niveles){
+	  if(lugar.getNivel()!=null && lugar.getNivel().equals(nivel_i.id)){
+		  out.println("<option value=\""+nivel_i.id+"\" selected >"+nivel_i.texto+"</option>"); 
+	  }else{
+	      out.println("<option value=\""+nivel_i.id+"\">"+nivel_i.texto+"</option>");
+	  }
+  }
+%>
+</select>
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
@@ -227,6 +236,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
 </div>
-
+<div id="Der" style="float:left">
+<div id="googleMap" style="width:700px;height:450px;"></div>
+</div>
 </body> 
 </html>

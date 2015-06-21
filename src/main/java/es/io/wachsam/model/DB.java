@@ -2,9 +2,11 @@ package es.io.wachsam.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 
 @Entity
+@Table(name="db")
 public class DB {
   @Id
   Long id;

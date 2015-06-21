@@ -4,51 +4,23 @@
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
 <html> 
-<head>
-<style>
-input[type="text"] {
-  display: block;
-  margin: 0;
-  width: 100%;
-  font-family: sans-serif;
-  font-size: 18px;
-  appearance: none;
-  box-shadow: none;
-  border-radius: none;
-  
-  padding: 10px;
-  border: solid 1px #dcdcdc;
-  transition: box-shadow 0.3s, border 0.3s;
-}
-input[type="text"]:focus {
-  outline: none;
-  border: solid 1px #707070;
-  box-shadow: 0 0 5px 1px #969696;
-}
-#info{
-    border: 1px solid red;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    margin-left: 20px;
-    color: red;
-    font-style: italic;
-    padding: 10px;
-}
-</style>
+
+
 <script>
 function clearFields(){
 	document.getElementById("id0").value="";
     document.getElementById("id").value="";
 	document.getElementById("nombre").value="";
-	document.getElementById("nombreEn").value="";
 	document.getElementById("text").value="";
 	document.getElementById("texto").value="";
 	document.getElementById("link1").value="";
 	document.getElementById("link2").value="";
 	document.getElementById("link3").value="";
 	document.getElementById("oper").value="";
-	
+	document.getElementById("lugar").value="";
+	document.getElementById("peligro").value="";
+	document.getElementById("fechaPub").value="";
+	document.getElementById("tipo").value="";
 }
 function deleteOper(){
 
@@ -60,9 +32,9 @@ function deleteOper(){
 	
 }
 </script>
-</head>  
+ 
 <body>
-
+<jsp:include page="cabecera.jsp"/>
 <%
 Alert alert = (Alert)request.getAttribute("alert");
 %>
@@ -110,7 +82,8 @@ Alert alert = (Alert)request.getAttribute("alert");
 <div>
 <label for="">Peligro</label>
 </div><div>
-<select name="peligro">
+
+<select name="peligro" id="peligro">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -130,7 +103,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 <div>
 <label for="">Lugar</label>
 </div><div>
-<select name="lugar">
+<select name="lugar" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -147,14 +120,42 @@ Alert alert = (Alert)request.getAttribute("alert");
 </select>
 </div>
 
+
+
+<%
+class Tipo{
+	public String id;
+	public String texto;
+	public Tipo(String id,String texto){
+		this.id=id;
+		this.texto=texto;
+	}
+}	
+	List<Tipo> tipos = new ArrayList<Tipo>();
+	tipos.add(new Tipo("normal","Normal"));
+	tipos.add(new Tipo("severa","Severa"));
+	tipos.add(new Tipo("informativa","Informativa"));
+
+%>
+
+
 <div>
 <label for="">Tipo</label>
 </div><div>
-<select name="tipo">
-<option value="normal">normal</option>
-<option value="severa">severa</option>
+<select name="tipo" id="tipo">
+<%
+for(Tipo tipo_i:tipos){
+	  if(alert.getTipo()!=null && alert.getTipo().equals(tipo_i.id)){
+		  out.println("<option value=\""+tipo_i.id+"\" selected >"+tipo_i.texto+"</option>"); 
+	  }else{
+	      out.println("<option value=\""+tipo_i.id+"\">"+tipo_i.texto+"</option>");
+	  }
+  }
+%>
 </select>
 </div>
+
+
 
 <div>
 <label for="">Fecha (dd/mm/yyyy)</label>
@@ -165,12 +166,12 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 <div>
 <label for="">Texto</label><br>
-<textarea name="texto" id="texto" cols="100"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
+<textarea name="texto" id="texto" cols="100" rows="4"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
 </div>
 
 <div>
 <label for="">Text</label><br>
-<textarea name="text" id="text" cols="100"><%= alert.getText()!=null?alert.getText():"" %></textarea>
+<textarea name="text" id="text" cols="100" rows="4"><%= alert.getText()!=null?alert.getText():"" %></textarea>
 </div>
 
 <div>

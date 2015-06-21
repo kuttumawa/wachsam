@@ -7,16 +7,17 @@
  
 <!--   
 <script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
+<script src="http://viajarseguro-pre.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
     
 <script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script>
 
 -->
 
-<script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script>
+<script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
 
 <script>
 
-wachsam.init({english:"true",texto:"rabia",order:"fecha",height:"300px",width:"500px",caption:"<img src=\"css/viajarseguro.jpg\"/>Alertas"});
+wachsam.init({texto:"colera",order:"fecha",height:"300px",width:"500px",caption:"<img src=\"css/viajarseguro.jpg\"/>Alertas"});
 
 </script>
 <div id="wachsam-widget-container"/> 

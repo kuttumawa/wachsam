@@ -22,15 +22,18 @@ public class AlertasDao {
 	private EntityManager em;
 
 	public Long save(Alert alert) {
-		/*if (alert == null || alert.getId() == null)
-			return -1L;*/
+		
 		if(alert.getPeligro()!=null && alert.getPeligro().getId()!=null){
 			alert.setPeligro(em.find(Peligro.class,alert.getPeligro().getId()));
 		}
 		if(alert.getLugarObj()!=null && alert.getLugarObj().getId()!=null){
 			alert.setLugarObj(em.find(Lugar.class,alert.getLugarObj().getId()));
+			alert.setLugar(alert.getLugarObj().getNombre());
 		}
-		em.persist(alert);
+		if (alert == null)
+			return -1L;
+		if(alert.getId() == null) em.persist(alert);
+		else em.merge(alert);
 		return alert.getId();
 	}
 	public Long save(DB db) {
