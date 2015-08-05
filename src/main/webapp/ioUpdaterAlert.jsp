@@ -21,6 +21,7 @@ function clearFields(){
 	document.getElementById("peligro").value="";
 	document.getElementById("fechaPub").value="";
 	document.getElementById("tipo").value="";
+	document.getElementById("caducidad").value="";
 }
 function deleteOper(){
 
@@ -132,9 +133,10 @@ class Tipo{
 	}
 }	
 	List<Tipo> tipos = new ArrayList<Tipo>();
-	tipos.add(new Tipo("normal","Normal"));
-	tipos.add(new Tipo("severa","Severa"));
-	tipos.add(new Tipo("informativa","Informativa"));
+	tipos.add(new Tipo("informativa","Level 1 Watch, Practice Usual Precautions"));
+	tipos.add(new Tipo("normal","Level 2 Alert, Practice Enhanced Precautions"));
+	tipos.add(new Tipo("severa","Level 3 Warning, Avoid Nonessential Travel"));
+	
 
 %>
 
@@ -152,10 +154,14 @@ for(Tipo tipo_i:tipos){
 	  }
   }
 %>
-</select>
+</select> <a href="http://wwwnc.cdc.gov/travel/notices#warning" >ver</a>
 </div>
 
+<div>
 
+<label for="">Caducidad (en días,-1 permanente)</label><%=alert!=null && alert.isCaducado()?"<span style=\"color:red\">&nbsp;CADUCADA</span>":"<span style=\"color:blue\">&nbsp;ACTIVA</span>"%>
+<input type="text" id="caducidad" name="caducidad" value="<%=alert.getCaducidad()!=null?alert.getCaducidad():-1%>"/>
+</div>
 
 <div>
 <label for="">Fecha (dd/mm/yyyy)</label>

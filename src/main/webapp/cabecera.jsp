@@ -5,7 +5,7 @@
 input[type="text"] {
   display: block;
   margin: 0;
-  width: 75%;
+  width: 65%;
   font-family: sans-serif;
   font-size: 18px;
   appearance: none;

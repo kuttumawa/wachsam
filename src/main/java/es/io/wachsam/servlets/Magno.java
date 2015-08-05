@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -61,6 +62,7 @@ public class Magno extends HttpServlet {
 	      String tipo=request.getParameter("tipo");
 	      String order=request.getParameter("order");
 	      String ultimosdias=request.getParameter("ultimosdias");
+	      String caducadas=request.getParameter("caducadas");
 	      Date fechapub=null;
 	      if(ultimosdias!=null && ultimosdias.matches("\\d+")){
 	    	  Calendar calendar = Calendar.getInstance(); 
@@ -75,9 +77,15 @@ public class Magno extends HttpServlet {
 			}
 	      }
 	      List<Alert> alerts = dao.getAlertasMysql(texto,lugar,fechapub,tipo,order);
-	      for(Alert a:alerts){
-	    	  a.setFechaPubFormatted();
-	      }
+	      Iterator<Alert> alertsIT=alerts.iterator();
+	      while (alertsIT.hasNext()) {
+	    	   Alert a = alertsIT.next(); 
+	    	   a.isCaducado();
+		       if((caducadas==null || !caducadas.equalsIgnoreCase("true")) && a.isCaducado())alertsIT.remove();
+		       else  a.setFechaPubFormatted();
+	    	}
+	      
+	     
 	      final Gson gson=new Gson();
 	      final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 	     // System.out.println("----------------------------------------------------");

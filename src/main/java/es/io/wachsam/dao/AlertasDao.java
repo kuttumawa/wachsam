@@ -50,7 +50,7 @@ public class AlertasDao {
 	}
 
 	public List<Alert> getAll() {
-		return em.createQuery("SELECT p FROM Alert p", Alert.class)
+		return em.createQuery("SELECT p FROM Alert p order by id desc", Alert.class)
 				.getResultList();
 	}
 
@@ -252,9 +252,10 @@ public class AlertasDao {
 					sb.append(",").append(s);
 				}
 			}
-			if(!flagPrimero)sb.append(" DESC");
+			if(!flagPrimero)sb.append(" DESC,id DESC");
+			else sb.append(" ORDER BY nombre,fechaPub DESC,id DESC");
 		}else{
-		    sb.append(" ORDER BY nombre,fechaPub DESC");
+		    sb.append(" ORDER BY nombre,fechaPub DESC,id DESC");
 		}
 		Query q = em.createQuery(sb.toString(), Alert.class);
 		index=0;

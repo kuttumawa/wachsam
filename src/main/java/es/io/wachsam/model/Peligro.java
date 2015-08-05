@@ -48,10 +48,18 @@ public class Peligro {
 		}
 		this.nombre = nombre.trim();
 		this.nombreEn = nombreEn.trim();
-		if(categoria.equalsIgnoreCase(CategoriaPeligro.Enfermedad.name())){
-			this.categoria = CategoriaPeligro.Enfermedad;
+		if(categoria.equalsIgnoreCase(CategoriaPeligro.enfermedad.name())){
+			this.categoria = CategoriaPeligro.enfermedad;
+		}else if(categoria.equalsIgnoreCase(CategoriaPeligro.accidentes.name())){
+			this.categoria = CategoriaPeligro.accidentes;
+		}else if(categoria.equalsIgnoreCase(CategoriaPeligro.conflicto.name())){
+			this.categoria = CategoriaPeligro.conflicto;
+		}else if(categoria.equalsIgnoreCase(CategoriaPeligro.naturaleza.name())){
+			this.categoria = CategoriaPeligro.naturaleza;
+		}else if(categoria.equalsIgnoreCase(CategoriaPeligro.violencia.name())){
+			this.categoria = CategoriaPeligro.violencia;
 		}else{
-			this.categoria = CategoriaPeligro.Otros;
+			this.categoria = CategoriaPeligro.otros;
 		}
 		
 		try{

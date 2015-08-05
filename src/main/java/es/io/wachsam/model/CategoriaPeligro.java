@@ -4,6 +4,5 @@ import javax.persistence.Entity;
 
 
 public enum CategoriaPeligro {
-	Enfermedad,Otros
-
+	enfermedad,violencia,naturaleza,accidentes,conflicto,otros
 }

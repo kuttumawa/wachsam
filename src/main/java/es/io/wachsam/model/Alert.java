@@ -1,6 +1,7 @@
 package es.io.wachsam.model;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -45,6 +46,8 @@ public class Alert {
 	@Expose
 	String lugar;
 	Date fechaPub;
+	@Expose
+	Integer caducidad;
 	@Transient
 	@Expose
 	String fechaPubFormatted;
@@ -54,8 +57,16 @@ public class Alert {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@Expose
 	Peligro peligro;
+	@Transient
+	@Expose
+	boolean caducado;
 	
 	
+
+
+
+
+
 	public Alert() {
 		super();
 	}
@@ -69,6 +80,7 @@ public class Alert {
 		Long id=null;
 		Lugar lugar=null;
 		Peligro peligro=null;
+		Integer caducidad=null;
 		for(String x:t){
 			if(x.length()>1000){
 				return  new Alert();
@@ -88,6 +100,9 @@ public class Alert {
 				lugar=new Lugar();
 				lugar.setId(Long.parseLong(t[10].trim()));
 			}
+			if(t.length>11 && t[12]!=null){
+				caducidad=Integer.parseInt(t[12]);
+			}
 		}catch(Exception e){
 			if(t!=null && t.length>1) System.out.println("Error:: " + t[0] + "," + t[1]+" ::  "+ e.getMessage());
 			else System.out.println("Error:: " + t);
@@ -95,7 +110,7 @@ public class Alert {
 		}
 		
 		
-		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro); 
+		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro,caducidad); 
 		return alert;
 	}
 	public static Alert createAlertSinId(String[] t){
@@ -103,6 +118,7 @@ public class Alert {
 		Long id=null;
 		Lugar lugar=null;
 		Peligro peligro=null;
+		Integer caducidad=null;
 		
 		Date fechapub=new Date();
 		try{
@@ -117,6 +133,9 @@ public class Alert {
 				lugar=new Lugar();
 				lugar.setId(Long.parseLong(t[10].trim()));
 			}
+			if(t.length>11 && t[12]!=null){
+				caducidad=Integer.parseInt(t[12]);
+			}
 		}catch(Exception e){
 			if(t!=null && t.length>1) System.out.println("Error:: " + t[0] + "," + t[1]+" ::  "+ e.getMessage());
 			else System.out.println("Error:: " + t);
@@ -124,7 +143,7 @@ public class Alert {
 		}
 		
 		
-		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro); 
+		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro,caducidad); 
 		return alert;
 	}
 	public String getFechaPubFormatted() {
@@ -147,7 +166,7 @@ public class Alert {
 	}
 	public Alert(Long id, String nombre, String tipo, String link1,
 			String link2, String link3, String texto, String text,
-			String lugar, Date fechaPub,Lugar lugarObj,Peligro peligro) {
+			String lugar, Date fechaPub,Lugar lugarObj,Peligro peligro,Integer caducidad) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -162,25 +181,52 @@ public class Alert {
 		setFechaPubFormatted();
 		this.lugarObj=lugarObj;
 		this.peligro=peligro;
+		this.caducidad=caducidad;
 	}
+	
+	
+	
+
 	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Alert [id=").append(id).append(", nombre=")
-				.append(nombre).append(", tipo=").append(tipo)
-				.append(", link1=").append(link1).append(", link2=")
-				.append(link2).append(", link3=").append(link3)
-				.append(", texto=").append(texto).append(", text=")
-				.append(text).append(", lugar=").append(lugar)
-				.append(", fechaPub=").append(fechaPub)
-				.append(", fechaPubFormatted=").append(fechaPubFormatted)
-				.append(", lugarObj=").append(lugarObj).append(", peligro=")
-				.append(peligro).append("]");
+		builder.append("Alert [id=");
+		builder.append(id);
+		builder.append(", nombre=");
+		builder.append(nombre);
+		builder.append(", tipo=");
+		builder.append(tipo);
+		builder.append(", link1=");
+		builder.append(link1);
+		builder.append(", link2=");
+		builder.append(link2);
+		builder.append(", link3=");
+		builder.append(link3);
+		builder.append(", texto=");
+		builder.append(texto);
+		builder.append(", text=");
+		builder.append(text);
+		builder.append(", lugar=");
+		builder.append(lugar);
+		builder.append(", fechaPub=");
+		builder.append(fechaPub);
+		builder.append(", caducidad=");
+		builder.append(caducidad);
+		builder.append(", fechaPubFormatted=");
+		builder.append(fechaPubFormatted);
+		builder.append(", lugarObj=");
+		builder.append(lugarObj);
+		builder.append(", peligro=");
+		builder.append(peligro);
+		builder.append("]");
 		return builder.toString();
 	}
 
-	
+
+
+
+
 	public String toStringLite() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Alert [id=").append(id).append(", nombre=")
@@ -387,5 +433,33 @@ public class Alert {
 		this.peligro = peligro;
 	}
 	
+	public Integer getCaducidad() {
+		return caducidad;
+	}
+
+
+
+
+
+	public void setCaducidad(Integer caducidad) {
+		this.caducidad = caducidad;
+	}
+
+	public boolean isCaducado() {
+		if(caducidad == null || caducidad<0) caducado=false;
+		else{
+			Calendar today = Calendar.getInstance();
+			Calendar fechaLimite = Calendar.getInstance();
+			fechaLimite.setTime(fechaPub);
+			fechaLimite.add(Calendar.DATE, caducidad);
+			if(fechaLimite.after(today)) caducado=false;
+			else caducado=true;
+			
+		}
+	    return caducado;
+	}
+
+
+
 	
 }

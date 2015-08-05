@@ -96,6 +96,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		String peligro=request.getParameter("peligro");
 		String oper=request.getParameter("oper");
 		String id=request.getParameter("id");
+		String caducidad=request.getParameter("caducidad");
 		
 		Alert alert=new Alert();
 		
@@ -116,7 +117,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			}
 			
 		} else if(validar(request)==null){
-			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro};
+			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro,caducidad};
 			alert=Alert.createAlertSinId(_alert);
 			AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
 			alertDao.save(alert);

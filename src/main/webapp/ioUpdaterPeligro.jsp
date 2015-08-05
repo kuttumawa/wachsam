@@ -83,8 +83,13 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 <label for="">Categoría</label>
 </div><div>
 <select name="categoria" >
-<option value="Enfermedad" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("Enfermedad")?" selected ":"") %>>Enfermedad</option>
-<option value="Otros" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("Otros")?" selected ":"") %>>Otros</option>
+<option value="enfermedad" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("Enfermedad")?" selected ":"") %>>Enfermedad</option>
+<option value="violencia" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("violencia")?" selected ":"") %>>Violencia,Inseguridad</option>
+<option value="naturaleza" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("naturaleza")?" selected ":"") %>>Clima,Catástrofes Naturales</option>
+<option value="accidentes" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("accidentes")?" selected ":"") %>>Accidentes</option>
+<option value="conflicto" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("conflicto")?" selected ":"") %>>Conflicto Bélico,Inestabilidad social</option>
+<option value="otros" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("Otros")?" selected ":"") %>>Otros</option>
+
 </select>
 </div>
 
@@ -100,6 +105,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 <option value="3" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(3)?" selected ":"") %>>Grave</option>
 <option value="2" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(2)?" selected ":"") %>>Menor</option>
 <option value="1" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(1)?" selected ":"") %>>Molestias</option>
+<option value="0" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(1)?" selected ":"") %>>Sin daño</option>
 
 
 </select>
