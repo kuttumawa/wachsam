@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 @Entity
@@ -21,10 +22,13 @@ public class Lugar {
 	String nombre;
 	@Expose
 	String nombreEn;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	Lugar padre1;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	Lugar padre2;
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.EAGER)
 	Lugar padre3;
 	@Expose

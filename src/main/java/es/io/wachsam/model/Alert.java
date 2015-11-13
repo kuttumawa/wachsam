@@ -14,12 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.google.gson.annotations.Expose;
+import org.springframework.data.elasticsearch.annotations.Document;
 
+import com.google.gson.annotations.Expose;
+@Document(indexName = "alertas",type = "alerta" , shards = 1, replicas = 0, indexStoreType = "memory", refreshInterval = "-1")
 @Entity
 @Table(name="alert")
 public class Alert {
-	
+	@org.springframework.data.annotation.Id
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose

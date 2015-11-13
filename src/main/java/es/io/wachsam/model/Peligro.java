@@ -6,16 +6,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.google.gson.annotations.Expose;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldIndex;
 
+import com.google.gson.annotations.Expose;
+@Document(indexName = "peligro",type = "peligro" , shards = 1, replicas = 0, indexStoreType = "memory", refreshInterval = "-1")
 @Entity
 @Table(name="peligro")
 public class Peligro {
 	
+	@org.springframework.data.annotation.Id
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
 	Long id;
+	@Field(index = FieldIndex.not_analyzed)
 	@Expose
 	String nombre;
 	@Expose

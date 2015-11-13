@@ -7,10 +7,16 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+
+
+
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,12 +25,21 @@ import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.AlertES;
 import es.io.wachsam.model.CategoriaPeligro;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.repositories.AlertaRepository;
+import es.io.wachsam.repositories.PeligroRepository;
 import es.io.wachsam.services.AlertService;
 
 public class InceptionTest extends TestCase {
+	@Resource
+	private PeligroRepository repository;
+
+	@Resource
+	private ElasticsearchTemplate template;
+	
 	ClassPathXmlApplicationContext context;
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -59,7 +74,8 @@ public class InceptionTest extends TestCase {
 	 assertTrue(alerts.size()>0);
 		
 	}*/
-	@Test
+	
+	/*@Test
 	public void testToJson() throws IOException{
 		  assertEquals(true,true);
 		  AlertService service=(AlertService) context.getBean("alertService");
@@ -77,7 +93,7 @@ public class InceptionTest extends TestCase {
 	      System.out.println("----------------------------------------------------");
 	      context.close();
 		
-	}
+	}*/
 	/*@Test
 	public void testLugarAlerta(){
 		 LugarDao dao=(LugarDao) context.getBean("lugarDao"); 
@@ -128,5 +144,44 @@ public class InceptionTest extends TestCase {
 		
 	}
 	*/
+	@Test
+	public void testCargarpeliogrosToElasticSearch() throws IOException{
+		  PeligroDao dao = (PeligroDao) context.getBean("peligroDao");
+		  
+		  List<Peligro> peligros =dao.getAll();
+		  PeligroRepository repository=(PeligroRepository) context.getBean("peligroRepository");
+		 // Peligro peligro=new Peligro(7777L,"nombrePeligro","nombreEnpeligro",CategoriaPeligro.conflicto, 12);
+		  //repository.save(peligro);
+	      for(Peligro p:peligros){
+	    	 // repository.save(p);
+	      }
+		  
+		  final Gson gson=new Gson();
+	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+	      System.out.println("----------------------------------------------------");
+	      System.out.println(prettyGson.toJson(peligros));
+	      System.out.println("----------------------------------------------------");
+	      context.close();
+		
+	}
+	
+	@Test
+	public void testCargarAlertasToElasticSearch() throws IOException{
+		  AlertasDao dao = (AlertasDao) context.getBean("alertasDao");
+		  
+		  List<Alert> alertas =dao.getAll();
+		  AlertaRepository repository=(AlertaRepository) context.getBean("alertaRepository");
+		  for(Alert a:alertas){
+	    	 repository.save(new AlertES(a));
+	      }
+		  
+		  final Gson gson=new Gson();
+	      final Gson prettyGson = new GsonBuilder().setPrettyPrinting().create();
+	      System.out.println("----------------------------------------------------");
+	      System.out.println(prettyGson.toJson(alertas));
+	      System.out.println("----------------------------------------------------");
+	      context.close();
+		
+	}
 	
 }
