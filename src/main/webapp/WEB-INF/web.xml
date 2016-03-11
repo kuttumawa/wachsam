@@ -50,6 +50,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalDataUpdaterForYou</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalTagUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalTagUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalTagUpdaterForYou</servlet-class>
+  </servlet>
    <servlet>
   	<servlet-name>login</servlet-name>
   	<display-name>login</display-name>
@@ -84,6 +90,10 @@
   <servlet-mapping>
   	<servlet-name>ProvisionalDataUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalDataUpdaterForYou</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+  	<servlet-name>ProvisionalTagUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalTagUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 </web-app>
