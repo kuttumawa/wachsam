@@ -41,6 +41,8 @@ select {
   <a href="ProvisionalAlertUpdaterForYou">Alertas</a> |
   <a href="ProvisionalLugarUpdaterForYou">Lugares</a> |
   <a href="ProvisionalPeligroUpdaterForYou">Peligros</a> |
-  <a href="ProvisionalFactorUpdaterForYou">Factores</a>
+  <a href="ProvisionalFactorUpdaterForYou">Factores</a> |
+  <a href="ProvisionalDataUpdaterForYou">Data</a> |
+  <a href="ProvisionalTagUpdaterForYou">Tags</a>
 </nav>
 

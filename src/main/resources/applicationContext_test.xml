@@ -23,6 +23,8 @@
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" />
      <bean id="peligroDao" class="es.io.wachsam.dao.PeligroDao" />
+     <bean id="tagDao" class="es.io.wachsam.dao.TagDao" />
+     <bean id="dataDao" class="es.io.wachsam.dao.DataDao" />
  
     
     
