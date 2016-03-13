@@ -1,5 +1,5 @@
 package es.io.wachsam.model;
 
 public enum DataValueTipo {
-	NUMERICO,TEXTO;
+	NUMERICO,TEXTO,VACIO;
 }

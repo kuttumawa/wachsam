@@ -98,7 +98,11 @@ public class ProvisionalTagUpdaterForYou extends HttpServlet {
 		}else if(validar(request)==null){
 			tag=new Tag();
 			tag.setDescripcion(descripcion);
-			tag.setId(Long.parseLong(id));
+			try{
+			  if(id!=null)tag.setId(Long.parseLong(id));
+			}catch(Exception e){
+				
+			}
 			tag.setNombre(nombre);
 			tag.setNombreEn(nombreEn);
 			TagDao tagDao=(TagDao) context.getBean("tagDao");

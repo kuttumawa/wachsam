@@ -27,10 +27,8 @@ public class Data {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
-	Integer valueNumerico;
-	String valueCadena;
-	String valueTextual;
-	String descripcion;
+	String value;
+    String descripcion;
 	DataValueTipo tipoValor;
 	@ManyToOne(fetch = FetchType.EAGER)
 	Tag tag1;
@@ -41,30 +39,31 @@ public class Data {
 	Long lugarId;
 	Long subjectId;
 	Long eventoId;
+	public Data(String value, String descripcion, DataValueTipo tipoValor, Tag tag1, Tag tag2, Tag tag3, Long lugarId,
+			Long subjectId, Long eventoId) {
+		super();
+		this.value = value;
+		this.descripcion = descripcion;
+		this.tipoValor = tipoValor;
+		this.tag1 = tag1;
+		this.tag2 = tag2;
+		this.tag3 = tag3;
+		this.lugarId = lugarId;
+		this.subjectId = subjectId;
+		this.eventoId = eventoId;
+	}
+	
+	public Data() {
+		super();
+	}
+
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Integer getValueNumerico() {
-		return valueNumerico;
-	}
-	public void setValueNumerico(Integer valueNumerico) {
-		this.valueNumerico = valueNumerico;
-	}
-	public String getValueCadena() {
-		return valueCadena;
-	}
-	public void setValueCadena(String valueCadena) {
-		this.valueCadena = valueCadena;
-	}
-	public String getValueTextual() {
-		return valueTextual;
-	}
-	public void setValueTextual(String valueTextual) {
-		this.valueTextual = valueTextual;
-	}
+	
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -112,36 +111,6 @@ public class Data {
 	}
 	public void setEventoId(Long eventoId) {
 		this.eventoId = eventoId;
-	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Data [id=");
-		builder.append(id);
-		builder.append(", valueNumerico=");
-		builder.append(valueNumerico);
-		builder.append(", valueCadena=");
-		builder.append(valueCadena);
-		builder.append(", valueTextual=");
-		builder.append(valueTextual);
-		builder.append(", descripcion=");
-		builder.append(descripcion);
-		builder.append(", tipoValor=");
-		builder.append(tipoValor);
-		builder.append(", tag1=");
-		builder.append(tag1);
-		builder.append(", tag2=");
-		builder.append(tag2);
-		builder.append(", tag3=");
-		builder.append(tag3);
-		builder.append(", lugarId=");
-		builder.append(lugarId);
-		builder.append(", subjectId=");
-		builder.append(subjectId);
-		builder.append(", eventoId=");
-		builder.append(eventoId);
-		builder.append("]");
-		return builder.toString();
 	}
 	
 	public List<Long> tagsIdsToList(){
@@ -193,21 +162,12 @@ public class Data {
 			builder.append(id);
 			builder.append(", ");
 		}
-		if (valueNumerico != null) {
-			builder.append("valueNumerico=");
-			builder.append(valueNumerico);
+		if (value != null) {
+			builder.append("value=");
+			builder.append(value);
 			builder.append(", ");
 		}
-		if (valueCadena != null) {
-			builder.append("valueCadena=");
-			builder.append(valueCadena);
-			builder.append(", ");
-		}
-		if (valueTextual != null) {
-			builder.append("valueTextual=");
-			builder.append(valueTextual);
-			builder.append(", ");
-		}
+		
 		if (descripcion != null) {
 			builder.append("descripcion=");
 			builder.append(descripcion);
@@ -249,5 +209,11 @@ public class Data {
 		}
 		builder.append("]");
 		return builder.toString();
+	}
+	public String getValue() {
+		return value;
+	}
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

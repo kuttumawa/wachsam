@@ -78,7 +78,10 @@ Tag tag = (Tag)request.getAttribute("tag");
 <input type="text" id="nombreEn" name="nombreEn" value="<%= tag.getNombreEn()!=null?tag.getNombreEn():""%>"/>
 </div>
 
-
+<div>
+<label for="">Descripción</label><br>
+<textarea name="descripcion" id="descripcion" cols="100" rows="4"><%= tag.getDescripcion()!=null?tag.getDescripcion():"" %></textarea>
+</div>
 
 
 <input type="hidden" id="oper" name="oper"/>

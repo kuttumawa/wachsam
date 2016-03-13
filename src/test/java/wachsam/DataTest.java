@@ -68,7 +68,7 @@ public class DataTest extends TestCase {
 	 temperaturaMaxJulioEnBangladesh.setLugarId(51L);
 	 temperaturaMaxJulioEnBangladesh.setTag1(temMax);
 	 temperaturaMaxJulioEnBangladesh.setTag2(junio);
-	 temperaturaMaxJulioEnBangladesh.setValueNumerico(20);
+	 temperaturaMaxJulioEnBangladesh.setValue("20");
 	 temperaturaMaxJulioEnBangladesh.setTipoValor(DataValueTipo.NUMERICO);
 	 
 	 DataDao dataDao = (DataDao) context.getBean("dataDao");

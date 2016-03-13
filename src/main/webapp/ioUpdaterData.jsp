@@ -10,8 +10,7 @@
 function clearFields(){
 	document.getElementById("id0").value="";
     document.getElementById("id").value="";
-    document.getElementById("valueCadena").value="";
-    document.getElementById("valueTextual").value="";
+    document.getElementById("value").value="";
     document.getElementById("descripcion").value="";
     document.getElementById("tipoValor").value="";
     document.getElementById("peligro").value="";
@@ -63,7 +62,7 @@ Data data = (Data)request.getAttribute("data");
 </form>
 
 
-<form id="form2" action="ProvisionalAlertUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalDataUpdaterForYou" method="post">
 <fieldset>
 
 
@@ -74,18 +73,8 @@ Data data = (Data)request.getAttribute("data");
 </div>
 
 <div>
-<label for="">ValueCadena</label>
-<input type="text" id="valueCadena" name="valueCadena" value="<%= data.getValueCadena()!=null?data.getValueCadena():""%>"/>
-</div>
-
-<div>
-<label for="">ValueTextual</label>
-<input type="text" id="valueTextual" name="valueTextual" value="<%= data.getValueTextual()!=null?data.getValueTextual():""%>"/>
-</div>
-
-<div>
-<label for="">ValueNumerico</label>
-<input type="text" id="valueNumerico" name="valueNumerico" value="<%= data.getValueNumerico()!=null?data.getValueNumerico():"" %>"/>
+<label for="">Valor</label>
+<input type="text" id="value" name="value" value="<%= data.getValue()!=null?data.getValue():""%>"/>
 </div>
 
 <div>
@@ -98,8 +87,9 @@ Data data = (Data)request.getAttribute("data");
 <label for="">TipoValor</label>
 </div><div>
 <select name="tipoValor" id="tipo">
-	<option value="0">NUMERICO</option>
-	<option value="1">TEXTUAL</option>
+	<option value="NUMERICO">NUMÉRICO</option>
+	<option value="TEXTO">TEXTO</option>
+	<option value="VACÍO">VACÍO</option>
 </select>
 </div>
 

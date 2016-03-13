@@ -27,6 +27,12 @@ public class Tag {
 	String nombreEn;
 	String descripcion;
 
+	
+	public static Tag createTag(Long id){
+		Tag tag=new Tag();
+		tag.setId(id);
+		return tag;
+	}
 	public Long getId() {
 		return id;
 	}

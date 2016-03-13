@@ -20,6 +20,7 @@ import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Factor;
 import es.io.wachsam.model.Peligro;
@@ -95,16 +96,30 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");
-		String valueCadena=request.getParameter("valueCadena");
-		String valueTextual=request.getParameter("valueTextual");
-		String valueNumerico=request.getParameter("valueNumerico");
+		String value=request.getParameter("value");
 		String descripcion=request.getParameter("descripcion");
 		String tipoValor=request.getParameter("tipoValor");
-		String peligro=request.getParameter("peligro");
+		String subject=request.getParameter("peligro");
+		String evento=request.getParameter("evento");
 		String lugar=request.getParameter("lugar");
-		String tag1=request.getParameter("tag1");
-		String tag2=request.getParameter("tag2");
-		String tag3=request.getParameter("tag3");
+		Tag tag1 = null;
+		try{
+		tag1=request.getParameter("tag1")!=null?Tag.createTag(Long.parseLong(request.getParameter("tag1"))):null;
+		}catch(NumberFormatException e){
+			
+		}
+		Tag tag2 =null;
+		try{
+		tag2 = request.getParameter("tag2")!=null?Tag.createTag(Long.parseLong(request.getParameter("tag2"))):null;
+	    }catch(NumberFormatException e){
+		
+	    }
+		Tag tag3 = null;
+		try{
+		tag3 =request.getParameter("tag3")!=null?Tag.createTag(Long.parseLong(request.getParameter("tag3"))):null;
+		}catch(NumberFormatException e){
+			
+	    }
 		String oper=request.getParameter("oper");
 		
 		Data data=new Data();
@@ -112,7 +127,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 			if(id!=null){
 				DataDao dataDao=(DataDao) context.getBean("dataDao");
 				try {
-					dataDao.deleteById(Long.parseLong(id));
+					if(id!=null)dataDao.deleteById(Long.parseLong(id));
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
@@ -124,7 +139,30 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 			}
 			
 		}else if(validar(request)==null){
-			data=new Data();
+			 Long lugarId =null;
+		     try{
+			   lugarId =lugar!=null?Long.parseLong(lugar):null;
+             }catch(NumberFormatException e){
+			
+	         }
+		     Long subjectId =null;
+		     try{
+			   subjectId = subject!=null?Long.parseLong(subject):null;
+		     }catch(NumberFormatException e){
+			
+             }
+			Long eventoId = null;
+			try{
+			 eventoId = evento!=null?Long.parseLong(evento):null;
+			}catch(NumberFormatException e){
+				
+            }
+			data=new Data(value,descripcion,DataValueTipo.valueOf(tipoValor),tag1,tag2,tag3,lugarId,subjectId,eventoId);
+			try{
+				  data.setId(Long.parseLong(id));
+		    }catch(Exception e){
+					
+			}
 			DataDao dataDao=(DataDao) context.getBean("dataDao");
 			dataDao.save(data);
 			request.setAttribute("resultado","INSERTADO OK: " + data);
@@ -153,7 +191,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		List<Tag> tags =tagDao.getAll();
 		request.setAttribute("tags",tags);
 		
-		String nextJSP = "/ioUpdaterFactor.jsp";
+		String nextJSP = "/ioUpdaterData.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
 		
