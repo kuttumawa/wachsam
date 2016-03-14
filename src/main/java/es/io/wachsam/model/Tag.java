@@ -79,6 +79,13 @@ public class Tag {
 		builder.append("]");
 		return builder.toString();
 	}
+	public Object minimalPrint() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(id);
+		builder.append("-");
+		builder.append(nombre);
+		return builder.toString();
+	}
 	
 	
 }

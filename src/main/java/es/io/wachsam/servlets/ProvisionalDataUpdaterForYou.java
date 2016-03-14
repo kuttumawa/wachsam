@@ -165,7 +165,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 			}
 			DataDao dataDao=(DataDao) context.getBean("dataDao");
 			dataDao.save(data);
-			request.setAttribute("resultado","INSERTADO OK: " + data);
+			request.setAttribute("resultado","INSERTADO OK: " + data.prettyPrint());
 		}else{
 			
 			request.setAttribute("resultado",validar(request));

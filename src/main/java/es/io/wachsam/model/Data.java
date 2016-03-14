@@ -180,7 +180,7 @@ public class Data {
 		}
 		if (tag1 != null) {
 			builder.append("tag1=");
-			builder.append(tag1);
+			builder.append(tag1.minimalPrint());
 			builder.append(", ");
 		}
 		if (tag2 != null) {
