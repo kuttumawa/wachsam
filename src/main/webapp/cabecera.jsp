@@ -38,6 +38,7 @@ select {
 </head>
 <h1>Viajar Seguro</h1>
 <nav style="margin-bottom: 10px;">
+  <a href="BuscarAlert">BuscarAlertas</a> |
   <a href="ProvisionalAlertUpdaterForYou">Alertas</a> |
   <a href="ProvisionalLugarUpdaterForYou">Lugares</a> |
   <a href="ProvisionalPeligroUpdaterForYou">Peligros</a> |

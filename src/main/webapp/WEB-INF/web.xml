@@ -57,6 +57,12 @@
   	<servlet-class>es.io.wachsam.servlets.ProvisionalTagUpdaterForYou</servlet-class>
   </servlet>
    <servlet>
+  	<servlet-name>BuscarAlertServlet</servlet-name>
+  	<display-name>BuscarAlertServlet</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.BuscarAlertServlet</servlet-class>
+  </servlet>
+   <servlet>
   	<servlet-name>login</servlet-name>
   	<display-name>login</display-name>
   	<description></description>
@@ -94,6 +100,10 @@
    <servlet-mapping>
   	<servlet-name>ProvisionalTagUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalTagUpdaterForYou</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>BuscarAlertServlet</servlet-name>
+  	<url-pattern>/BuscarAlert</url-pattern>
   </servlet-mapping>
 
 </web-app>
