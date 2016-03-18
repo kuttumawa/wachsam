@@ -125,6 +125,7 @@ function disperse(c,level){
 }
 function addMarker(obj,contenido){
 	if(!map) return;
+	if(obj.lugarObj.id==1)return;
 	try{
 	var dispersion=false;
 	if(obj.lugarObj.nombre in lugaresA) {

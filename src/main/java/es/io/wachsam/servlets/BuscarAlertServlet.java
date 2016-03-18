@@ -3,6 +3,7 @@ package es.io.wachsam.servlets;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -73,18 +74,34 @@ public class BuscarAlertServlet extends HttpServlet {
 		}
 		
 		String nombre=request.getParameter("nombre")!=null && request.getParameter("nombre").length()>1 ?request.getParameter("nombre"):null;
-		String texto=request.getParameter("texto")!=null && request.getParameter("texto").length()>1 ?request.getParameter("texto"):null;
+		String texto=request.getParameter("texto")!=null && request.getParameter("texto").length()>1 ?request.getParameter("texto").trim():null;
 		String tipo=request.getParameter("tipo")!=null && request.getParameter("tipo").length()>1 ?request.getParameter("tipo"):null;
-		String lugar=request.getParameter("lugar")!=null && request.getParameter("lugar").length()>1 ?request.getParameter("lugar"):null;
-		String fechaPub=request.getParameter("fechaPubDesde")!=null && request.getParameter("fechaPubDesde").length()>1 ?request.getParameter("fechaPubDesde"):null;
-		String lugarObj=request.getParameter("lugarObj")!=null && request.getParameter("lugarObj").length()>1 ?request.getParameter("lugarObj"):null;
-		String peligro=request.getParameter("peligro")!=null && request.getParameter("peligro").length()>1 ?request.getParameter("peligro"):null;
+		Long lugar=request.getParameter("lugar")!=null && request.getParameter("lugar").length()>1 ?Long.parseLong(request.getParameter("lugar")):null;
+		String fechaPubDesde=request.getParameter("fechaPubDesde")!=null && request.getParameter("fechaPubDesde").length()>1 ?request.getParameter("fechaPubDesde"):null;
+		Long peligro=request.getParameter("peligro")!=null && request.getParameter("peligro").length()>1 ?Long.parseLong(request.getParameter("peligro")):null;
 		String caducidad=request.getParameter("caducidad")!=null && request.getParameter("caducidad").length()>1 ?request.getParameter("caducidad"):null;
 		
 		Date fechaDesde=null;
+		 if(fechaPubDesde!=null && fechaPubDesde.length()>0){
+		      try{
+		    	  fechaDesde=new SimpleDateFormat("dd/MM/yyyy").parse(fechaPubDesde);
+				}catch(Exception e){
+				   //void
+				}
+		      }
 		String order=null;
 		AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
-		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar, fechaDesde, tipo, order);
+		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order);
+		Iterator<Alert> alertsIT=alerts.iterator();
+	      while (alertsIT.hasNext()) {
+	    	   Alert a = alertsIT.next(); 
+	    	   if(caducidad!=null){
+	    		   if(caducidad.equalsIgnoreCase("nocaducadas") && a.isCaducado())alertsIT.remove();
+	    		   else if(caducidad.equalsIgnoreCase("caducadas") && !a.isCaducado()) alertsIT.remove();
+	    	   }
+		       
+	    	}
+		
 		request.setAttribute("alertas",alerts);
 		
 		

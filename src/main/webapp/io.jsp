@@ -6,14 +6,14 @@
 </head>  
  
 <!--   
-<script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
+
 
     
 <script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script>
 
 -->
 
-<script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script>
+<script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
 
 <script>
 

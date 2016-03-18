@@ -19,6 +19,8 @@
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" />
      <bean id="peligroDao" class="es.io.wachsam.dao.PeligroDao" />
      <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
+     <bean id="tagDao" class="es.io.wachsam.dao.TagDao" />
+     <bean id="dataDao" class="es.io.wachsam.dao.DataDao" />
  
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -42,9 +44,9 @@
 		<property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
 		<property name="username" value="viajarseguro" />
 		<property name="password" value="buendiabuendia" />
-		<!--property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
-		<property name="username" value="root"/>
-		<property name="password" value="buendia" /-->
+		<!-- <property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
+		<property name="username" value="root" />
+		<property name="password" value="buendia" /> -->
 	</bean>
  
     <bean id="entityManagerFactory"

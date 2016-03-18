@@ -18,6 +18,7 @@ function clearFields(){
     document.getElementById("tag1").value="";
     document.getElementById("tag2").value="";
     document.getElementById("tag3").value="";
+    document.getElementById("evento").value="";
 
 }
 function deleteOper(){
@@ -48,7 +49,7 @@ Data data = (Data)request.getAttribute("data");
 <form id="form1" action="ProvisionalDataUpdaterForYou" method="get">
 <div>
 <label for="">Data</label>
-<select name="alert" onchange="document.getElementById('form1').submit();">
+<select name="dataId" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Data> datas =  (List<Data>)request.getAttribute("datas");
@@ -87,18 +88,18 @@ Data data = (Data)request.getAttribute("data");
 <label for="">TipoValor</label>
 </div><div>
 <select name="tipoValor" id="tipo">
-	<option value="NUMERICO">NUMÉRICO</option>
-	<option value="TEXTO">TEXTO</option>
-	<option value="VACÍO">VACÍO</option>
+	<option value="NUMERICO" <%=data.getTipoValor()!=null && data.getTipoValor().toString().equalsIgnoreCase("NUMERICO")?" selected":"" %>>NUMÉRICO</option>
+	<option value="TEXTO" <%= data.getTipoValor()!=null && data.getTipoValor().toString().equalsIgnoreCase("TEXTO")?" selected":"" %>>TEXTO</option>
+	<option value="VACIO" <%=data.getTipoValor()!=null && data.getTipoValor().toString().equalsIgnoreCase("VACIO")?" selected":"" %>>VACÍO</option>
 </select>
 </div>
 
 
 <div>
-<label for="">Subject</label>
+<label for="">Peligro</label>
 </div>
 <div>
-<select name="peligro" id="peligro">
+<select name="subjectId" id="peligro">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -118,7 +119,7 @@ Data data = (Data)request.getAttribute("data");
 <div>
 <label for="">Lugar</label>
 </div><div>
-<select name="lugar" id="lugar">
+<select name="lugarId" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -135,6 +136,25 @@ Data data = (Data)request.getAttribute("data");
 </select>
 </div>
 
+<div>
+<label for="">Alerta</label>
+</div>
+<div>
+<select name="eventoId" id="evento">
+<option value=""></option>
+<%    
+          List<Alert> alertas =  (List<Alert>)request.getAttribute("alertas");
+          for(Alert alert_i:alertas){
+        	  if(data.getEventoId()!=null && data.getEventoId().equals(alert_i.getId())){
+				  out.println("<option value=\""+alert_i.getId()+"\" selected >"+alert_i.prettyPrint()+"</option>"); 
+			  }else{
+			      out.println("<option value=\""+alert_i.getId()+"\">"+alert_i.prettyPrint()+"</option>");
+			  } 
+          }
+         
+%> 
+</select>
+</div>
 <div>
 <label for="">Tag1</label>
 </div><div>

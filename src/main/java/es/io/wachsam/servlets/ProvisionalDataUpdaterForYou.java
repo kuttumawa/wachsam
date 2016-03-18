@@ -72,7 +72,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		request.setAttribute("tags",tags);
 		
 		
-		String dataId=request.getParameter("data");
+		String dataId=request.getParameter("dataId");
 		Data data=new Data();
 		if(dataId!=null && dataId.length()>0){
 			data=dataDao.getData(Long.parseLong(dataId));
@@ -100,7 +100,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		String descripcion=request.getParameter("descripcion");
 		String tipoValor=request.getParameter("tipoValor");
 		String subject=request.getParameter("peligro");
-		String evento=request.getParameter("evento");
+		String evento=request.getParameter("eventoId");
 		String lugar=request.getParameter("lugar");
 		Tag tag1 = null;
 		try{
@@ -191,6 +191,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		List<Tag> tags =tagDao.getAll();
 		request.setAttribute("tags",tags);
 		
+		request.setAttribute("data",data);
 		String nextJSP = "/ioUpdaterData.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);

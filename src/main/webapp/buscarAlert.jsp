@@ -23,7 +23,7 @@ function clearFields(){
 	document.getElementById("link2").value="";
 	document.getElementById("link3").value="";
 	document.getElementById("oper").value="";
-	document.getElementById("lugar").value="";
+	document.getElementById("f").value="";
 	document.getElementById("peligro").value="";
 	document.getElementById("fechaPubDesde").value="";
 	document.getElementById("fechaPubHasta").value="";
@@ -111,6 +111,7 @@ class Tipo{
 <label for="">Tipo</label>
 </div><div>
 <select name="tipo" id="tipo">
+<option value="">Todas</option>
 <%
 for(Tipo tipo_i:tipos){
 	      out.println("<option value=\""+tipo_i.id+"\">"+tipo_i.texto+"</option>");
@@ -122,8 +123,8 @@ for(Tipo tipo_i:tipos){
 <div>
 <label for="">Caducidad</label>
 <input type="checkbox" name="caducidad" value="">Todas</input>
-<input type="checkbox" name="caducidad" value="no">No caducadas</input>
-<input type="checkbox" name="caducidad" value="si">Caducadas</input>
+<input type="checkbox" name="caducidad" value="nocaducadas">No caducadas</input>
+<input type="checkbox" name="caducidad" value="caducadas">Caducadas</input>
 
 </div>
 
@@ -142,6 +143,7 @@ for(Tipo tipo_i:tipos){
 <input type="submit" value="buscar">
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
+
 </fieldset>
 <%
 List<Alert> alerts= (List<Alert>)request.getAttribute("alertas");
@@ -149,12 +151,13 @@ if(request.getAttribute("alertas")!=null){ %>
 <fieldset>
 <h3>Resultados:&nbsp; <%=alerts.size() %></h3>
 <table>
-<tr><th>id</th><th>nombre</th><th>fecha</th><th>texto</th></tr>
+<tr><th>id</th><th>nombre</th><th>tipo</th><th>fecha</th><th>texto</th></tr>
 
 <%for(Alert a:alerts){%>
 <tr class="<%=a.isCaducado()?"caducado":""%>">
 <td><a href="ProvisionalAlertUpdaterForYou?alert=<%=a.getId()%>"><%=a.getId()%></a></td>
 <td><%=a.getNombre()%></td>
+<td><%=a.getTipo()%></td>
 <td><%=a.getFechaPubFormatted()%></td>
 <td><%=a.getTexto()%></td>
 </tr>
