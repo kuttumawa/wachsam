@@ -22,7 +22,6 @@ public class Sitio {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
 	Long id;
-	
 	String nombre;
 	String nombreEn;
 	String direccion;
