@@ -3,7 +3,9 @@ package wachsam;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
@@ -23,6 +25,10 @@ import es.io.wachsam.repositories.PeligroRepository;
 public class DataTest extends TestCase {
 	@Resource
 	private PeligroRepository repository;
+	private List<Tag> tags=new ArrayList<Tag>();
+	private List<Data> datas=new ArrayList<Data>();
+	private DataDao dataDao;
+	private TagDao tagDao;
 
 	@Resource
 	private ElasticsearchTemplate template;
@@ -32,10 +38,20 @@ public class DataTest extends TestCase {
 		super.setUp();
 		context = new 
                 ClassPathXmlApplicationContext("applicationContext_test.xml");
+		dataDao=(DataDao) context.getBean("dataDao");
+		tagDao=(TagDao) context.getBean("tagDao");
+		assertNotNull("No inicializado dataDao",dataDao);
+		assertNotNull("No inicializado tagDao",tagDao);
 	}
 
 	protected void tearDown() throws Exception {
-		super.tearDown();
+		for(Data data:datas){
+			dataDao.deleteById(data.getId());
+		}
+		for(Tag tag:tags){
+			tagDao.deleteById(tag.getId());
+		}
+		
 	}
 
 	@Test
@@ -54,38 +70,35 @@ public class DataTest extends TestCase {
  	}
 	
 	@Test
-	public void testAltaDeDato() throws IOException{
-	 assertEquals(true,true);
-	 TagDao dao = (TagDao) context.getBean("tagDao");
-	 Long id=dao.save(createNewTag("fallecidos"));
-	 assertNotNull(id);
-	 Tag temMax=dao.getTag(id);	 
-	 Long id2=dao.save(createNewTag("diciembre"));
-	 assertNotNull(id2);
-	 Tag junio=dao.getTag(id2);
+	public void testAltaDeDatosYRecuperacion() throws IOException{
+	 Tag tag1=createNewTag("tag1");
+	 Tag tag2=createNewTag("tag2");	
+	 Tag tag3=createNewTag("tag3");	
+	 tagDao.save(tag1);
+	 tags.add(tag1);
+	 tagDao.save(tag2);
+	 tags.add(tag2);
+	 tagDao.save(tag3);
+	 tags.add(tag3);
+	 Data data1=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,tag3,1L,null,null);
+	 dataDao.save(data1);
+	 datas.add(data1);
+	 List<Data> resultado=dataDao.getAll(data1);
+	 assertTrue(resultado.size()==1);
+	 Data data2=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,null,1L,null,null);
+	 resultado=dataDao.getAll(data2);
+	 assertTrue(resultado.size()==0);
+	 Data data3=new Data("22","void",DataValueTipo.NUMERICO,tag2,tag3,tag1,1L,null,null);
+	 resultado=dataDao.getAll(data3);
+	 assertTrue(resultado.size()==1);
 	 
-	 Data temperaturaMaxJulioEnBangladesh = new Data();
-	 temperaturaMaxJulioEnBangladesh.setLugarId(51L);
-	 temperaturaMaxJulioEnBangladesh.setTag1(temMax);
-	 temperaturaMaxJulioEnBangladesh.setTag2(junio);
-	 temperaturaMaxJulioEnBangladesh.setValue("20");
-	 temperaturaMaxJulioEnBangladesh.setTipoValor(DataValueTipo.NUMERICO);
-	 
-	 DataDao dataDao = (DataDao) context.getBean("dataDao");
-	 dataDao.save(temperaturaMaxJulioEnBangladesh);
-	 assertNotNull(temperaturaMaxJulioEnBangladesh.getId());
-	 
-		Data filtro=new Data();
-		filtro.setTag1(temMax);
-		filtro.setTag1(junio);
-		List<Data> datas = dataDao.getAll(filtro);
-		assertTrue(datas.size()>0);
+	
  	}
 	
 	private Tag createNewTag(String tagName){
 		Tag tag=new Tag();
 		tag.setNombre(tagName);
-		tag.setNombreEn("tagName_EN");
+		tag.setNombreEn("tagName_EN"+ new Random().nextInt(99999999));
 		tag.setDescripcion("Descripción para "+ tagName);   
 		return tag;
 	}

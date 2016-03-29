@@ -63,6 +63,7 @@ public class Magno extends HttpServlet {
 	      String order=request.getParameter("order");
 	      String ultimosdias=request.getParameter("ultimosdias");
 	      String caducadas=request.getParameter("caducadas");
+	      String english=request.getParameter("english");
 	      Date fechapub=null;
 	      if(ultimosdias!=null && ultimosdias.matches("\\d+")){
 	    	  Calendar calendar = Calendar.getInstance(); 
@@ -83,6 +84,11 @@ public class Magno extends HttpServlet {
 	    	   a.isCaducado();
 		       if((caducadas==null || !caducadas.equalsIgnoreCase("true")) && a.isCaducado())alertsIT.remove();
 		       else  a.setFechaPubFormatted();
+		       if (english==null) {
+		    	   a.setText("");
+		       }else{
+		    	   a.setTexto("");
+		       }
 	    	}
 	      
 	     

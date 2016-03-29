@@ -202,5 +202,9 @@ for(Tipo tipo_i:tipos){
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>
+<fieldset>
+<jsp:include page="showData.jsp"/>
+</fieldset>
+
 </body> 
 </html>

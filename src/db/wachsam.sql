@@ -23,3 +23,16 @@ CREATE TABLE `data` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `lugarId_UNIQUE` (`lugarId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+CREATE TABLE `viajarseguro`.`sitio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(100) NOT NULL,
+  `nombreEn` VARCHAR(100) NULL,
+  `direccion` VARCHAR(250) NULL,
+  `tipo` INT NOT NULL,
+  `texto` VARCHAR(500) NULL,
+  `textoEn` VARCHAR(500) NULL,
+  `valoracion` INT NULL,
+  `lugarObj_id` INT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));

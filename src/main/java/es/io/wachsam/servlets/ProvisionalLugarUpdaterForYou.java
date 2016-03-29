@@ -1,6 +1,7 @@
 package es.io.wachsam.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
+import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 
 
@@ -47,8 +50,14 @@ public class ProvisionalLugarUpdaterForYou extends HttpServlet {
 		
 		String lugarId=request.getParameter("lugar");
 		Lugar lugar=new Lugar();
+		List<Data> datas=new ArrayList<Data>();
 		if(lugarId!=null && lugarId.length()>0){
 			lugar=lugarDao.getLugar(Long.parseLong(lugarId));
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setLugarId(lugar.getId());
+			datas=dataDao.getAllnoExtrict(filtro);
+			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("lugar",lugar);
 		String nextJSP = "/ioUpdaterLugar.jsp";

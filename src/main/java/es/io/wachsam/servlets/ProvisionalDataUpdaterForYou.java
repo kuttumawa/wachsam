@@ -99,9 +99,9 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		String value=request.getParameter("value");
 		String descripcion=request.getParameter("descripcion");
 		String tipoValor=request.getParameter("tipoValor");
-		String subject=request.getParameter("peligro");
+		String subject=request.getParameter("subjectId");
 		String evento=request.getParameter("eventoId");
-		String lugar=request.getParameter("lugar");
+		String lugar=request.getParameter("lugarId");
 		Tag tag1 = null;
 		try{
 		tag1=request.getParameter("tag1")!=null?Tag.createTag(Long.parseLong(request.getParameter("tag1"))):null;

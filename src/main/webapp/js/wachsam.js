@@ -2,8 +2,8 @@ var wachsam=(function() {
 
 // Localize jQuery variable
 var jQuery;
-var context="http://viajarseguro.elasticbeanstalk.com/";
-//var context="http://localhost:8080/wachsam/";
+//var context="http://viajarseguro.elasticbeanstalk.com/";
+var context="http://localhost:8080/wachsam/";
 var img_red_ball="<img src=\"" + context + "css/redball.ico\"/>";
 var img_orange_ball="<img src=\"" + context + "css/orangeball.ico\"/>";
 var img_green_ball="<img src=\"" + context + "css/greenball.ico\"/>";
@@ -35,6 +35,7 @@ function init(o){
   if(o.fecha) jsonp_url += "&fecha="+o.fecha; 
   if(o.tipo)  jsonp_url += "&tipo="+o.fecha;
   if(o.order)  jsonp_url += "&order="+o.order;
+  if(o.english)  jsonp_url += "&english=on";
   if(o.height) code=code.replace("#HEIGHT",o.height);
   if(o.width) code=code.replace("#WIDTH",o.width);
   if(o.caption){
@@ -125,7 +126,7 @@ function disperse(c,level){
 }
 function addMarker(obj,contenido){
 	if(!map) return;
-	if(obj.lugarObj.id==1)return;
+	if(!obj.lugarObj || obj.lugarObj.id==1)return;
 	try{
 	var dispersion=false;
 	if(obj.lugarObj.nombre in lugaresA) {

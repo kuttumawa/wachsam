@@ -2,6 +2,7 @@ package es.io.wachsam.servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,9 +15,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import es.io.wachsam.dao.AlertasDao;
+import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 
@@ -59,10 +62,16 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		List<Lugar> lugares =lugarDao.getAll();
 		request.setAttribute("lugares",lugares);
 		
+		List<Data> datas=new ArrayList<Data>();
 		String alertId=request.getParameter("alert");
 		Alert alert=new Alert();
 		if(alertId!=null && alertId.length()>0){
 			alert=alertasDao.getAlert(Long.parseLong(alertId));
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setEventoId(alert.getId());
+			datas=dataDao.getAllnoExtrict(filtro);
+			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("alert",alert);
 		

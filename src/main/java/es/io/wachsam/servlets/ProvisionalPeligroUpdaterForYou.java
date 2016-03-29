@@ -2,6 +2,7 @@ package es.io.wachsam.servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,9 +15,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import es.io.wachsam.dao.AlertasDao;
+import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 
@@ -50,9 +53,15 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 		request.setAttribute("peligros",peligros);
 		
 		String peligroId=request.getParameter("peligro");
+		List<Data> datas=new ArrayList<Data>();
 		Peligro peligro=new Peligro();
 		if(peligroId!=null && peligroId.length()>0){
 			peligro=peligroDao.getPeligro(Long.parseLong(peligroId));
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setSubjectId(peligro.getId());
+			datas=dataDao.getAllnoExtrict(filtro);
+			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("peligro",peligro);
 		String nextJSP = "/ioUpdaterPeligro.jsp";

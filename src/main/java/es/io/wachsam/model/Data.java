@@ -144,9 +144,9 @@ public class Data {
 			flag=true;
 		}
 		
-		if(this.getTag2()!=null){
+		if(this.getTag3()!=null){
 			if(flag) sb.append(",");
-			sb.append(this.getTag2().getId());
+			sb.append(this.getTag3().getId());
 			flag=true;
 		}
 		return sb.toString();

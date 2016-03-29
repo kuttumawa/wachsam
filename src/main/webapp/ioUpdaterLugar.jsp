@@ -304,5 +304,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
  <input id="pac-input" class="controls" type="text" placeholder="Search Box">
 <div id="googleMap" style="width:700px;height:450px;"></div>
 </div>
+<fieldset>
+<jsp:include page="showData.jsp"/>
+</fieldset>
 </body> 
 </html>
