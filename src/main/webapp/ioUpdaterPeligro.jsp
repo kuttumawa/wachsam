@@ -121,6 +121,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </fieldset>
 <fieldset>
 <jsp:include page="showData.jsp"/>
+<input type="button" value="Nuevo Dato" onclick="nuevoDato('subjectId')"/> 
 </fieldset>
 </body> 
 </html>

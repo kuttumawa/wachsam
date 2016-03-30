@@ -68,6 +68,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.login</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalSitioUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalSitioUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalSitioUpdaterForYou</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -104,6 +110,10 @@
   <servlet-mapping>
   	<servlet-name>BuscarAlertServlet</servlet-name>
   	<url-pattern>/BuscarAlert</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalSitioUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalSitioUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 </web-app>

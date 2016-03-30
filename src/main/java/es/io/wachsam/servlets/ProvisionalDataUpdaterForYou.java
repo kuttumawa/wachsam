@@ -84,6 +84,9 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		String dataId=request.getParameter("dataId");
 		Data data=new Data();
 		if(sitio!=null) data.setSitioId(Long.parseLong(sitio));
+		if(subject!=null) data.setSubjectId(Long.parseLong(subject));
+		if(evento!=null) data.setEventoId(Long.parseLong(evento));
+		if(lugar!=null) data.setLugarId(Long.parseLong(lugar));
 		if(dataId!=null && dataId.length()>0){
 			data=dataDao.getData(Long.parseLong(dataId));
 		}

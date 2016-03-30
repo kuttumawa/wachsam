@@ -204,6 +204,7 @@ for(Tipo tipo_i:tipos){
 </fieldset>
 <fieldset>
 <jsp:include page="showData.jsp"/>
+<input type="button" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
 </fieldset>
 
 </body> 

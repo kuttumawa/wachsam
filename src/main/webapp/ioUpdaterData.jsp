@@ -165,7 +165,7 @@ Data data = (Data)request.getAttribute("data");
 <%    
           List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
           for(Sitio sitio_i:sitios){
-        	  if(data.getEventoId()!=null && data.getSitioId().equals(sitio_i.getId())){
+        	  if(data.getSitioId()!=null && data.getSitioId().equals(sitio_i.getId())){
 				  out.println("<option value=\""+sitio_i.getId()+"\" selected >"+sitio_i.prettyPrint()+"</option>"); 
 			  }else{
 			      out.println("<option value=\""+sitio_i.getId()+"\">"+sitio_i.prettyPrint()+"</option>");

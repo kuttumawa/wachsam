@@ -306,6 +306,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </div>
 <fieldset>
 <jsp:include page="showData.jsp"/>
+<input type="button" value="Nuevo Dato" onclick="nuevoDato('lugarId')"/> 
 </fieldset>
 </body> 
 </html>

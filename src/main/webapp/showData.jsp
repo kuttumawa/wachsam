@@ -9,8 +9,7 @@
 function nuevoDato(param){
 	var id=document.getElementById('id').value;
 	var url='ProvisionalDataUpdaterForYou?'+param+'=' + id;
-	alert(url);
-	location.href=url;
+	if(id)location.href=url;
 }
 </script>    
 <%

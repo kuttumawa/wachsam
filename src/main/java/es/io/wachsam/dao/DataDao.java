@@ -61,7 +61,7 @@ public class DataDao {
 
 	public List<Data> getAll(Data filtro) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.* FROM Data p where 1=1");
+		sb.append("SELECT p.* FROM data p where 1=1");
 		if (filtro.getLugarId() != null)
 			sb.append(" and p.lugarId =" + filtro.getLugarId());
 		else
@@ -172,7 +172,7 @@ public class DataDao {
 	}
 	public List<Data> getAllnoExtrict(Data filtro) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.* FROM Data p where 1=1");
+		sb.append("SELECT p.* FROM data p where 1=1");
 		if (filtro.getLugarId() != null)
 			sb.append(" and p.lugarId =" + filtro.getLugarId());
 		
