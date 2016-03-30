@@ -39,8 +39,9 @@ public class Data {
 	Long lugarId;
 	Long subjectId;
 	Long eventoId;
+	Long sitioId;
 	public Data(String value, String descripcion, DataValueTipo tipoValor, Tag tag1, Tag tag2, Tag tag3, Long lugarId,
-			Long subjectId, Long eventoId) {
+			Long subjectId, Long eventoId,Long sitioId) {
 		super();
 		this.value = value;
 		this.descripcion = descripcion;
@@ -51,6 +52,7 @@ public class Data {
 		this.lugarId = lugarId;
 		this.subjectId = subjectId;
 		this.eventoId = eventoId;
+		this.sitioId=sitioId;
 	}
 	
 	public Data() {
@@ -207,6 +209,10 @@ public class Data {
 			builder.append("eventoId=");
 			builder.append(eventoId);
 		}
+		if (sitioId != null) {
+			builder.append("sitioId=");
+			builder.append(sitioId);
+		}
 		builder.append("]");
 		return builder.toString();
 	}
@@ -215,5 +221,13 @@ public class Data {
 	}
 	public void setValue(String value) {
 		this.value = value;
+	}
+
+	public Long getSitioId() {
+		return sitioId;
+	}
+
+	public void setSitioId(Long sitioId) {
+		this.sitioId = sitioId;
 	}
 }

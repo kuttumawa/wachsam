@@ -80,15 +80,15 @@ public class DataTest extends TestCase {
 	 tags.add(tag2);
 	 tagDao.save(tag3);
 	 tags.add(tag3);
-	 Data data1=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,tag3,1L,null,null);
+	 Data data1=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,tag3,1L,null,null,null);
 	 dataDao.save(data1);
 	 datas.add(data1);
 	 List<Data> resultado=dataDao.getAll(data1);
 	 assertTrue(resultado.size()==1);
-	 Data data2=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,null,1L,null,null);
+	 Data data2=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,null,1L,null,null,null);
 	 resultado=dataDao.getAll(data2);
 	 assertTrue(resultado.size()==0);
-	 Data data3=new Data("22","void",DataValueTipo.NUMERICO,tag2,tag3,tag1,1L,null,null);
+	 Data data3=new Data("22","void",DataValueTipo.NUMERICO,tag2,tag3,tag1,1L,null,null,null);
 	 resultado=dataDao.getAll(data3);
 	 assertTrue(resultado.size()==1);
 	 

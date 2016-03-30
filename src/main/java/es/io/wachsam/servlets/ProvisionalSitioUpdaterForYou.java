@@ -2,6 +2,7 @@ package es.io.wachsam.servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,13 +15,16 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import es.io.wachsam.dao.AlertasDao;
+import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.TipoSitio;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -49,14 +53,23 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		SitioDao sitioDao = (SitioDao) context.getBean("sitioDao");
 		List<Sitio> sitios =sitioDao.getAll();
-		request.setAttribute("sitio",sitios);
+		request.setAttribute("sitios",sitios);
 		
-		String sitioId=request.getParameter("sitio");
+		List<Data> datas=new ArrayList<Data>();
+		String sitioId=request.getParameter("sitioId");
 		Sitio sitio=new Sitio();
 		if(sitioId!=null && sitioId.length()>0){
 			sitio=sitioDao.getSitio(Long.parseLong(sitioId));
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setSitioId(sitio.getId());
+			datas=dataDao.getAllnoExtrict(filtro);
+			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("sitio",sitio);
+		LugarDao lugarDao = (LugarDao) context.getBean("lugarDao");
+		List<Lugar> lugares =lugarDao.getAll();
+		request.setAttribute("lugares",lugares);
 		String nextJSP = "/ioUpdaterSitio.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
@@ -80,7 +93,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		String texto=request.getParameter("texto");
 		String textoEn=request.getParameter("textoEn");
 		String valoracion=request.getParameter("valoracion");
-		String tipoSitio=request.getParameter("tipoSitio");
+		String tipo=request.getParameter("tipo");
 		String direccion=request.getParameter("direccion");
 		String lugarId=request.getParameter("lugarId");
 		String oper=request.getParameter("oper");
@@ -110,6 +123,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			sitio.setTexto(texto);
 			sitio.setTextoEn(textoEn);
 			sitio.setValoracion(Integer.parseInt(valoracion));
+			sitio.setTipo(TipoSitio.values()[Integer.parseInt(tipo)]);			
 			Lugar lugar=new Lugar();
 			lugar.setId(Long.parseLong(lugarId));
 			sitio.setLugarObj(lugar);
@@ -138,7 +152,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		
 		
 		
-		String nextJSP = "/ioUpdaterTag.jsp";
+		String nextJSP = "/ioUpdaterSitio.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
 		
@@ -157,10 +171,24 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		String oper=request.getParameter("oper");
 		
 		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
+		if(nombreEn!=null && nombreEn.length()>100) resultado.append("Nombre Eng debe se menor de 100");
+		if(direccion!=null && direccion.length()>100) resultado.append("Dirección debe se menor de 100");
+		if(texto!=null && texto.length()>500) resultado.append("Texto debe se menor de 500");
+		if(textoEn!=null && textoEn.length()>500) resultado.append("Text debe se menor de 500");
 		
 		
 		
-		if(resultado.length() > 0) return resultado.toString();
+		if(resultado.length() > 0){
+			request.setAttribute("nombre",nombre);
+			request.setAttribute("nombreEn",nombreEn);
+			request.setAttribute("texto",texto);
+			request.setAttribute("textoEn",textoEn);
+			request.setAttribute("valoracion",valoracion);
+			request.setAttribute("tipoSitio",tipoSitio);
+			request.setAttribute("direccion",direccion);
+			request.setAttribute("lugarId",lugarId);
+			return resultado.toString();
+		}
 		return null;
 	}
 

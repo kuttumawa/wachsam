@@ -19,6 +19,7 @@ function clearFields(){
     document.getElementById("tag2").value="";
     document.getElementById("tag3").value="";
     document.getElementById("evento").value="";
+    document.getElementById("sitio").value="";
 
 }
 function deleteOper(){
@@ -149,6 +150,25 @@ Data data = (Data)request.getAttribute("data");
 				  out.println("<option value=\""+alert_i.getId()+"\" selected >"+alert_i.prettyPrint()+"</option>"); 
 			  }else{
 			      out.println("<option value=\""+alert_i.getId()+"\">"+alert_i.prettyPrint()+"</option>");
+			  } 
+          }
+         
+%> 
+</select>
+</div>
+<div>
+<label for="">Sitio</label>
+</div>
+<div>
+<select name="sitioId" id="sitio">
+<option value=""></option>
+<%    
+          List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
+          for(Sitio sitio_i:sitios){
+        	  if(data.getEventoId()!=null && data.getSitioId().equals(sitio_i.getId())){
+				  out.println("<option value=\""+sitio_i.getId()+"\" selected >"+sitio_i.prettyPrint()+"</option>"); 
+			  }else{
+			      out.println("<option value=\""+sitio_i.getId()+"\">"+sitio_i.prettyPrint()+"</option>");
 			  } 
           }
          

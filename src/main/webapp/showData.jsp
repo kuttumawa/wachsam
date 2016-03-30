@@ -4,7 +4,15 @@
     
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>   
-    
+<script>
+
+function nuevoDato(param){
+	var id=document.getElementById('id').value;
+	var url='ProvisionalDataUpdaterForYou?'+param+'=' + id;
+	alert(url);
+	location.href=url;
+}
+</script>    
 <%
 List<Data> datas= new ArrayList<Data>();
 if(request.getAttribute("datas")!=null){
@@ -26,4 +34,5 @@ datas= (List<Data>)request.getAttribute("datas");
 
 </tr>
 <%} %>
-</table>   
+</table>
+  

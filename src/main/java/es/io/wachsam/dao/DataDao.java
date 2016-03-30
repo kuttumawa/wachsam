@@ -182,6 +182,9 @@ public class DataDao {
 		if (filtro.getEventoId() != null)
 			sb.append(" and p.eventoId =" + filtro.getEventoId());
 		
+		if (filtro.getSitioId() != null)
+			sb.append(" and p.sitioId =" + filtro.getSitioId());
+		
 		
 
 		sb.append(" order by id desc");

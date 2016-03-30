@@ -17,6 +17,7 @@ function clearFields(){
     document.getElementById("direccion").value="";
     document.getElementById("lugarId").value="";
     document.getElementById("tipo").value="";
+   
 
 
 }
@@ -79,7 +80,7 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 
 <div>
 <label for="">NombreEn</label>
-<input type="text" id="nombreEn" name="nombre" value="<%= sitio.getNombreEn()!=null?sitio.getNombreEn():""%>"/>
+<input type="text" id="nombreEn" name="nombreEn" value="<%= sitio.getNombreEn()!=null?sitio.getNombreEn():""%>"/>
 </div>
 
 <div>
@@ -89,12 +90,16 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 
 <div>
 <label for="">Texto</label>
-<input type="text" id="texto" name="texto" value="<%= sitio.getTexto()!=null?sitio.getTexto():"" %>"/>
+</div>
+<div>
+<textarea name="texto" id="texto" cols="100" rows="4"><%= sitio.getTexto()!=null?sitio.getTexto():"" %></textarea>
 </div>
 
 <div>
-<label for="">TextoEn</label>
-<input type="text" id="textoEn" name="textoEn" value="<%= sitio.getTextoEn()!=null?sitio.getTextoEn():""%>"/>
+<label for="">Text</label>
+</div>
+<div>
+<textarea name="textoEn" id="textoEn" cols="100" rows="4"><%= sitio.getTextoEn()!=null?sitio.getTextoEn():"" %></textarea>
 </div>
 
 <div>
@@ -159,6 +164,10 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 <input type="button" value="delete" onclick="deleteOper()">
 <input type="button" value="limpiar" onclick="clearFields()">
 </form>
+</fieldset>
+<fieldset>
+<jsp:include page="showData.jsp"/>
+<input type="button" value="Nuevo Dato" onclick="nuevoDato('sitioId')"/> 
 </fieldset>
 </body> 
 </html>

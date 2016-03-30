@@ -17,6 +17,7 @@ import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.PeligroDao;
+import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
@@ -24,6 +25,7 @@ import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Factor;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 
 /**
@@ -71,9 +73,17 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		List<Tag> tags =tagDao.getAll();
 		request.setAttribute("tags",tags);
 		
+		SitioDao sitioDao = (SitioDao) context.getBean("sitioDao");
+		List<Sitio> sitios =sitioDao.getAll();
+		request.setAttribute("sitios",sitios);
 		
+		String subject=request.getParameter("subjectId");
+		String evento=request.getParameter("eventoId");
+		String lugar=request.getParameter("lugarId");
+		String sitio=request.getParameter("sitioId");		
 		String dataId=request.getParameter("dataId");
 		Data data=new Data();
+		if(sitio!=null) data.setSitioId(Long.parseLong(sitio));
 		if(dataId!=null && dataId.length()>0){
 			data=dataDao.getData(Long.parseLong(dataId));
 		}
@@ -102,6 +112,7 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		String subject=request.getParameter("subjectId");
 		String evento=request.getParameter("eventoId");
 		String lugar=request.getParameter("lugarId");
+		String sitio=request.getParameter("sitioId");
 		Tag tag1 = null;
 		try{
 		tag1=request.getParameter("tag1")!=null?Tag.createTag(Long.parseLong(request.getParameter("tag1"))):null;
@@ -157,7 +168,13 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 			}catch(NumberFormatException e){
 				
             }
-			data=new Data(value,descripcion,DataValueTipo.valueOf(tipoValor),tag1,tag2,tag3,lugarId,subjectId,eventoId);
+			Long sitioId = null;
+			try{
+			 sitioId = sitio!=null?Long.parseLong(sitio):null;
+			}catch(NumberFormatException e){
+				
+            }
+			data=new Data(value,descripcion,DataValueTipo.valueOf(tipoValor),tag1,tag2,tag3,lugarId,subjectId,eventoId,sitioId);
 			try{
 				  data.setId(Long.parseLong(id));
 		    }catch(Exception e){
