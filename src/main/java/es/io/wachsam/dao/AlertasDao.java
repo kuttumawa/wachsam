@@ -8,6 +8,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.io.wachsam.model.Alert;
@@ -20,8 +23,8 @@ public class AlertasDao {
 
 	@PersistenceContext
 	private EntityManager em;
-
-	public Long save(Alert alert) {
+	@CachePut("ioCacheAlertas")
+	public Alert save(Alert alert) {
 		
 		if(alert.getPeligro()!=null && alert.getPeligro().getId()!=null){
 			alert.setPeligro(em.find(Peligro.class,alert.getPeligro().getId()));
@@ -31,11 +34,12 @@ public class AlertasDao {
 			alert.setLugar(alert.getLugarObj().getNombre());
 		}
 		if (alert == null)
-			return -1L;
+			return null;
 		if(alert.getId() == null) em.persist(alert);
 		else em.merge(alert);
-		return alert.getId();
+		return alert;
 	}
+	
 	public Long save(DB db) {
 		if (db == null || db.getId() == null)
 			db.setId(1L);
@@ -48,7 +52,7 @@ public class AlertasDao {
 	public DB getDB(Long id){
 		return em.find(DB.class,id);
 	}
-
+	@Cacheable("ioCacheAlertas")
 	public List<Alert> getAll() {
 		return em.createQuery("SELECT p FROM Alert p order by id desc", Alert.class)
 				.getResultList();
@@ -60,7 +64,7 @@ public class AlertasDao {
 		q.setParameter("pais", "%" + pais + "%");
 		return q.getResultList();
 	}
-
+	@Cacheable("ioCacheAlertas")
 	public List<Alert> getAlertas(String texto, String pais, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -180,6 +184,7 @@ public class AlertasDao {
 	    }
 	    return output.toUpperCase();
 	}
+	@Cacheable("ioCacheAlertas")
 	public List<Alert> getAlertasMysql(String texto, String pais, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -287,6 +292,7 @@ public class AlertasDao {
 		}
 		return q.getResultList();
 	}
+	@Cacheable("ioCacheAlertas")
 	public List<Alert> getAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");

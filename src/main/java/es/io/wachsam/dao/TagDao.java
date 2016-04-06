@@ -28,7 +28,7 @@ public class TagDao {
 	}
 	
 	public List<Tag> getAll() {
-		return em.createQuery("SELECT p FROM Tag p order by nombre desc", Tag.class)
+		return em.createQuery("SELECT p FROM Tag p order by nombre asc", Tag.class)
 				.getResultList();
 	}
 

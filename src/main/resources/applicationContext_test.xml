@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans 
     xmlns="http://www.springframework.org/schema/beans"
+    xmlns:p="http://www.springframework.org/schema/p"
     xmlns:aop="http://www.springframework.org/schema/aop" 
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:cache="http://www.springframework.org/schema/cache"
     xmlns:tx="http://www.springframework.org/schema/tx" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:elasticsearch="http://www.springframework.org/schema/data/elasticsearch"
@@ -12,7 +14,8 @@
                 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
                 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
                 http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
-                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+                http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
      
     <tx:annotation-driven />
     <context:annotation-config /> 
@@ -25,7 +28,7 @@
      <bean id="peligroDao" class="es.io.wachsam.dao.PeligroDao" />
      <bean id="tagDao" class="es.io.wachsam.dao.TagDao" />
      <bean id="dataDao" class="es.io.wachsam.dao.DataDao" />
- 
+     <bean id="sitioDao" class="es.io.wachsam.dao.SitioDao" />
     
     
     <bean id="dataSource2"
@@ -34,7 +37,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="buendia" />
+		<property name="password" value="" />
 	</bean>
  
     <bean id="entityManagerFactory"
@@ -65,4 +68,21 @@
 
 
     <elasticsearch:repositories base-package="es.io.wachsam.repositories" />
+    
+    
+    <!-- ECHACHE -->
+    <!-- Switch on the Caching -->
+ <cache:annotation-driven />
+
+     <!-- Do the component scan path -->
+ <context:component-scan base-package="caching" />
+
+ <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" 
+  p:cacheManager-ref="ehcache"/>
+
+ <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" 
+     p:configLocation="ehcache.xml"  
+     p:shared="true"/>
+     
+     
 </beans>
