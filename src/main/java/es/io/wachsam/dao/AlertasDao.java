@@ -23,7 +23,7 @@ public class AlertasDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	@CachePut("ioCacheAlertas")
+	@CacheEvict("ioCacheAlertas")
 	public Alert save(Alert alert) {
 		
 		if(alert.getPeligro()!=null && alert.getPeligro().getId()!=null){
@@ -398,6 +398,7 @@ public class AlertasDao {
 		}
 		return q.getResultList();
 	}
+	@CacheEvict("ioCacheAlertas")
 	public void deleteById(Long id) throws Exception {
 		Alert ent = em.find(Alert.class, id);
 		em.remove(ent); 

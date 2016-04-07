@@ -18,7 +18,7 @@ public class LugarDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	@CachePut("ioCacheLugar")
+	@CacheEvict("ioCacheLugar")
 	public Lugar save(Lugar lugar) {
 		if (lugar == null)
 			return null;

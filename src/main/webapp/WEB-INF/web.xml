@@ -74,6 +74,18 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalSitioUpdaterForYou</servlet-class>
   </servlet>
+    <servlet>
+  	<servlet-name>ProvisionalAirportUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalAirportUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalAirportUpdaterForYou</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>ProvisionalFuenteUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalFuentetUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalFuenteUpdaterForYou</servlet-class>
+  </servlet>
 
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -114,6 +126,14 @@
   <servlet-mapping>
   	<servlet-name>ProvisionalSitioUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalSitioUpdaterForYou</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+  	<servlet-name>ProvisionalAirportUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalAirportUpdaterForYou</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>ProvisionalFuenteUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalFuenteUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 </web-app>

@@ -29,6 +29,8 @@
      <bean id="tagDao" class="es.io.wachsam.dao.TagDao" />
      <bean id="dataDao" class="es.io.wachsam.dao.DataDao" />
      <bean id="sitioDao" class="es.io.wachsam.dao.SitioDao" />
+     <bean id="airportDao" class="es.io.wachsam.dao.AirportDao" />
+      <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
     
     
     <bean id="dataSource2"

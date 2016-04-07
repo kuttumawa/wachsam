@@ -20,7 +20,7 @@ public class PeligroDao {
 	@PersistenceContext
 	private EntityManager em;
 	
-	@CachePut("ioCachePeligro")
+	@CacheEvict("ioCachePeligro")
 	public Peligro save(Peligro peligro) {
 		if (peligro == null)
 			return null;

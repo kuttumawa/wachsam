@@ -18,7 +18,7 @@
 	</cache>
     <cache name="ioCache" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
     <cache name="ioCacheAlertas" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
-     <cache name="ioCacheLugar" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
-      <cache name="ioCachePeligro" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
-       <cache name="ioCacheSitio" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
+    <cache name="ioCacheLugar" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
+    <cache name="ioCachePeligro" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
+    <cache name="ioCacheSitio" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
 </ehcache>

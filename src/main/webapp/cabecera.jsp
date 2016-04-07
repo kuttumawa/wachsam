@@ -45,6 +45,8 @@ select {
   <a href="ProvisionalFactorUpdaterForYou">Factores</a> |
   <a href="ProvisionalDataUpdaterForYou">Data</a> |
   <a href="ProvisionalTagUpdaterForYou">Tags</a> |
-  <a href="ProvisionalSitioUpdaterForYou">Sitio</a>
+  <a href="ProvisionalSitioUpdaterForYou">Sitio</a> |
+  <a href="ProvisionalAirportUpdaterForYou">Airport</a>|
+  <a href="ProvisionalFuenteUpdaterForYou">Fuente</a>
 </nav>
 

@@ -23,7 +23,7 @@ public class SitioDao {
 
 	@PersistenceContext
 	private EntityManager em;
-	@CachePut("ioCacheSitio")
+	@CacheEvict("ioCacheSitio")
 	public Long save(Sitio sitio) {		
 		if (sitio == null)
 			return -1L;
