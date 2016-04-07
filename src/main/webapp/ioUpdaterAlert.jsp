@@ -22,6 +22,7 @@ function clearFields(){
 	document.getElementById("fechaPub").value="";
 	document.getElementById("tipo").value="";
 	document.getElementById("caducidad").value="";
+	document.getElementById("fuente").value="";
 }
 function deleteOper(){
 
@@ -193,6 +194,24 @@ for(Tipo tipo_i:tipos){
 <div>
 <label for="">link3</label>
 <input type="text" id="link3" name="link3" value="<%= alert.getLink3()!=null?alert.getLink3():"" %>"/>
+</div>
+
+<div>
+<label for="">Fuente</label>
+<select name="fuente">
+<option value=""></option>
+<%    
+          List<Fuente> fuentes =  (List<Fuente>)request.getAttribute("fuentes");
+          for(Fuente fuente_i:fuentes){
+        	  if(alert.getFuente()!=null && alert.getFuente().getId().equals(fuente_i.getId())){
+        		  out.println("<option value=\""+fuente_i.getId()+"\" selected >"+fuente_i.getNombre()+"</option>"); 
+        	  }else{
+        	      out.println("<option value=\""+fuente_i.getId()+"\">"+fuente_i.getNombre()+"</option>");
+        	  }
+          }
+         
+%> 
+</select>
 </div>
 
 <input type="hidden" id="oper" name="oper"/>

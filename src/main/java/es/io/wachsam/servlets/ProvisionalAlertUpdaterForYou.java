@@ -16,10 +16,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.DataDao;
+import es.io.wachsam.dao.FuenteDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.Fuente;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 
@@ -74,6 +76,9 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("alert",alert);
+		FuenteDao fuenteDao = (FuenteDao) context.getBean("fuenteDao");
+		List<Fuente> fuentes =fuenteDao.getAll();
+		request.setAttribute("fuentes",fuentes);
 		
 		String nextJSP = "/ioUpdaterAlert.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
@@ -106,6 +111,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		String oper=request.getParameter("oper");
 		String id=request.getParameter("id");
 		String caducidad=request.getParameter("caducidad");
+		String fuente=request.getParameter("fuente");
 		
 		Alert alert=new Alert();
 		
@@ -126,11 +132,15 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			}
 			
 		} else if(validar(request)==null){
-			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro,caducidad};
+			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro,caducidad,fuente};
 			alert=Alert.createAlertSinId(_alert);
-			AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
-			alertDao.save(alert);
-			request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite());
+			if(alert!=null){
+				AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
+				alertDao.save(alert);
+				request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite());
+			}else{
+				request.setAttribute("resultado","ERROR en la operación: ");
+			}
 		}else{
 			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,peligro,lugar};
 			alert=Alert.createAlertSinId(_alert);
@@ -150,6 +160,9 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		
 		request.setAttribute("alert",alert);
 		
+		FuenteDao fuenteDao = (FuenteDao) context.getBean("fuenteDao");
+		List<Fuente> fuentes =fuenteDao.getAll();
+		request.setAttribute("fuentes",fuentes);
 		
 		String nextJSP = "/ioUpdaterAlert.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);

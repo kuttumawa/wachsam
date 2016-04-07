@@ -59,7 +59,7 @@ Airport airport = (Airport)request.getAttribute("airport");
 <%    
           List<Airport> airports =  (List<Airport>)request.getAttribute("airports");
           for(Airport airport_i:airports){
-        	  out.println("<option value=\""+airport_i.getId()+"\">"+airport_i.getName()+"</option>");
+        	  out.println("<option value=\""+airport_i.getId()+"\">"+airport_i.prettyPrint()+"</option>");
           }
          
 %> 

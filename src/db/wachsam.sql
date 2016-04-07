@@ -46,13 +46,15 @@ CREATE TABLE `alert` (
   `fechaPub` datetime DEFAULT NULL,
   `peligro_id` bigint(20) DEFAULT NULL,
   `lugarObj_id` bigint(20) DEFAULT NULL,
-  `caducidad` int(11) DEFAULT NULL,
+  `caducidad` decimal(10,0) DEFAULT NULL,
+  `fuente_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK3C6993C66E5E8B6` (`lugarObj_id`),
   KEY `FK3C6993CF194B46F` (`peligro_id`),
   CONSTRAINT `FK_Lugar` FOREIGN KEY (`lugarObj_id`) REFERENCES `lugar` (`id`),
   CONSTRAINT `FK_Peligro` FOREIGN KEY (`peligro_id`) REFERENCES `peligro` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3700 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3703 DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

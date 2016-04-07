@@ -350,7 +350,9 @@ public class Airport {
 		return builder.toString();
 	}
 
-
+	public String prettyPrint(){
+		return this.name + '-' + this.city + '-' + this.country;
+	}
 	
 	
 }

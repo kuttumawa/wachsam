@@ -62,6 +62,9 @@ public class Alert {
 	@Transient
 	@Expose
 	boolean caducado;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@Expose
+	Fuente fuente;
 	
 	
 
@@ -83,6 +86,8 @@ public class Alert {
 		Lugar lugar=null;
 		Peligro peligro=null;
 		Integer caducidad=null;
+		Fuente fuente=null;
+		
 		for(String x:t){
 			if(x.length()>1000){
 				return  new Alert();
@@ -102,8 +107,13 @@ public class Alert {
 				lugar=new Lugar();
 				lugar.setId(Long.parseLong(t[10].trim()));
 			}
-			if(t.length>11 && t[12]!=null){
+			if(t.length>12 && t[12]!=null){
 				caducidad=Integer.parseInt(t[12]);
+			}
+			
+			if(t.length>13 && t[13]!=null){
+				fuente=new Fuente();
+				fuente.setId(Long.parseLong(t[13].trim()));
 			}
 		}catch(Exception e){
 			if(t!=null && t.length>1) System.out.println("Error:: " + t[0] + "," + t[1]+" ::  "+ e.getMessage());
@@ -112,7 +122,7 @@ public class Alert {
 		}
 		
 		
-		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro,caducidad); 
+		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro,caducidad,fuente); 
 		return alert;
 	}
 	public static Alert createAlertSinId(String[] t){
@@ -121,31 +131,36 @@ public class Alert {
 		Lugar lugar=null;
 		Peligro peligro=null;
 		Integer caducidad=null;
+		Fuente fuente=null;
 		
 		Date fechapub=new Date();
 		try{
 			if(t[0]!=null && t[0].length()>0) id=Long.parseLong(t[0].trim());
 			fechapub=new SimpleDateFormat("dd/MM/yyyy").parse(t[9].trim());
 			
-			if(t.length>10 && t[11]!=null){
+			if(t.length>11 && t[11]!=null){
 				peligro=new Peligro();
 				peligro.setId(Long.parseLong(t[11].trim()));
 			}
-			if(t.length>11 && t[10]!=null){
+			if(t.length>10 && t[10]!=null){
 				lugar=new Lugar();
 				lugar.setId(Long.parseLong(t[10].trim()));
 			}
-			if(t.length>11 && t[12]!=null){
+			if(t.length>12 && t[12]!=null){
 				caducidad=Integer.parseInt(t[12]);
+			}
+			if(t.length>13 && t[13]!=null && t[13].length()>0){
+				fuente=new Fuente();
+				fuente.setId(Long.parseLong(t[13].trim()));
 			}
 		}catch(Exception e){
 			if(t!=null && t.length>1) System.out.println("Error:: " + t[0] + "," + t[1]+" ::  "+ e.getMessage());
 			else System.out.println("Error:: " + t);
-			return new Alert();
+			return null;
 		}
 		
 		
-		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro,caducidad); 
+		alert=new Alert(id,t[1],t[2],t[3],t[4],t[5],t[6],t[7],t[8],fechapub,lugar,peligro,caducidad,fuente); 
 		return alert;
 	}
 	public String getFechaPubFormatted() {
@@ -168,7 +183,7 @@ public class Alert {
 	}
 	public Alert(Long id, String nombre, String tipo, String link1,
 			String link2, String link3, String texto, String text,
-			String lugar, Date fechaPub,Lugar lugarObj,Peligro peligro,Integer caducidad) {
+			String lugar, Date fechaPub,Lugar lugarObj,Peligro peligro,Integer caducidad,Fuente fuente) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -184,6 +199,7 @@ public class Alert {
 		this.lugarObj=lugarObj;
 		this.peligro=peligro;
 		this.caducidad=caducidad;
+		this.fuente=fuente;
 	}
 	
 	
@@ -459,6 +475,22 @@ public class Alert {
 			
 		}
 	    return caducado;
+	}
+
+
+
+
+
+	public Fuente getFuente() {
+		return fuente;
+	}
+
+
+
+
+
+	public void setFuente(Fuente fuente) {
+		this.fuente = fuente;
 	}
 
 
