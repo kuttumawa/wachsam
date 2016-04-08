@@ -4,18 +4,9 @@
 	monitoring="autodetect" 
 	dynamicConfig="true">
 
-	<diskStore path="java.io.tmpdir" />
-	
-	<cache name="ioCache_default" 
-		maxEntriesLocalHeap="8000"
-		maxEntriesLocalDisk="1000" 
-		eternal="false" 
-		diskSpoolBufferSizeMB="20"
-		timeToIdleSeconds="300" timeToLiveSeconds="600"
-		memoryStoreEvictionPolicy="LFU" 
-		transactionalMode="off">
-		<persistence strategy="localTempSwap" />
-	</cache>
+	<sizeOfPolicy maxDepth="2000" maxDepthExceededBehavior="abort"/>
+    <defaultCache eternal="true" overflowToDisk="false"/>
+
     <cache name="ioCache" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
     <cache name="ioCacheAlertas" maxElementsInMemory="10000" eternal="true" overflowToDisk="false" />
     <cache name="ioCacheLugar" maxElementsInMemory="1000" eternal="true" overflowToDisk="false" />

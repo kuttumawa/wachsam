@@ -24,14 +24,14 @@ public class SitioDao {
 	@PersistenceContext
 	private EntityManager em;
 	@CacheEvict("ioCacheSitio")
-	public Long save(Sitio sitio) {		
+	public Sitio save(Sitio sitio) {		
 		if (sitio == null)
-			return -1L;
+			return null;
 		if (sitio.getId() == null)
 			em.persist(sitio);
 		else
 			em.merge(sitio);
-		return sitio.getId();
+		return sitio;
 	}
 
 	public Sitio getSitio(Long id) {

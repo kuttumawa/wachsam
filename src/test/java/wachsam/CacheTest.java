@@ -13,6 +13,7 @@ import javax.annotation.Resource;
 import junit.framework.TestCase;
 
 import org.junit.Test;
+import org.springframework.cache.CacheManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
@@ -38,6 +39,7 @@ public class CacheTest extends TestCase {
 	private TagDao tagDao;
 	private SitioDao sitioDao;
 	private AlertasDao alertDao;
+	private CacheManager cacheManager;
 
 	@Resource
 	private ElasticsearchTemplate template;
@@ -51,6 +53,7 @@ public class CacheTest extends TestCase {
 		tagDao=(TagDao) context.getBean("tagDao");
 		sitioDao=(SitioDao) context.getBean("sitioDao");
 		alertDao=(AlertasDao) context.getBean("alertasDao");
+		cacheManager=(CacheManager) context.getBean("cacheManager");
 		assertNotNull("No inicializado dataDao",dataDao);
 		assertNotNull("No inicializado tagDao",tagDao);
 	}
@@ -63,7 +66,7 @@ public class CacheTest extends TestCase {
 			tagDao.deleteById(tag.getId());
 		}
 		for(Sitio sitio:sitios){
-			tagDao.deleteById(sitio.getId());
+			sitioDao.deleteById(sitio.getId());
 		}
 		
 	}
@@ -79,6 +82,20 @@ public class CacheTest extends TestCase {
 	  }
 	}
 	
+	@Test
+	public void testECacheEvict() throws IOException{
+	    int num0=sitioDao.getAll().size();
+	    System.out.println("sitio size before insert: " + num0);
+		Sitio sitio = sitioDao.save(createNewSitio("NUEVO_SITIO"));
+		sitios.add(sitio);
+		
+		cacheManager.getCache("ioCacheSitio").clear();
+		
+		int num1=sitioDao.getAll().size();
+	    System.out.println("sitio size after insert: " + num1);
+	    assertEquals(num0+1,num1);
+	    
+	}
 	
 	
 	private Sitio createNewSitio(String tagName){
