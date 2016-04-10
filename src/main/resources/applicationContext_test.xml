@@ -20,16 +20,25 @@
     <tx:annotation-driven />
     <context:annotation-config /> 
  
-    <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao" />
+    <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
+        <property name="cacheManager" ref="cacheManager"/>
+     </bean>
     <bean id="alertService" class="es.io.wachsam.services.AlertService">
       <property name="dao" ref="alertasDao"/>
     </bean>
-     <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" />
-     <bean id="peligroDao" class="es.io.wachsam.dao.PeligroDao" />
+     <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
+        <property name="cacheManager" ref="cacheManager"/>
+     </bean>
+     <bean id="peligroDao" class="es.io.wachsam.dao.PeligroDao" >
+        <property name="cacheManager" ref="cacheManager"/>
+     </bean>
      <bean id="tagDao" class="es.io.wachsam.dao.TagDao" />
      <bean id="dataDao" class="es.io.wachsam.dao.DataDao" />
-     <bean id="sitioDao" class="es.io.wachsam.dao.SitioDao" />
+     <bean id="sitioDao" class="es.io.wachsam.dao.SitioDao" >
+        <property name="cacheManager" ref="cacheManager"/>
+     </bean>
      <bean id="airportDao" class="es.io.wachsam.dao.AirportDao" />
+     <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
       <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
     
     
@@ -39,7 +48,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="buendia" />
 	</bean>
  
     <bean id="entityManagerFactory"

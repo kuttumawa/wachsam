@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -20,10 +21,12 @@ import es.io.wachsam.model.Peligro;
 
 @Transactional
 public class AlertasDao {
+	final String ALERT_CACHE="ioCacheAlertas";
+	private CacheManager cacheManager;
 
 	@PersistenceContext
 	private EntityManager em;
-	@CacheEvict("ioCacheAlertas")
+	@CacheEvict(ALERT_CACHE)
 	public Alert save(Alert alert) {
 		
 		if(alert.getPeligro()!=null && alert.getPeligro().getId()!=null){
@@ -37,6 +40,7 @@ public class AlertasDao {
 			return null;
 		if(alert.getId() == null) em.persist(alert);
 		else em.merge(alert);
+		evictCache();
 		return alert;
 	}
 	
@@ -52,7 +56,7 @@ public class AlertasDao {
 	public DB getDB(Long id){
 		return em.find(DB.class,id);
 	}
-	@Cacheable("ioCacheAlertas")
+	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAll() {
 		return em.createQuery("SELECT p FROM Alert p order by id desc", Alert.class)
 				.getResultList();
@@ -64,7 +68,7 @@ public class AlertasDao {
 		q.setParameter("pais", "%" + pais + "%");
 		return q.getResultList();
 	}
-	@Cacheable("ioCacheAlertas")
+	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertas(String texto, String pais, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -184,7 +188,7 @@ public class AlertasDao {
 	    }
 	    return output.toUpperCase();
 	}
-	@Cacheable("ioCacheAlertas")
+	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertasMysql(String texto, String pais, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -292,7 +296,7 @@ public class AlertasDao {
 		}
 		return q.getResultList();
 	}
-	@Cacheable("ioCacheAlertas")
+	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -398,9 +402,23 @@ public class AlertasDao {
 		}
 		return q.getResultList();
 	}
-	@CacheEvict("ioCacheAlertas")
+	@CacheEvict(ALERT_CACHE)
 	public void deleteById(Long id) throws Exception {
 		Alert ent = em.find(Alert.class, id);
 		em.remove(ent); 
+		evictCache();
 	}
+	public void evictCache(){
+		cacheManager.getCache(ALERT_CACHE).clear();
+	}
+
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
+
+	
 }

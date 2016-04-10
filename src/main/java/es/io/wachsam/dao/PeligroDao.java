@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,40 +17,54 @@ import es.io.wachsam.model.Peligro;
 
 @Transactional
 public class PeligroDao {
+	final String CACHE="ioCachePeligro";
+	private CacheManager cacheManager;
 
 	@PersistenceContext
 	private EntityManager em;
 	
-	@CacheEvict("ioCachePeligro")
+	@CacheEvict(CACHE)
 	public Peligro save(Peligro peligro) {
 		if (peligro == null)
 			return null;
 		if(peligro.getId() == null) em.persist(peligro);
 		else em.merge(peligro);
+		evictCache();
 		return peligro;
 	}
 	
 	public Peligro getPeligro(Long id){
 		return em.find(Peligro.class,id);
 	}
-	@Cacheable("ioCachePeligro")
+	@Cacheable(CACHE)
 	public List<Peligro> getAll() {
 		return em.createQuery("SELECT p FROM Peligro p order by nombre", Peligro.class)
 				.getResultList();
 	}
-	@Cacheable("ioCachePeligro")
+	@Cacheable(CACHE)
 	public List<Peligro> getAllPorPaís(String pais) {
 		Query q = em.createQuery(
 				"SELECT p FROM Peligro p where p.peligro LIKE :pais", Peligro.class);
 		q.setParameter("pais", "%" + pais + "%");
 		return q.getResultList();
 	}
-	@CacheEvict("ioCachePeligro")
+	@CacheEvict(CACHE)
 	public void deleteById(Long id) throws Exception {
 		Peligro ent = em.find(Peligro.class, id);
 		em.remove(ent); 
+		evictCache();
+	}
+	public void evictCache(){
+		cacheManager.getCache(CACHE).clear();
 	}
 
+	public CacheManager getCacheManager() {
+		return cacheManager;
+	}
+
+	public void setCacheManager(CacheManager cacheManager) {
+		this.cacheManager = cacheManager;
+	}
 	
 	
 	

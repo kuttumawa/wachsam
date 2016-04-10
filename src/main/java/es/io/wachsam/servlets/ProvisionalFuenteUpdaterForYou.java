@@ -124,8 +124,8 @@ public class ProvisionalFuenteUpdaterForYou extends HttpServlet {
 		
 		
 		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
-		if(nombre!=null || nombre.length()>100) resultado.append("Nombre excede 100;");
-		if(descripcion!=null || descripcion.length()>500) resultado.append("Descripcion excede 500;");
+		if(nombre!=null && nombre.length()>100) resultado.append("Nombre excede 100;");
+		if(descripcion!=null && descripcion.length()>500) resultado.append("Descripcion excede 500;");
 		
 		
 		if(resultado.length() > 0) return resultado.toString();

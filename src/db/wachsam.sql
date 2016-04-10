@@ -66,21 +66,7 @@ CREATE TABLE `tag` (
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
   UNIQUE KEY `nombreEn_UNIQUE` (`nombreEn`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-CREATE TABLE `data` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `value` int(11) DEFAULT NULL,
-  `descripcion` varchar(250) DEFAULT NULL,
-  `tipoValor` int(11) NOT NULL,
-  `tag1_id` int(11) DEFAULT NULL,
-  `tag2_id` int(11) DEFAULT NULL,
-  `tag3_id` int(11) DEFAULT NULL,
-  `lugarId` int(11) DEFAULT NULL,
-  `subjectId` int(11) DEFAULT NULL,
-  `eventoId` int(11) DEFAULT NULL,
-  `sitioId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
+
 
 CREATE TABLE `data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -136,3 +122,13 @@ CREATE TABLE `fuente` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `factor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) COLLATE latin1_spanish_ci NOT NULL,
+  `nombreEn` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `texto` varchar(500) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `textoEn` varchar(500) COLLATE latin1_spanish_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
