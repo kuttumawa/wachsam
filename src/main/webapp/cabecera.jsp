@@ -47,6 +47,7 @@ select {
   <a href="ProvisionalTagUpdaterForYou">Tags</a> |
   <a href="ProvisionalSitioUpdaterForYou">Sitio</a> |
   <a href="ProvisionalAirportUpdaterForYou">Airport</a>|
-  <a href="ProvisionalFuenteUpdaterForYou">Fuente</a>
+  <a href="ProvisionalFuenteUpdaterForYou">Fuente</a>|
+  <a href="upload">File Upload</a>
 </nav>
 

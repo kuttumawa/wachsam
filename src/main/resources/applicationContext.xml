@@ -60,12 +60,12 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
+		<!-- <property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
 		<property name="username" value="viajarseguro" />
-		<property name="password" value="buendiabuendia" />
-		<!-- <property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
+		<property name="password" value="buendiabuendia" /> -->
+		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="buendia" /> -->
+		<property name="password" value="" />
 	</bean>
  
     <bean id="entityManagerFactory"
