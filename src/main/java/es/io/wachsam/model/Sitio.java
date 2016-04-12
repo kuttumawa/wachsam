@@ -1,5 +1,9 @@
 package es.io.wachsam.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.validator.GenericValidator;
+import org.elasticsearch.common.netty.util.internal.StringUtil;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
@@ -36,6 +42,19 @@ public class Sitio {
 	
 	public Sitio() {
 		super();
+	}
+	public Sitio(String[] csv) {
+		this.nombre=csv[0];
+		if(GenericValidator.isBlankOrNull(csv[1])) this.nombreEn=csv[1];
+		if(GenericValidator.isBlankOrNull(csv[2])) this.direccion=csv[2];
+		if(GenericValidator.isBlankOrNull(csv[3])) this.tipo=TipoSitio.values()[Integer.parseInt(csv[3])];
+		if(GenericValidator.isBlankOrNull(csv[4])) this.texto=csv[4];
+		if(GenericValidator.isBlankOrNull(csv[5])) this.textoEn=csv[5];
+		if(GenericValidator.isBlankOrNull(csv[6])){
+			Lugar lugar=new Lugar();
+			lugar.setId(Long.parseLong(csv[6]));
+		}
+				
 	}
 
 
@@ -161,7 +180,67 @@ public class Sitio {
 		return builder.toString();
 	}
 	
+	public  List<String> validate(){
+		List<String> errores=new ArrayList<String>();
+		if(GenericValidator.isBlankOrNull(nombre)) errores.add("Nombre Obligatorio;");
+		if(nombreEn!=null && nombreEn.length()>100) errores.add("Nombre Eng debe se menor de 100");
+		if(direccion!=null && direccion.length()>100) errores.add("Dirección debe se menor de 100");
+		if(texto!=null && texto.length()>500) errores.add("Texto debe se menor de 500");
+		if(textoEn!=null && textoEn.length()>500) errores.add("Text debe se menor de 500");
+	   
+		return errores;
+	}
 	
+	/**
+	 * @param csv [nommbre;nombreEn;direccion;tipo;texto;textoEn;lugarId*;valoracion]
+	 * 
+	 * *lugarId: puede ser numérico , o String si string se intentará encontra un lugar con la proximidad textual menor.
+	 * @return
+	 */
+	public static List<String> validateCSVLine(String csvLine){
+		String CSV_SEPARATOR=";";
+		int CSVLINE_ELEMENTS=8;
+		String[] csv=csvLine.split(CSV_SEPARATOR);
+		List<String> errores=new ArrayList<String>();
+		if(csv.length != CSVLINE_ELEMENTS){
+			errores.add("Debe contener 8 elementos separados por ';'");
+			return errores;
+		}
+	
+		//Nombre
+		if(GenericValidator.isBlankOrNull(csv[0])) errores.add("Nombre Obligatorio;");
+		
+		//NombreEn
+		if(csv[1]!=null && csv[1].length()>100) errores.add("Nombre Eng debe ser menor de 100");
+
+		//direccion
+		if(csv[2]!=null && csv[2].length()>100) errores.add("Dirección debe ser menor de 100");
+		
+		//tipo
+		if(GenericValidator.isBlankOrNull(csv[3])) errores.add("Tipo Sitio Obligatorio;");
+		else if(GenericValidator.isInt(csv[3])){
+			try{
+				TipoSitio tipo=TipoSitio.values()[Integer.parseInt(csv[3])];
+			}catch(Exception e){
+				errores.add("Tipo Sitio no es correcto valores " + TipoSitio.values());
+			}
+		}else{
+			errores.add("Tipo Sitio no es correcto valores " + Arrays.toString(TipoSitio.values()));
+		}
+		
+		//texto
+		if(csv[4]!=null && csv[4].length()>500) errores.add("Texto debe ser menor de 500");
+		//textoEn
+		if(csv[5]!=null && csv[5].length()>500) errores.add("Text debe ser menor de 500");
+		//lugar
+		if(csv[6]!=null && csv[6].length()>100) errores.add("Lugar debe  ser menor de 100");
+		
+		//valoracion
+	    if(csv[7]!=null && !GenericValidator.isInt(csv[7])) errores.add("Valoracion debe  ser númerico");
+	    else if(csv[7]!=null && !csv[7].matches("[12345]")) errores.add("Valoracion debe ser 1,2,3,4,5");
+	   
+		return errores;
+	}
 
 	
 
