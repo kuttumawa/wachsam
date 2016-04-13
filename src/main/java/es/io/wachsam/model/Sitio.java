@@ -54,7 +54,8 @@ public class Sitio {
 			Lugar lugar=new Lugar();
 			lugar.setId(Long.parseLong(csv[6]));
 		}
-				
+		if(GenericValidator.isBlankOrNull(csv[7])) this.valoracion=Integer.parseInt(csv[7]);
+		else this.valoracion=-1;
 	}
 
 
@@ -241,7 +242,7 @@ public class Sitio {
 	   
 		return errores;
 	}
-
+	
 	
 
 }
