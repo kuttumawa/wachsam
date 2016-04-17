@@ -24,6 +24,7 @@ import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Fuente;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.services.DataService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -136,8 +137,21 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			alert=Alert.createAlertSinId(_alert);
 			if(alert!=null){
 				AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
+				DataService dataService=(DataService) context.getBean("dataService");
+				List<Data> newdatas=new ArrayList<Data>();
+				String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
+				alert.setTexto(textoNew);
 				alertDao.save(alert);
-				request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite());
+				dataService.saveData(newdatas, alert);
+				
+				DataDao dataDao = (DataDao) context.getBean("dataDao");
+				Data filtro=new Data();
+				filtro.setEventoId(alert.getId());
+				List<Data> datas=new ArrayList<Data>();
+				datas=dataDao.getAllnoExtrict(filtro);
+				request.setAttribute("datas",datas);
+				
+				request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite()+"\n DATOS:" + newdatas);
 			}else{
 				request.setAttribute("resultado","ERROR en la operación: ");
 			}

@@ -25,6 +25,7 @@ import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
+import es.io.wachsam.services.DataService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -134,9 +135,22 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			}
 			
 			SitioDao sitioDao=(SitioDao) context.getBean("sitioDao");
+			DataService dataService=(DataService) context.getBean("dataService");
+			List<Data> newdatas=new ArrayList<Data>();
+			String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
+			sitio.setTexto(textoNew);
 			sitioDao.save(sitio);
+			dataService.saveData(newdatas, sitio);
 			
-			request.setAttribute("resultado","INSERTADO OK: " + sitio);
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setSitioId(sitio.getId());
+			List<Data> datas=new ArrayList<Data>();
+			datas=dataDao.getAllnoExtrict(filtro);
+			request.setAttribute("datas",datas);
+			
+			
+			request.setAttribute("resultado","INSERTADO OK: " + sitio + "\n DATOS:" + newdatas);
 		}else{
 			
 			request.setAttribute("resultado",validar(request));
@@ -175,6 +189,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		if(direccion!=null && direccion.length()>100) resultado.append("Dirección debe se menor de 100");
 		if(texto!=null && texto.length()>500) resultado.append("Texto debe se menor de 500");
 		if(textoEn!=null && textoEn.length()>500) resultado.append("Text debe se menor de 500");
+		if(lugarId==null || lugarId.length()<1) resultado.append("Se debe seleccionar un lugar");
 		
 		
 		

@@ -230,4 +230,33 @@ public class Data {
 	public void setSitioId(Long sitioId) {
 		this.sitioId = sitioId;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Data [id=");
+		builder.append(id);
+		builder.append(", value=");
+		builder.append(value);
+		builder.append(", descripcion=");
+		builder.append(descripcion);
+		builder.append(", tipoValor=");
+		builder.append(tipoValor);
+		builder.append(", tag1=");
+		builder.append(tag1);
+		builder.append(", tag2=");
+		builder.append(tag2);
+		builder.append(", tag3=");
+		builder.append(tag3);
+		builder.append(", lugarId=");
+		builder.append(lugarId);
+		builder.append(", subjectId=");
+		builder.append(subjectId);
+		builder.append(", eventoId=");
+		builder.append(eventoId);
+		builder.append(", sitioId=");
+		builder.append(sitioId);
+		builder.append("]");
+		return builder.toString();
+	}
 }

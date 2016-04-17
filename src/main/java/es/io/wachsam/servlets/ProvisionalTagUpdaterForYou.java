@@ -133,6 +133,7 @@ public class ProvisionalTagUpdaterForYou extends HttpServlet {
 		String oper=request.getParameter("oper");
 		
 		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
+		if(nombreEn==null || nombreEn.length()<1) resultado.append("Nombre in English Obligatorio;");
 		
 		
 		
