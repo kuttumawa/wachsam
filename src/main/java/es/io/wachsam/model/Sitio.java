@@ -45,16 +45,16 @@ public class Sitio {
 	}
 	public Sitio(String[] csv) {
 		this.nombre=csv[0];
-		if(GenericValidator.isBlankOrNull(csv[1])) this.nombreEn=csv[1];
-		if(GenericValidator.isBlankOrNull(csv[2])) this.direccion=csv[2];
-		if(GenericValidator.isBlankOrNull(csv[3])) this.tipo=TipoSitio.values()[Integer.parseInt(csv[3])];
-		if(GenericValidator.isBlankOrNull(csv[4])) this.texto=csv[4];
-		if(GenericValidator.isBlankOrNull(csv[5])) this.textoEn=csv[5];
-		if(GenericValidator.isBlankOrNull(csv[6])){
+		this.nombreEn=csv[1];
+		this.direccion=csv[2];
+		this.tipo=TipoSitio.values()[Integer.parseInt(csv[3])];
+		this.texto=csv[4];
+		this.textoEn=csv[5];
+		if(csv[6]!=null && csv[6].length()>1){
 			Lugar lugar=new Lugar();
 			lugar.setId(Long.parseLong(csv[6]));
 		}
-		if(GenericValidator.isBlankOrNull(csv[7])) this.valoracion=Integer.parseInt(csv[7]);
+		if(csv[7]!=null) this.valoracion=Integer.parseInt(csv[7]);
 		else this.valoracion=-1;
 	}
 
