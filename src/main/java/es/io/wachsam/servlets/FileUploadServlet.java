@@ -56,6 +56,7 @@ public class FileUploadServlet extends HttpServlet {
 		
 	    final Part filePart = request.getPart("file");
 	    final String objeto = request.getParameter("objeto");
+	    
 
 	    OutputStream out = null;
 	    InputStream filecontent = null;
@@ -67,14 +68,18 @@ public class FileUploadServlet extends HttpServlet {
             BufferedReader in = new BufferedReader(new InputStreamReader(filecontent,"ISO-8859-1"));
 	        String line = null;	       
 	        int n=1;
-	        boolean error=false;
+	        Boolean error=null;
 	        try{
 	        	String log="";
 	        	while((line = in.readLine()) != null) {
-		            log =validateObject(objeto,line,error);
-		            if(!error){
+		            try{
+		            	validateObject(objeto,line);
 		            	log = procesarObject(objeto,line);
+		            }catch(Exception e){
+		            	log=e.getMessage();
+		            	break;
 		            }
+	        		
 		            resultado.add(n++ + ": "+log);
 		        }
 	        	
@@ -126,7 +131,7 @@ public class FileUploadServlet extends HttpServlet {
 	    return null;
 	}
 	
-	private String validateObject(String object,String line,boolean error){
+	private String validateObject(String object,String line) throws Exception{
 		List<String> errores=null;
 		if(object.equalsIgnoreCase("sitio")) errores=Sitio.validateCSVLine(line);
 		else {
@@ -140,6 +145,7 @@ public class FileUploadServlet extends HttpServlet {
 			  sb.append("|"+s);
 		    }
 		    sb.append("}");
+		    throw new Exception(sb.toString());
 		}else{
 			sb.append(" {OK}");
 		}
