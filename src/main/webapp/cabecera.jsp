@@ -48,6 +48,7 @@ select {
   <a href="ProvisionalSitioUpdaterForYou">Sitio</a> |
   <a href="ProvisionalAirportUpdaterForYou">Airport</a>|
   <a href="ProvisionalFuenteUpdaterForYou">Fuente</a>|
-  <a href="upload">File Upload</a>
+  <a href="upload">File Upload</a>|
+   <a href="version.jsp">Versión</a>
 </nav>
 

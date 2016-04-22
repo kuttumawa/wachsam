@@ -77,6 +77,7 @@ public class FileUploadServlet extends HttpServlet {
 		            	log = procesarObject(objeto,line);
 		            }catch(Exception e){
 		            	log=e.getMessage();
+		            	resultado.add(n++ + ": "+log);
 		            	break;
 		            }
 	        		

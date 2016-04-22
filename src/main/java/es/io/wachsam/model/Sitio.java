@@ -238,7 +238,7 @@ public class Sitio {
 		
 		//valoracion
 	    if(csv[7]!=null && !GenericValidator.isInt(csv[7])) errores.add("Valoracion debe  ser númerico");
-	    else if(csv[7]!=null && !csv[7].matches("[12345]")) errores.add("Valoracion debe ser 1,2,3,4,5");
+	    else if(csv[7]!=null && !csv[7].matches("-?[12345]")) errores.add("Valoracion debe ser 1,2,3,4,5");
 	   
 		return errores;
 	}

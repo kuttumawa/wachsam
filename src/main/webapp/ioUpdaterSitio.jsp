@@ -106,8 +106,9 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 <label for="">Tipo</label>
 </div><div>
 <select name="tipo" id="tipo">
-	<option value="0" <%=sitio.getTipo()!=null && sitio.getTipo().equals(0)?" selected":"" %>>hospital</option>
-	<option value="1" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>embajada</option>
+	<option value="0" <%=sitio.getTipo()!=null && sitio.getTipo().equals(0)?" selected":"" %>>Hospital</option>
+	<option value="1" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>Embajada</option>
+	<option value="2" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>CamaraHiperbárica</option>
 </select>
 </div>
 
