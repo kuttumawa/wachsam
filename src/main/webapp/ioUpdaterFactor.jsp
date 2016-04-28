@@ -28,7 +28,7 @@ function deleteOper(){
 
 <body>
 <jsp:include page="cabecera.jsp"/>
-
+<div class="container">
 
 <%
 Factor factor = (Factor)request.getAttribute("factor");
@@ -93,10 +93,11 @@ Factor factor = (Factor)request.getAttribute("factor");
 
 <input type="hidden" id="oper" name="oper"/>
 
-<input type="submit" value="grabar">
-<input type="button" value="delete" onclick="deleteOper()">
-<input type="button" value="limpiar" onclick="clearFields()">
+<input type="submit" class="btn btn-primary" value="grabar">
+<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
+<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>
+</div>
 </body> 
 </html>

@@ -43,6 +43,7 @@ function deleteOper(){
       }
 </style>
 <jsp:include page="cabecera.jsp"/>
+<div class="container">
 <%
 Lugar lugar = (Lugar)request.getAttribute("lugar");
 %>
@@ -306,7 +307,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </div>
 <fieldset>
 <jsp:include page="showData.jsp"/>
-<input type="button" value="Nuevo Dato" onclick="nuevoDato('lugarId')"/> 
+<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('lugarId')"/> 
 </fieldset>
+</div>
 </body> 
 </html>

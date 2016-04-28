@@ -37,12 +37,13 @@ function deleteOper(){
  
 <body>
 <jsp:include page="cabecera.jsp"/>
+<div class="container">
 <%
 Alert alert = (Alert)request.getAttribute("alert");
 %>
 
 <%if(request.getAttribute("resultado")!=null){ %>
-<div id="info">
+<div id="info" class="alert alert-danger">
 <% out.println(request.getAttribute("resultado")); %>
 </div>
 <%}%>
@@ -160,7 +161,7 @@ for(Tipo tipo_i:tipos){
 
 <div>
 
-<label for="">Caducidad (en días,-1 permanente)</label><%=alert!=null && alert.isCaducado()?"<span style=\"color:red\">&nbsp;CADUCADA</span>":"<span style=\"color:blue\">&nbsp;ACTIVA</span>"%>
+<label for="">Caducidad (en días,-1 permanente)</label><%=alert!=null && alert.isCaducado()?"<span class=\"label label-danger\">&nbsp;CADUCADA</span>":"<span class=\"label label-success\">&nbsp;ACTIVA</span>"%>
 <input type="text" id="caducidad" name="caducidad" value="<%=alert.getCaducidad()!=null?alert.getCaducidad():-1%>"/>
 </div>
 
@@ -216,15 +217,15 @@ for(Tipo tipo_i:tipos){
 
 <input type="hidden" id="oper" name="oper"/>
 
-<input type="submit" value="grabar">
-<input type="button" value="delete" onclick="deleteOper()">
-<input type="button" value="limpiar" onclick="clearFields()">
+<input type="submit" class="btn btn-primary" value="grabar">
+<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
+<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>
 <fieldset>
 <jsp:include page="showData.jsp"/>
-<input type="button" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
+<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
 </fieldset>
-
+</div>
 </body> 
 </html>

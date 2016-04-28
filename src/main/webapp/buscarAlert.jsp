@@ -35,7 +35,7 @@ function clearFields(){
  
 <body>
 <jsp:include page="cabecera.jsp"/>
-
+<div class="container">
 
 <%if(request.getAttribute("resultado")!=null){ %>
 <div id="info">
@@ -140,8 +140,8 @@ for(Tipo tipo_i:tipos){
 
 <input type="hidden" id="oper" name="oper"/>
 
-<input type="submit" value="buscar">
-<input type="button" value="limpiar" onclick="clearFields()">
+<input class="btn btn-primary" type="submit" value="buscar">
+<input class="btn btn-primary" type="button" value="limpiar" onclick="clearFields()">
 </form>
 
 </fieldset>
@@ -150,7 +150,7 @@ List<Alert> alerts= (List<Alert>)request.getAttribute("alertas");
 if(request.getAttribute("alertas")!=null){ %>
 <fieldset>
 <h3>Resultados:&nbsp; <%=alerts.size() %></h3>
-<table>
+<table class="table table-striped">
 <tr><th>id</th><th>nombre</th><th>tipo</th><th>fecha</th><th>texto</th></tr>
 
 <%for(Alert a:alerts){%>
@@ -167,5 +167,6 @@ if(request.getAttribute("alertas")!=null){ %>
 <%}else{%>
 <div>---- Sin resultado ----</div>
 <%}%>
+</div>
 </body> 
 </html>

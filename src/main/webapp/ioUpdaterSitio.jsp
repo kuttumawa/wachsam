@@ -34,6 +34,7 @@ function deleteOper(){
  
 <body>
 <jsp:include page="cabecera.jsp"/>
+<div class="container">
 <%
 Sitio sitio = (Sitio)request.getAttribute("sitio");
 %>
@@ -108,7 +109,11 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 <select name="tipo" id="tipo">
 	<option value="0" <%=sitio.getTipo()!=null && sitio.getTipo().equals(0)?" selected":"" %>>Hospital</option>
 	<option value="1" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>Embajada</option>
-	<option value="2" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>CamaraHiperbárica</option>
+	<option value="2" <%= sitio.getTipo()!=null && sitio.getTipo().equals(2)?" selected":""%>>CamaraHiperbárica</option>
+	<option value="3" <%= sitio.getTipo()!=null && sitio.getTipo().equals(3)?" selected":""%>>Playas</option>
+	<option value="4" <%= sitio.getTipo()!=null && sitio.getTipo().equals(4)?" selected":""%>>Cuevas</option>
+	<option value="5" <%= sitio.getTipo()!=null && sitio.getTipo().equals(5)?" selected":""%>>Picos</option>
+	<option value="6" <%= sitio.getTipo()!=null && sitio.getTipo().equals(6)?" selected":""%>>Mercados</option>
 </select>
 </div>
 
@@ -161,14 +166,15 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 
 <input type="hidden" id="oper" name="oper"/>
 
-<input type="submit" value="grabar">
-<input type="button" value="delete" onclick="deleteOper()">
-<input type="button" value="limpiar" onclick="clearFields()">
+<input type="submit" class="btn btn-primary" value="grabar">
+<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
+<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
 </fieldset>
 <fieldset>
 <jsp:include page="showData.jsp"/>
-<input type="button" value="Nuevo Dato" onclick="nuevoDato('sitioId')"/> 
+<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('sitioId')"/> 
 </fieldset>
+</div>
 </body> 
 </html>

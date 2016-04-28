@@ -27,7 +27,7 @@ function deleteOper(){
 
 <body>
 <jsp:include page="cabecera.jsp"/>
-
+<div class="container">
 
 <%
 Peligro peligro = (Peligro)request.getAttribute("peligro");
@@ -121,7 +121,8 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </fieldset>
 <fieldset>
 <jsp:include page="showData.jsp"/>
-<input type="button" value="Nuevo Dato" onclick="nuevoDato('subjectId')"/> 
+<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('subjectId')"/> 
 </fieldset>
+</div>
 </body> 
 </html>

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <style>
 input[type="text"] {
   display: block;
@@ -36,19 +40,49 @@ select {
 }
 </style>
 </head>
-<h1>Viajar Seguro</h1>
-<nav style="margin-bottom: 10px;">
-  <a href="BuscarAlert">BuscarAlertas</a> |
-  <a href="ProvisionalAlertUpdaterForYou">Alertas</a> |
-  <a href="ProvisionalLugarUpdaterForYou">Lugares</a> |
-  <a href="ProvisionalPeligroUpdaterForYou">Peligros</a> |
-  <a href="ProvisionalFactorUpdaterForYou">Factores</a> |
-  <a href="ProvisionalDataUpdaterForYou">Data</a> |
-  <a href="ProvisionalTagUpdaterForYou">Tags</a> |
-  <a href="ProvisionalSitioUpdaterForYou">Sitio</a> |
-  <a href="ProvisionalAirportUpdaterForYou">Airport</a>|
-  <a href="ProvisionalFuenteUpdaterForYou">Fuente</a>|
-  <a href="upload">File Upload</a>|
-   <a href="version.jsp">Versión</a>
+
+
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Viajar Seguro</a>
+    </div>
+    <ul class="nav navbar-nav">
+     <!--  <li class="active"><a href="#">Home</a></li> -->
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Alertas
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="BuscarAlert">Buscar </a></li>
+          <li><a href="ProvisionalAlertUpdaterForYou">Alertas</a></li>
+           
+        </ul>
+      </li>
+      <li><a href="ProvisionalLugarUpdaterForYou">Lugares</a></li> 
+      <li><a href="ProvisionalPeligroUpdaterForYou">Peligros</a></li>
+       <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Datas
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="ProvisionalDataUpdaterForYou">Data</a></li>
+          <li><a href="ProvisionalTagUpdaterForYou">Tags</a></li>        
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Sitios
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="ProvisionalSitioUpdaterForYou">Sitio </a></li>
+          <li><a href="ProvisionalAirportUpdaterForYou">Airport</a></li>        
+        </ul>
+      </li>
+       
+      <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li> 
+      <li><a href="upload">File Upload</a></li> 
+      <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>       
+      <li><a href="version.jsp">Versión</a></li> 
+    </ul>
+  </div>
 </nav>
 

@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 <style>
 input[type="text"],input[type="password"] {
   display: block;
@@ -21,15 +27,7 @@ input[type="text"]:focus {
   border: solid 1px #707070;
   box-shadow: 0 0 5px 1px #969696;
 }
-#info{
-    margin-top: 10px;
-    margin-bottom: 5px;
-    margin-right: 20px;
-    margin-left: 20px;
-    color: red;
-    font-style: italic;
-    padding: 10px;
-}
+
 #box {
 position: absolute;
 top: 50%;
@@ -46,14 +44,16 @@ margin-left: -200px;
 <body>
 <div id="box">
 <%if(request.getAttribute("resultado")!=null){ %>
-<div id="info">
+<div id="info" class="alert alert-danger">
 <% out.println(request.getAttribute("resultado")); %>
 </div>
 <%}%>
-<form id="form1" action="login" method="post">
-	Usuario<input type="text" name="user"/>
-	Password<input type="password" name="pass"/>
-	<input type="submit"/>
+<form id="form1" action="login" method="post" class="form-inline">
+	<label for="user">Usuario</label> 
+	<input type="text" name="user" id="user"/>
+	<label for="user">Password</label> 
+	<input type="password" name="pass" id="pass"/>
+	<input class="btn btn-primary" type="submit"/>
 </form>
 </div>
 

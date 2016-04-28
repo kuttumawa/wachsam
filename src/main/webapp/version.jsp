@@ -1,6 +1,23 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
+1.0.2 
+------------------------------------------------------------------------------
+- Nuevo nivel de alerta: Informativo (nuevo icono en widget)
+- Revisión algoritmo de dispersión
+- Tags.Crear alias corto.
+- Tipos de sitio en BD
+- Se añade en Sitios:: Cuevas,Picos,Mercados,playas
+- Revisar tamaño campo descripción de tags
+- Mejora visual
+- Mapa para Sitios
+- Iconos para tipos de sitios
+
+
+-----------------------------------------------------------------------------
+
+
+
 1.0.1-BETA-1 (20-04-2016)
 -------------------------------------------------------------------------------
 -Implementa Metalenguaje para el texto en Alertas y Sitio
@@ -13,8 +30,8 @@ TODO
 
 FUTURO
 -------------------------------------------------------------------------------
-1-Cargados datos de cámaras hiperbáricas.(fuente http://www.e-med.co.uk/hyperbaric_locator/regions.php)
-2-Cargados datos de rutas aéreas.
+1-Cargar datos de cámaras hiperbáricas.(fuente http://www.e-med.co.uk/hyperbaric_locator/regions.php)
+2-Cargar datos de rutas aéreas.
 3-Integración con Elastic Search
 3.1 Authentication: Shield plugin
 3.2 Create Interface app to elastic
@@ -23,6 +40,9 @@ FUTURO
 3.2.3 Console to send request
 3.2.3 Mark in BD if object exists in elastic
 3.3 Kibana
-
+4.TOKENS: generador de tokens.Permite generar tokens de acceso a la aplicación.Granularidad Objeto.
+   CU1: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.
+   CU2: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.Limitar a 1000 accesos hora.
+5.Auditoría de accesos-tokens
 -------------------------------------------------------------------------------
 </pre>

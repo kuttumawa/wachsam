@@ -10,6 +10,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
+    <div class="container">
     <jsp:include page="cabecera.jsp"/>
       <form method="POST" action="upload" enctype="multipart/form-data" >
         <div>
@@ -42,5 +43,6 @@
 %>
          </div>
        <%}%>
+       </div>
     </body>
 </html>
