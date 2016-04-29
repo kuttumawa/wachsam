@@ -44,40 +44,39 @@ function deleteOper(){
 </style>
 <jsp:include page="cabecera.jsp"/>
 <div class="container">
-<%
-Lugar lugar = (Lugar)request.getAttribute("lugar");
-%>
-
-<%if(request.getAttribute("resultado")!=null){ %>
-<div id="info">
-<% out.println(request.getAttribute("resultado")); %>
-</div>
-<%}%>
 
 
-
-<form id="form1" action="ProvisionalLugarUpdaterForYou" method="get">
-<div>
-<label for="">Lugar</label>
-<select name="lugar" onchange="document.getElementById('form1').submit();">
-<option value=""></option>
-<%    
-          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
-          for(Lugar lugar_i:lugares){
-        	  out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
-          }
-         
-%> 
-</select>
-</div>
-</form>
-
-<div id="Izq" style="width:40%;float:left;">
-<form id="form2" action="ProvisionalLugarUpdaterForYou" method="post">
-<fieldset>
-
-
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-5">
+    <%
+		Lugar lugar = (Lugar)request.getAttribute("lugar");
+		%>
+		
+		<%if(request.getAttribute("resultado")!=null){ %>
+		<div id="info">
+		<% out.println(request.getAttribute("resultado")); %>
+		</div>
+		<%}%>
+		
+		
+		
+		<form id="form1" action="ProvisionalLugarUpdaterForYou" method="get">
+		<div>
+		<label for="">Lugar</label>
+		<select name="lugar" onchange="document.getElementById('form1').submit();">
+		<option value=""></option>
+		<%    
+		          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
+		          for(Lugar lugar_i:lugares){
+		        	  out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
+		          }
+		         
+		%> 
+		</select>
+		</div>
+		</form>
+      <form id="form2" action="ProvisionalLugarUpdaterForYou" method="post">
 
 <div>
 <label for="">Id</label>
@@ -205,11 +204,33 @@ for(Nivel nivel_i:niveles){
 
 <input type="hidden" id="oper" name="oper"/>
 
-<input type="submit" value="grabar">
-<input type="button" value="delete" onclick="deleteOper()">
-<input type="button" value="limpiar" onclick="clearFields()">
+<input type="submit" class="btn btn-primary" value="grabar">
+<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
+<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
-</fieldset>
+</div>
+<div class="col-sm-7">
+        <div class="col">
+	    <div class="">
+	       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+           <div id="googleMap" style="width:700px;height:450px;"></div>
+	    </div>
+	    <div class="">
+	      <jsp:include page="showData.jsp"/>
+		   <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('lugarId')"/> 
+	    </div>
+       </div>
+
+      
+
+
+		
+</div>
+</div>
+</div>
+
+
+
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
   
 <script>
@@ -301,14 +322,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
 </div>
-<div id="Der" style="float:left">
- <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-<div id="googleMap" style="width:700px;height:450px;"></div>
-</div>
-<fieldset>
-<jsp:include page="showData.jsp"/>
-<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('lugarId')"/> 
-</fieldset>
-</div>
+
+
+
 </body> 
 </html>

@@ -36,8 +36,14 @@ function deleteOper(){
 </script>
  
 <body>
-<jsp:include page="cabecera.jsp"/>
 <div class="container">
+<jsp:include page="cabecera.jsp"/>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-7">
+      
+
 <%
 Alert alert = (Alert)request.getAttribute("alert");
 %>
@@ -68,7 +74,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 
 <form id="form2" action="ProvisionalAlertUpdaterForYou" method="post">
-<fieldset>
+
 
 
 <div>
@@ -156,7 +162,7 @@ for(Tipo tipo_i:tipos){
 	  }
   }
 %>
-</select> <a href="http://wwwnc.cdc.gov/travel/notices#warning" >ver</a>
+</select> <a href="http://wwwnc.cdc.gov/travel/notices#warning" ><span class="glyphicon glyphicon-question-sign"></span></a>
 </div>
 
 <div>
@@ -174,12 +180,12 @@ for(Tipo tipo_i:tipos){
 
 <div>
 <label for="">Texto</label><br>
-<textarea name="texto" id="texto" cols="100" rows="4"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
+<textarea name="texto" id="texto" cols="70" rows="4"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
 </div>
 
 <div>
 <label for="">Text</label><br>
-<textarea name="text" id="text" cols="100" rows="4"><%= alert.getText()!=null?alert.getText():"" %></textarea>
+<textarea name="text" id="text" cols="70" rows="4"><%= alert.getText()!=null?alert.getText():"" %></textarea>
 </div>
 
 <div>
@@ -221,11 +227,15 @@ for(Tipo tipo_i:tipos){
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
-</fieldset>
-<fieldset>
-<jsp:include page="showData.jsp"/>
-<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
-</fieldset>
+</div>
+    <div class="col-sm-5">
+       
+             <jsp:include page="showData.jsp"/>
+			  <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
+	   
+    </div>
+  </div>
+</div>
 </div>
 </body> 
 </html>

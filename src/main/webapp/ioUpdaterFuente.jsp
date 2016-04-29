@@ -35,7 +35,7 @@ Fuente fuente = (Fuente)request.getAttribute("fuente");
 %>
 
 <%if(request.getAttribute("resultado")!=null){ %>
-<div id="info">
+<div id="alert alert-danger">
 <% out.println(request.getAttribute("resultado")); %>
 </div>
 <%}%>

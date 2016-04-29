@@ -33,9 +33,15 @@ function deleteOper(){
 </script>
  
 <body>
-<jsp:include page="cabecera.jsp"/>
+
 <div class="container">
-<%
+
+<jsp:include page="cabecera.jsp"/>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-7">
+     <%
 Sitio sitio = (Sitio)request.getAttribute("sitio");
 %>
 
@@ -65,7 +71,7 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 
 
 <form id="form2" action="ProvisionalSitioUpdaterForYou" method="post">
-<fieldset>
+
 
 
 <div>
@@ -93,14 +99,14 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 <label for="">Texto</label>
 </div>
 <div>
-<textarea name="texto" id="texto" cols="100" rows="4"><%= sitio.getTexto()!=null?sitio.getTexto():"" %></textarea>
+<textarea name="texto" id="texto" cols="70" rows="4"><%= sitio.getTexto()!=null?sitio.getTexto():"" %></textarea>
 </div>
 
 <div>
 <label for="">Text</label>
 </div>
 <div>
-<textarea name="textoEn" id="textoEn" cols="100" rows="4"><%= sitio.getTextoEn()!=null?sitio.getTextoEn():"" %></textarea>
+<textarea name="textoEn" id="textoEn" cols="70" rows="4"><%= sitio.getTextoEn()!=null?sitio.getTextoEn():"" %></textarea>
 </div>
 
 <div>
@@ -154,27 +160,21 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
    
 </select>
 </div>
-
-
-
-
-
-
-
-
-
-
 <input type="hidden" id="oper" name="oper"/>
 
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
-</fieldset>
-<fieldset>
-<jsp:include page="showData.jsp"/>
-<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('sitioId')"/> 
-</fieldset>
+    </div>
+    <div class="col-sm-5">
+      <jsp:include page="showData.jsp"/>
+       <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('sitioId')"/> 
+    </div>
+  </div>
 </div>
+
+</div>
+
 </body> 
 </html>

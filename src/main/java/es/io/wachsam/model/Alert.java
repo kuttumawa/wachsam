@@ -254,11 +254,11 @@ public class Alert {
 	public String prettyPrint() {
 		StringBuilder builder = new StringBuilder();
 		try{
-		builder.append(id).append(" - ").append(nombre).append(" - ").append(texto.substring(0,Math.min(50,texto.length()))).append("..");
+		builder.append(id).append(" - ").append(nombre).append(" - ").append(texto).append("..");
 		}catch(Exception e){
 			System.out.println(e);
 		}
-		return builder.toString();
+		return builder.toString().substring(0,Math.min(70,texto.length()));
 	}
 
 

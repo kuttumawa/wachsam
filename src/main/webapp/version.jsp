@@ -12,6 +12,9 @@
 - Mejora visual
 - Mapa para Sitios
 - Iconos para tipos de sitios
+- layout: footer
+- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
+
 
 
 -----------------------------------------------------------------------------
