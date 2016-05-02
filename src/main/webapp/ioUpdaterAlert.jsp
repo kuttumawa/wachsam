@@ -36,8 +36,9 @@ function deleteOper(){
 </script>
  
 <body>
-<div class="container">
 <jsp:include page="cabecera.jsp"/>
+<div class="container">
+
 
 <div class="container-fluid">
   <div class="row">
@@ -141,6 +142,7 @@ class Tipo{
 	}
 }	
 	List<Tipo> tipos = new ArrayList<Tipo>();
+	tipos.add(new Tipo("justInfo","Just Information you may ignore"));
 	tipos.add(new Tipo("informativa","Level 1 Watch, Practice Usual Precautions"));
 	tipos.add(new Tipo("normal","Level 2 Alert, Practice Enhanced Precautions"));
 	tipos.add(new Tipo("severa","Level 3 Warning, Avoid Nonessential Travel"));

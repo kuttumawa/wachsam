@@ -4,7 +4,7 @@
   <groupId>es.io</groupId>
   <artifactId>wachsam</artifactId>
   <packaging>war</packaging>
-  <version>1.0.1-BETA-1</version>
+  <version>1.0.2</version>
   <name>wachsam Maven Webapp</name>
  <url>http://maven.apache.org</url>
    <properties>

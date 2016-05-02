@@ -177,8 +177,9 @@ public class Sitio {
 		builder.append(nombre);
 		builder.append(", valoracion=");
 		builder.append(valoracion);
-		builder.append("]");
-		return builder.toString();
+		
+		return builder.toString().substring(0,Math.min(70,builder.toString().length()))+"]";
+		
 	}
 	
 	public  List<String> validate(){
@@ -242,6 +243,8 @@ public class Sitio {
 	   
 		return errores;
 	}
+	
+	
 	
 	
 

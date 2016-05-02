@@ -43,11 +43,17 @@ select {
 
 
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse ">
   <div class="container-fluid">
     <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
       <a class="navbar-brand" href="#">Viajar Seguro</a>
     </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">
      <!--  <li class="active"><a href="#">Home</a></li> -->
       <li class="dropdown">
@@ -59,8 +65,26 @@ select {
            
         </ul>
       </li>
-      <li><a href="ProvisionalLugarUpdaterForYou">Lugares</a></li> 
-      <li><a href="ProvisionalPeligroUpdaterForYou">Peligros</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lugares
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Buscar_OFF</a></li>
+          <li><a href="ProvisionalLugarUpdaterForYou">Lugares</a></li> 
+        </ul>
+      </li>
+      
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Peligros
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Buscar_OFF</a></li>
+          <li><a href="ProvisionalPeligroUpdaterForYou">Peligros</a></li>
+          <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>
+        </ul>
+      </li>
+      
+      
        <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Datas
         <span class="caret"></span></a>
@@ -77,12 +101,38 @@ select {
           <li><a href="ProvisionalAirportUpdaterForYou">Airport</a></li>        
         </ul>
       </li>
-       
-      <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li> 
-      <li><a href="upload">File Upload</a></li> 
-      <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>       
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">in/out
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="upload">File Upload</a></li>        
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Otros
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+           
+          <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seguridad
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Usuarios_OFF</a></li> 
+          <li><a href="#">Tokens_OFF</a></li>
+        </ul>
+      </li>
+            
       <li><a href="version.jsp">Versión</a></li> 
     </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
   </div>
+  </div>
+  
 </nav>
 

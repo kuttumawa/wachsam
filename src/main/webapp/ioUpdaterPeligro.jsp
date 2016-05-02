@@ -28,7 +28,9 @@ function deleteOper(){
 <body>
 <jsp:include page="cabecera.jsp"/>
 <div class="container">
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-7">
 <%
 Peligro peligro = (Peligro)request.getAttribute("peligro");
 %>
@@ -58,7 +60,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </form>
 
 <form id="form2" action="ProvisionalPeligroUpdaterForYou" method="post">
-<fieldset>
+
 
 
 
@@ -114,15 +116,18 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 
 <input type="hidden" id="oper" name="oper"/>
 
-<input type="submit" value="grabar">
-<input type="button" value="delete" onclick="deleteOper()">
-<input type="button" value="limpiar" onclick="clearFields()">
+<input type="submit" class="btn btn-primary" value="grabar">
+<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
+<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
-</fieldset>
-<fieldset>
+</div>
+<div class="col-sm-5">
 <jsp:include page="showData.jsp"/>
 <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('subjectId')"/> 
-</fieldset>
+ </div>
 </div>
+</div>
+</div>
+
 </body> 
 </html>

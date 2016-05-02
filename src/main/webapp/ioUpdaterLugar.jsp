@@ -48,7 +48,7 @@ function deleteOper(){
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-6">
     <%
 		Lugar lugar = (Lugar)request.getAttribute("lugar");
 		%>
@@ -69,9 +69,9 @@ function deleteOper(){
 		<%    
 		          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
 		          for(Lugar lugar_i:lugares){
-		        	  out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
+		        	  out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.prettyPrint()+"</option>");
 		          }
-		         
+		          
 		%> 
 		</select>
 		</div>
@@ -101,9 +101,9 @@ function deleteOper(){
 <%    
            for(Lugar lugar_i:lugares){
         	  if(lugar.getPadre1()!=null && lugar.getPadre1().getId().equals(lugar_i.getId())){
-        		  out.println("<option value=\""+lugar_i.getId()+"\" selected >"+lugar_i.getNombre()+"</option>"); 
+        		  out.println("<option value=\""+lugar_i.getId()+"\" selected >"+lugar_i.prettyPrint()+"</option>"); 
         	  }else{
-        	      out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
+        	      out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.prettyPrint()+"</option>");
         	  }
             } 
          
@@ -118,9 +118,9 @@ function deleteOper(){
 <%    
            for(Lugar lugar_i:lugares){
         	  if(lugar.getPadre2()!=null && lugar.getPadre2().getId().equals(lugar_i.getId())){
-        		  out.println("<option value=\""+lugar_i.getId()+"\" selected >"+lugar_i.getNombre()+"</option>"); 
+        		  out.println("<option value=\""+lugar_i.getId()+"\" selected >"+lugar_i.prettyPrint()+"</option>"); 
         	  }else{
-        	      out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
+        	      out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.prettyPrint()+"</option>");
         	  }
             } 
          
@@ -135,9 +135,9 @@ function deleteOper(){
 <%    
            for(Lugar lugar_i:lugares){
         	  if(lugar.getPadre3()!=null && lugar.getPadre3().getId().equals(lugar_i.getId())){
-        		  out.println("<option value=\""+lugar_i.getId()+"\" selected >"+lugar_i.getNombre()+"</option>"); 
+        		  out.println("<option value=\""+lugar_i.getId()+"\" selected >"+lugar_i.prettyPrint()+"</option>"); 
         	  }else{
-        	      out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
+        	      out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.prettyPrint()+"</option>");
         	  }
             } 
          
@@ -209,11 +209,11 @@ for(Nivel nivel_i:niveles){
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
 </div>
-<div class="col-sm-7">
+<div class="col-sm-6">
         <div class="col">
 	    <div class="">
 	       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-           <div id="googleMap" style="width:700px;height:450px;"></div>
+           <div id="googleMap" style="width:600px;height:350px;"></div>
 	    </div>
 	    <div class="">
 	      <jsp:include page="showData.jsp"/>

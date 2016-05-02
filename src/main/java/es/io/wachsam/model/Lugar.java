@@ -185,6 +185,15 @@ public class Lugar {
 		builder.append("]");
 		return builder.toString();
 	}
+	public String prettyPrint() {
+		StringBuilder builder = new StringBuilder();
+		try{
+		builder.append(nombre);
+		}catch(Exception e){
+			System.out.println(e);
+		}
+		return builder.toString().substring(0,Math.min(70,builder.toString().length()));
+	}
 	
 
 }

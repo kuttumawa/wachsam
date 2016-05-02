@@ -3,20 +3,10 @@
 <pre>
 1.0.2 
 ------------------------------------------------------------------------------
-- Nuevo nivel de alerta: Informativo (nuevo icono en widget)
-- Revisión algoritmo de dispersión
-- Tags.Crear alias corto.
-- Tipos de sitio en BD
-- Se añade en Sitios:: Cuevas,Picos,Mercados,playas
-- Revisar tamaño campo descripción de tags
+- Nuevo nivel de alerta: Informativo (nuevo icono blue en widget)
+- Se añade en Sitios:: Cueva,Pico,Mercado,Playa
 - Mejora visual
 - Mapa para Sitios
-- Iconos para tipos de sitios
-- layout: footer
-- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
-
-
-
 -----------------------------------------------------------------------------
 
 
@@ -47,5 +37,11 @@ FUTURO
    CU1: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.
    CU2: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.Limitar a 1000 accesos hora.
 5.Auditoría de accesos-tokens
+- Tags.Crear alias corto.
+- Tipos de sitio en BD
+- layout: footer
+- Iconos para tipos de sitios
+- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
+- Revisión algoritmo de dispersión
 -------------------------------------------------------------------------------
 </pre>

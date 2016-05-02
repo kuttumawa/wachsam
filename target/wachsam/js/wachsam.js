@@ -7,6 +7,7 @@ var context="http://viajarseguro.elasticbeanstalk.com/";
 var img_red_ball="<img src=\"" + context + "css/redball.ico\"/>";
 var img_orange_ball="<img src=\"" + context + "css/orangeball.ico\"/>";
 var img_green_ball="<img src=\"" + context + "css/greenball.ico\"/>";
+var img_blue_ball="<img src=\"" + context + "css/blueball.ico\"/>";
 
 var jsonp_url = context + "Magno?callback=?";
 var code='<div id="wachsam-container" style="width:#WIDTH;"><div class="caption_wachsam">#CAPTION</div><div id="mainContent" class="mainContent_wachsam" style="height:#HEIGHT"></div></div>';
@@ -121,7 +122,7 @@ function fetchContent($){
         });
 }
 function disperse(c,level){
-	var grados_nivel=[4,4,3,2,2,0.3,0];
+	var grados_nivel=[4,4,3,2,2,0.2,0];
 	return parseFloat(c) + (Math.random() < 0.5 ? -1 : 1) * Math.random() * (grados_nivel[level]?grados_nivel[level]:0) ;
 }
 function addMarker(obj,contenido){
@@ -156,6 +157,14 @@ function addMarker(obj,contenido){
 		    map: map,
 		    title: obj.nombre + ' (' + obj.lugar + ' ' + obj.fechaPubFormatted + ')',
 		    icon: context+'css/orangeball.ico'
+		  });
+		
+	}else if(obj.tipo=='justInfo'){
+		marker=new google.maps.Marker({
+		    position: coor,
+		    map: map,
+		    title: obj.nombre + ' (' + obj.lugar + ' ' + obj.fechaPubFormatted + ')',
+		    icon: context+'css/blueball.ico'
 		  });
 		
 	}else{
@@ -211,6 +220,8 @@ if(o.tipo=='severa'){
 	    r=r.replace("#TIPO",img_red_ball);
 }else if(o.tipo=='normal'){
 		r=r.replace("#TIPO",img_orange_ball);
+}else if(o.tipo=='justInfo'){
+		r=r.replace("#TIPO",img_blue_ball);
 }else{
 		r=r.replace("#TIPO",img_green_ball);
 }
