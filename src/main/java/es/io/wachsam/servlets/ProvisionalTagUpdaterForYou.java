@@ -73,6 +73,7 @@ public class ProvisionalTagUpdaterForYou extends HttpServlet {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");
+		String alias=request.getParameter("alias");
 		String nombre=request.getParameter("nombre");
 		String nombreEn=request.getParameter("nombreEn");
 		String descripcion=request.getParameter("descripcion");
@@ -103,6 +104,7 @@ public class ProvisionalTagUpdaterForYou extends HttpServlet {
 			}catch(Exception e){
 				
 			}
+			tag.setAlias(alias.toLowerCase());
 			tag.setNombre(nombre);
 			tag.setNombreEn(nombreEn);
 			TagDao tagDao=(TagDao) context.getBean("tagDao");
@@ -127,11 +129,12 @@ public class ProvisionalTagUpdaterForYou extends HttpServlet {
 	private String validar(HttpServletRequest request){
 		StringBuilder resultado=new StringBuilder();
 		String id=request.getParameter("id");
+		String alias=request.getParameter("alias");
 		String nombre=request.getParameter("nombre");
 		String nombreEn=request.getParameter("nombreEn");
 		String descripcion=request.getParameter("descripcion");
 		String oper=request.getParameter("oper");
-		
+		if(alias==null || alias.length()<1) resultado.append("Alias Obligatorio;");
 		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
 		if(nombreEn==null || nombreEn.length()<1) resultado.append("Nombre in English Obligatorio;");
 		

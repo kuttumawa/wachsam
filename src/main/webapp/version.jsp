@@ -1,7 +1,23 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
-1.0.2 
+1.0.3 ()
+------------------------------------------------------------------------------
+- Tags.Se crea alias corto para metalenguaje.
+- Mapa para alertas
+- Tipos de sitio en BD
+- layout: footer
+- Iconos para tipos de sitios
+- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
+- Revisión algoritmo de dispersión
+- Tags ampliar funcionalidad.ie: asociar icono a un dato
+- Reducir tamaño del punto azul 
+- bug: widget map se repiten algunos puntos.
+
+-----------------------------------------------------------------------------
+
+
+1.0.2 (30-04-2016)
 ------------------------------------------------------------------------------
 - Nuevo nivel de alerta: Informativo (nuevo icono blue en widget)
 - Se añade en Sitios:: Cueva,Pico,Mercado,Playa
@@ -37,11 +53,7 @@ FUTURO
    CU1: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.
    CU2: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.Limitar a 1000 accesos hora.
 5.Auditoría de accesos-tokens
-- Tags.Crear alias corto.
-- Tipos de sitio en BD
-- layout: footer
-- Iconos para tipos de sitios
-- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
-- Revisión algoritmo de dispersión
+- Datos privados para un usuario.
+
 -------------------------------------------------------------------------------
 </pre>

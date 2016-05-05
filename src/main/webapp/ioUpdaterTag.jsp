@@ -11,6 +11,8 @@ function clearFields(){
     document.getElementById("id").value="";
 	document.getElementById("nombre").value="";
 	document.getElementById("nombreEn").value="";
+	document.getElementById("alias").value="";
+	document.getElementById("descripcion").value="";
 	document.getElementById("oper").value="";
 	
 }
@@ -57,7 +59,7 @@ Tag tag = (Tag)request.getAttribute("tag");
 </form>
 
 <form id="form2" action="ProvisionalTagUpdaterForYou" method="post">
-<fieldset>
+
 
 
 
@@ -68,6 +70,10 @@ Tag tag = (Tag)request.getAttribute("tag");
 <input type="hidden" name="id" id="id" value="<%= tag.getId()!=null?tag.getId():"" %>"  />
 </div>
 
+<div>
+<label for="">Alias</label>
+<input type="text" id="alias" name="alias" value="<%= tag.getAlias()!=null?tag.getAlias():"" %>"/> 
+</div>
 <div>
 <label for="">Nombre</label>
 <input type="text" id="nombre" name="nombre" value="<%= tag.getNombre()!=null?tag.getNombre():"" %>"/>

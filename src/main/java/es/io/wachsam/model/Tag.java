@@ -22,7 +22,7 @@ public class Tag {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
-
+	String alias;
 	String nombre;
 	String nombreEn;
 	String descripcion;
@@ -85,6 +85,12 @@ public class Tag {
 		builder.append("-");
 		builder.append(nombre);
 		return builder.toString();
+	}
+	public String getAlias() {
+		return alias;
+	}
+	public void setAlias(String alias) {
+		this.alias = alias;
 	}
 	
 	

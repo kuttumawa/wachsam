@@ -43,6 +43,13 @@ function deleteOper(){
     <div class="col-sm-6">
      <%
 Sitio sitio = (Sitio)request.getAttribute("sitio");
+List<Data> datas=(List<Data>)request.getAttribute("datas");
+String iconoClass="";
+if(datas!=null){
+for(Data data:datas){
+	if(data.getTag1()!=null && data.getTag1().getNombre().equalsIgnoreCase("icono")) iconoClass=data.getValue();
+}
+}
 %>
 
 <%if(request.getAttribute("resultado")!=null){ %>
@@ -78,6 +85,7 @@ Sitio sitio = (Sitio)request.getAttribute("sitio");
 <label for="">Id</label>
 <input type="text"  id="id0" value="<%= sitio.getId()!=null?sitio.getId():""  %>" disabled="disabled" />
 <input type="hidden" id="id" name="id" value="<%= sitio.getId()!=null?sitio.getId():"" %>"  />
+<span class="<%=iconoClass%>"></span>
 </div>
 
 <div>

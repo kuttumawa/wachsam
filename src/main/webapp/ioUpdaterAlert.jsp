@@ -230,14 +230,113 @@ for(Tipo tipo_i:tipos){
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
 </div>
-    <div class="col-sm-5">
-       
-             <jsp:include page="showData.jsp"/>
-			  <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
-	   
-    </div>
-  </div>
+     <div class="col-sm-5">
+        <div class="col">
+	    <div class="">
+	       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+           <div id="googleMap" style="width:550px;height:300px;"></div>
+	    </div>
+	    <div class="">
+	      <jsp:include page="showData.jsp"/>
+		   <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
+	    </div>
+       </div>
+     </div>
+    
+    
+    
 </div>
+</div>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+  
+<script>
+var markers = [];
+var map;
+function initialize() {
+  var myCenter=new google.maps.LatLng(<%= alert.getLugarObj()!=null && alert.getLugarObj().getLatitud()!=null && alert.getLugarObj().getLatitud().length()>0 ?alert.getLugarObj().getLatitud():"0"%>,<%= alert.getLugarObj()!=null && alert.getLugarObj().getLongitud()!=null && alert.getLugarObj().getLatitud().length()>0?alert.getLugarObj().getLongitud():"0"%>);
+  var mapProp = {
+    center:myCenter,
+    zoom:<%= alert.getLugarObj()!=null && alert.getLugarObj().getNivel()!=null?alert.getLugarObj().getNivel():"1"%>,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+  map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+  // Create the search box and link it to the UI element.
+  var input = /** @type {HTMLInputElement} */(
+      document.getElementById('pac-input'));
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+  var searchBox = new google.maps.places.SearchBox(
+    /** @type {HTMLInputElement} */(input));
+  
+  google.maps.event.addListener(map, 'click', function(event) {
+	  placeMarker(event.latLng);
+	  });
+  google.maps.event.addListener(searchBox, 'places_changed', function() {
+	    var places = searchBox.getPlaces();
+
+	    if (places.length == 0) {
+	      return;
+	    }
+	    for (var i = 0, marker; marker = markers[i]; i++) {
+	      marker.setMap(null);
+	    }
+
+	    // For each place, get the icon, place name, and location.
+	    markers = [];
+	    var bounds = new google.maps.LatLngBounds();
+	    for (var i = 0, place; place = places[i]; i++) {
+	      var image = {
+	        url: place.icon,
+	        size: new google.maps.Size(71, 71),
+	        origin: new google.maps.Point(0, 0),
+	        anchor: new google.maps.Point(17, 34),
+	        scaledSize: new google.maps.Size(25, 25)
+	      };
+
+	      // Create a marker for each place.
+	      var marker = new google.maps.Marker({
+	        map: map,
+	        icon: image,
+	        title: place.name,
+	        position: place.geometry.location
+	      });
+
+	      markers.push(marker);
+
+	      bounds.extend(place.geometry.location);
+	      map.setCenter(place.geometry.location);
+	    }
+        //console.log(bounds);
+	    //map.fitBounds(bounds);
+	  });
+  google.maps.event.addListener(map, 'bounds_changed', function() {
+	    var bounds = map.getBounds();
+	    searchBox.setBounds(bounds);
+	  });
+	function placeMarker(location) {
+	  var currentMark = new google.maps.Marker({
+	    position: location,
+	    map: map,
+	  });
+	  var infowindow = new google.maps.InfoWindow({
+	    content: 'Latitude: ' + location.lat() +
+	    '<br>Longitude: ' + location.lng() + '<br>' + ''
+	    + '<input style="float:right" type="button" onclick="document.getElementById(\'latitud\').value='+location.lat()+';document.getElementById(\'longitud\').value='+location.lng()+';"/>'});
+	  infowindow.open(map,currentMark);
+      
+	  google.maps.event.addListener(infowindow,'closeclick',function(){
+		   currentMark.setMap(null);
+		});
+	}
+  var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+
+   marker.setMap(map);
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
 </div>
 </body> 
 </html>

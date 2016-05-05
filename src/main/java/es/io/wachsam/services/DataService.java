@@ -49,8 +49,8 @@ public class DataService {
 		        System.out.println(pair.getKey() + " = " + pair.getValue());
 		        String t=pair.getKey().toString().replaceAll("<","").replaceAll(">","");
 		        for(Tag tag:tags){
-		        	String tagnombre=tag.getNombre().replaceAll("\\s","");
-		        	if(tagnombre.equalsIgnoreCase(t.replaceAll("\\s",""))){
+		        	String tagalias=tag.getAlias().replaceAll("\\s","");
+		        	if(tagalias.equalsIgnoreCase(t.replaceAll("\\s",""))){
 		        		Data dataTemp=new Data();
 		        		dataTemp.setTag1(tag);
 		        		dataTemp.setValue(pair.getValue().toString());

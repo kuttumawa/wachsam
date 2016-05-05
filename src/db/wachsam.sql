@@ -58,6 +58,7 @@ CREATE TABLE `alert` (
 
 CREATE TABLE `tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alias` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `nombre` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `nombreEn` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` varchar(250) COLLATE latin1_spanish_ci DEFAULT NULL,
@@ -130,5 +131,5 @@ CREATE TABLE `factor` (
   `texto` varchar(500) COLLATE latin1_spanish_ci DEFAULT NULL,
   `textoEn` varchar(500) COLLATE latin1_spanish_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
