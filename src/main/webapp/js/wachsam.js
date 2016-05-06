@@ -2,8 +2,8 @@ var wachsam=(function() {
 
 // Localize jQuery variable
 var jQuery;
-var context="http://viajarseguro.elasticbeanstalk.com/";
-//var context="http://localhost:8080/wachsam/";
+//var context="http://viajarseguro.elasticbeanstalk.com/";
+var context="http://localhost:8080/wachsam/";
 var img_red_ball="<img src=\"" + context + "css/redball.ico\"/>";
 var img_orange_ball="<img src=\"" + context + "css/orangeball.ico\"/>";
 var img_green_ball="<img src=\"" + context + "css/greenball.ico\"/>";
@@ -130,7 +130,7 @@ function addMarker(obj,contenido){
 	if(!obj.lugarObj || obj.lugarObj.id==1)return;
 	try{
 	var dispersion=false;
-	if(obj.lugarObj.nombre in lugaresA) {
+	if(dispersion || obj.lugarObj.nombre in lugaresA) {
 		dispersion=true;		
 	}else{
 		lugaresA[obj.lugarObj.nombre]=1;
@@ -179,7 +179,7 @@ function addMarker(obj,contenido){
 	    infowindow.open(map,marker);
 	  });
 	}catch(err){
-		console.log(obj.nombre);
+		//console.log(obj.nombre);
 	}
 	
 }

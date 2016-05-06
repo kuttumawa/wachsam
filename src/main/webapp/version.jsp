@@ -12,8 +12,8 @@
 - Revisión algoritmo de dispersión
 - Tags ampliar funcionalidad.ie: asociar icono a un dato
 - Reducir tamaño del punto azul 
-- bug: widget map se repiten algunos puntos.
-
+- bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
+- bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
 -----------------------------------------------------------------------------
 
 
