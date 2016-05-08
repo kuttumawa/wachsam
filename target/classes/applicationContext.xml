@@ -45,7 +45,10 @@
      <bean id="airportDao" class="es.io.wachsam.dao.AirportDao" />
       <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
       <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
- 
+       <bean id="usuarioDao" class="es.io.wachsam.dao.UsuarioDao" />
+       <bean id="securityService" class="es.io.wachsam.services.SecurityService">
+          <property name="usuarioDao" ref="usuarioDao"/>
+       </bean>
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">
@@ -70,7 +73,7 @@
 		<property name="password" value="buendiabuendia" /> -->
 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="buendia" />
 	</bean>
  
     <bean id="entityManagerFactory"
@@ -83,10 +86,10 @@
         <property name="jpaProperties">
             <props>
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop-->
-                <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop-->
-                <!--prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">false</prop-->
-                <!--prop key="hibernate.hbm2ddl.auto">update</prop-->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <!--prop key="hibernate.format_sql">false</prop-->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
     </bean>

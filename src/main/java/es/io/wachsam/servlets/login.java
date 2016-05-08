@@ -14,11 +14,15 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import es.io.wachsam.dao.AlertasDao;
+import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
+import es.io.wachsam.dao.UsuarioDao;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.Usuario;
+import es.io.wachsam.services.SecurityService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -39,15 +43,11 @@ public class login extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getSession().getAttribute("user")!=null){
-			  String nextJSP = request.getContextPath()+ "/ProvisionalAlertUpdaterForYou";
-			  response.sendRedirect(nextJSP);
-			
-		}else{
+		    request.getSession().setAttribute("user",null);
 			String nextJSP = "/login.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			dispatcher.forward(request,response);
-		}
+		
 			
 		}
 		
@@ -57,12 +57,12 @@ public class login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-		String _usuario="richardfrancisburton";
-		String _password="monk267";
-		String nombre=request.getParameter("user");
+		SecurityService securityService = (SecurityService) context.getBean("securityService");
+		String login=request.getParameter("user");
 		String password=request.getParameter("pass");
-		if(nombre!=null && password!=null && nombre.equals(_usuario) && password.equals(_password)){
-		   request.getSession().setAttribute("user", nombre);
+		Usuario user=securityService.login(login,password);
+		if(user!=null){
+		   request.getSession().setAttribute("user", login);
 		   String nextJSP = request.getContextPath()+ "/ProvisionalAlertUpdaterForYou";
 		   response.sendRedirect(nextJSP);	
 		}else{

@@ -120,7 +120,8 @@ select {
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seguridad
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Usuarios_OFF</a></li> 
+          <li><a href="ProvisionalUsuarioUpdaterForYou">Usuarios</a></li>
+          <li><a href="ProvisionalPermisoUpdaterForYou">Permisos</a></li>  
           <li><a href="#">Tokens_OFF</a></li>
         </ul>
       </li>
@@ -128,8 +129,8 @@ select {
       <li><a href="version.jsp">Versión</a></li> 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+   <!--    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
+      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
   </div>
   </div>

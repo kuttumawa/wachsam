@@ -21,7 +21,7 @@ CREATE TABLE `lugar` (
   CONSTRAINT `FK_padre1` FOREIGN KEY (`padre1_id`) REFERENCES `lugar` (`id`),
   CONSTRAINT `FK_padre2` FOREIGN KEY (`padre2_id`) REFERENCES `lugar` (`id`),
   CONSTRAINT `FK_padre3` FOREIGN KEY (`padre3_id`) REFERENCES `lugar` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=966 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `peligro` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -30,7 +30,7 @@ CREATE TABLE `peligro` (
   `categoria` int(11) DEFAULT NULL,
   `damage` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=339 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `alert` (
@@ -53,7 +53,7 @@ CREATE TABLE `alert` (
   KEY `FK3C6993CF194B46F` (`peligro_id`),
   CONSTRAINT `FK_Lugar` FOREIGN KEY (`lugarObj_id`) REFERENCES `lugar` (`id`),
   CONSTRAINT `FK_Peligro` FOREIGN KEY (`peligro_id`) REFERENCES `peligro` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3703 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `tag` (
@@ -65,8 +65,10 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
-  UNIQUE KEY `nombreEn_UNIQUE` (`nombreEn`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+  UNIQUE KEY `nombreEn_UNIQUE` (`nombreEn`),
+  UNIQUE KEY `alias_UNIQUE` (`alias`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 
 CREATE TABLE `data` (
@@ -83,7 +85,7 @@ CREATE TABLE `data` (
   `sitioId` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `viajarseguro`.`sitio` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -113,7 +115,7 @@ CREATE TABLE `viajarseguro`.`sitio` (
   `TZ` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9542 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 CREATE TABLE `fuente` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -133,3 +135,32 @@ CREATE TABLE `factor` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `password` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `email` varchar(50) COLLATE latin1_spanish_ci NOT NULL, 
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `nombre_UNIQUE` (`login`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+CREATE TABLE `permiso` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `objeto` varchar(50) COLLATE latin1_spanish_ci NOT NULL, 
+  `accion` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+CREATE TABLE `usuario_permiso` (
+  `usuario_id` int(11) NOT NULL,
+  `permisos_id` int(11) NOT NULL,
+  KEY `usuario_FK_idx` (`usuario_id`),
+  KEY `permiso_FK_idx` (`usuario_id`,`permisos_id`),
+  KEY `FK_permiso_2_idx` (`permisos_id`),
+  CONSTRAINT `FK_permiso_2` FOREIGN KEY (`permisos_id`) REFERENCES `permiso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_usuario_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
