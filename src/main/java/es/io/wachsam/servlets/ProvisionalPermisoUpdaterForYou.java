@@ -88,7 +88,7 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 			if(id!=null){
 				UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
 				try {
-					usuarioDao.deleteById(Long.parseLong(id));
+					usuarioDao.deleteByIdPermiso(Long.parseLong(id));
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (Exception e) {

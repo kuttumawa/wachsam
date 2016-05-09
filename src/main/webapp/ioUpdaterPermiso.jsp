@@ -78,7 +78,7 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 <label for="">Objeto</label>
 </div><div>
 	<select name="objeto" id="objeto">
-		<option value="Alerta" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Alerta")?" selected":""%>>Alerta</option>
+		<option value="Alert" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Alert")?" selected":""%>>Alerta</option>
 	    <option value="Lugar" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Lugar")?" selected":""%>>Lugar</option>
 	
 	</select>
@@ -99,10 +99,10 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 
 
 <div>
-<label for="">Filtro</label>
+<label for="">Filtro &nbsp;<input type="checkbox"  name="filtroFlag" id="filtroFlag" <%=permiso.getFiltroFlag()!=null && permiso.getFiltroFlag()?" checked":""  %>  />
+</label>
 </div>
 <div>
-<input type="checkbox"  name="filtroFlag" id="filtroFlag" <%=permiso.getFiltroFlag()!=null && permiso.getFiltroFlag()?" checked":""  %>  />
 
 <input type="text"  id="filtro" name="filtro" value="<%= permiso.getFiltro()!=null?permiso.getFiltro().replaceAll("\"", "&quot;"):""%>"  />
 </div>

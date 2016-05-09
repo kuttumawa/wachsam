@@ -147,7 +147,6 @@ public class Permiso {
 	public String prettyPrint() {
 		StringBuilder builder = new StringBuilder();
 		if (id != null) {
-			builder.append("id=");
 			builder.append(id);
 			builder.append("- ");
 		}		
@@ -160,7 +159,7 @@ public class Permiso {
 			
 		}
 		if (filtro != null) {
-			builder.append("- ");
+			builder.append(" ");
 			builder.append(filtro);
 			
 		}

@@ -94,7 +94,7 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 				request.setAttribute("resultado","Error al borrar");
 			}
 			
-		}if(oper!=null && oper.equalsIgnoreCase("addPermiso")){
+		}else if(oper!=null && oper.equalsIgnoreCase("addPermiso")){
 			if(id!=null && permisoId!=null){
 				try {
 					usuario=usuarioDao.getUsuario(Long.parseLong(id));
@@ -111,7 +111,7 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 				request.setAttribute("resultado","Error al añadir Permiso");
 			}
 			
-		}if(oper!=null && oper.equalsIgnoreCase("deletePermiso")){
+		}else if(oper!=null && oper.equalsIgnoreCase("deletePermiso")){
 			if(id!=null && permisoId!=null){
 				try {
 					usuario=usuarioDao.getUsuario(Long.parseLong(id));

@@ -92,6 +92,20 @@ public class Tag {
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
-	
+	public boolean hasPermisos(Usuario usuario, AccionesSobreObjetosTipos accion) {
+		for (Permiso permiso : usuario.getPermisos()) {
+			if (permiso.getObjeto().equalsIgnoreCase(this.getClass().getSimpleName())) {
+				if (permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)|| permiso.getAccion().equals(accion)){
+					if(permiso.getFiltroFlag()==null || !permiso.getFiltroFlag()) return true;
+					else{
+						 return true;
+					}
+				}
+			}
+			
+		}
+
+		return false;
+	}
 	
 }

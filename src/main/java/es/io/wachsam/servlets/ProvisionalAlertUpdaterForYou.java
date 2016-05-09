@@ -27,6 +27,7 @@ import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.DataService;
+import es.io.wachsam.services.SecurityService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -100,7 +101,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		
+		SecurityService securityService=(SecurityService) context.getBean("securityService");
 		String nombre=request.getParameter("nombre");
 		String texto=request.getParameter("texto");
 		String text=request.getParameter("text");
@@ -123,7 +124,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			if(id!=null){
 				AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
 				Alert temp=alertDao.getAlert(Long.parseLong(id));
-				if(temp.hasPermisos(usuario, AccionesSobreObjetosTipos.DELETE)){
+				if(securityService.hasAuth(usuario,temp.getClass(), AccionesSobreObjetosTipos.DELETE,temp)){
 					
 						try {
 							alertDao.deleteById(Long.parseLong(id));
@@ -148,8 +149,8 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro,caducidad,fuente};
 			alert=Alert.createAlertSinId(_alert);
 			if(alert!=null){
-			  if(alert.hasPermisos(usuario, AccionesSobreObjetosTipos.CREATE)){
-				AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
+			if(securityService.hasAuth(usuario,alert.getClass(), AccionesSobreObjetosTipos.CREATE,alert)){
+			 	AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
 				DataService dataService=(DataService) context.getBean("dataService");
 				List<Data> newdatas=new ArrayList<Data>();
 				String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);

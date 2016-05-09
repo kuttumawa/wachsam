@@ -136,7 +136,7 @@ Permiso p=it.next();
 </table>
 <input type="hidden" id="oper1" name="oper"/>
 <input type="hidden" name="id" id="id" value="<%= usuario.getId()!=null?usuario.getId():"" %>"  />
-<input type="button" class="btn btn-primary" value="addPermiso" onclick="addPermisoOper()">
+<input type="button" class="btn btn-primary" value="add" onclick="addPermisoOper()">
 
 </form>
 
