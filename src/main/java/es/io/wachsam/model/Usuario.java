@@ -1,18 +1,15 @@
 package es.io.wachsam.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.JoinColumn;
 
 
 /**
@@ -32,7 +29,7 @@ public class Usuario {
 	String password;
 	String email;
 	@OneToMany(fetch = FetchType.EAGER)	
-	private List<Permiso> permisos;
+	private Set<Permiso> permisos=new HashSet<Permiso>();;
 
 	public Long getId() {
 		return id;
@@ -60,17 +57,25 @@ public class Usuario {
 		this.email = email;
 	}
 
-	public List<Permiso> getPermisos() {
+	
+
+	public void addPermiso(Permiso p) {
+		if(permisos==null) permisos=new HashSet<Permiso>();
+		permisos.add(p);
+	}
+
+	public void removePermiso(Permiso permiso) {
+		if(permisos==null) permisos=new HashSet<Permiso>();
+		permisos.remove(permiso);
+		
+	}
+
+	public Set<Permiso> getPermisos() {
 		return permisos;
 	}
 
-	public void setPermisos(List<Permiso> permisos) {
+	public void setPermisos(Set<Permiso> permisos) {
 		this.permisos = permisos;
-	}
-
-	public void addPermiso(Permiso p) {
-		if(permisos==null) permisos=new ArrayList<Permiso>();
-		permisos.add(p);
 	}
 
 	

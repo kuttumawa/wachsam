@@ -14,6 +14,7 @@
 - Reducir tamaño del punto azul 
 - bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
 - bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
+- Se añade en Sitios:: Carceles,Campos de Refugiados
 -----------------------------------------------------------------------------
 
 

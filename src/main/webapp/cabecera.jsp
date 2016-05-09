@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+<%@ page import="es.io.wachsam.model.*"  %>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -41,7 +43,9 @@ select {
 </style>
 </head>
 
-
+<%
+Usuario usuario = (Usuario)request.getSession().getAttribute("user");
+%>
 
 <nav class="navbar navbar-inverse ">
   <div class="container-fluid">
@@ -129,7 +133,7 @@ select {
       <li><a href="version.jsp">Versión</a></li> 
     </ul>
     <ul class="nav navbar-nav navbar-right">
-   <!--    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li> -->
+      <li><a href="#"><span class="glyphicon glyphicon-user"></span> <%=usuario.getLogin() %></a></li>
       <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
   </div>

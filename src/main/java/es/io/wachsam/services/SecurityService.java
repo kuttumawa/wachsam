@@ -21,15 +21,15 @@ public class SecurityService {
 		this.usuarioDao = usuarioDao;
 	}
 
-	public boolean hasAuth(Usuario user, Class<?> class1, AccionesSobreObjetosTipos accion) {
+	public boolean hasAuth(Usuario user, Class<?> class1, AccionesSobreObjetosTipos accion,Object object) {
 		Usuario usuario=usuarioDao.getUsuario(user.getId());
-		for(Permiso permiso:usuario.getPermisos()){
-			if(permiso.getObjeto().equalsIgnoreCase(class1.getName())){
-				if(permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL) || permiso.getAccion().equals(accion)) return true;
-			}
+		boolean resultado=false;
+		if(class1.getName().equalsIgnoreCase(Alert.class.getName())){
+			resultado=((Alert)object).hasPermisos(usuario, accion);
 		}
-		return false;
+		return resultado;
 	}
+	
 
 	public Usuario login(String login, String password) {
 		Usuario user=usuarioDao.getUsuario(login,password);

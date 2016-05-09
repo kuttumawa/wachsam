@@ -22,19 +22,17 @@ function deleteOper(){
 	}
 	
 }
-function deletePermisoOper(){
+function deletePermisoOper(idPermiso){
 	if(confirm('Seguro?')){
-		document.getElementById("oper").value="deletePermiso";
-	    document.getElementById('form2').submit();
+		document.getElementById("oper1").value="deletePermiso";
+		document.getElementById("permisoId").value=idPermiso;
+	    document.getElementById('form3').submit();
 	}
 	
 }
 function addPermisoOper(){
-	
-		document.getElementById("oper").value="addPermiso";
-	    document.getElementById('form2').submit();
-	
-	
+		document.getElementById("oper1").value="addPermiso";
+	    document.getElementById('form3').submit();
 }
 </script>
  
@@ -42,6 +40,9 @@ function addPermisoOper(){
 <body>
 <jsp:include page="cabecera.jsp"/>
 <div class="container">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-7">
 
 <%
 Usuario usuario = (Usuario)request.getAttribute("usuario");
@@ -106,33 +107,43 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
+</div>
+<div class="col-sm-5">
 
 
------------
 <form id="form3" action="ProvisionalUsuarioUpdaterForYou" method="post">
 <div>
 <label for="">Permisos</label>
-<select name="permisoId" >
+<select id="permisoId" name="permisoId" >
 <option value=""></option>
 <%    
           List<Permiso> permisos =  (List<Permiso>)request.getAttribute("permisos");
           for(Permiso permiso_i:permisos){
         	  out.println("<option value=\""+permiso_i.getId()+"\">"+permiso_i.prettyPrint()+"</option>");
-          }
-         
+          }        
 %>  
 </select>
 </div>
-<table>
-<tr><th></th></tr>
-<%for(Permiso p:usuario.getPermisos()){ %>
-<tr><td><%=p.prettyPrint() %></td></tr>
-<%} %>
+<table  class="table table-striped">
+<tr><th>Permiso</th></tr>
+<%
+Iterator<Permiso> it=usuario.getPermisos().iterator();
+while(it.hasNext()){ 
+Permiso p=it.next();
+%>
+<tr><td><span style="cursor:pointer" class="glyphicon glyphicon-remove-sign" onclick="deletePermisoOper(<%=p.getId()%>)">&nbsp;&nbsp;</span><%=p.prettyPrint()%></td></tr>
+<%}%>
 </table>
+<input type="hidden" id="oper1" name="oper"/>
+<input type="hidden" name="id" id="id" value="<%= usuario.getId()!=null?usuario.getId():"" %>"  />
 <input type="button" class="btn btn-primary" value="addPermiso" onclick="addPermisoOper()">
-<input type="button" class="btn btn-primary" value="deletePermiso" onclick="deletePermisoOper()">
+
 </form>
------------
+
 </div>
+</div>
+</div>
+</div>
+
 </body> 
 </html>

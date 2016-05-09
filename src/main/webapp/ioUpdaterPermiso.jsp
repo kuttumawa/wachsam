@@ -12,6 +12,8 @@ function clearFields(){
 	document.getElementById("nombre").value="";
 	document.getElementById("objeto").value="";
 	document.getElementById("accion").value="";
+	document.getElementById("filtro").value="";
+	document.getElementById("filtroFlag").value="";
 	
 	document.getElementById("oper").value="";
 	
@@ -50,7 +52,7 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 <%    
           List<Permiso> permisos =  (List<Permiso>)request.getAttribute("permisos");
           for(Permiso permiso_i:permisos){
-        	  out.println("<option value=\""+permiso_i.getId()+"\">"+permiso_i.getNombre()+"</option>");
+        	  out.println("<option value=\""+permiso_i.getId()+"\">"+permiso_i.prettyPrint()+"</option>");
           }
          
 %> 
@@ -88,11 +90,21 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 	<select name="accion" id="accion">
 		<option value="0" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.CREATE)?" selected":""%>>CREATE</option>
 		<option value="1" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.READ)?" selected":""%>>READ</option>
-		<option value="2" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.UPDATE)?" selected":""%>>UPDATE</option>
-		<option value="3" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.DELETE)?" selected":""%>>DELETE</option>
-		<option value="4" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)?" selected":""%>>ALL</option>
+		<option value="2" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.DELETE)?" selected":""%>>DELETE</option>
+		<option value="3" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)?" selected":""%>>ALL</option>
 	
 	</select>
+</div>
+
+
+
+<div>
+<label for="">Filtro</label>
+</div>
+<div>
+<input type="checkbox"  name="filtroFlag" id="filtroFlag" <%=permiso.getFiltroFlag()!=null && permiso.getFiltroFlag()?" checked":""  %>  />
+
+<input type="text"  id="filtro" name="filtro" value="<%= permiso.getFiltro()!=null?permiso.getFiltro().replaceAll("\"", "&quot;"):""%>"  />
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
@@ -101,7 +113,7 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </form>
-</fieldset>
+
 </div>
 </body> 
 </html>

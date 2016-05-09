@@ -75,14 +75,13 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 		String login=request.getParameter("login");
 		String password=request.getParameter("password");
 		String email=request.getParameter("email");
-		
+		String permisoId=request.getParameter("permisoId");
 		String oper=request.getParameter("oper");
-		
+		UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
 		
 		Usuario usuario=new Usuario();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
 			if(id!=null){
-				UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
 				try {
 					usuarioDao.deleteById(Long.parseLong(id));
 				} catch (NumberFormatException e) {
@@ -95,6 +94,40 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 				request.setAttribute("resultado","Error al borrar");
 			}
 			
+		}if(oper!=null && oper.equalsIgnoreCase("addPermiso")){
+			if(id!=null && permisoId!=null){
+				try {
+					usuario=usuarioDao.getUsuario(Long.parseLong(id));
+					Permiso permiso=usuarioDao.getPermiso(Long.parseLong(permisoId));
+					usuario.addPermiso(permiso);
+					usuarioDao.save(usuario);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				request.setAttribute("resultado","Permiso añadido");
+			}else{
+				request.setAttribute("resultado","Error al añadir Permiso");
+			}
+			
+		}if(oper!=null && oper.equalsIgnoreCase("deletePermiso")){
+			if(id!=null && permisoId!=null){
+				try {
+					usuario=usuarioDao.getUsuario(Long.parseLong(id));
+					Permiso permiso=usuarioDao.getPermiso(Long.parseLong(permisoId));
+					usuario.removePermiso(permiso);
+					usuarioDao.save(usuario);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				request.setAttribute("resultado","Permiso eliminado");
+			}else{
+				request.setAttribute("resultado","Error al eliminar Permiso");
+			}
+			
 		}else if(validar(request)==null){
 			usuario=new Usuario();
 			try{
@@ -105,7 +138,6 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 			usuario.setLogin(login);
 			usuario.setPassword(password);
 			usuario.setEmail(email);
-			UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
 			usuarioDao.save(usuario);
 			
 			request.setAttribute("resultado","INSERTADO OK: " + usuario);
@@ -114,10 +146,11 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 			request.setAttribute("resultado",validar(request));
 		}
 		request.setAttribute("usuario",usuario);
-		UsuarioDao usuarioDao = (UsuarioDao) context.getBean("usuarioDao");
 		List<Usuario> usuarios =usuarioDao.getAll();
 		request.setAttribute("usuarios",usuarios);
 		
+		List<Permiso> permisos=usuarioDao.getAllPermiso();
+		request.setAttribute("permisos",permisos);
 		
 		String nextJSP = "/ioUpdaterUsuario.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);

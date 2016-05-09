@@ -62,7 +62,7 @@ public class login extends HttpServlet {
 		String password=request.getParameter("pass");
 		Usuario user=securityService.login(login,password);
 		if(user!=null){
-		   request.getSession().setAttribute("user", login);
+		   request.getSession().setAttribute("user", user);
 		   String nextJSP = request.getContextPath()+ "/ProvisionalAlertUpdaterForYou";
 		   response.sendRedirect(nextJSP);	
 		}else{

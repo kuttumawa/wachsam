@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -77,6 +78,8 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 		String id=request.getParameter("id");
 		String accion=request.getParameter("accion");
 		String objeto=request.getParameter("objeto");
+		String filtroFlag=request.getParameter("filtroFlag");
+		String filtro=request.getParameter("filtro");
 		String oper=request.getParameter("oper");
 		
 		
@@ -105,7 +108,9 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 			}
 			permiso.setObjeto(objeto);
 			permiso.setAccion(AccionesSobreObjetosTipos.values()[Integer.parseInt(accion)]);
-			permiso.setNombre(objeto + "-" + permiso.getAccion());
+			permiso.setNombre("VOID");
+			permiso.setFiltro(filtro);
+			permiso.setFiltroFlag(filtroFlag!=null && filtroFlag.length()>0?true:false);
 			UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
 			usuarioDao.savePermiso(permiso);
 			
@@ -131,9 +136,17 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 		String accion=request.getParameter("accion");
 		String objeto=request.getParameter("objeto");
 		String oper=request.getParameter("oper");
+		String filtroFlag=request.getParameter("filtroFlag");
+		String filtro=request.getParameter("filtro");
 		if(objeto==null || objeto.length()<1) resultado.append("Objeto Obligatorio;");
 		if(accion==null || accion.length()<1) resultado.append("Accion Obligatorio;");
-		
+		if(filtro!=null && filtro.length()>0){
+			try{
+				JSONObject obj = new JSONObject(filtro);
+			}catch(Exception e){
+				resultado.append("En filtro: bad JSON format");
+			}
+		}
 		
 		
 		if(resultado.length() > 0) return resultado.toString();

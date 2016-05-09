@@ -148,12 +148,14 @@ CREATE TABLE `usuario` (
 CREATE TABLE `permiso` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
-  `objeto` varchar(50) COLLATE latin1_spanish_ci NOT NULL, 
-  `accion` INT NOT NULL,
+  `objeto` varchar(50) COLLATE latin1_spanish_ci NOT NULL,
+  `accion` int(11) NOT NULL,
+  `filtro` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL,
+  `filtroFlag` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `nombre_UNIQUE` (`nombre`)
+  UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
 
 CREATE TABLE `usuario_permiso` (
   `usuario_id` int(11) NOT NULL,

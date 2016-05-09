@@ -12,6 +12,8 @@ import javax.annotation.Resource;
 
 import junit.framework.TestCase;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -27,6 +29,7 @@ import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.dao.UsuarioDao;
 import es.io.wachsam.model.AccionesSobreObjetosTipos;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.CategoriaPeligro;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Lugar;
@@ -47,6 +50,7 @@ public class AuthorizationTest extends TestCase {
 	private List<Sitio> sitios=new ArrayList<Sitio>();
 	private List<Usuario> usuarios=new ArrayList<Usuario>();
 	private List<Permiso> permisos=new ArrayList<Permiso>();
+	private List<Alert> alertas=new ArrayList<Alert>();
 	private DataDao dataDao;
 	private TagDao tagDao;
 	private SitioDao sitioDao;
@@ -93,6 +97,9 @@ public class AuthorizationTest extends TestCase {
 		for(Permiso permiso:permisos){
 			usuarioDao.deleteByIdPermiso(permiso.getId());
 		}
+		for(Alert alerta:alertas){
+			alertDao.deleteById(alerta.getId());
+		}
 		
 	}
 
@@ -111,10 +118,10 @@ public class AuthorizationTest extends TestCase {
 	
 	@Test
 	public void testAuthorizationToCreateAlert() throws IOException{
-		Permiso p1=new Permiso("Todos los permisos sobre alertas2",Alert.class,AccionesSobreObjetosTipos.ALL);
+		Permiso p1=new Permiso("Todos los permisos sobre alertas2",Alert.class,AccionesSobreObjetosTipos.ALL,true,"{\"peligro\":[123,146,666]}");
 		usuarioDao.savePermiso(p1);
 		permisos.add(p1);
-		Permiso p2=new Permiso("Lectura sobre Lugares",Lugar.class,AccionesSobreObjetosTipos.READ);
+		Permiso p2=new Permiso("Lectura sobre Lugares",Lugar.class,AccionesSobreObjetosTipos.READ,false,null);
 		usuarioDao.savePermiso(p2);		
 		permisos.add(p2);
 		assertTrue(usuarioDao.getAllPermiso().size()>0);
@@ -126,15 +133,20 @@ public class AuthorizationTest extends TestCase {
 		user.addPermiso(p2);
 		usuarioDao.save(user);
 		usuarios.add(user);
+		Alert alert = crearAlerta(45L);
+		assertFalse(alert.hasPermisos(user, AccionesSobreObjetosTipos.CREATE));
+		Alert alert2 = crearAlerta(666L);
+		assertTrue(alert2.hasPermisos(user, AccionesSobreObjetosTipos.CREATE));
 		
-		assertTrue(securityService.hasAuth(user,Alert.class,AccionesSobreObjetosTipos.CREATE));
-		assertTrue(securityService.hasAuth(user,Alert.class,AccionesSobreObjetosTipos.DELETE));
-		assertTrue(securityService.hasAuth(user,Alert.class,AccionesSobreObjetosTipos.UPDATE));
-		assertTrue(securityService.hasAuth(user,Alert.class,AccionesSobreObjetosTipos.READ));
-		assertFalse(securityService.hasAuth(user,Lugar.class,AccionesSobreObjetosTipos.CREATE));
-		assertTrue(securityService.hasAuth(user,Lugar.class,AccionesSobreObjetosTipos.READ));
 	
 	}
+	private Alert crearAlerta(Long id){
+		Alert alert =new Alert();
+		Peligro peligro=new Peligro(id,"PELIGRO_"+id,"",CategoriaPeligro.conflicto,12);
+		alert.setPeligro(peligro);
+		return alert;
+	}
+	
 	
 	
 	
