@@ -1,19 +1,14 @@
 package es.io.wachsam.services;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import es.io.wachsam.dao.AlertasDao;
+import es.io.wachsam.dao.OperationLogDao;
+import es.io.wachsam.exception.NoAutorizadoException;
+import es.io.wachsam.model.AccionesSobreObjetosTipos;
 import es.io.wachsam.model.Alert;
-import es.io.wachsam.model.DB;
+import es.io.wachsam.model.OperationLog;
+import es.io.wachsam.model.Usuario;
 
 /**
  * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
@@ -21,6 +16,8 @@ import es.io.wachsam.model.DB;
  */
 public class AlertService {
 	private AlertasDao dao;
+	private SecurityService securityService;
+	private OperationLogDao operationLogDao;
 	
 	public AlertasDao getDao() {
 		return dao;
@@ -28,63 +25,41 @@ public class AlertService {
 	public void setDao(AlertasDao dao) {
 		this.dao = dao;
 	}
-	public List<Alert> unMarshallIt(File file) throws IOException{
-		List<Alert> alertas=new ArrayList<Alert>();
-		  StringBuilder contents = new StringBuilder();
-		  BufferedReader input = new BufferedReader(new InputStreamReader(new FileInputStream(file),"ISO-8859-1"));
-	      try {
-	        String line = null;
-	          while (( line = input.readLine()) != null){
-	          contents.append(line);
-	          contents.append(System.getProperty("line.separator"));
-	          String[] temp=line.split(";");
-	          Alert _alert=Alert.createAlert(temp);
-	          if(_alert!=null)alertas.add(_alert);
-	        }
-	      }
-	      finally {
-	        input.close();
-	      }
-	      return alertas;
+	public SecurityService getSecurityService() {
+		return securityService;
 	}
-	public List<Alert> unMarshallIt(InputStream ie) throws IOException{
-		List<Alert> alertas=new ArrayList<Alert>();
-		  StringBuilder contents = new StringBuilder();
-		  BufferedReader input = new BufferedReader(new InputStreamReader(ie,"ISO-8859-1"));
-	      try {
-	        String line = null;
-	          while (( line = input.readLine()) != null){
-	          contents.append(line);
-	          contents.append(System.getProperty("line.separator"));
-	          String[] temp=line.split(";");
-	          Alert _alert=Alert.createAlert(temp);
-	          if(_alert!=null)alertas.add(_alert);
-	        }
-	      }
-	      finally {
-	        input.close();
-	      }
-	      return alertas;
+	public void setSecurityService(SecurityService securityService) {
+		this.securityService = securityService;
+	}
+	public OperationLogDao getOperationLogDao() {
+		return operationLogDao;
+	}
+	public void setOperationLogDao(OperationLogDao operationLogDao) {
+		this.operationLogDao = operationLogDao;
+	}
+	public Alert save(Alert alert,Usuario usuario) throws NoAutorizadoException{
+		AccionesSobreObjetosTipos operation=AccionesSobreObjetosTipos.CREATE;
+		if(alert.getId()!=null) operation=AccionesSobreObjetosTipos.UPDATE;
+		if(!securityService.hasAuth(usuario,Alert.class, operation, alert))
+		 throw new NoAutorizadoException();
+		alert= dao.save(alert);
+		operationLogDao.save(new OperationLog(alert.getClass().getSimpleName(),alert.getId(),operation.name(),usuario.getId(),new Date()));
+		return alert;
+		
 	}
 	
-	public void startDB() throws IOException{
-		URL url = this.getClass().getResource("/alert.csv");
-		File f=new File(url.getPath());
-		DB db=dao.getDB(1L);
-		if(db==null || !db.getSize().equals(f.length())) {
-			dao.save(new DB(1L,f.length()));
-		}else{
-			return;
-		}
-		InputStream is=getClass().getClassLoader().getResourceAsStream("/alert.csv");
-		List<Alert> alertas=unMarshallIt(is);
-		System.out.println("Cargados----> " + alertas.size());
-	    for(Alert a: alertas){
-	    	 
-	    	System.out.println(a);
-	    	dao.save(a);
-	    }
+	public Alert getAlert(Long id,Usuario usuario){
+			return dao.getAlert(id);
 	}
+	
+	public void deleteById(Long id,Usuario usuario) throws Throwable {
+		Alert alert=dao.getAlert(id);
+		if(!securityService.hasAuth(usuario,Alert.class, AccionesSobreObjetosTipos.DELETE, alert))
+			 throw new NoAutorizadoException();
+		dao.deleteById(id);
+		operationLogDao.save(new OperationLog(alert.getClass().getSimpleName(),alert.getId(),AccionesSobreObjetosTipos.DELETE.name(),usuario.getId(),new Date()));
+	}
+	
 	
 	
 	

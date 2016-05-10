@@ -19,13 +19,17 @@ import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.TagDao;
+import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
+import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.DataService;
+import es.io.wachsam.services.PeligroService;
+import es.io.wachsam.services.SitioService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -80,6 +84,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");		
 		if(request.getSession().getAttribute("user")==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
@@ -87,7 +92,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			   return;
 		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-		request.getCharacterEncoding();
+		SitioService sitioService=(SitioService) context.getBean("sitioService");
 		String id=request.getParameter("id");
 		String nombre=request.getParameter("nombre");
 		String nombreEn=request.getParameter("nombreEn");
@@ -103,15 +108,17 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		Sitio sitio=new Sitio();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
 			if(id!=null){
-				SitioDao sitioDao=(SitioDao) context.getBean("sitioDao");
 				try {
-					sitioDao.deleteById(Long.parseLong(id));
+					sitioService.deleteById(Long.parseLong(id),usuario);
+					request.setAttribute("resultado","Borrado Correcto");
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
-				} catch (Exception e) {
+				} catch (NoAutorizadoException e) {
+					request.setAttribute("resultado","No tienes permisos para la operacion");
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}
-				request.setAttribute("resultado","Borrado Correcto");
+				
 			}else{
 				request.setAttribute("resultado","Error al borrar");
 			}
@@ -134,23 +141,25 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 				
 			}
 			
-			SitioDao sitioDao=(SitioDao) context.getBean("sitioDao");
-			DataService dataService=(DataService) context.getBean("dataService");
-			List<Data> newdatas=new ArrayList<Data>();
-			String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
-			sitio.setTexto(textoNew);
-			sitioDao.save(sitio);
-			dataService.saveData(newdatas, sitio);
 			
-			DataDao dataDao = (DataDao) context.getBean("dataDao");
-			Data filtro=new Data();
-			filtro.setSitioId(sitio.getId());
-			List<Data> datas=new ArrayList<Data>();
-			datas=dataDao.getAllnoExtrict(filtro);
-			request.setAttribute("datas",datas);
+			try {
+				sitioService.save(sitio,usuario);
+				DataService dataService=(DataService) context.getBean("dataService");
+				List<Data> newdatas=new ArrayList<Data>();
+				String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
+				sitio.setTexto(textoNew);
+				dataService.saveData(newdatas, sitio);
+				DataDao dataDao = (DataDao) context.getBean("dataDao");
+				Data filtro=new Data();
+				filtro.setSitioId(sitio.getId());
+				List<Data> datas=new ArrayList<Data>();
+				datas=dataDao.getAllnoExtrict(filtro);
+				request.setAttribute("datas",datas);
+				request.setAttribute("resultado","INSERTADO OK: " + sitio + "\n DATOS:" + newdatas);
+			} catch (NoAutorizadoException e) {
+				request.setAttribute("resultado","No tienes permisos para la operacion");
+			}
 			
-			
-			request.setAttribute("resultado","INSERTADO OK: " + sitio + "\n DATOS:" + newdatas);
 		}else{
 			
 			request.setAttribute("resultado",validar(request));

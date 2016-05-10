@@ -166,3 +166,15 @@ CREATE TABLE `usuario_permiso` (
   CONSTRAINT `FK_permiso_2` FOREIGN KEY (`permisos_id`) REFERENCES `permiso` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `FK_usuario_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+CREATE TABLE `operationlog` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `objeto` varchar(100) NOT NULL,
+  `objetoId` int(11) DEFAULT NULL,
+  `operation` varchar(100) NOT NULL,
+  `usuarioid` int(11) NOT NULL,
+  `timestamp` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+

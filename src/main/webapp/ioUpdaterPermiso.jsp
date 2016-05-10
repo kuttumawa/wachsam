@@ -89,9 +89,10 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 </div><div>
 	<select name="accion" id="accion">
 		<option value="0" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.CREATE)?" selected":""%>>CREATE</option>
-		<option value="1" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.READ)?" selected":""%>>READ</option>
-		<option value="2" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.DELETE)?" selected":""%>>DELETE</option>
-		<option value="3" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)?" selected":""%>>ALL</option>
+		<option value="1" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.UPDATE)?" selected":""%>>UPDATE</option>		
+		<option value="2" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.READ)?" selected":""%>>READ</option>
+		<option value="3" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.DELETE)?" selected":""%>>DELETE</option>
+		<option value="4" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)?" selected":""%>>ALL</option>
 	
 	</select>
 </div>

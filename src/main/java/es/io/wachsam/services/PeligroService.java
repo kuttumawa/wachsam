@@ -2,11 +2,11 @@ package es.io.wachsam.services;
 
 import java.util.Date;
 
-import es.io.wachsam.dao.LugarDao;
+import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.AccionesSobreObjetosTipos;
-import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Usuario;
 
@@ -14,14 +14,14 @@ import es.io.wachsam.model.Usuario;
  * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
  *
  */
-public class LugarService {
-	private LugarDao dao;
+public class PeligroService {
+	private PeligroDao dao;
 	private SecurityService securityService;
 	private OperationLogDao operationLogDao;
-	public LugarDao getDao() {
+	public PeligroDao getDao() {
 		return dao;
 	}
-	public void setDao(LugarDao dao) {
+	public void setDao(PeligroDao dao) {
 		this.dao = dao;
 	}
 	
@@ -37,27 +37,27 @@ public class LugarService {
 	public void setOperationLogDao(OperationLogDao operationLogDao) {
 		this.operationLogDao = operationLogDao;
 	}
-	public Lugar save(Lugar lugar,Usuario usuario) throws NoAutorizadoException{
+	public Peligro save(Peligro peligro,Usuario usuario) throws NoAutorizadoException{
 		AccionesSobreObjetosTipos operation=AccionesSobreObjetosTipos.CREATE;
-		if(lugar.getId()!=null) operation=AccionesSobreObjetosTipos.UPDATE;
-		if(!securityService.hasAuth(usuario,Lugar.class, operation, lugar))
+		if(peligro.getId()!=null) operation=AccionesSobreObjetosTipos.UPDATE;
+		if(!securityService.hasAuth(usuario,Peligro.class, operation, peligro))
 		 throw new NoAutorizadoException();
-		lugar= dao.save(lugar);
-		operationLogDao.save(new OperationLog(lugar.getClass().getSimpleName(),lugar.getId(),operation.name(),usuario.getId(),new Date()));
-		return lugar;
+		peligro= dao.save(peligro);
+		operationLogDao.save(new OperationLog(peligro.getClass().getSimpleName(),peligro.getId(),operation.name(),usuario.getId(),new Date()));
+		return peligro;
 		
 	}
 	
-	public Lugar getLugar(Long id,Usuario usuario){
-			return dao.getLugar(id);
+	public Peligro getPeligro(Long id,Usuario usuario){
+			return dao.getPeligro(id);
 	}
 	
 	public void deleteById(Long id,Usuario usuario) throws Throwable {
-		Lugar lugar=dao.getLugar(id);
-		if(!securityService.hasAuth(usuario,Lugar.class, AccionesSobreObjetosTipos.DELETE, lugar))
+		Peligro peligro=dao.getPeligro(id);
+		if(!securityService.hasAuth(usuario,Peligro.class, AccionesSobreObjetosTipos.DELETE, peligro))
 			 throw new NoAutorizadoException();
 		dao.deleteById(id);
-		operationLogDao.save(new OperationLog(lugar.getClass().getSimpleName(),lugar.getId(),AccionesSobreObjetosTipos.DELETE.name(),usuario.getId(),new Date()));
+		operationLogDao.save(new OperationLog(peligro.getClass().getSimpleName(),peligro.getId(),AccionesSobreObjetosTipos.DELETE.name(),usuario.getId(),new Date()));
 	}
 	
 	

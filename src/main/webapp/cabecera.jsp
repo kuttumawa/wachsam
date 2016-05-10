@@ -127,6 +127,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
           <li><a href="ProvisionalUsuarioUpdaterForYou">Usuarios</a></li>
           <li><a href="ProvisionalPermisoUpdaterForYou">Permisos</a></li>  
           <li><a href="#">Tokens_OFF</a></li>
+          <li><a href="logs.jsp">Log</a></li>  
         </ul>
       </li>
             

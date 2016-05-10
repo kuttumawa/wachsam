@@ -19,6 +19,7 @@ import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.FuenteDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
+import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.AccionesSobreObjetosTipos;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
@@ -26,6 +27,7 @@ import es.io.wachsam.model.Fuente;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Usuario;
+import es.io.wachsam.services.AlertService;
 import es.io.wachsam.services.DataService;
 import es.io.wachsam.services.SecurityService;
 
@@ -101,7 +103,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		SecurityService securityService=(SecurityService) context.getBean("securityService");
+		AlertService alertService=(AlertService) context.getBean("alertService");
 		String nombre=request.getParameter("nombre");
 		String texto=request.getParameter("texto");
 		String text=request.getParameter("text");
@@ -122,25 +124,18 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
 			if(id!=null){
-				AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
-				Alert temp=alertDao.getAlert(Long.parseLong(id));
-				if(securityService.hasAuth(usuario,temp.getClass(), AccionesSobreObjetosTipos.DELETE,temp)){
-					
+				
 						try {
-							alertDao.deleteById(Long.parseLong(id));
-						
+							alertService.deleteById(Long.parseLong(id),usuario);
+							request.setAttribute("resultado","Borrado Correcto");
 						} catch (NumberFormatException e) {
 							e.printStackTrace();
-						} catch (Exception e) {
+						} catch (NoAutorizadoException e) {
+							request.setAttribute("resultado","No tienes permisos para la operacion");
+						} catch (Throwable e) {
 							e.printStackTrace();
 						}
-						request.setAttribute("resultado","Borrado Correcto");
-					 
-					 
-				}else{
-					request.setAttribute("resultado","No tiene permisos para la operación");
-				}
-				
+						
 			}else{
 				request.setAttribute("resultado","Error al borrar");
 			}
@@ -149,26 +144,24 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,lugar,peligro,caducidad,fuente};
 			alert=Alert.createAlertSinId(_alert);
 			if(alert!=null){
-			if(securityService.hasAuth(usuario,alert.getClass(), AccionesSobreObjetosTipos.CREATE,alert)){
-			 	AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
-				DataService dataService=(DataService) context.getBean("dataService");
+			 	DataService dataService=(DataService) context.getBean("dataService");
 				List<Data> newdatas=new ArrayList<Data>();
 				String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
 				alert.setTexto(textoNew);
-				alertDao.save(alert);
-				dataService.saveData(newdatas, alert);
-				
-				DataDao dataDao = (DataDao) context.getBean("dataDao");
-				Data filtro=new Data();
-				filtro.setEventoId(alert.getId());
-				List<Data> datas=new ArrayList<Data>();
-				datas=dataDao.getAllnoExtrict(filtro);
-				request.setAttribute("datas",datas);
-				request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite()+"\n DATOS:" + newdatas);
-			  }else{
-				  request.setAttribute("resultado","No tiene permisos para la operación");
-			  }
-			
+				try {
+					alertService.save(alert,usuario);
+					dataService.saveData(newdatas, alert);
+					DataDao dataDao = (DataDao) context.getBean("dataDao");
+					Data filtro=new Data();
+					filtro.setEventoId(alert.getId());
+					List<Data> datas=new ArrayList<Data>();
+					datas=dataDao.getAllnoExtrict(filtro);
+					request.setAttribute("datas",datas);
+					request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite()+"\n DATOS:" + newdatas);
+		
+				} catch (NoAutorizadoException e) {
+					request.setAttribute("resultado","No tienes permisos para la operacion");
+				}
 			}else{
 				request.setAttribute("resultado","ERROR en la operación: ");
 			}

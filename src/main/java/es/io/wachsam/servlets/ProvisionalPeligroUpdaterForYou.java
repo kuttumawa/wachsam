@@ -18,10 +18,14 @@ import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
+import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.Usuario;
+import es.io.wachsam.services.LugarService;
+import es.io.wachsam.services.PeligroService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -73,14 +77,15 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")==null){
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
+		if(usuario==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			   dispatcher.forward(request,response);
 			   return;
 		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-		request.getCharacterEncoding();
+		PeligroService peligroService=(PeligroService) context.getBean("peligroService");
 		String id=request.getParameter("id");
 		String nombre=request.getParameter("nombre");
 		String nombreEn=request.getParameter("nombreEn");
@@ -91,25 +96,31 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 		Peligro peligro=new Peligro();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
 			if(id!=null){
-				PeligroDao peligroDao=(PeligroDao) context.getBean("peligroDao");
 				try {
-					peligroDao.deleteById(Long.parseLong(id));
+					peligroService.deleteById(Long.parseLong(id),usuario);
+					request.setAttribute("resultado","Borrado Correcto");
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
-				} catch (Exception e) {
+				} catch (NoAutorizadoException e) {
+					request.setAttribute("resultado","No tienes permisos para la operacion");
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}
-				request.setAttribute("resultado","Borrado Correcto");
+				
 			}else{
 				request.setAttribute("resultado","Error al borrar");
 			}
 			
 		}else if(validar(request)==null){
 			peligro=new Peligro(id,nombre,nombreEn,categoria,damage);
-			PeligroDao peligroDao=(PeligroDao) context.getBean("peligroDao");
-			peligroDao.save(peligro);
+			try {
+				peligroService.save(peligro,usuario);
+				request.setAttribute("resultado","INSERTADO OK: " + peligro);
+			} catch (NoAutorizadoException e) {
+				request.setAttribute("resultado","No tienes permisos para la operacion");
+			}
 			
-			request.setAttribute("resultado","INSERTADO OK: " + peligro);
+			
 		}else{
 			
 			request.setAttribute("resultado",validar(request));
