@@ -27,7 +27,7 @@ import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.dao.UsuarioDao;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.CategoriaPeligro;
 import es.io.wachsam.model.Data;
@@ -118,10 +118,10 @@ public class AuthorizationTest extends TestCase {
 	
 	@Test
 	public void testAuthorizationToCreateAlert() throws IOException{
-		Permiso p1=new Permiso("Todos los permisos sobre alertas2",Alert.class,AccionesSobreObjetosTipos.ALL,true,"{\"peligro\":[123,146,666]}");
+		Permiso p1=new Permiso("Todos los permisos sobre alertas2",Alert.class,Acciones.ALL,true,"{\"peligro\":[123,146,666]}");
 		usuarioDao.savePermiso(p1);
 		permisos.add(p1);
-		Permiso p2=new Permiso("Lectura sobre Lugares",Lugar.class,AccionesSobreObjetosTipos.READ,false,null);
+		Permiso p2=new Permiso("Lectura sobre Lugares",Lugar.class,Acciones.READ,false,null);
 		usuarioDao.savePermiso(p2);		
 		permisos.add(p2);
 		assertTrue(usuarioDao.getAllPermiso().size()>0);
@@ -134,9 +134,9 @@ public class AuthorizationTest extends TestCase {
 		usuarioDao.save(user);
 		usuarios.add(user);
 		Alert alert = crearAlerta(45L);
-		assertFalse(alert.hasPermisos(user, AccionesSobreObjetosTipos.CREATE));
+		assertFalse(alert.hasPermisos(user, Acciones.CREATE));
 		Alert alert2 = crearAlerta(666L);
-		assertTrue(alert2.hasPermisos(user, AccionesSobreObjetosTipos.CREATE));
+		assertTrue(alert2.hasPermisos(user, Acciones.CREATE));
 		
 	
 	}

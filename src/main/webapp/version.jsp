@@ -15,6 +15,9 @@
 - bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
 - bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
 - Se añade en Sitios:: Carceles,Campos de Refugiados
+- Auditoría de operaciones
+- Autenticación (nuevo login) y autorización sobre operaciones.
+
 -----------------------------------------------------------------------------
 
 
@@ -54,7 +57,7 @@ FUTURO
    CU1: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.
    CU2: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.Limitar a 1000 accesos hora.
 5.Auditoría de accesos-tokens
-- Datos privados para un usuario.
+- Datos: pemitir datos privados para un usuario:
 
 -------------------------------------------------------------------------------
 </pre>

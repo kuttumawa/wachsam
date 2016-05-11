@@ -50,6 +50,7 @@
      <bean id="usuarioDao" class="es.io.wachsam.dao.UsuarioDao" />
      <bean id="securityService" class="es.io.wachsam.services.SecurityService">
           <property name="usuarioDao" ref="usuarioDao"/>
+          <property name="operationLogDao"  ref="operationLogDao"/>
      </bean>
      <bean id="operationLogDao" class="es.io.wachsam.dao.OperationLogDao" />
      <bean id="lugarService" class="es.io.wachsam.services.LugarService">

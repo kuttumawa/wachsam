@@ -5,7 +5,7 @@ import java.util.Date;
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Usuario;
@@ -38,8 +38,8 @@ public class AlertService {
 		this.operationLogDao = operationLogDao;
 	}
 	public Alert save(Alert alert,Usuario usuario) throws NoAutorizadoException{
-		AccionesSobreObjetosTipos operation=AccionesSobreObjetosTipos.CREATE;
-		if(alert.getId()!=null) operation=AccionesSobreObjetosTipos.UPDATE;
+		Acciones operation=Acciones.CREATE;
+		if(alert.getId()!=null) operation=Acciones.UPDATE;
 		if(!securityService.hasAuth(usuario,Alert.class, operation, alert))
 		 throw new NoAutorizadoException();
 		alert= dao.save(alert);
@@ -54,10 +54,10 @@ public class AlertService {
 	
 	public void deleteById(Long id,Usuario usuario) throws Throwable {
 		Alert alert=dao.getAlert(id);
-		if(!securityService.hasAuth(usuario,Alert.class, AccionesSobreObjetosTipos.DELETE, alert))
+		if(!securityService.hasAuth(usuario,Alert.class, Acciones.DELETE, alert))
 			 throw new NoAutorizadoException();
 		dao.deleteById(id);
-		operationLogDao.save(new OperationLog(alert.getClass().getSimpleName(),alert.getId(),AccionesSobreObjetosTipos.DELETE.name(),usuario.getId(),new Date()));
+		operationLogDao.save(new OperationLog(alert.getClass().getSimpleName(),alert.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
 	}
 	
 	

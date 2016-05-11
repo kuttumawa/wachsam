@@ -2,6 +2,7 @@ package es.io.wachsam.servlets;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -20,6 +21,7 @@ import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.UsuarioDao;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.SecurityService;
@@ -62,7 +64,7 @@ public class login extends HttpServlet {
 		String password=request.getParameter("pass");
 		Usuario user=securityService.login(login,password);
 		if(user!=null){
-		   request.getSession().setAttribute("user", user);
+		   request.getSession().setAttribute("user", user);		 	
 		   String nextJSP = request.getContextPath()+ "/ProvisionalAlertUpdaterForYou";
 		   response.sendRedirect(nextJSP);	
 		}else{

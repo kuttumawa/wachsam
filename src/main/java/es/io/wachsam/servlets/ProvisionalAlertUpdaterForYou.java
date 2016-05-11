@@ -20,7 +20,7 @@ import es.io.wachsam.dao.FuenteDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.exception.NoAutorizadoException;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Fuente;

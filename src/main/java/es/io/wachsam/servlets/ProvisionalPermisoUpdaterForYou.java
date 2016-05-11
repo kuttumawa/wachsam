@@ -17,7 +17,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.UsuarioDao;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Permiso;
@@ -107,7 +107,7 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 				
 			}
 			permiso.setObjeto(objeto);
-			permiso.setAccion(AccionesSobreObjetosTipos.values()[Integer.parseInt(accion)]);
+			permiso.setAccion(Acciones.values()[Integer.parseInt(accion)]);
 			permiso.setNombre("VOID");
 			permiso.setFiltro(filtro);
 			permiso.setFiltroFlag(filtroFlag!=null && filtroFlag.length()>0?true:false);

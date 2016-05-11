@@ -49,17 +49,17 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 %>
 
 <%if(request.getAttribute("resultado")!=null){ %>
-<div id="info">
+<div id="info" class="alert alert-danger">
 <% out.println(request.getAttribute("resultado")); %>
 </div>
 <%}%>
 
 
 
-<form id="form1" action="ProvisionalUsuarioUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalUsuarioUpdaterForYou" method="get" role="form">
 <div>
 <label for="">Usuario</label>
-<select name="usuario" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="usuario" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Usuario> usuarios =  (List<Usuario>)request.getAttribute("usuarios");
@@ -72,58 +72,48 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalUsuarioUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalUsuarioUpdaterForYou" method="post" role="form">
 
 
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= usuario.getId()!=null?usuario.getId():""  %>" disabled="disabled" />
+<input type="text" class="form-control" id="id0" value="<%= usuario.getId()!=null?usuario.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= usuario.getId()!=null?usuario.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Login</label>
-<input type="text" id="login" name="login" value="<%= usuario.getLogin()!=null?usuario.getLogin():"" %>"/> 
+<input type="text" class="form-control" id="login" name="login" value="<%= usuario.getLogin()!=null?usuario.getLogin():"" %>"/> 
 </div>
-<div>
+<div class="form-group">
 <label for="">Password</label>
-<input type="text" id="password" name="password" value="<%= usuario.getPassword()!=null?usuario.getPassword():"" %>"/>
+<input type="text" class="form-control" id="password" name="password" value="<%= usuario.getPassword()!=null?usuario.getPassword():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Email</label>
-<input type="text" id="email" name="email" value="<%= usuario.getEmail()!=null?usuario.getEmail():""%>"/>
+<input type="text" class="form-control" id="email" name="email" value="<%= usuario.getEmail()!=null?usuario.getEmail():""%>"/>
 </div>
 
 
 
 
 <input type="hidden" id="oper" name="oper"/>
-
+ <div class="btn-group">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 </div>
 <div class="col-sm-5">
 
 
-<form id="form3" action="ProvisionalUsuarioUpdaterForYou" method="post">
-<div>
-<label for="">Permisos</label>
-<select id="permisoId" name="permisoId" >
-<option value=""></option>
-<%    
-          List<Permiso> permisos =  (List<Permiso>)request.getAttribute("permisos");
-          for(Permiso permiso_i:permisos){
-        	  out.println("<option value=\""+permiso_i.getId()+"\">"+permiso_i.prettyPrint()+"</option>");
-          }        
-%>  
-</select>
-</div>
+<form id="form3" action="ProvisionalUsuarioUpdaterForYou" method="post" class="form-inline" role="form">
+
 <table  class="table table-striped">
 <tr><th>Permiso</th></tr>
 <%
@@ -134,9 +124,23 @@ Permiso p=it.next();
 <tr><td><span style="cursor:pointer" class="glyphicon glyphicon-remove-sign" onclick="deletePermisoOper(<%=p.getId()%>)">&nbsp;&nbsp;</span><%=p.prettyPrint()%></td></tr>
 <%}%>
 </table>
+<div>
+<label for="">Permiso</label>
+<select class="form-control" id="permisoId" name="permisoId" >
+<option value=""></option>
+<%    
+          List<Permiso> permisos =  (List<Permiso>)request.getAttribute("permisos");
+          for(Permiso permiso_i:permisos){
+        	  out.println("<option value=\""+permiso_i.getId()+"\">"+permiso_i.prettyPrint()+"</option>");
+          }        
+%>  
+</select>
+<input type="button" class="btn btn-primary" value="+" onclick="addPermisoOper()">
+</div>
+ 
 <input type="hidden" id="oper1" name="oper"/>
 <input type="hidden" name="id" id="id" value="<%= usuario.getId()!=null?usuario.getId():"" %>"  />
-<input type="button" class="btn btn-primary" value="add" onclick="addPermisoOper()">
+
 
 </form>
 

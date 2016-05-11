@@ -19,7 +19,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.TagDao;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
@@ -67,7 +67,7 @@ public class OperationLogTest extends TestCase {
 	 assertEquals(true,true);
 	 Usuario usuario=new Usuario();
 	 usuario.setId(666L);
-	 OperationLog op=new OperationLog(Alert.class.getName(),null,AccionesSobreObjetosTipos.ALL.name(),usuario.getId(),new Date());
+	 OperationLog op=new OperationLog(Alert.class.getName(),null,Acciones.ALL.name(),usuario.getId(),new Date());
 	 Long id=operationLogDao.save(op);
 	 assertNotNull(id);
 	

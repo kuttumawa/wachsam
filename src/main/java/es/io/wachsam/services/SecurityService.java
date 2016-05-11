@@ -1,12 +1,16 @@
 package es.io.wachsam.services;
 
+import java.util.Date;
+
+import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.UsuarioDao;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Airport;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Factor;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Permiso;
 import es.io.wachsam.model.Sitio;
@@ -19,7 +23,7 @@ import es.io.wachsam.model.Usuario;
  */
 public class SecurityService {
 	private UsuarioDao usuarioDao;
-
+    private OperationLogDao operationLogDao;
 	public UsuarioDao getUsuarioDao() {
 		return usuarioDao;
 	}
@@ -28,8 +32,17 @@ public class SecurityService {
 		this.usuarioDao = usuarioDao;
 	}
 
-	public boolean hasAuth(Usuario user, Class<?> class1, AccionesSobreObjetosTipos accion,Object object) {
+	public boolean hasAuth(Usuario user, Class<?> class1, Acciones accion,Object object) {
 		Usuario usuario=usuarioDao.getUsuario(user.getId());
+		if(object==null){
+			try {
+				object=class1.newInstance();
+			} catch (InstantiationException e) {				
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 		boolean resultado=false;
 		if(class1.getName().equalsIgnoreCase(Alert.class.getName())){
 			resultado=((Alert)object).hasPermisos(usuario, accion);
@@ -52,10 +65,20 @@ public class SecurityService {
 		return resultado;
 	}
 	
-
+	
 	public Usuario login(String login, String password) {
-		Usuario user=usuarioDao.getUsuario(login,password);
-		return user;
+		Usuario usuario=usuarioDao.getUsuario(login,password);
+		if(usuario!=null) 
+			operationLogDao.save(new OperationLog("Login",null,Acciones.LOGIN.name(),usuario.getId(),new Date()));
+		return usuario;
+	}
+
+	public OperationLogDao getOperationLogDao() {
+		return operationLogDao;
+	}
+
+	public void setOperationLogDao(OperationLogDao operationLogDao) {
+		this.operationLogDao = operationLogDao;
 	}
 
 	

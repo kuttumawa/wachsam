@@ -31,14 +31,14 @@ public class Permiso {
 	String objeto;
 	String filtro;
 	Boolean filtroFlag;
-	AccionesSobreObjetosTipos accion;
+	Acciones accion;
 
 	
 	public Permiso() {
 		super();
 	}
 
-	public Permiso(String nombre,Class objeto, AccionesSobreObjetosTipos acciones,boolean filtroFlag,String filtro) {
+	public Permiso(String nombre,Class objeto, Acciones acciones,boolean filtroFlag,String filtro) {
 		super();
 		this.nombre = nombre;
 		this.objeto = objeto.getName();
@@ -67,11 +67,11 @@ public class Permiso {
 		this.objeto = objeto;
 	}
 
-	public AccionesSobreObjetosTipos getAccion() {
+	public Acciones getAccion() {
 		return accion;
 	}
 
-	public void setAccion(AccionesSobreObjetosTipos accion) {
+	public void setAccion(Acciones accion) {
 		this.accion = accion;
 	}
 

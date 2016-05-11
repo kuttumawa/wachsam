@@ -260,13 +260,19 @@ public class Data {
 		return builder.toString();
 	}
 	
-	public boolean hasPermisos(Usuario usuario, AccionesSobreObjetosTipos accion) {
+	public boolean hasPermisos(Usuario usuario, Acciones accion) {
 		for (Permiso permiso : usuario.getPermisos()) {
 			if (permiso.getObjeto().equalsIgnoreCase(this.getClass().getSimpleName())) {
-				if (permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)|| permiso.getAccion().equals(accion)){
+				if (permiso.getAccion().equals(Acciones.ALL)|| permiso.getAccion().equals(accion)){
 					if(permiso.getFiltroFlag()==null || !permiso.getFiltroFlag()) return true;
 					else{
-						 return true;
+						boolean resultado1 = false,resultado2 = false;
+						List<Long> filtroPeligro =permiso.listOfIdsFromJson("peligro");
+						if(this.subjectId!=null && filtroPeligro.contains(this.subjectId)) resultado1 = true;
+						List<Long> filtroLugar =permiso.listOfIdsFromJson("lugar");
+						if(this.lugarId!=null && filtroLugar.contains(this.lugarId)) resultado2 =true;
+						
+						return resultado1 && resultado2;
 					}
 				}
 			}

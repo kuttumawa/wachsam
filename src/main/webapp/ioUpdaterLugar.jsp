@@ -54,7 +54,7 @@ function deleteOper(){
 		%>
 		
 		<%if(request.getAttribute("resultado")!=null){ %>
-		<div id="info">
+		<div id="info" class="alert alert-danger">
 		<% out.println(request.getAttribute("resultado")); %>
 		</div>
 		<%}%>

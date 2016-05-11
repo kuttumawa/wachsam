@@ -37,17 +37,17 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 %>
 
 <%if(request.getAttribute("resultado")!=null){ %>
-<div id="info">
+<div id="info" class="alert alert-danger">
 <% out.println(request.getAttribute("resultado")); %>
 </div>
 <%}%>
 
 
 
-<form id="form1" action="ProvisionalPermisoUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalPermisoUpdaterForYou" method="get" role="form">
 <div>
 <label for="">Permiso</label>
-<select name="permiso" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="permiso" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Permiso> permisos =  (List<Permiso>)request.getAttribute("permisos");
@@ -60,15 +60,15 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalPermisoUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalPermisoUpdaterForYou" method="post" role="form">
 
 
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= permiso.getId()!=null?permiso.getId():""  %>" disabled="disabled" />
+<input type="text" class="form-control"  id="id0" value="<%= permiso.getId()!=null?permiso.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= permiso.getId()!=null?permiso.getId():"" %>"  />
 </div>
 
@@ -76,23 +76,25 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 
 <div>
 <label for="">Objeto</label>
-</div><div>
-	<select name="objeto" id="objeto">
+<select class="form-control" name="objeto" id="objeto">
 		<option value="Alert" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Alert")?" selected":""%>>Alerta</option>
 	    <option value="Lugar" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Lugar")?" selected":""%>>Lugar</option>
+	    <option value="Peligro" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Peligro")?" selected":""%>>Peligro</option>
+	    <option value="Sitio" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Sitio")?" selected":""%>>Sitio</option>
+	    <option value="Data" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Data")?" selected":""%>>Data</option>
 	
 	</select>
 </div>
 
 <div>
 <label for="">Accion</label>
-</div><div>
-	<select name="accion" id="accion">
-		<option value="0" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.CREATE)?" selected":""%>>CREATE</option>
-		<option value="1" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.UPDATE)?" selected":""%>>UPDATE</option>		
-		<option value="2" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.READ)?" selected":""%>>READ</option>
-		<option value="3" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.DELETE)?" selected":""%>>DELETE</option>
-		<option value="4" <%=permiso.getAccion()!=null && permiso.getAccion().equals(AccionesSobreObjetosTipos.ALL)?" selected":""%>>ALL</option>
+
+	<select class="form-control" name="accion" id="accion">
+		<option value="0" <%=permiso.getAccion()!=null && permiso.getAccion().equals(Acciones.CREATE)?" selected":""%>>CREATE</option>
+		<option value="1" <%=permiso.getAccion()!=null && permiso.getAccion().equals(Acciones.UPDATE)?" selected":""%>>UPDATE</option>		
+		<option value="2" <%=permiso.getAccion()!=null && permiso.getAccion().equals(Acciones.READ)?" selected":""%>>READ</option>
+		<option value="3" <%=permiso.getAccion()!=null && permiso.getAccion().equals(Acciones.DELETE)?" selected":""%>>DELETE</option>
+		<option value="4" <%=permiso.getAccion()!=null && permiso.getAccion().equals(Acciones.ALL)?" selected":""%>>ALL</option>
 	
 	</select>
 </div>
@@ -100,19 +102,17 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 
 
 <div>
-<label for="">Filtro &nbsp;<input type="checkbox"  name="filtroFlag" id="filtroFlag" <%=permiso.getFiltroFlag()!=null && permiso.getFiltroFlag()?" checked":""  %>  />
-</label>
-</div>
-<div>
-
-<input type="text"  id="filtro" name="filtro" value="<%= permiso.getFiltro()!=null?permiso.getFiltro().replaceAll("\"", "&quot;"):""%>"  />
+<label for="">Filtro &nbsp;</label>
+<input type="checkbox"  name="filtroFlag" id="filtroFlag" <%=permiso.getFiltroFlag()!=null && permiso.getFiltroFlag()?" checked":""  %>  />
+<input class="form-control" type="text"  id="filtro" name="filtro" value="<%= permiso.getFiltro()!=null?permiso.getFiltro().replaceAll("\"", "&quot;"):""%>"  />
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
-
-<input type="submit" class="btn btn-primary" value="grabar">
-<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
-<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+ <div class="btn-group">
+	<input type="submit" class="btn btn-primary" value="grabar">
+	<input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
+	<input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 
 </div>

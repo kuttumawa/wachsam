@@ -5,7 +5,7 @@ import java.util.Date;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
-import es.io.wachsam.model.AccionesSobreObjetosTipos;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Usuario;
@@ -38,8 +38,8 @@ public class PeligroService {
 		this.operationLogDao = operationLogDao;
 	}
 	public Peligro save(Peligro peligro,Usuario usuario) throws NoAutorizadoException{
-		AccionesSobreObjetosTipos operation=AccionesSobreObjetosTipos.CREATE;
-		if(peligro.getId()!=null) operation=AccionesSobreObjetosTipos.UPDATE;
+		Acciones operation=Acciones.CREATE;
+		if(peligro.getId()!=null) operation=Acciones.UPDATE;
 		if(!securityService.hasAuth(usuario,Peligro.class, operation, peligro))
 		 throw new NoAutorizadoException();
 		peligro= dao.save(peligro);
@@ -54,10 +54,10 @@ public class PeligroService {
 	
 	public void deleteById(Long id,Usuario usuario) throws Throwable {
 		Peligro peligro=dao.getPeligro(id);
-		if(!securityService.hasAuth(usuario,Peligro.class, AccionesSobreObjetosTipos.DELETE, peligro))
+		if(!securityService.hasAuth(usuario,Peligro.class, Acciones.DELETE, peligro))
 			 throw new NoAutorizadoException();
 		dao.deleteById(id);
-		operationLogDao.save(new OperationLog(peligro.getClass().getSimpleName(),peligro.getId(),AccionesSobreObjetosTipos.DELETE.name(),usuario.getId(),new Date()));
+		operationLogDao.save(new OperationLog(peligro.getClass().getSimpleName(),peligro.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
 	}
 	
 	
