@@ -48,10 +48,10 @@ Data data = (Data)request.getAttribute("data");
 
 
 
-<form id="form1" action="ProvisionalDataUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalDataUpdaterForYou" method="get" class="form-inline" role="form">
 <div>
 <label for="">Data</label>
-<select name="dataId" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="dataId" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Data> datas =  (List<Data>)request.getAttribute("datas");
@@ -65,31 +65,31 @@ Data data = (Data)request.getAttribute("data");
 </form>
 
 
-<form id="form2" action="ProvisionalDataUpdaterForYou" method="post">
-<fieldset>
+<form id="form2" action="ProvisionalDataUpdaterForYou" method="post" role="form">
 
 
-<div>
+
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= data.getId()!=null?data.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= data.getId()!=null?data.getId():""  %>" disabled="disabled" />
 <input type="hidden" id="id" name="id" value="<%= data.getId()!=null?data.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Valor</label>
-<input type="text" id="value" name="value" value="<%= data.getValue()!=null?data.getValue():""%>"/>
+<input class="form-control" type="text" id="value" name="value" value="<%= data.getValue()!=null?data.getValue():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Descripción del Dato</label>
-<input type="text" id="descripcion" name="descripcion" value="<%= data.getDescripcion()!=null?data.getDescripcion():""%>"/>
+<input class="form-control" type="text" id="descripcion" name="descripcion" value="<%= data.getDescripcion()!=null?data.getDescripcion():""%>"/>
 </div>
 
 
-<div>
+<div class="form-group">
 <label for="">TipoValor</label>
-</div><div>
-<select name="tipoValor" id="tipo">
+
+<select class="form-control" name="tipoValor" id="tipo">
 	<option value="NUMERICO" <%=data.getTipoValor()!=null && data.getTipoValor().toString().equalsIgnoreCase("NUMERICO")?" selected":"" %>>NUMÉRICO</option>
 	<option value="TEXTO" <%= data.getTipoValor()!=null && data.getTipoValor().toString().equalsIgnoreCase("TEXTO")?" selected":"" %>>TEXTO</option>
 	<option value="VACIO" <%=data.getTipoValor()!=null && data.getTipoValor().toString().equalsIgnoreCase("VACIO")?" selected":"" %>>VACÍO</option>
@@ -97,11 +97,10 @@ Data data = (Data)request.getAttribute("data");
 </div>
 
 
-<div>
+<div class="form-group">
 <label for="">Peligro</label>
-</div>
-<div>
-<select name="subjectId" id="peligro">
+
+<select class="form-control" name="subjectId" id="peligro">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -118,10 +117,10 @@ Data data = (Data)request.getAttribute("data");
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Lugar</label>
-</div><div>
-<select name="lugarId" id="lugar">
+
+<select class="form-control" name="lugarId" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -138,11 +137,10 @@ Data data = (Data)request.getAttribute("data");
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Alerta</label>
-</div>
-<div>
-<select name="eventoId" id="evento">
+
+<select class="form-control" name="eventoId" id="evento">
 <option value=""></option>
 <%    
           List<Alert> alertas =  (List<Alert>)request.getAttribute("alertas");
@@ -157,11 +155,10 @@ Data data = (Data)request.getAttribute("data");
 %> 
 </select>
 </div>
-<div>
+<div class="form-group">
 <label for="">Sitio</label>
-</div>
-<div>
-<select name="sitioId" id="sitio">
+
+<select class="form-control" name="sitioId" id="sitio">
 <option value=""></option>
 <%    
           List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
@@ -176,10 +173,10 @@ Data data = (Data)request.getAttribute("data");
 %> 
 </select>
 </div>
-<div>
+<div class="form-group">
 <label for="">Tag1</label>
-</div><div>
-<select name="tag1" id="tag1">
+
+<select class="form-control" name="tag1" id="tag1">
 <option value=""></option>
 <%    
 			List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
@@ -196,10 +193,10 @@ Data data = (Data)request.getAttribute("data");
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Tag2</label>
-</div><div>
-<select name="tag2" id="tag2">
+
+<select class="form-control" name="tag2" id="tag2">
 <option value=""></option>
 <%    
 			//List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
@@ -216,10 +213,10 @@ Data data = (Data)request.getAttribute("data");
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Tag3</label>
-</div><div>
-<select name="tag3" id="tag3">
+
+<select class="form-control" name="tag3" id="tag3">
 <option value=""></option>
 <%    
 			//List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
@@ -241,12 +238,13 @@ Data data = (Data)request.getAttribute("data");
 
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
-</fieldset>
+
 </div>
 </body> 
 </html>

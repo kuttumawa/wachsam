@@ -42,10 +42,10 @@ Factor factor = (Factor)request.getAttribute("factor");
 
 
 
-<form id="form1" action="ProvisionalFactorUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalFactorUpdaterForYou" method="get" class="form-inline" role="form">
 <div>
 <label for="">Factor</label>
-<select name="factor" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="factor" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Factor> factors =  (List<Factor>)request.getAttribute("factors");
@@ -58,44 +58,45 @@ Factor factor = (Factor)request.getAttribute("factor");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalFactorUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalFactorUpdaterForYou" method="post" role="form">
 <fieldset>
 
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= factor.getId()!=null?factor.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= factor.getId()!=null?factor.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= factor.getId()!=null?factor.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= factor.getNombre()!=null?factor.getNombre():"" %>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%= factor.getNombre()!=null?factor.getNombre():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Name</label>
-<input type="text" id="nombreEn" name="nombreEn" value="<%= factor.getNombreEn()!=null?factor.getNombreEn():""%>"/>
+<input class="form-control" type="text" id="nombreEn" name="nombreEn" value="<%= factor.getNombreEn()!=null?factor.getNombreEn():""%>"/>
 </div>
 
 
-<div>
+<div class="form-group">
 <label for="">Texto</label><br>
-<textarea name="texto" id="texto" cols="100" rows="4"><%= factor.getTexto()!=null?factor.getTexto():"" %></textarea>
+<textarea class="form-control" name="texto" id="texto" cols="100" rows="4"><%= factor.getTexto()!=null?factor.getTexto():"" %></textarea>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Text</label><br>
-<textarea name="textoEn" id="textoEn" cols="100" rows="4"><%= factor.getTextoEn()!=null?factor.getTextoEn():"" %></textarea>
+<textarea class="form-control" name="textoEn" id="textoEn" cols="100" rows="4"><%= factor.getTextoEn()!=null?factor.getTextoEn():"" %></textarea>
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 </fieldset>
 </div>

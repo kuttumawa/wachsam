@@ -60,10 +60,10 @@ for(Data data:datas){
 
 
 
-<form id="form1" action="ProvisionalSitioUpdaterForYou" method="get">
-<div>
+<form id="form1" action="ProvisionalSitioUpdaterForYou" method="get" class="form-inline" role="form">
+<div class="form-group">
 <label for="">Sitio</label>
-<select name="sitioId" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="sitioId" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
@@ -77,50 +77,47 @@ for(Data data:datas){
 </form>
 
 
-<form id="form2" action="ProvisionalSitioUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalSitioUpdaterForYou" method="post" role="form">
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= sitio.getId()!=null?sitio.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= sitio.getId()!=null?sitio.getId():""  %>" disabled="disabled" />
 <input type="hidden" id="id" name="id" value="<%= sitio.getId()!=null?sitio.getId():"" %>"  />
 <span class="<%=iconoClass%>"></span>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%=sitio.getNombre()!=null?sitio.getNombre():""%>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%=sitio.getNombre()!=null?sitio.getNombre():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">NombreEn</label>
-<input type="text" id="nombreEn" name="nombreEn" value="<%= sitio.getNombreEn()!=null?sitio.getNombreEn():""%>"/>
+<input class="form-control" type="text" id="nombreEn" name="nombreEn" value="<%= sitio.getNombreEn()!=null?sitio.getNombreEn():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Dirección</label>
-<input type="text" id="direccion" name="direccion" value="<%= sitio.getDireccion()!=null?sitio.getDireccion():"" %>"/>
+<input class="form-control" type="text" id="direccion" name="direccion" value="<%= sitio.getDireccion()!=null?sitio.getDireccion():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Texto</label>
 </div>
 <div>
-<textarea name="texto" id="texto" cols="70" rows="4"><%= sitio.getTexto()!=null?sitio.getTexto():"" %></textarea>
+<textarea class="form-control" name="texto" id="texto" cols="70" rows="4"><%= sitio.getTexto()!=null?sitio.getTexto():"" %></textarea>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Text</label>
-</div>
-<div>
-<textarea name="textoEn" id="textoEn" cols="70" rows="4"><%= sitio.getTextoEn()!=null?sitio.getTextoEn():"" %></textarea>
+<textarea class="form-control" name="textoEn" id="textoEn" cols="70" rows="4"><%= sitio.getTextoEn()!=null?sitio.getTextoEn():"" %></textarea>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Tipo</label>
-</div><div>
-<select name="tipo" id="tipo">
+<select class="form-control" name="tipo" id="tipo">
 	<option value="0" <%=sitio.getTipo()!=null && sitio.getTipo().equals(0)?" selected":"" %>>Hospital</option>
 	<option value="1" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>Embajada</option>
 	<option value="2" <%= sitio.getTipo()!=null && sitio.getTipo().equals(2)?" selected":""%>>CamaraHiperbárica</option>
@@ -134,10 +131,9 @@ for(Data data:datas){
 
 
 
-<div>
+<div class="form-group">
 <label for="">Lugar</label>
-</div><div>
-<select name="lugarId" id="lugar">
+<select class="form-control" name="lugarId" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -154,10 +150,10 @@ for(Data data:datas){
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Valoración</label>
 </div><div>
-<select name="valoracion" id="valoracion">
+<select  class="form-control" name="valoracion" id="valoracion">
 	<option value="-1" <%=sitio.getValoracion()!=null && sitio.getValoracion().equals(0)?" selected":"" %>>No valorado</option>
 	<option value="0" <%=sitio.getValoracion()!=null && sitio.getValoracion().equals(0)?" selected":"" %>>0</option>
     <option value="1" <%=sitio.getValoracion()!=null && sitio.getValoracion().equals(1)?" selected":"" %>>1</option>
@@ -169,10 +165,11 @@ for(Data data:datas){
 </select>
 </div>
 <input type="hidden" id="oper" name="oper"/>
-
+ <div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 </div>
 <div class="col-sm-6">

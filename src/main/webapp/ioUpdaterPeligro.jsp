@@ -43,10 +43,10 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 
 
 
-<form id="form1" action="ProvisionalPeligroUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalPeligroUpdaterForYou" method="get" class="form-inline" role="form">
 <div>
 <label for="">Peligro</label>
-<select name="peligro" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="peligro" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -59,32 +59,32 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalPeligroUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalPeligroUpdaterForYou" method="post" role="form">
 
 
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= peligro.getId()!=null?peligro.getId():""  %>" disabled="disabled" />
+<input class="form-control"type="text"  id="id0" value="<%= peligro.getId()!=null?peligro.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= peligro.getId()!=null?peligro.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= peligro.getNombre()!=null?peligro.getNombre():"" %>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%= peligro.getNombre()!=null?peligro.getNombre():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Name</label>
-<input type="text" id="nombreEn" name="nombreEn" value="<%= peligro.getNombreEn()!=null?peligro.getNombreEn():""%>"/>
+<input class="form-control" type="text" id="nombreEn" name="nombreEn" value="<%= peligro.getNombreEn()!=null?peligro.getNombreEn():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Categoría</label>
-</div><div>
-<select name="categoria" >
+
+<select class="form-control" name="categoria" >
 <option value="enfermedad" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("Enfermedad")?" selected ":"") %>>Enfermedad</option>
 <option value="violencia" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("violencia")?" selected ":"") %>>Violencia,Inseguridad</option>
 <option value="naturaleza" <%= (peligro.getCategoria()!=null && peligro.getCategoria().name().equalsIgnoreCase("naturaleza")?" selected ":"") %>>Clima,Catástrofes Naturales</option>
@@ -98,27 +98,25 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 
 
 
-<div>
+<div class="form-group">
 <label for="">Daño</label>
-</div><div>
-<select id="damage" name="damage"" >
+<select class="form-control" id="damage" name="damage"" >
 <option value="6" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(6)?" selected ":"") %>>Mortal</option>
 <option value="4" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(4)?" selected ":"") %>>Muy Grave</option>
 <option value="3" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(3)?" selected ":"") %>>Grave</option>
 <option value="2" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(2)?" selected ":"") %>>Menor</option>
 <option value="1" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(1)?" selected ":"") %>>Molestias</option>
 <option value="0" <%= (peligro.getDamage()!=null && peligro.getDamage().equals(1)?" selected ":"") %>>Sin daño</option>
-
-
 </select>
 </div>
 
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 </div>
 <div class="col-sm-5">

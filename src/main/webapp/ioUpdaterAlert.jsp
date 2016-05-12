@@ -57,10 +57,10 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 
 
-<form id="form1" action="ProvisionalAlertUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalAlertUpdaterForYou" method="get" role="form">
 <div>
 <label for="">Alerta</label>
-<select name="alert" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="alert" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Alert> alertas =  (List<Alert>)request.getAttribute("alertas");
@@ -74,26 +74,26 @@ Alert alert = (Alert)request.getAttribute("alert");
 </form>
 
 
-<form id="form2" action="ProvisionalAlertUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalAlertUpdaterForYou" method="post" role="form">
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= alert.getId()!=null?alert.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= alert.getId()!=null?alert.getId():""  %>" disabled="disabled" />
 <input type="hidden" id="id" name="id" value="<%= alert.getId()!=null?alert.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= alert.getNombre()!=null?alert.getNombre():"" %>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%= alert.getNombre()!=null?alert.getNombre():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Peligro</label>
-</div><div>
 
-<select name="peligro" id="peligro">
+
+<select class="form-control" name="peligro" id="peligro">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -110,10 +110,10 @@ Alert alert = (Alert)request.getAttribute("alert");
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Lugar</label>
-</div><div>
-<select name="lugar" id="lugar">
+
+<select class="form-control" name="lugar" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -151,10 +151,10 @@ class Tipo{
 %>
 
 
-<div>
-<label for="">Tipo</label>
-</div><div>
-<select name="tipo" id="tipo">
+<div class="form-group">
+<label for="">Tipo<a href="http://wwwnc.cdc.gov/travel/notices#warning" ><span class="glyphicon glyphicon-question-sign"></span></a></label>
+
+<select class="form-control" name="tipo" id="tipo">
 <%
 for(Tipo tipo_i:tipos){
 	  if(alert.getTipo()!=null && alert.getTipo().equals(tipo_i.id)){
@@ -164,50 +164,50 @@ for(Tipo tipo_i:tipos){
 	  }
   }
 %>
-</select> <a href="http://wwwnc.cdc.gov/travel/notices#warning" ><span class="glyphicon glyphicon-question-sign"></span></a>
+</select> 
 </div>
 
-<div>
+<div class="form-group">
 
 <label for="">Caducidad (en días,-1 permanente)</label><%=alert!=null && alert.isCaducado()?"<span class=\"label label-danger\">&nbsp;CADUCADA</span>":"<span class=\"label label-success\">&nbsp;ACTIVA</span>"%>
-<input type="text" id="caducidad" name="caducidad" value="<%=alert.getCaducidad()!=null?alert.getCaducidad():-1%>"/>
+<input class="form-control" type="text" id="caducidad" name="caducidad" value="<%=alert.getCaducidad()!=null?alert.getCaducidad():-1%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Fecha (dd/mm/yyyy)</label>
-<input type="text" id="fechaPub" name="fechaPub" value="<%=alert.getFechaPubFormatted()!=null?alert.getFechaPubFormatted():""  %>"/>
+<input class="form-control" type="text" id="fechaPub" name="fechaPub" value="<%=alert.getFechaPubFormatted()!=null?alert.getFechaPubFormatted():""  %>"/>
 </div>
 
 
 
-<div>
+<div class="form-group">
 <label for="">Texto</label><br>
-<textarea name="texto" id="texto" cols="70" rows="4"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
+<textarea class="form-control" name="texto" id="texto" cols="70" rows="4"><%= alert.getTexto()!=null?alert.getTexto():"" %></textarea>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Text</label><br>
-<textarea name="text" id="text" cols="70" rows="4"><%= alert.getText()!=null?alert.getText():"" %></textarea>
+<textarea class="form-control" name="text" id="text" cols="70" rows="4"><%= alert.getText()!=null?alert.getText():"" %></textarea>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">link1</label>
-<input type="text" id="link1" name="link1" value="<%= alert.getLink1()!=null?alert.getLink1():"" %>"/>
+<input class="form-control" type="text" id="link1" name="link1" value="<%= alert.getLink1()!=null?alert.getLink1():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">link2</label>
-<input type="text" id="link2" name="link2" value="<%= alert.getLink2()!=null?alert.getLink2():"" %>"/>
+<input class="form-control" type="text" id="link2" name="link2" value="<%= alert.getLink2()!=null?alert.getLink2():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">link3</label>
-<input type="text" id="link3" name="link3" value="<%= alert.getLink3()!=null?alert.getLink3():"" %>"/>
+<input class="form-control" type="text" id="link3" name="link3" value="<%= alert.getLink3()!=null?alert.getLink3():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Fuente</label>
-<select name="fuente">
+<select class="form-control" name="fuente">
 <option value=""></option>
 <%    
           List<Fuente> fuentes =  (List<Fuente>)request.getAttribute("fuentes");
@@ -224,10 +224,11 @@ for(Tipo tipo_i:tipos){
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
-
+ <div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 </div>
      <div class="col-sm-5">

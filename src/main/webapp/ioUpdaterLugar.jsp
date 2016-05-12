@@ -61,10 +61,10 @@ function deleteOper(){
 		
 		
 		
-		<form id="form1" action="ProvisionalLugarUpdaterForYou" method="get">
-		<div>
+		<form id="form1" action="ProvisionalLugarUpdaterForYou" method="get" class="form-inline" role="form">
+		<div class="form-group">
 		<label for="">Lugar</label>
-		<select name="lugar" onchange="document.getElementById('form1').submit();">
+		<select class="form-control" name="lugar" onchange="document.getElementById('form1').submit();">
 		<option value=""></option>
 		<%    
 		          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -78,25 +78,25 @@ function deleteOper(){
 		</form>
       <form id="form2" action="ProvisionalLugarUpdaterForYou" method="post">
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= lugar.getId()!=null?lugar.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= lugar.getId()!=null?lugar.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= lugar.getId()!=null?lugar.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= lugar.getNombre()!=null?lugar.getNombre():"" %>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%= lugar.getNombre()!=null?lugar.getNombre():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Name</label>
-<input type="text" id="nombreEn" name="nombreEn" value="<%= lugar.getNombreEn()!=null?lugar.getNombreEn():""%>"/>
+<input class="form-control" type="text" id="nombreEn" name="nombreEn" value="<%= lugar.getNombreEn()!=null?lugar.getNombreEn():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Padre 1</label>
-<select name="padre1">
+<select class="form-control" name="padre1">
 <option value=""></option>
 <%    
            for(Lugar lugar_i:lugares){
@@ -111,9 +111,9 @@ function deleteOper(){
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Padre 2</label>
-<select name="padre2">
+<select class="form-control" name="padre2">
 <option value=""></option>
 <%    
            for(Lugar lugar_i:lugares){
@@ -128,9 +128,9 @@ function deleteOper(){
 </select>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Padre 3</label>
-<select name="padre3">
+<select class="form-control" name="padre3">
 <option value=""></option>
 <%    
            for(Lugar lugar_i:lugares){
@@ -146,19 +146,19 @@ function deleteOper(){
 </div>
 
 
-<div>
+<div class="form-group">
 <label for="">Latitud</label>
-<input type="text" id="latitud" name="latitud" value="<%= lugar.getLatitud()!=null?lugar.getLatitud():""%>"/>
+<input class="form-control" type="text" id="latitud" name="latitud" value="<%= lugar.getLatitud()!=null?lugar.getLatitud():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Longitud</label>
-<input type="text" id="longitud" name="longitud" value="<%= lugar.getLongitud()!=null?lugar.getLongitud():""%>"/>
+<input class="form-control" type="text" id="longitud" name="longitud" value="<%= lugar.getLongitud()!=null?lugar.getLongitud():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nivel</label>
-<input type="text" id="nivel"  value="<%= lugar.getNivel()!=null?lugar.getNivel():""%>"/>
+<input class="form-control" type="text" id="nivel"  value="<%= lugar.getNivel()!=null?lugar.getNivel():""%>"/>
 </div>
 
 
@@ -186,10 +186,10 @@ class Nivel{
 %>
 
 
-<div>
+<div class="form-group">
 <label for="">Nivel</label>
-</div><div>
-<select name="nivel" id="nivel">
+
+<select class="form-control" name="nivel" id="nivel">
 <%
 for(Nivel nivel_i:niveles){
 	  if(lugar.getNivel()!=null && lugar.getNivel().equals(nivel_i.id)){
@@ -203,10 +203,11 @@ for(Nivel nivel_i:niveles){
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
-
+ <div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 </div>
 <div class="col-sm-6">

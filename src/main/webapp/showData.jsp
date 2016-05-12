@@ -22,7 +22,7 @@ datas= (List<Data>)request.getAttribute("datas");
 %>  
 <h3>Data</h3>     
 <h4>Resultados:&nbsp; <%=datas.size() %></h4>
-<table class="table table-striped">
+<table class="table table-striped small">
 <tr><th>id</th><th></th><th></th><th></th><th>valor</th></tr>
 
 <%for(Data data:datas){%>

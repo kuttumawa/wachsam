@@ -65,7 +65,7 @@ public class login extends HttpServlet {
 		Usuario user=securityService.login(login,password);
 		if(user!=null){
 		   request.getSession().setAttribute("user", user);		 	
-		   String nextJSP = request.getContextPath()+ "/ProvisionalAlertUpdaterForYou";
+		   String nextJSP = request.getContextPath()+ "/main.jsp";
 		   response.sendRedirect(nextJSP);	
 		}else{
 		    request.setAttribute("resultado","NO te está permitido el paso");

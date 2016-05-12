@@ -42,10 +42,10 @@ Tag tag = (Tag)request.getAttribute("tag");
 
 
 
-<form id="form1" action="ProvisionalTagUpdaterForYou" method="get">
+<form id="form1" action="ProvisionalTagUpdaterForYou" method="get" class="form-inline" role="form">
 <div>
 <label for="">Tag</label>
-<select name="tag" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="tag" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
@@ -58,45 +58,46 @@ Tag tag = (Tag)request.getAttribute("tag");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalTagUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalTagUpdaterForYou" method="post" role="form">
 
 
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= tag.getId()!=null?tag.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= tag.getId()!=null?tag.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= tag.getId()!=null?tag.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Alias</label>
-<input type="text" id="alias" name="alias" value="<%= tag.getAlias()!=null?tag.getAlias():"" %>"/> 
+<input class="form-control" type="text" id="alias" name="alias" value="<%= tag.getAlias()!=null?tag.getAlias():"" %>"/> 
 </div>
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= tag.getNombre()!=null?tag.getNombre():"" %>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%= tag.getNombre()!=null?tag.getNombre():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Name</label>
-<input type="text" id="nombreEn" name="nombreEn" value="<%= tag.getNombreEn()!=null?tag.getNombreEn():""%>"/>
+<input class="form-control" class="form-control" type="text" id="nombreEn" name="nombreEn" value="<%= tag.getNombreEn()!=null?tag.getNombreEn():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Descripción</label><br>
-<textarea name="descripcion" id="descripcion" cols="100" rows="4"><%= tag.getDescripcion()!=null?tag.getDescripcion():"" %></textarea>
+<textarea  class="form-control" name="descripcion" id="descripcion" cols="100" rows="4"><%= tag.getDescripcion()!=null?tag.getDescripcion():"" %></textarea>
 </div>
 
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
-</fieldset>
+
 </div>
 </body> 
 </html>

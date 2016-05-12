@@ -48,19 +48,19 @@ function clearFields(){
 
 
 
-<form id="form2" action="BuscarAlert" method="post">
+<form id="form2" action="BuscarAlert" method="post"  role="form">
 
-<fieldset>
-<div>
+
+<div  class="form-group">
 <label for="">Texto</label><br>
-<textarea name="texto" id="texto" cols="100" rows="1"></textarea>
+<textarea class="form-control" name="texto" id="texto" cols="100" rows="1"></textarea>
 </div>
 
-<div>
+<div  class="form-group">
 <label for="">Peligro</label>
-</div><div>
 
-<select name="peligro" id="peligro">
+
+<select  class="form-control" name="peligro" id="peligro">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -72,10 +72,10 @@ function clearFields(){
 </select>
 </div>
 
-<div>
+<div  class="form-group">
 <label for="">Lugar</label>
-</div><div>
-<select name="lugar" id="lugar">
+
+<select  class="form-control" name="lugar" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -107,10 +107,10 @@ class Tipo{
 %>
 
 
-<div>
+<div  class="form-group">
 <label for="">Tipo</label>
-</div><div>
-<select name="tipo" id="tipo">
+
+<select  class="form-control" name="tipo" id="tipo">
 <option value="">Todas</option>
 <%
 for(Tipo tipo_i:tipos){
@@ -120,17 +120,17 @@ for(Tipo tipo_i:tipos){
 </select> <a href="http://wwwnc.cdc.gov/travel/notices#warning" >ver</a>
 </div>
 
-<div>
-<label for="">Caducidad</label>
-<input type="checkbox" name="caducidad" value="">Todas</input>
-<input type="checkbox" name="caducidad" value="nocaducadas">No caducadas</input>
-<input type="checkbox" name="caducidad" value="caducadas">Caducadas</input>
+<div class="checkbox">
+
+<label><input type="checkbox" name="caducidad" value="">Todas</label>
+<label><input type="checkbox" name="caducidad" value="nocaducadas">No caducadas</label>
+<label><input type="checkbox" name="caducidad" value="caducadas">Caducadas</label>
 
 </div>
 
-<div>
+<div  class="form-group">
 <label for="">Fecha (dd/mm/yyyy) Desde</label>
-<input type="text" id="fechaPub" name="fechaPubDesde" value=""/>
+<input class="form-control" type="date" id="fechaPub" name="fechaPubDesde" value=""/>
 </div>
 
 
@@ -139,18 +139,19 @@ for(Tipo tipo_i:tipos){
 
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input class="btn btn-primary" type="submit" value="buscar">
 <input class="btn btn-primary" type="button" value="limpiar" onclick="clearFields()">
+</div>
 </form>
 
-</fieldset>
+
 <%
 List<Alert> alerts= (List<Alert>)request.getAttribute("alertas");
 if(request.getAttribute("alertas")!=null){ %>
 <fieldset>
 <h3>Resultados:&nbsp; <%=alerts.size() %></h3>
-<table class="table table-striped">
+<table class="table table-striped small">
 <tr><th>id</th><th>nombre</th><th>tipo</th><th>fecha</th><th>texto</th></tr>
 
 <%for(Alert a:alerts){%>
@@ -165,7 +166,9 @@ if(request.getAttribute("alertas")!=null){ %>
 </table>
 </fieldset>
 <%}else{%>
-<div>---- Sin resultado ----</div>
+<div>
+---- Sin resultado ----
+</div>
 <%}%>
 </div>
 </body> 

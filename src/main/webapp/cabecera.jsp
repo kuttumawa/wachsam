@@ -96,6 +96,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         </ul>
       </li>
       <%}%>
+      <%if(sec.hasAuth(usuario,PermisosAvanzados.class,Acciones.READ,null)){ %>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Otros
         <span class="caret"></span></a>
@@ -103,6 +104,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
           <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li>
         </ul>
       </li>
+      <%}%>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seguridad
         <span class="caret"></span></a>

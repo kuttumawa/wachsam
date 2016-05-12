@@ -82,6 +82,8 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 	    <option value="Peligro" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Peligro")?" selected":""%>>Peligro</option>
 	    <option value="Sitio" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Sitio")?" selected":""%>>Sitio</option>
 	    <option value="Data" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("Data")?" selected":""%>>Data</option>
+	    <option value="PermisosAvanzados" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("PermisosAvanzados")?" selected":""%>>PermisosAvanzados</option>
+	    <option value="PermisosGod" <%=permiso.getObjeto()!=null && permiso.getObjeto().equals("PermisosGod")?" selected":""%>>PermisosGod</option>
 	
 	</select>
 </div>

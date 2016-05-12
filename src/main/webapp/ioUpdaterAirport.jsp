@@ -51,10 +51,10 @@ Airport airport = (Airport)request.getAttribute("airport");
 
 
 
-<form id="form1" action="ProvisionalAirportUpdaterForYou" method="get">
-<div>
+<form id="form1" action="ProvisionalAirportUpdaterForYou" method="get" class="form-inline" role="form">
+<div class="form-group">
 <label for="">Airport</label>
-<select name="airport" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="airport" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Airport> airports =  (List<Airport>)request.getAttribute("airports");
@@ -67,80 +67,81 @@ Airport airport = (Airport)request.getAttribute("airport");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalAirportUpdaterForYou" method="post">
+<form id="form2" action="ProvisionalAirportUpdaterForYou" method="post" role="form">
 <fieldset>
 
 
 
 
-<div>
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= airport.getId()!=null?airport.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= airport.getId()!=null?airport.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= airport.getId()!=null?airport.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= airport.getName()!=null?airport.getName():"" %>"/>
+<input class="form-control" type="text" id="nombre" name="nombre" value="<%= airport.getName()!=null?airport.getName():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">City</label>
-<input type="text" id="city" name="city" value="<%= airport.getCity()!=null?airport.getCity():""%>"/>
+<input class="form-control" type="text" id="city" name="city" value="<%= airport.getCity()!=null?airport.getCity():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Country</label>
-<input type="text" id="country" name="country" value="<%= airport.getCountry()!=null?airport.getCountry():"" %>"/>
+<input class="form-control" type="text" id="country" name="country" value="<%= airport.getCountry()!=null?airport.getCountry():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">IATA_FAA</label>
-<input type="text" id="IATA_FAA" name="IATA_FAA" value="<%= airport.getIATA_FAA()!=null?airport.getIATA_FAA():"" %>"/>
+<input class="form-control" type="text" id="IATA_FAA" name="IATA_FAA" value="<%= airport.getIATA_FAA()!=null?airport.getIATA_FAA():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">ICAO</label>
-<input type="text" id="ICAO" name="ICAO" value="<%= airport.getICAO()!=null?airport.getICAO():""%>"/>
+<input class="form-control" type="text" id="ICAO" name="ICAO" value="<%= airport.getICAO()!=null?airport.getICAO():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">latitud</label>
-<input type="text" id="latitud" name="latitud" value="<%= airport.getLatitud()!=null?airport.getLatitud():""%>"/>
+<input class="form-control" type="text" id="latitud" name="latitud" value="<%= airport.getLatitud()!=null?airport.getLatitud():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">logitud</label>
-<input type="text" id="logitud" name="logitud" value="<%= airport.getLogitud()!=null?airport.getLogitud():""%>"/>
+<input class="form-control" type="text" id="logitud" name="logitud" value="<%= airport.getLogitud()!=null?airport.getLogitud():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">altitud</label>
-<input type="text" id="altitud" name="altitud" value="<%= airport.getAltitud()!=null?airport.getAltitud():""%>"/>
+<input class="form-control" type="text" id="altitud" name="altitud" value="<%= airport.getAltitud()!=null?airport.getAltitud():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">timezone</label>
-<input type="text" id="timezone" name="timezone" value="<%= airport.getTimezone()!=null?airport.getTimezone():""%>"/>
+<input class="form-control" type="text" id="timezone" name="timezone" value="<%= airport.getTimezone()!=null?airport.getTimezone():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">DST</label>
-<input type="text" id="DST" name="DST" value="<%= airport.getDST()!=null?airport.getDST():""%>"/>
+<input class="form-control" type="text" id="DST" name="DST" value="<%= airport.getDST()!=null?airport.getDST():""%>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">TZ</label>
-<input type="text" id="TZ" name="TZ" value="<%= airport.getTZ()!=null?airport.getTZ():""%>"/>
+<input class="form-control" type="text" id="TZ" name="TZ" value="<%= airport.getTZ()!=null?airport.getTZ():""%>"/>
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
-</fieldset>
+
 </div>
 </body> 
 </html>

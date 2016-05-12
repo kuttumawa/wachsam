@@ -56,7 +56,7 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 
 
 
-<form id="form1" action="ProvisionalUsuarioUpdaterForYou" method="get" role="form">
+<form id="form1" action="ProvisionalUsuarioUpdaterForYou" method="get" class="form-inline" role="form">
 <div>
 <label for="">Usuario</label>
 <select class="form-control" name="usuario" onchange="document.getElementById('form1').submit();">
@@ -102,7 +102,7 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 
 
 <input type="hidden" id="oper" name="oper"/>
- <div class="btn-group">
+ <div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
@@ -113,17 +113,6 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 
 
 <form id="form3" action="ProvisionalUsuarioUpdaterForYou" method="post" class="form-inline" role="form">
-
-<table  class="table table-striped">
-<tr><th>Permiso</th></tr>
-<%
-Iterator<Permiso> it=usuario.getPermisos().iterator();
-while(it.hasNext()){ 
-Permiso p=it.next();
-%>
-<tr><td><span style="cursor:pointer" class="glyphicon glyphicon-remove-sign" onclick="deletePermisoOper(<%=p.getId()%>)">&nbsp;&nbsp;</span><%=p.prettyPrint()%></td></tr>
-<%}%>
-</table>
 <div>
 <label for="">Permiso</label>
 <select class="form-control" id="permisoId" name="permisoId" >
@@ -137,6 +126,17 @@ Permiso p=it.next();
 </select>
 <input type="button" class="btn btn-primary" value="+" onclick="addPermisoOper()">
 </div>
+<table  class="table table-striped small">
+<tr><th>Permiso</th></tr>
+<%
+Iterator<Permiso> it=usuario.getPermisos().iterator();
+while(it.hasNext()){ 
+Permiso p=it.next();
+%>
+<tr><td><span style="cursor:pointer" class="glyphicon glyphicon-remove-sign" onclick="deletePermisoOper(<%=p.getId()%>)">&nbsp;&nbsp;</span><%=p.prettyPrint()%></td></tr>
+<%}%>
+</table>
+
  
 <input type="hidden" id="oper1" name="oper"/>
 <input type="hidden" name="id" id="id" value="<%= usuario.getId()!=null?usuario.getId():"" %>"  />

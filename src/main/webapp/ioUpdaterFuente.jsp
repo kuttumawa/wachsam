@@ -42,10 +42,10 @@ Fuente fuente = (Fuente)request.getAttribute("fuente");
 
 
 
-<form id="form1" action="ProvisionalFuenteUpdaterForYou" method="get">
-<div>
+<form id="form1" action="ProvisionalFuenteUpdaterForYou" method="get"  class="form-inline" role="form">
+<div class="form-group">
 <label for="">Fuente</label>
-<select name="fuente" onchange="document.getElementById('form1').submit();">
+<select class="form-control" name="fuente" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Fuente> fuentes =  (List<Fuente>)request.getAttribute("fuentes");
@@ -58,26 +58,26 @@ Fuente fuente = (Fuente)request.getAttribute("fuente");
 </div>
 </form>
 
-<form id="form2" action="ProvisionalFuenteUpdaterForYou" method="post">
-<fieldset>
+<form id="form2" action="ProvisionalFuenteUpdaterForYou" method="post" role="form">
 
 
 
 
-<div>
+
+<div class="form-group">
 <label for="">Id</label>
-<input type="text"  id="id0" value="<%= fuente.getId()!=null?fuente.getId():""  %>" disabled="disabled" />
+<input class="form-control" type="text"  id="id0" value="<%= fuente.getId()!=null?fuente.getId():""  %>" disabled="disabled" />
 <input type="hidden" name="id" id="id" value="<%= fuente.getId()!=null?fuente.getId():"" %>"  />
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Nombre</label>
-<input type="text" id="nombre" name="nombre" value="<%= fuente.getNombre()!=null?fuente.getNombre():"" %>"/>
+<input  class="form-control" type="text" id="nombre" name="nombre" value="<%= fuente.getNombre()!=null?fuente.getNombre():"" %>"/>
 </div>
 
-<div>
+<div class="form-group">
 <label for="">Descripción</label><br>
-<textarea name="descripcion" id="descripcion" cols="100" rows="4"><%= fuente.getDescripcion()!=null?fuente.getDescripcion():"" %></textarea>
+<textarea class="form-control" name="descripcion" id="descripcion" cols="100" rows="4"><%= fuente.getDescripcion()!=null?fuente.getDescripcion():"" %></textarea>
 </div>
 
 
@@ -106,10 +106,10 @@ class Fiabilidad{
 %>
 
 
-<div>
+<div class="form-group">
 <label for="">Fiabilidad</label>
-</div><div>
-<select name="fiabilidad" id="fiabilidad">
+
+<select class="form-control" name="fiabilidad" id="fiabilidad">
 <%
 for(Fiabilidad f_i:niveles){
 	  if(fuente.getFiabilidad()!=null && fuente.getFiabilidad().equals(f_i.id)){
@@ -123,12 +123,13 @@ for(Fiabilidad f_i:niveles){
 </div>
 
 <input type="hidden" id="oper" name="oper"/>
-
+<div class="btn-group center-block">
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+</div>
 </form>
-</fieldset>
+
 </div>
 </body> 
 </html>
