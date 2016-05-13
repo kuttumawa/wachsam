@@ -13,7 +13,7 @@ function clearFields(){
 	document.getElementById("password").value="";
 	document.getElementById("email").value="";
 	document.getElementById("oper").value="";
-	
+	$('tr').remove();
 }
 function deleteOper(){
 	if(confirm('Seguro?')){
@@ -33,6 +33,10 @@ function deletePermisoOper(idPermiso){
 function addPermisoOper(){
 		document.getElementById("oper1").value="addPermiso";
 	    document.getElementById('form3').submit();
+}
+function clonarPermisosOper(){
+	document.getElementById("oper1").value="clonarPermisos";
+    document.getElementById('form3').submit();
 }
 </script>
  
@@ -57,7 +61,7 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 
 
 <form id="form1" action="ProvisionalUsuarioUpdaterForYou" method="get" class="form-inline" role="form">
-<div>
+<div class="form-group form-group-sm">
 <label for="">Usuario</label>
 <select class="form-control" name="usuario" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
@@ -115,7 +119,7 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
 <form id="form3" action="ProvisionalUsuarioUpdaterForYou" method="post" class="form-inline" role="form">
 <div>
 <label for="">Permiso</label>
-<select class="form-control" id="permisoId" name="permisoId" >
+<select class="form-control input-sm" id="permisoId" name="permisoId" >
 <option value=""></option>
 <%    
           List<Permiso> permisos =  (List<Permiso>)request.getAttribute("permisos");
@@ -124,7 +128,24 @@ Usuario usuario = (Usuario)request.getAttribute("usuario");
           }        
 %>  
 </select>
-<input type="button" class="btn btn-primary" value="+" onclick="addPermisoOper()">
+<button type="button" class="btn btn-info"  onclick="addPermisoOper()">
+    <span class="glyphicon glyphicon-plus-sign"></span>
+</button>
+</div>
+<div>
+<label for="">Clonar&nbsp;&nbsp;</label>
+<select class="form-control input-sm" name="usuarioClonarId">
+<option value=""></option>
+<%    
+          for(Usuario usuario_i:usuarios){
+        	  out.println("<option value=\""+usuario_i.getId()+"\">"+usuario_i.getLogin()+"</option>");
+          }
+         
+%> 
+</select>
+<button type="button" class="btn btn-info"  onclick="clonarPermisosOper()">
+    <span class="glyphicon glyphicon-transfer"></span>
+</button>
 </div>
 <table  class="table table-striped small">
 <tr><th>Permiso</th></tr>

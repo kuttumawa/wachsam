@@ -5,18 +5,13 @@
 ------------------------------------------------------------------------------
 - Tags.Se crea alias corto para metalenguaje.
 - Mapa para alertas
-- Tipos de sitio en BD
-- layout: footer
 - Iconos para tipos de sitios
-- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
 - Revisión algoritmo de dispersión
-- Tags ampliar funcionalidad.ie: asociar icono a un dato
 - Reducir tamaño del punto azul 
-- bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
-- bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
 - Se añade en Sitios:: Carceles,Campos de Refugiados
 - Auditoría de operaciones
 - Autenticación (nuevo login) y autorización sobre operaciones.
+- Permisos
 
 -----------------------------------------------------------------------------
 
@@ -58,6 +53,15 @@ FUTURO
    CU2: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.Limitar a 1000 accesos hora.
 5.Auditoría de accesos-tokens
 - Datos: pemitir datos privados para un usuario:
+-TK (to come).Idea colaborativa: Ejemplo publicar un TK: El agente infeccioso TK puede afectar al país TK por los evntos detectados TK* 
+-Tags ampliar funcionalidad.ie: asociar icono a un dato
+-d3.js widget de visualización network de las relaciones de un objeto.
+- Tipos de sitio en BD
+- layout: footer
+- widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
+- bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
+- bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
+
 
 -------------------------------------------------------------------------------
 </pre>

@@ -76,6 +76,7 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");
+		String nombre=request.getParameter("nombre");
 		String accion=request.getParameter("accion");
 		String objeto=request.getParameter("objeto");
 		String filtroFlag=request.getParameter("filtroFlag");
@@ -108,7 +109,7 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 			}
 			permiso.setObjeto(objeto);
 			permiso.setAccion(Acciones.values()[Integer.parseInt(accion)]);
-			permiso.setNombre("VOID");
+			permiso.setNombre(nombre!=null?nombre:"");
 			permiso.setFiltro(filtro);
 			permiso.setFiltroFlag(filtroFlag!=null && filtroFlag.length()>0?true:false);
 			UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");

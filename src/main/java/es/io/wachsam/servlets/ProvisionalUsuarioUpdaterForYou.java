@@ -76,6 +76,7 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 		String password=request.getParameter("password");
 		String email=request.getParameter("email");
 		String permisoId=request.getParameter("permisoId");
+		String usuarioClonarId=request.getParameter("usuarioClonarId");
 		String oper=request.getParameter("oper");
 		UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
 		
@@ -111,6 +112,24 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 				request.setAttribute("resultado","Error al añadir Permiso");
 			}
 			
+		}else if(oper!=null && oper.equalsIgnoreCase("clonarPermisos")){
+			if(id!=null && permisoId!=null && usuarioClonarId!=null){
+				try {
+					Usuario usuarioClonar=usuarioDao.getUsuario(Long.parseLong(usuarioClonarId));
+					usuario=usuarioDao.getUsuario(Long.parseLong(id));
+					for(Permiso p:usuarioClonar.getPermisos()){
+						usuario.addPermiso(p);
+					}					
+					usuarioDao.save(usuario);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				request.setAttribute("resultado","Permiso añadido");
+			}else{
+				request.setAttribute("resultado","Error al añadir Permiso");
+			}
 		}else if(oper!=null && oper.equalsIgnoreCase("deletePermiso")){
 			if(id!=null && permisoId!=null){
 				try {

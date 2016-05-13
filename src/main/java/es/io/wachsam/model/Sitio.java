@@ -250,7 +250,8 @@ public class Sitio {
 				if (permiso.getAccion().equals(Acciones.ALL)|| permiso.getAccion().equals(accion)){
 					if(permiso.getFiltroFlag()==null || !permiso.getFiltroFlag()) return true;
 					else{
-						 return true;
+						List<Long> filtroTipo =permiso.listOfIdsFromJson("tipo");
+						if(this.tipo!=null && filtroTipo.contains(this.tipo.ordinal())) return true;
 					}
 				}
 			}

@@ -125,11 +125,10 @@ for(Data data:datas){
 	<option value="4" <%= sitio.getTipo()!=null && sitio.getTipo().equals(4)?" selected":""%>>Cueva</option>
 	<option value="5" <%= sitio.getTipo()!=null && sitio.getTipo().equals(5)?" selected":""%>>Pico</option>
 	<option value="6" <%= sitio.getTipo()!=null && sitio.getTipo().equals(6)?" selected":""%>>Mercado</option>
+	<option value="7" <%= sitio.getTipo()!=null && sitio.getTipo().equals(7)?" selected":""%>>Carcel</option>
+	<option value="8" <%= sitio.getTipo()!=null && sitio.getTipo().equals(8)?" selected":""%>>Campo de Refugiados</option>
 </select>
 </div>
-
-
-
 
 <div class="form-group">
 <label for="">Lugar</label>

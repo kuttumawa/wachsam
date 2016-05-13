@@ -72,7 +72,10 @@ Permiso permiso = (Permiso)request.getAttribute("permiso");
 <input type="hidden" name="id" id="id" value="<%= permiso.getId()!=null?permiso.getId():"" %>"  />
 </div>
 
-
+<div class="form-group">
+<label for="">Nombre</label>
+<input type="text" class="form-control" name="nombre" id="nombre" value="<%= permiso.getNombre()!=null?permiso.getNombre():""%>"/>
+</div>
 
 <div>
 <label for="">Objeto</label>
