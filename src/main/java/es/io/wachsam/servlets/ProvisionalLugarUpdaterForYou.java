@@ -18,6 +18,7 @@ import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.AlertService;
 import es.io.wachsam.services.LugarService;
@@ -59,8 +60,9 @@ public class ProvisionalLugarUpdaterForYou extends HttpServlet {
 			lugar=lugarDao.getLugar(Long.parseLong(lugarId));
 			DataDao dataDao = (DataDao) context.getBean("dataDao");
 			Data filtro=new Data();
-			filtro.setLugarId(lugar.getId());
-			datas=dataDao.getAllnoExtrict(filtro);
+			filtro.setObjetoId(lugar.getId());
+			filtro.setObjetoConnected(ObjetoSistema.Lugar);
+			datas=dataDao.getAll(filtro);
 			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("lugar",lugar);
@@ -125,7 +127,15 @@ public class ProvisionalLugarUpdaterForYou extends HttpServlet {
 		}
 		request.setAttribute("lugar",lugar);
 		
-		
+		List<Data> datas=new ArrayList<Data>();
+		if(lugar.getId()!=null){
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setObjetoId(lugar.getId());
+			filtro.setObjetoConnected(ObjetoSistema.Lugar);
+			datas=dataDao.getAll(filtro);
+			request.setAttribute("datas",datas);
+		}
 		LugarDao lugarDao = (LugarDao) context.getBean("lugarDao");
 		List<Lugar> lugares =lugarDao.getAll();
 		request.setAttribute("lugares",lugares);

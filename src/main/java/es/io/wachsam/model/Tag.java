@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.google.gson.annotations.Expose;
+
 
 
 /**
@@ -18,13 +20,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name="tag")
 public class Tag {
-	
+	@Expose
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
 	String alias;
+	@Expose
 	String nombre;
 	String nombreEn;
+	@Expose
 	String descripcion;
 
 	

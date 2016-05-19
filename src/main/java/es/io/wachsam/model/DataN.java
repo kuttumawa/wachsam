@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.google.gson.annotations.Expose;
-
 
 
 /**
@@ -24,27 +22,19 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name="data")
-public class Data {
-	@Expose
+public class DataN {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
-	@Expose
 	String value;
-	@Expose
     String descripcion;
-	@Expose
 	DataValueTipo tipoValor;
-	@Expose
 	@ManyToOne(fetch = FetchType.EAGER)
 	Tag tag;
-	@Expose
 	Long objetoId;
-	@Expose
 	Long connectToId;
-	@Expose
 	ObjetoSistema objetoTipo;
-	@Expose
 	ObjetoSistema objetoConnected;
 	
 	

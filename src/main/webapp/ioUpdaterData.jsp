@@ -13,14 +13,8 @@ function clearFields(){
     document.getElementById("value").value="";
     document.getElementById("descripcion").value="";
     document.getElementById("tipoValor").value="";
-    document.getElementById("peligro").value="";
-    document.getElementById("lugar").value="";
-    document.getElementById("tag1").value="";
-    document.getElementById("tag2").value="";
-    document.getElementById("tag3").value="";
-    document.getElementById("evento").value="";
-    document.getElementById("sitio").value="";
-
+    document.getElementById("tag").value="";
+    
 }
 function deleteOper(){
 
@@ -56,7 +50,7 @@ Data data = (Data)request.getAttribute("data");
 <%    
           List<Data> datas =  (List<Data>)request.getAttribute("datas");
           for(Data data_i:datas){
-        	  out.println("<option value=\""+data_i.getId()+"\">"+data_i.prettyPrint()+"</option>");
+        	  out.println("<option value=\""+data_i.getId()+"\">"+data_i+"</option>");
           }
          
 %> 
@@ -98,18 +92,17 @@ Data data = (Data)request.getAttribute("data");
 
 
 <div class="form-group">
-<label for="">Peligro</label>
+<label for="">Objeto</label>
 
-<select class="form-control" name="subjectId" id="peligro">
+<select class="form-control" name="objetoTipo" id="objetoTipo">
 <option value=""></option>
 <%    
-          List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
-          for(Peligro peligro:peligros){
+          for(ObjetoSistema o:ObjetoSistema.values()){
         	  
-        	  if(data.getSubjectId()!=null  && data.getSubjectId().equals(peligro.getId())){
-        		  out.println("<option value=\""+peligro.getId()+"\" selected >"+peligro.getNombre()+"</option>"); 
+        	  if(data.getObjetoTipo()!=null  && data.getObjetoTipo().equals(o)){
+        		  out.println("<option value=\""+o.ordinal()+"\" selected >"+o.name()+"</option>"); 
         	  }else{
-        	      out.println("<option value=\""+peligro.getId()+"\">"+peligro.getNombre()+"</option>");
+        	      out.println("<option value=\""+o.ordinal()+"\">"+o.name()+"</option>");
         	  }        	         	
           }
          
@@ -118,120 +111,24 @@ Data data = (Data)request.getAttribute("data");
 </div>
 
 <div class="form-group">
-<label for="">Lugar</label>
+<label for="">ObjetoConneted</label>
 
-<select class="form-control" name="lugarId" id="lugar">
+<select class="form-control" name="objetoConnected" id="objetoConnected">
 <option value=""></option>
 <%    
-			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
-			for(Lugar lugar:lugares){
-				  
-				  if(data.getLugarId()!=null && data.getLugarId().equals(lugar.getId())){
-					  out.println("<option value=\""+lugar.getId()+"\" selected >"+lugar.getNombre()+"</option>"); 
-				  }else{
-				      out.println("<option value=\""+lugar.getId()+"\">"+lugar.getNombre()+"</option>");
-				  }        	         	
-			}
-        
-%> 
-</select>
-</div>
-
-<div class="form-group">
-<label for="">Alerta</label>
-
-<select class="form-control" name="eventoId" id="evento">
-<option value=""></option>
-<%    
-          List<Alert> alertas =  (List<Alert>)request.getAttribute("alertas");
-          for(Alert alert_i:alertas){
-        	  if(data.getEventoId()!=null && data.getEventoId().equals(alert_i.getId())){
-				  out.println("<option value=\""+alert_i.getId()+"\" selected >"+alert_i.prettyPrint()+"</option>"); 
-			  }else{
-			      out.println("<option value=\""+alert_i.getId()+"\">"+alert_i.prettyPrint()+"</option>");
-			  } 
+          for(ObjetoSistema o:ObjetoSistema.values()){
+        	  
+        	  if(data.getObjetoTipo()!=null  && data.getObjetoTipo().equals(o)){
+        		  out.println("<option value=\""+o.ordinal()+"\" selected >"+o.name()+"</option>"); 
+        	  }else{
+        	      out.println("<option value=\""+o.ordinal()+"\">"+o.name()+"</option>");
+        	  }        	         	
           }
          
 %> 
 </select>
 </div>
-<div class="form-group">
-<label for="">Sitio</label>
 
-<select class="form-control" name="sitioId" id="sitio">
-<option value=""></option>
-<%    
-          List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
-          for(Sitio sitio_i:sitios){
-        	  if(data.getSitioId()!=null && data.getSitioId().equals(sitio_i.getId())){
-				  out.println("<option value=\""+sitio_i.getId()+"\" selected >"+sitio_i.prettyPrint()+"</option>"); 
-			  }else{
-			      out.println("<option value=\""+sitio_i.getId()+"\">"+sitio_i.prettyPrint()+"</option>");
-			  } 
-          }
-         
-%> 
-</select>
-</div>
-<div class="form-group">
-<label for="">Tag1</label>
-
-<select class="form-control" name="tag1" id="tag1">
-<option value=""></option>
-<%    
-			List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
-			for(Tag tag:tags){
-				  
-				  if(data.getTag1()!=null && data.getTag1().getId()!=null && data.getTag1().getId().equals(tag.getId())){
-					  out.println("<option value=\""+tag.getId()+"\" selected >"+tag.getNombre()+"</option>"); 
-				  }else{
-				      out.println("<option value=\""+tag.getId()+"\">"+tag.getNombre()+"</option>");
-				  }        	         	
-			}
-        
-%> 
-</select>
-</div>
-
-<div class="form-group">
-<label for="">Tag2</label>
-
-<select class="form-control" name="tag2" id="tag2">
-<option value=""></option>
-<%    
-			//List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
-			for(Tag tag:tags){
-				  
-				  if(data.getTag2()!=null && data.getTag2().getId()!=null && data.getTag2().getId().equals(tag.getId())){
-					  out.println("<option value=\""+tag.getId()+"\" selected >"+tag.getNombre()+"</option>"); 
-				  }else{
-				      out.println("<option value=\""+tag.getId()+"\">"+tag.getNombre()+"</option>");
-				  }        	         	
-			}
-        
-%> 
-</select>
-</div>
-
-<div class="form-group">
-<label for="">Tag3</label>
-
-<select class="form-control" name="tag3" id="tag3">
-<option value=""></option>
-<%    
-			//List<Tag> tags =  (List<Tag>)request.getAttribute("tags");
-			for(Tag tag:tags){
-				  
-				  if(data.getTag3()!=null && data.getTag3().getId()!=null && data.getTag3().getId().equals(tag.getId())){
-					  out.println("<option value=\""+tag.getId()+"\" selected >"+tag.getNombre()+"</option>"); 
-				  }else{
-				      out.println("<option value=\""+tag.getId()+"\">"+tag.getNombre()+"</option>");
-				  }        	         	
-			}
-        
-%> 
-</select>
-</div>
 
 
 

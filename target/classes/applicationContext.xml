@@ -32,6 +32,8 @@
     <bean id="dataService" class="es.io.wachsam.services.DataService">
        <property name="dao" ref="dataDao"/>
        <property name="tagDao" ref="tagDao"/>
+       <property name="securityService"  ref="securityService"/>
+       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>

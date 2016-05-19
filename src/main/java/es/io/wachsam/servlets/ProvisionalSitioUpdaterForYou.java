@@ -23,6 +23,7 @@ import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
@@ -67,8 +68,9 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			sitio=sitioDao.getSitio(Long.parseLong(sitioId));
 			DataDao dataDao = (DataDao) context.getBean("dataDao");
 			Data filtro=new Data();
-			filtro.setSitioId(sitio.getId());
-			datas=dataDao.getAllnoExtrict(filtro);
+			filtro.setObjetoId(sitio.getId());
+			filtro.setObjetoConnected(ObjetoSistema.Sitio);
+			datas=dataDao.getAll(filtro);
 			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("sitio",sitio);
@@ -151,9 +153,10 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 				dataService.saveData(newdatas, sitio);
 				DataDao dataDao = (DataDao) context.getBean("dataDao");
 				Data filtro=new Data();
-				filtro.setSitioId(sitio.getId());
+				filtro.setObjetoId(sitio.getId());
+				filtro.setObjetoConnected(ObjetoSistema.Sitio);
 				List<Data> datas=new ArrayList<Data>();
-				datas=dataDao.getAllnoExtrict(filtro);
+				datas=dataDao.getAll(filtro);
 				request.setAttribute("datas",datas);
 				request.setAttribute("resultado","INSERTADO OK: " + sitio + "\n DATOS:" + newdatas);
 			} catch (NoAutorizadoException e) {

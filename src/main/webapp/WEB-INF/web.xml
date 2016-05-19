@@ -98,7 +98,13 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalPermisoUpdaterForYou</servlet-class>
   </servlet>
-
+  <servlet>
+  	<servlet-name>DataServletJSON</servlet-name>
+  	<display-name>DataServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.DataServletJSON</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
   	<url-pattern>/Magno</url-pattern>
@@ -155,5 +161,10 @@
     <servlet-name>ProvisionalPermisoUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalPermisoUpdaterForYou</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>DataServletJSON</servlet-name>
+  	<url-pattern>/DataServletJSON</url-pattern>
+  </servlet-mapping>
+
 
 </web-app>

@@ -91,7 +91,7 @@ public class MetalenguajeTest extends TestCase {
 		        	String tagnombre=tag.getNombre().replaceAll("\\s","");
 		        	if(tagnombre.equalsIgnoreCase(t.replaceAll("\\s",""))){
 		        		Data dataTemp=new Data();
-		        		dataTemp.setTag1(tag);
+		        		dataTemp.setTag(tag);
 		        		dataTemp.setValue(pair.getValue().toString());
 		        		dataTemp.setTipoValor(DataValueTipo.TEXTO);
 		        		newdatas.add(dataTemp);
