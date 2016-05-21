@@ -1,5 +1,6 @@
 package es.io.wachsam.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -89,23 +90,41 @@ public class Alert {
 		Date fechapub = new Date();
 		try {
 			id = Long.parseLong(t[0].trim());
-			fechapub = new SimpleDateFormat("dd/MM/yyyy").parse(t[9].trim());
+			try{
+				 fechapub = new SimpleDateFormat("yyyy-MM-dd").parse(t[9].trim());
+				}catch(ParseException e){
+					//ignorado
+				}
 
 			if (t.length > 10 && t[10] != null) {
 				peligro = new Peligro();
+				try{
 				peligro.setId(Long.parseLong(t[11].trim()));
+				}catch(Exception e){
+					
+				}
 			}
 			if (t.length > 11 && t[11] != null) {
 				lugar = new Lugar();
+				try{
 				lugar.setId(Long.parseLong(t[10].trim()));
+                }catch(Exception e){
+					
+				}
 			}
 			if (t.length > 12 && t[12] != null) {
+				try{
 				caducidad = Integer.parseInt(t[12]);
+                }catch(Exception e){
+				}
 			}
 
 			if (t.length > 13 && t[13] != null) {
 				fuente = new Fuente();
+				try{
 				fuente.setId(Long.parseLong(t[13].trim()));
+				}catch(Exception e){
+				}
 			}
 		} catch (Exception e) {
 			if (t != null && t.length > 1)
@@ -133,22 +152,31 @@ public class Alert {
 		try {
 			if (t[0] != null && t[0].length() > 0)
 				id = Long.parseLong(t[0].trim());
-			fechapub = new SimpleDateFormat("dd/MM/yyyy").parse(t[9].trim());
-
+			try{
+			 fechapub = new SimpleDateFormat("yyyy-MM-dd").parse(t[9].trim());
+			}catch(ParseException e){
+				//ignorado
+			}
 			if (t.length > 11 && t[11] != null) {
 				peligro = new Peligro();
-				peligro.setId(Long.parseLong(t[11].trim()));
+				try{
+				  peligro.setId(Long.parseLong(t[11].trim()));
+				}catch(Exception e){}
 			}
 			if (t.length > 10 && t[10] != null) {
 				lugar = new Lugar();
+				try{
 				lugar.setId(Long.parseLong(t[10].trim()));
+				}catch(Exception e){}
 			}
 			if (t.length > 12 && t[12] != null) {
 				caducidad = Integer.parseInt(t[12]);
 			}
 			if (t.length > 13 && t[13] != null && t[13].length() > 0) {
 				fuente = new Fuente();
+				try{
 				fuente.setId(Long.parseLong(t[13].trim()));
+				}catch(Exception e){}
 			}
 		} catch (Exception e) {
 			if (t != null && t.length > 1)
@@ -173,13 +201,22 @@ public class Alert {
 		}
 		return fechaPubFormatted;
 	}
+	public String getFechaPubFormattedForDateHtmlInput() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			fechaPubFormatted = df.format(fechaPub);
+		} catch (Exception e) {
+			fechaPubFormatted = null;
+		}
+		return fechaPubFormatted;
+	}
 
 	public void setFechaPubFormatted() {
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 		try {
 			fechaPubFormatted = df.format(fechaPub);
 		} catch (Exception e) {
-			fechaPubFormatted = "";
+			fechaPubFormatted = null;
 		}
 
 	}

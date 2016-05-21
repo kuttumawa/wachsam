@@ -8,9 +8,9 @@
 <script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
  -->
  
-<script src="http://localhost:8080/wachsam/js/wachsam.js" type="text/javascript"></script></head>  
+<script src="http://viajarseguro.elasticbeanstalk.com/js/wachsam.js" type="text/javascript"></script>
 
- <script>
+<script>
 
  function mapini(){
 	var mapProp = {center:{lat:20,lng:3},

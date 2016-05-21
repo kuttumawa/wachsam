@@ -1,7 +1,7 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
-1.0.3 ()
+1.0.3 (15-05-2016)
 ------------------------------------------------------------------------------
 - Tags.Se crea alias corto para metalenguaje.
 - Mapa para alertas
@@ -12,6 +12,7 @@
 - Auditoría de operaciones
 - Autenticación (nuevo login) y autorización sobre operaciones.
 - Permisos
+- Componente html input date
 
 -----------------------------------------------------------------------------
 
@@ -61,7 +62,8 @@ FUTURO
 - widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
 - bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
 - bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
-
+- Configurable Alarms
+- Data: let reflexion
 
 -------------------------------------------------------------------------------
 </pre>

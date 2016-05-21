@@ -80,11 +80,23 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalAirportUpdaterForYou</servlet-class>
   </servlet>
-    <servlet>
+  <servlet>
   	<servlet-name>ProvisionalFuenteUpdaterForYou</servlet-name>
   	<display-name>ProvisionalFuentetUpdaterForYou</display-name>
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalFuenteUpdaterForYou</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>ProvisionalUsuarioUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalUsuarioUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalUsuarioUpdaterForYou</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>ProvisionalPermisoUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalPermisoUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalPermisoUpdaterForYou</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -134,6 +146,14 @@
     <servlet-mapping>
   	<servlet-name>ProvisionalFuenteUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalFuenteUpdaterForYou</url-pattern>
+  </servlet-mapping>
+     <servlet-mapping>
+  	<servlet-name>ProvisionalUsuarioUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalUsuarioUpdaterForYou</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProvisionalPermisoUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalPermisoUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 </web-app>

@@ -19,6 +19,7 @@ import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.TagDao;
+import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
@@ -27,6 +28,9 @@ import es.io.wachsam.model.Factor;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.Usuario;
+import es.io.wachsam.services.DataService;
+import es.io.wachsam.services.LugarService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -100,13 +104,15 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")==null){
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
+		if(usuario==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			   dispatcher.forward(request,response);
 			   return;
 		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		DataService dataService=(DataService) context.getBean("dataService");
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");
 		String value=request.getParameter("value");
@@ -139,15 +145,17 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		Data data=new Data();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
 			if(id!=null){
-				DataDao dataDao=(DataDao) context.getBean("dataDao");
 				try {
-					if(id!=null)dataDao.deleteById(Long.parseLong(id));
+					if(id!=null)dataService.deleteById(Long.parseLong(id),usuario);
+					request.setAttribute("resultado","Borrado Correcto");
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
-				} catch (Exception e) {
+				} catch (NoAutorizadoException e) {
+					request.setAttribute("resultado","No tienes permisos para la operacion");
+				} catch (Throwable e) {
 					e.printStackTrace();
 				}
-				request.setAttribute("resultado","Borrado Correcto");
+				
 			}else{
 				request.setAttribute("resultado","Error al borrar");
 			}
@@ -183,9 +191,13 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		    }catch(Exception e){
 					
 			}
-			DataDao dataDao=(DataDao) context.getBean("dataDao");
-			dataDao.save(data);
-			request.setAttribute("resultado","INSERTADO OK: " + data.prettyPrint());
+			try {
+				dataService.save(data,usuario);
+				request.setAttribute("resultado","INSERTADO OK: " + data.prettyPrint());
+			} catch (NoAutorizadoException e) {
+				request.setAttribute("resultado","No tienes permisos para la operacion");
+			}
+			
 		}else{
 			
 			request.setAttribute("resultado",validar(request));
@@ -211,6 +223,10 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		List<Tag> tags =tagDao.getAll();
 		request.setAttribute("tags",tags);
 		
+		SitioDao sitioDao = (SitioDao) context.getBean("sitioDao");
+		List<Sitio> sitios =sitioDao.getAll();
+		request.setAttribute("sitios",sitios);
+		
 		request.setAttribute("data",data);
 		String nextJSP = "/ioUpdaterData.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
@@ -224,6 +240,8 @@ public class ProvisionalDataUpdaterForYou extends HttpServlet {
 		
 		
 		if(tipoValor==null || tipoValor.length()<1) resultado.append("TipoValor Obligatorio;");
+		String tag1 = request.getParameter("tag1");
+		if(tag1==null || tag1.length()<1) resultado.append("Tag1 Obligatorio;");
 		
 		
 		

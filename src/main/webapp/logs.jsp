@@ -20,7 +20,7 @@ logs=opedao.getAll();
 <jsp:include page="cabecera.jsp"/>
 <h3>Logs</h3>     
 
-<table class="table table-striped">
+<table class="table table-striped small">
 <tr><th>id</th><th>Objeto</th><th>Objeto Id</th><th>Operación</th><th>Usuario</th><th>TimeStamp</th></tr>
 
 <%for(OperationLog log:logs){%>

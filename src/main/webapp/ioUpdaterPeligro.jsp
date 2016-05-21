@@ -3,8 +3,15 @@
     
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
+    <%@ page import="es.io.wachsam.services.*"  %>
+    <%@ page import="org.springframework.web.context.WebApplicationContext"  %> 
+    <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"  %> 
 <html> 
-
+<%
+WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+SecurityService sec=(SecurityService)context.getBean("securityService");
+Usuario usuario = (Usuario)request.getSession().getAttribute("user");
+%>
 <script>
 function clearFields(){
 	document.getElementById("id0").value="";
@@ -13,7 +20,7 @@ function clearFields(){
 	document.getElementById("nombreEn").value="";
 	document.getElementById("damage").value="";
 	document.getElementById("oper").value="";
-	
+	$('tr').remove()
 }
 function deleteOper(){
 	if(confirm('Seguro?')){
@@ -121,7 +128,9 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </div>
 <div class="col-sm-5">
 <jsp:include page="showData.jsp"/>
+ <%if(sec.hasAuth(usuario,Data.class,Acciones.CREATE,null)){ %>
 <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('subjectId')"/> 
+ <%}%>
  </div>
 </div>
 </div>

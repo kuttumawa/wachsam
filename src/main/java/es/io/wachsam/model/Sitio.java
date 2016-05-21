@@ -251,7 +251,7 @@ public class Sitio {
 					if(permiso.getFiltroFlag()==null || !permiso.getFiltroFlag()) return true;
 					else{
 						List<Long> filtroTipo =permiso.listOfIdsFromJson("tipo");
-						if(this.tipo!=null && filtroTipo.contains(this.tipo.ordinal())) return true;
+						if(this.tipo!=null && filtroTipo.contains(new Long(this.tipo.ordinal()))) return true;
 					}
 				}
 			}

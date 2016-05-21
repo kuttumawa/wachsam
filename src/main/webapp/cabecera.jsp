@@ -105,6 +105,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         </ul>
       </li>
       <%}%>
+      <%if(sec.hasAuth(usuario,PermisosGod.class,Acciones.READ,null)){ %>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Seguridad
         <span class="caret"></span></a>
@@ -115,7 +116,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
           <li><a href="logs.jsp">Log</a></li>  
         </ul>
       </li>
-            
+       <%}%>     
       <li><a href="version.jsp">Versión</a></li> 
     </ul>
     <ul class="nav navbar-nav navbar-right">

@@ -150,7 +150,8 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 				alert.setTexto(textoNew);
 				try {
 					alertService.save(alert,usuario);
-					dataService.saveData(newdatas, alert);
+					dataService.saveData(newdatas, alert,usuario);
+				
 					DataDao dataDao = (DataDao) context.getBean("dataDao");
 					Data filtro=new Data();
 					filtro.setEventoId(alert.getId());
@@ -165,7 +166,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			}else{
 				request.setAttribute("resultado","ERROR en la operación: ");
 			}
-		}else{
+		}else{//ERROR VALIDACIÓN
 			String[] _alert={id,nombre,tipo,link1,link2,link3,texto,text,null,fechaPub,peligro,lugar};
 			alert=Alert.createAlertSinId(_alert);
 			request.setAttribute("resultado",validar(request));
@@ -215,7 +216,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 		if(fechaPub==null  || fechaPub.length()<1) resultado.append(" Fecha Obligatorio;");
 		if(fechaPub!=null && fechaPub.length()>0){
 		      try{
-				   new SimpleDateFormat("dd/MM/yyyy").parse(fechaPub);
+				   new SimpleDateFormat("yyyy-MM-dd").parse(fechaPub);
 				}catch(Exception e){
 					 resultado.append(" Fecha Formato Erróneo");
 				}

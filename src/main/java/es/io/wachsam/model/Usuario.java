@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 
@@ -29,6 +30,7 @@ public class Usuario {
 	String password;
 	String email;
 	@OneToMany(fetch = FetchType.EAGER)	
+	@OrderBy("id ASC")
 	private Set<Permiso> permisos=new HashSet<Permiso>();;
 
 	public Long getId() {

@@ -84,7 +84,7 @@ public class BuscarAlertServlet extends HttpServlet {
 		Date fechaDesde=null;
 		 if(fechaPubDesde!=null && fechaPubDesde.length()>0){
 		      try{
-		    	  fechaDesde=new SimpleDateFormat("dd/MM/yyyy").parse(fechaPubDesde);
+		    	  fechaDesde=new SimpleDateFormat("yyyy-MM-dd").parse(fechaPubDesde);
 				}catch(Exception e){
 				   //void
 				}

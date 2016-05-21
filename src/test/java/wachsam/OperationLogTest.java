@@ -73,6 +73,11 @@ public class OperationLogTest extends TestCase {
 	
  	}
 	
+	@Test
+	public void testPreparedDataForGraph() throws IOException{
+	 List<Object[]> res=operationLogDao.accesosAgrupadosPorUsuarioDia();
+	 assertNotNull(res);
 	
+ 	}
 	
 }

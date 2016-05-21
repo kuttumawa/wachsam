@@ -14,7 +14,7 @@ function clearFields(){
 	document.getElementById("texto").value="";
 	document.getElementById("textoEn").value="";
 	document.getElementById("oper").value="";
-	
+	$('tr').remove()
 }
 function deleteOper(){
 	if(confirm('Seguro?')){

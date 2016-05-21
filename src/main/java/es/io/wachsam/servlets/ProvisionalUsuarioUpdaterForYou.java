@@ -103,9 +103,9 @@ public class ProvisionalUsuarioUpdaterForYou extends HttpServlet {
 					usuario.addPermiso(permiso);
 					usuarioDao.save(usuario);
 				} catch (NumberFormatException e) {
-					e.printStackTrace();
+					request.setAttribute("resultado","Error al añadir Permiso");
 				} catch (Exception e) {
-					e.printStackTrace();
+					request.setAttribute("resultado","Error al añadir Permiso");
 				}
 				request.setAttribute("resultado","Permiso añadido");
 			}else{

@@ -38,4 +38,11 @@ public class OperationLogDao {
 		OperationLog operationLog = em.find(OperationLog.class, id);
 		em.remove(operationLog); 
 	}
+	
+	public List<Object[]> accesosAgrupadosPorUsuarioDia(){
+		
+		List<Object[]> results = this.em.createNativeQuery("SELECT count(*),b.login, DATE_FORMAT(timestamp, '%e %b %Y') AS date_formatted from operationLog a,usuario b where usuarioId=b.id group by date_formatted,usuarioId").getResultList();
+        return results;
+		
+	}
 }

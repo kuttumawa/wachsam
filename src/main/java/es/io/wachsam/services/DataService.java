@@ -1,6 +1,7 @@
 package es.io.wachsam.services;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -9,14 +10,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import es.io.wachsam.dao.DataDao;
+import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.TagDao;
+import es.io.wachsam.exception.NoAutorizadoException;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.Usuario;
 
 /**
  * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
@@ -25,7 +31,8 @@ import es.io.wachsam.model.Tag;
 public class DataService {
 	private DataDao dao;
 	private TagDao tagDao;
-	
+	private SecurityService securityService;
+	private OperationLogDao operationLogDao;
 	public DataDao getDao() {
 		return dao;
 	}
@@ -66,8 +73,13 @@ public class DataService {
 		return texto;
 	}
 	
-	public void saveData(List<Data> datas,Object objeto){
+	public void saveData(List<Data> datas,Object objeto,Usuario usuario) throws NoAutorizadoException{
+		Acciones operation=Acciones.CREATE;
+		
 		for(Data data:datas){
+			if(data.getId()!=null) operation=Acciones.UPDATE;
+			if(!securityService.hasAuth(usuario,Data.class, operation, data))
+			 throw new NoAutorizadoException();
 			if(objeto instanceof Sitio){
 				Sitio sitio= (Sitio) objeto;
 				data.setSitioId(sitio.getId());
@@ -84,7 +96,18 @@ public class DataService {
 				data.setSubjectId(peligro.getId());
 			}
 			dao.save(data);
+			operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));			
 		}
+			
+	}
+	public void save(Data data,Usuario usuario) throws NoAutorizadoException{
+		Acciones operation=Acciones.CREATE;
+		if(data.getId()!=null) operation=Acciones.UPDATE;
+		if(!securityService.hasAuth(usuario,Data.class, operation, data))
+			 throw new NoAutorizadoException();
+			dao.save(data);
+			operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));			
+		
 			
 	}
 	public String procesarTextoYExtraerData(String textoEn,List<Data> datas) {
@@ -99,7 +122,25 @@ public class DataService {
 	public void setTagDao(TagDao tagDao) {
 		this.tagDao = tagDao;
 	}
-	
+	public SecurityService getSecurityService() {
+		return securityService;
+	}
+	public void setSecurityService(SecurityService securityService) {
+		this.securityService = securityService;
+	}
+	public void deleteById(Long id,Usuario usuario) throws Throwable {
+		Data data=dao.getData(id);
+		if(!securityService.hasAuth(usuario,Data.class, Acciones.DELETE, data))
+			 throw new NoAutorizadoException();
+		dao.deleteById(id);
+		operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
+	}
+	public OperationLogDao getOperationLogDao() {
+		return operationLogDao;
+	}
+	public void setOperationLogDao(OperationLogDao operationLogDao) {
+		this.operationLogDao = operationLogDao;
+	}
 	
 	
 

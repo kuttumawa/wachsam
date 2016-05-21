@@ -25,11 +25,15 @@
      </bean>
     <bean id="alertService" class="es.io.wachsam.services.AlertService">
       <property name="dao" ref="alertasDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
     
     <bean id="dataService" class="es.io.wachsam.services.DataService">
        <property name="dao" ref="dataDao"/>
        <property name="tagDao" ref="tagDao"/>
+        <property name="securityService"  ref="securityService"/>
+        <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>
@@ -43,9 +47,29 @@
         <property name="cacheManager" ref="cacheManager"/>
      </bean>
      <bean id="airportDao" class="es.io.wachsam.dao.AirportDao" />
-      <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
-      <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
- 
+     <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
+     <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
+     <bean id="usuarioDao" class="es.io.wachsam.dao.UsuarioDao" />
+     <bean id="securityService" class="es.io.wachsam.services.SecurityService">
+          <property name="usuarioDao" ref="usuarioDao"/>
+          <property name="operationLogDao"  ref="operationLogDao"/>
+     </bean>
+     <bean id="operationLogDao" class="es.io.wachsam.dao.OperationLogDao" />
+     <bean id="lugarService" class="es.io.wachsam.services.LugarService">
+      <property name="dao" ref="lugarDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+      </bean>
+    <bean id="peligroService" class="es.io.wachsam.services.PeligroService">
+      <property name="dao" ref="peligroDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    <bean id="sitioService" class="es.io.wachsam.services.SitioService">
+      <property name="dao" ref="sitioDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">
@@ -83,10 +107,10 @@
         <property name="jpaProperties">
             <props>
                 <!--prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop-->
-                <!--prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop-->
-                <!--prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">false</prop-->
-                <!--prop key="hibernate.hbm2ddl.auto">update</prop-->
+             
+            <!--     <prop key="hibernate.show_sql">true</prop> -->
+                <!--prop key="hibernate.format_sql">false</prop-->
+               <!--  <prop key="hibernate.hbm2ddl.auto">update</prop> -->
             </props>
         </property>
     </bean>

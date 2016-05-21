@@ -3,7 +3,15 @@
     
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
+    <%@ page import="es.io.wachsam.services.*"  %>
+    <%@ page import="org.springframework.web.context.WebApplicationContext"  %> 
+    <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"  %> 
 <html> 
+<%
+WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+SecurityService sec=(SecurityService)context.getBean("securityService");
+Usuario usuario = (Usuario)request.getSession().getAttribute("user");
+%>
 
 
 <script>
@@ -23,6 +31,7 @@ function clearFields(){
 	document.getElementById("tipo").value="";
 	document.getElementById("caducidad").value="";
 	document.getElementById("fuente").value="";
+	$('tr').remove()
 }
 function deleteOper(){
 
@@ -174,8 +183,8 @@ for(Tipo tipo_i:tipos){
 </div>
 
 <div class="form-group">
-<label for="">Fecha (dd/mm/yyyy)</label>
-<input class="form-control" type="text" id="fechaPub" name="fechaPub" value="<%=alert.getFechaPubFormatted()!=null?alert.getFechaPubFormatted():""  %>"/>
+<label for="">Fecha</label>
+<input class="form-control" type="date" id="fechaPub" name="fechaPub" value="<%=alert.getFechaPubFormattedForDateHtmlInput()!=null?alert.getFechaPubFormattedForDateHtmlInput():""  %>"/>
 </div>
 
 
@@ -239,7 +248,9 @@ for(Tipo tipo_i:tipos){
 	    </div>
 	    <div class="">
 	      <jsp:include page="showData.jsp"/>
+	       <%if(sec.hasAuth(usuario,Data.class,Acciones.CREATE,null)){ %>
 		   <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
+	       <%}%>
 	    </div>
        </div>
      </div>

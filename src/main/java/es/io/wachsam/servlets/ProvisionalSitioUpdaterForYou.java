@@ -144,11 +144,15 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			
 			try {
 				sitioService.save(sitio,usuario);
-				DataService dataService=(DataService) context.getBean("dataService");
 				List<Data> newdatas=new ArrayList<Data>();
-				String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
-				sitio.setTexto(textoNew);
-				dataService.saveData(newdatas, sitio);
+				try{
+					DataService dataService=(DataService) context.getBean("dataService");
+					String textoNew=dataService.procesarTextoYExtraerData(texto,newdatas);
+					sitio.setTexto(textoNew);
+					dataService.saveData(newdatas,sitio,usuario);
+				}catch (NoAutorizadoException e) {
+					//VOID
+				}
 				DataDao dataDao = (DataDao) context.getBean("dataDao");
 				Data filtro=new Data();
 				filtro.setSitioId(sitio.getId());

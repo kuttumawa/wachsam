@@ -3,7 +3,15 @@
     
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
+    <%@ page import="es.io.wachsam.services.*"  %>
+    <%@ page import="org.springframework.web.context.WebApplicationContext"  %> 
+    <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"  %> 
 <html> 
+<%
+WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+SecurityService sec=(SecurityService)context.getBean("securityService");
+Usuario usuario = (Usuario)request.getSession().getAttribute("user");
+%>
 
 <script>
 function clearFields(){
@@ -13,9 +21,12 @@ function clearFields(){
 	document.getElementById("nombreEn").value="";
 	document.getElementById("latitud").value="";
 	document.getElementById("longitud").value="";
+	document.getElementById("padre1").value="";
+	document.getElementById("padre2").value="";
+	document.getElementById("padre3").value="";
 	document.getElementById("nivel").value="";
 	document.getElementById("oper").value="";
-	
+	$('tr').remove()
 }
 function deleteOper(){
 	if(confirm('Seguro?')){
@@ -96,7 +107,7 @@ function deleteOper(){
 
 <div class="form-group">
 <label for="">Padre 1</label>
-<select class="form-control" name="padre1">
+<select class="form-control" id="padre1" name="padre1">
 <option value=""></option>
 <%    
            for(Lugar lugar_i:lugares){
@@ -113,7 +124,7 @@ function deleteOper(){
 
 <div class="form-group">
 <label for="">Padre 2</label>
-<select class="form-control" name="padre2">
+<select class="form-control" id="padre2" name="padre2">
 <option value=""></option>
 <%    
            for(Lugar lugar_i:lugares){
@@ -130,7 +141,7 @@ function deleteOper(){
 
 <div class="form-group">
 <label for="">Padre 3</label>
-<select class="form-control" name="padre3">
+<select class="form-control" id="padre3" name="padre3">
 <option value=""></option>
 <%    
            for(Lugar lugar_i:lugares){
@@ -156,10 +167,7 @@ function deleteOper(){
 <input class="form-control" type="text" id="longitud" name="longitud" value="<%= lugar.getLongitud()!=null?lugar.getLongitud():""%>"/>
 </div>
 
-<div class="form-group">
-<label for="">Nivel</label>
-<input class="form-control" type="text" id="nivel"  value="<%= lugar.getNivel()!=null?lugar.getNivel():""%>"/>
-</div>
+
 
 
 
@@ -218,7 +226,9 @@ for(Nivel nivel_i:niveles){
 	    </div>
 	    <div class="">
 	      <jsp:include page="showData.jsp"/>
+	       <%if(sec.hasAuth(usuario,Data.class,Acciones.CREATE,null)){ %>
 		   <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('lugarId')"/> 
+	       <%}%>
 	    </div>
        </div>
 

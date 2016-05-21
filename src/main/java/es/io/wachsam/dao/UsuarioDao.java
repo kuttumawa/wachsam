@@ -52,7 +52,7 @@ public class UsuarioDao {
 	}
 	
 	public List<Permiso> getAllPermiso() {
-		return em.createQuery("SELECT p FROM Permiso p order by nombre asc", Permiso.class)
+		return em.createQuery("SELECT p FROM Permiso p order by id asc", Permiso.class)
 				.getResultList();
 	}
 
