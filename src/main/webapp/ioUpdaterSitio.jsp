@@ -54,7 +54,7 @@ List<Data> datas=(List<Data>)request.getAttribute("datas");
 String iconoClass="";
 if(datas!=null){
 for(Data data:datas){
-	if(data.getTag1()!=null && data.getTag1().getNombre().equalsIgnoreCase("icono")) iconoClass=data.getValue();
+	if(data.getTag()!=null && data.getTag().getNombre().equalsIgnoreCase("icono")) iconoClass=data.getValue();
 }
 }
 %>

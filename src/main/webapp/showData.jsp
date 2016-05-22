@@ -28,9 +28,10 @@ datas= (List<Data>)request.getAttribute("datas");
 <%for(Data data:datas){%>
 <tr>
 <td><a href="ProvisionalDataUpdaterForYou?dataId=<%=data.getId()%>"><%=data.getId()%></a></td>
-<td><span data-toggle="tooltip" data-placement="top" title='<%= data.getTag1()!=null?data.getTag1().getDescripcion():""%>'><%= data.getTag1()!=null?data.getTag1().getNombre():""%></span></td>
-<td><span data-toggle="tooltip" data-placement="top" title='<%= data.getTag2()!=null?data.getTag2().getDescripcion():""%>'><%= data.getTag2()!=null?data.getTag2().getNombre():"" %></td>
-<td><span data-toggle="tooltip" data-placement="top" title='<%= data.getTag3()!=null?data.getTag3().getDescripcion():""%>'><%= data.getTag3()!=null?data.getTag3().getNombre():"" %></td>
+<td><span data-toggle="tooltip" data-placement="top" title='<%= data.getTag()!=null?data.getTag().getDescripcion():""%>'><%= data.getTag()!=null?data.getTag().getNombre():""%></span></td>
+<td><span data-toggle="tooltip" data-placement="top" title='<%= data.getObjetoConnected()!=null?data.getObjetoConnected():""%>'><%= data.getObjetoConnected()!=null?data.getObjetoConnected():""%></span></td>
+<td><span data-toggle="tooltip" data-placement="top" title='<%= data.getConnectToId()!=null?data.getConnectToId():""%>'><%= data.getConnectToId()!=null?data.getConnectToId():""%></span></td>
+
 <td><%= data.getValue()%></td>
 
 </tr>

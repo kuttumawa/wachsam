@@ -25,6 +25,7 @@ import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Fuente;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.AlertService;
@@ -77,8 +78,9 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 			alert=alertasDao.getAlert(Long.parseLong(alertId));
 			DataDao dataDao = (DataDao) context.getBean("dataDao");
 			Data filtro=new Data();
-			filtro.setEventoId(alert.getId());
-			datas=dataDao.getAllnoExtrict(filtro);
+			filtro.setObjetoId(alert.getId());
+			filtro.setObjetoConnected(ObjetoSistema.Alert);
+			datas=dataDao.getAll(filtro);
 			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("alert",alert);
@@ -154,9 +156,10 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 				
 					DataDao dataDao = (DataDao) context.getBean("dataDao");
 					Data filtro=new Data();
-					filtro.setEventoId(alert.getId());
+					filtro.setObjetoId(alert.getId());
+					filtro.setObjetoConnected(ObjetoSistema.Alert);
 					List<Data> datas=new ArrayList<Data>();
-					datas=dataDao.getAllnoExtrict(filtro);
+					datas=dataDao.getAll(filtro);
 					request.setAttribute("datas",datas);
 					request.setAttribute("resultado","INSERTADO OK: " + alert.toStringLite()+"\n DATOS:" + newdatas);
 		

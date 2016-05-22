@@ -19,7 +19,9 @@ import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.repositories.PeligroRepository;
 
 public class DataTest extends TestCase {
@@ -72,35 +74,31 @@ public class DataTest extends TestCase {
 	@Test
 	public void testAltaDeDatosYRecuperacion() throws IOException{
 	 Tag tag1=createNewTag("tag1");
-	 Tag tag2=createNewTag("tag2");	
-	 Tag tag3=createNewTag("tag3");	
 	 tagDao.save(tag1);
-	 tags.add(tag1);
-	 tagDao.save(tag2);
-	 tags.add(tag2);
-	 tagDao.save(tag3);
-	 tags.add(tag3);
-	 Data data1=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,tag3,1L,null,null,null);
+	 //tags.add(tag1);
+	 Data data1=createNewdata(tag1);
+	 //datas.add(data1);
+	 int sizebefore=dataDao.getAll().size();
 	 dataDao.save(data1);
-	 datas.add(data1);
-	 List<Data> resultado=dataDao.getAll(data1);
-	 assertTrue(resultado.size()==1);
-	 Data data2=new Data("22","void",DataValueTipo.NUMERICO,tag1,tag2,null,1L,null,null,null);
-	 resultado=dataDao.getAll(data2);
-	 assertTrue(resultado.size()==0);
-	 Data data3=new Data("22","void",DataValueTipo.NUMERICO,tag2,tag3,tag1,1L,null,null,null);
-	 resultado=dataDao.getAll(data3);
-	 assertTrue(resultado.size()==1);
-	 
-	
+	 assertTrue(sizebefore+1 == dataDao.getAll().size());	
  	}
 	
 	private Tag createNewTag(String tagName){
 		Tag tag=new Tag();
+		tag.setAlias("alias");
 		tag.setNombre(tagName);
 		tag.setNombreEn("tagName_EN"+ new Random().nextInt(99999999));
 		tag.setDescripcion("Descripción para "+ tagName);   
 		return tag;
+	}
+	private Data createNewdata(Tag tag){
+		Data data=new Data();
+		data.setObjetoId(new Random().nextInt()+ 1L);
+		data.setObjetoTipo(ObjetoSistema.Alert);
+		data.setValue("xxxx");
+		data.setTipoValor(DataValueTipo.TEXTO);
+		data.setTag(tag);
+		return data;
 	}
 	
 	

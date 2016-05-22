@@ -22,6 +22,7 @@ import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.LugarService;
@@ -63,8 +64,9 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 			peligro=peligroDao.getPeligro(Long.parseLong(peligroId));
 			DataDao dataDao = (DataDao) context.getBean("dataDao");
 			Data filtro=new Data();
-			filtro.setSubjectId(peligro.getId());
-			datas=dataDao.getAllnoExtrict(filtro);
+			filtro.setObjetoId(peligro.getId());
+			filtro.setObjetoConnected(ObjetoSistema.Peligro);
+			datas=dataDao.getAll(filtro);
 			request.setAttribute("datas",datas);
 		}
 		request.setAttribute("peligro",peligro);
@@ -129,6 +131,16 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 		PeligroDao peligroDao = (PeligroDao) context.getBean("peligroDao");
 		List<Peligro> peligros =peligroDao.getAll();
 		request.setAttribute("peligros",peligros);
+		
+		List<Data> datas=new ArrayList<Data>();
+		if(peligro.getId()!=null){
+			DataDao dataDao = (DataDao) context.getBean("dataDao");
+			Data filtro=new Data();
+			filtro.setObjetoId(peligro.getId());
+			filtro.setObjetoConnected(ObjetoSistema.Peligro);
+			datas=dataDao.getAll(filtro);
+			request.setAttribute("datas",datas);
+		}
 		
 		LugarDao lugarDao = (LugarDao) context.getBean("lugarDao");
 		List<Lugar> lugares =lugarDao.getAll();

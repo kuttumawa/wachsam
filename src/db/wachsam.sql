@@ -177,4 +177,66 @@ CREATE TABLE `operationlog` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
+-------------------------
+ALTER TABLE `viajarseguro`.`data` 
+DROP FOREIGN KEY `FK2EEFAA76382C92`,
+DROP FOREIGN KEY `FK2EEFAA76391550`,
+DROP FOREIGN KEY `FK2EEFAA7638A0F1`;
+ALTER TABLE `viajarseguro`.`data` 
+DROP COLUMN `tag3_id`,
+DROP COLUMN `tag2_id`,
+CHANGE COLUMN `tag1_id` `tag_id` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `lugarId` `objetoid` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `subjectId` `connecttoid` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `eventoId` `objettipo` INT(99) NULL DEFAULT NULL ,
+CHANGE COLUMN `sitioId` `objetoconnected` INT(99) NULL DEFAULT NULL ,
+DROP INDEX `FK2EEFAA76391550` ,
+DROP INDEX `FK2EEFAA7638A0F1` ;
+ALTER TABLE `viajarseguro`.`data` 
+ADD CONSTRAINT `FK2EEFAA76382C92`
+  FOREIGN KEY (`tag_id`)
+  REFERENCES `viajarseguro`.`tag` (`id`);
 
+  
+  
+  1. tag1_id --> tag_id
+2.`objetoid` INT(11) NULL DEFAULT NULL
+3.`connecttoid` INT(11) NULL DEFAULT NULL 
+4. `objetotipo` INT(3) NULL DEFAULT NULL 
+5. `objetoconnectedtipo` INT(3) NULL DEFAULT NULL 
+6. ------------------------------
+
+ALTER TABLE `viajarseguro`.`data` 
+DROP FOREIGN KEY `FK2EEFAA76382C92`;
+ALTER TABLE `viajarseguro`.`data` 
+CHANGE COLUMN `tag1_id` `tag_id` INT(11) NULL DEFAULT NULL ,
+ADD COLUMN `objetoid` INT(11) NULL AFTER `sitioId`,
+ADD COLUMN `connectedtoid` INT(11) NULL AFTER `objetoid`,
+ADD COLUMN `objettipo` INT(11) NULL AFTER `connectedtoid`,
+ADD COLUMN `objetoconnectedtipo` INT(11) NULL AFTER `objettipo`;
+ALTER TABLE `viajarseguro`.`data` 
+ADD CONSTRAINT `FK2EEFAA76382C92`
+  FOREIGN KEY (`tag_id`)
+  REFERENCES `viajarseguro`.`tag` (`id`);
+
+  ------------------------
+--LUGARES
+ SELECT * FROM viajarseguro.data where lugarId is not null
+ update data
+set data.objetoid = data.lugarid,data.objetotipo = 2
+where lugarId is not null and objetoid is null;
+--PELIGROS
+SELECT * FROM viajarseguro.data where subjectId is not null
+update data
+set data.objetoid = data.subjectId,data.objetotipo = 1
+where subjectId is not null and objetoid is null;
+--ALERTAS
+SELECT * FROM viajarseguro.data where eventoId is not null;
+update data
+set data.objetoid = data.eventoId, data.objetotipo = 0
+where eventoId is not null and objetoid is null;
+--SITIOS
+SELECT * FROM viajarseguro.data where sitioId is not null;
+update data
+set data.objetoid = data.sitioId, data.objetotipo = 4
+where sitioId is not null and objetoid is null;

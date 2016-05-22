@@ -14,10 +14,14 @@ import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
+import es.io.wachsam.model.Airport;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
+import es.io.wachsam.model.Factor;
+import es.io.wachsam.model.Fuente;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Sitio;
@@ -33,6 +37,7 @@ public class DataService {
 	private TagDao tagDao;
 	private SecurityService securityService;
 	private OperationLogDao operationLogDao;
+
 	public DataDao getDao() {
 		return dao;
 	}
@@ -46,7 +51,6 @@ public class DataService {
 		Pattern pattern = Pattern.compile(TAGREGEX, Pattern.COMMENTS);
 	    Matcher matcher = pattern.matcher(texto);
 	    HashMap<String,String> result=new HashMap<String, String>();
-	    StringBuffer sb=new StringBuffer();
 	    while (matcher.find()) {
 	       result.put(matcher.group(1), matcher.group(2));
 	    }
@@ -59,7 +63,7 @@ public class DataService {
 		        	String tagalias=tag.getAlias().replaceAll("\\s","");
 		        	if(tagalias.equalsIgnoreCase(t.replaceAll("\\s",""))){
 		        		Data dataTemp=new Data();
-		        		dataTemp.setTag1(tag);
+		        		dataTemp.setTag(tag);
 		        		dataTemp.setValue(pair.getValue().toString());
 		        		dataTemp.setTipoValor(DataValueTipo.TEXTO);
 		        		newdatas.add(dataTemp);
@@ -72,48 +76,80 @@ public class DataService {
 		System.out.println(newdatas);
 		return texto;
 	}
-	
+
+	public Long save(Data data,Usuario usuario) throws NoAutorizadoException{
+		Acciones operation=Acciones.CREATE;
+		if(data.getId()!=null) operation=Acciones.UPDATE;
+		if(!securityService.hasAuth(usuario,Data.class, operation, data))
+		 throw new NoAutorizadoException();
+		dao.save(data);
+		operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));
+		return data.getId();
+		
+	}
 	public void saveData(List<Data> datas,Object objeto,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
-		
 		for(Data data:datas){
 			if(data.getId()!=null) operation=Acciones.UPDATE;
 			if(!securityService.hasAuth(usuario,Data.class, operation, data))
 			 throw new NoAutorizadoException();
 			if(objeto instanceof Sitio){
 				Sitio sitio= (Sitio) objeto;
-				data.setSitioId(sitio.getId());
+				data.setObjetoId(sitio.getId());
+				data.setObjetoTipo(ObjetoSistema.Sitio);
 			}else if(objeto instanceof Alert){
 				Alert alert= (Alert) objeto;
-				data.setEventoId(alert.getId());
+				data.setObjetoId(alert.getId());
+				data.setObjetoTipo(ObjetoSistema.Alert);
 			}
 			else if(objeto instanceof Lugar){
 				Lugar lugar= (Lugar) objeto;
-				data.setLugarId(lugar.getId());
+				data.setObjetoId(lugar.getId());
+				data.setObjetoTipo(ObjetoSistema.Lugar);
 			}
 			else if(objeto instanceof Peligro){
 				Peligro peligro= (Peligro) objeto;
-				data.setSubjectId(peligro.getId());
+				data.setObjetoId(peligro.getId());
+				data.setObjetoTipo(ObjetoSistema.Peligro);
+			}else if(objeto instanceof Factor){
+				Factor factor= (Factor) objeto;
+				data.setObjetoId(factor.getId());
+				data.setObjetoTipo(ObjetoSistema.Factor);
+			}
+			else if(objeto instanceof Airport){
+				Airport airport= (Airport) objeto;
+				data.setObjetoId(airport.getId());
+				data.setObjetoTipo(ObjetoSistema.Airport);
+			}
+			else if(objeto instanceof Usuario){
+				Usuario user= (Usuario) objeto;
+				data.setObjetoId(usuario.getId());
+				data.setObjetoTipo(ObjetoSistema.Usuario);
+			}
+			else if(objeto instanceof Fuente){
+				Fuente fuente= (Fuente) objeto;
+				data.setObjetoId(fuente.getId());
+				data.setObjetoTipo(ObjetoSistema.Fuente);
 			}
 			dao.save(data);
 			operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));			
 		}
 			
 	}
-	public void save(Data data,Usuario usuario) throws NoAutorizadoException{
-		Acciones operation=Acciones.CREATE;
-		if(data.getId()!=null) operation=Acciones.UPDATE;
-		if(!securityService.hasAuth(usuario,Data.class, operation, data))
-			 throw new NoAutorizadoException();
-			dao.save(data);
-			operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));			
-		
-			
-	}
+	
 	public String procesarTextoYExtraerData(String textoEn,List<Data> datas) {
 		List<Tag> tags=tagDao.getAll();
 		return procesarTextoYExtraerData(textoEn,tags,datas);
 		
+	}
+	
+	public List<Data> getAllForObject(Long id,ObjetoSistema ob){
+		List<Data> res=null;
+		Data filtro=new Data();
+		filtro.setObjetoId(id);
+		filtro.setObjetoTipo(ob);
+		res= dao.getAll(filtro);
+		return res;
 	}
 	
 	public TagDao getTagDao() {
@@ -128,13 +164,8 @@ public class DataService {
 	public void setSecurityService(SecurityService securityService) {
 		this.securityService = securityService;
 	}
-	public void deleteById(Long id,Usuario usuario) throws Throwable {
-		Data data=dao.getData(id);
-		if(!securityService.hasAuth(usuario,Data.class, Acciones.DELETE, data))
-			 throw new NoAutorizadoException();
-		dao.deleteById(id);
-		operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
-	}
+
+
 	public OperationLogDao getOperationLogDao() {
 		return operationLogDao;
 	}
@@ -142,6 +173,15 @@ public class DataService {
 		this.operationLogDao = operationLogDao;
 	}
 	
+
+	public void deleteById(Long id,Usuario usuario) throws Throwable {
+		Data data=dao.getData(id);
+		if(!securityService.hasAuth(usuario,Data.class, Acciones.DELETE, data))
+			 throw new NoAutorizadoException();
+		dao.deleteById(id);
+		operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
+	}
+
 	
 
 }

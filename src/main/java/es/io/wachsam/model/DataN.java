@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.google.gson.annotations.Expose;
-
 
 
 /**
@@ -24,28 +22,20 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name="data")
-public class Data {
-	@Expose
+public class DataN {
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
-	@Expose
 	String value;
-	@Expose
     String descripcion;
-	@Expose
 	DataValueTipo tipoValor;
-	@Expose
 	@ManyToOne(fetch = FetchType.EAGER)
 	Tag tag;
-	@Expose
 	Long objetoId;
-	@Expose
 	Long connectToId;
-	@Expose
 	ObjetoSistema objetoTipo;
-	@Expose
-	ObjetoSistema objetoConnectedTipo;
+	ObjetoSistema objetoConnected;
 	
 	
 	
@@ -166,13 +156,13 @@ public class Data {
 
 
 	public ObjetoSistema getObjetoConnected() {
-		return objetoConnectedTipo;
+		return objetoConnected;
 	}
 
 
 
 	public void setObjetoConnected(ObjetoSistema objetoConnected) {
-		this.objetoConnectedTipo = objetoConnected;
+		this.objetoConnected = objetoConnected;
 	}
 
 
@@ -221,9 +211,9 @@ public class Data {
 			builder.append(objetoTipo);
 			builder.append(", ");
 		}
-		if (objetoConnectedTipo != null) {
+		if (objetoConnected != null) {
 			builder.append("objetoConnected=");
-			builder.append(objetoConnectedTipo);
+			builder.append(objetoConnected);
 		}
 		builder.append("]");
 		return builder.toString();
