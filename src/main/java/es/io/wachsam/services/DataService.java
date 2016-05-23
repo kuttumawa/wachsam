@@ -143,6 +143,11 @@ public class DataService {
 		
 	}
 	
+	public List<Tag> getAllTags(){
+		List<Tag> tags=tagDao.getAll();
+		return tags;
+	}
+	
 	public List<Data> getAllForObject(Long id,ObjetoSistema ob){
 		List<Data> res=null;
 		Data filtro=new Data();

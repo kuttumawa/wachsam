@@ -63,7 +63,7 @@ public class DataDao {
 		if (filtro.getObjetoTipo() != null)
 			sb.append(" and p.objetoTipo =" + filtro.getObjetoTipo().ordinal());
 		if (filtro.getObjetoConnected() != null)
-			sb.append(" and p.objetoConnected =" + filtro.getObjetoConnected());
+			sb.append(" and p.objetoConnectedTipo =" + filtro.getObjetoConnected().ordinal());
 		if (filtro.getTag() != null)
 			sb.append(" and p.tag_id =" + filtro.getTag().getId());
 		

@@ -1,11 +1,13 @@
 package es.io.wachsam.services;
 
 import java.util.Date;
+import java.util.List;
 
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
+import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Usuario;
@@ -60,6 +62,8 @@ public class PeligroService {
 		operationLogDao.save(new OperationLog(peligro.getClass().getSimpleName(),peligro.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
 	}
 	
-	
+	public List<Peligro> getAll(){
+		return dao.getAll();
+	}
 
 }

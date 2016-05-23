@@ -17,10 +17,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import es.io.wachsam.dao.AirportDao;
-import es.io.wachsam.model.Airport;
+import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.ObjetoSistema;
+import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.DataService;
 
 /**
@@ -28,7 +30,10 @@ import es.io.wachsam.services.DataService;
  */
 public class DataServletJSON extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	final Gson gson=new Gson();
+	Gson prettyGson = null;
+   
+   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,125 +46,185 @@ public class DataServletJSON extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")==null){
+		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
+		if(usuario==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		DataService dataService=(DataService) context.getBean("dataService");
-		final Gson gson=new Gson();
-	    final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-	   //http://localhost:8080/wachsam/DataServletJSON?objetoId=1376424326&objetoTipo=0&oper=getAllForObject
-		response.setContentType("application/json");
+		//http://localhost:8080/wachsam/DataServletJSON?objetoId=1376424326&objetoTipo=0&oper=getAllForObject
+		response.setContentType("text/html");
+    	response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		String oper=request.getParameter("oper");
-		String _objetoId =request.getParameter("objetoId");
-		String _objetoTipo =request.getParameter("objetoTipo");
-		Long objetoId =null;
-		ObjetoSistema objetoTipo=null;
-		try{
-		  objetoId = Long.parseLong(_objetoId);
-		  objetoTipo = ObjetoSistema.values()[Integer.parseInt(_objetoTipo)];
-		 	
-		}catch(Exception e){
-			out.println(prettyGson.toJson(e));
-		}
+		
 		List<Data> datas=new ArrayList<Data>();
+		List<Tag> tags=new ArrayList<Tag>();
 		if(oper!=null){
 			if(oper.equalsIgnoreCase("getAllForObject")){
+				String _objetoId =request.getParameter("objetoId");
+				String _objetoTipo =request.getParameter("objetoTipo");
+				Long objetoId =null;
+				ObjetoSistema objetoTipo=null;
+				try{
+				  objetoId = Long.parseLong(_objetoId);
+				  objetoTipo = ObjetoSistema.values()[Integer.parseInt(_objetoTipo)];
+				 	
+				}catch(Exception e){
+					//void
+				}
+				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 				datas=dataService.getAllForObject(objetoId, objetoTipo);
+				out.write(prettyGson.toJson(datas));
+			}else if(oper.equalsIgnoreCase("getAllTags")){
+				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+				tags=dataService.getAllTags();
+				out.write(prettyGson.toJson(tags));
 			}
 			
 		}
-		 out.println(prettyGson.toJson(datas));
+		
 	}
-
+    class Resultado{
+    	
+    	public Resultado(boolean error, String resultado) {
+			super();
+			this.error = error;
+			this.resultado = resultado;
+		}
+    	
+		boolean error;
+    	String resultado;
+    	List<String> messages=new ArrayList<String>();
+		public boolean isError() {
+			return error;
+		}
+		public void setError(boolean error) {
+			this.error = error;
+		}
+		public String getResultado() {
+			return resultado;
+		}
+		public void setResultado(String resultado) {
+			this.resultado = resultado;
+		}
+		public List<String> getMessages() {
+			return messages;
+		}
+		public void setMessages(List<String> messages) {
+			this.messages = messages;
+		}
+    }
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")==null){
+		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
+		List<String> errores=new ArrayList<String>();
+		if(usuario==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		DataService dataService=(DataService) context.getBean("dataService");
+        Resultado resultado=null;
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");
-		String nombre=request.getParameter("nombre");
-		String city=request.getParameter("city");
-		String country=request.getParameter("country");
-		String IATA_FAA=request.getParameter("IATA_FAA");
-		String ICAO=request.getParameter("ICAO");
-		String latitud=request.getParameter("latitud");
-		String logitud=request.getParameter("logitud");
-		String altitud=request.getParameter("altitud");
-		String timezone=request.getParameter("timezone");
-		String DST=request.getParameter("DST");
-		String TZ=request.getParameter("TZ");
-		String oper=request.getParameter("oper");
-	
+		String value=request.getParameter("value");
+		String descripcion=request.getParameter("descripcion");
+		String tipoValor=request.getParameter("tipoValor");
+		String objetoId=request.getParameter("objetoId");
+		String objetoTipo=request.getParameter("objetoTipo");
+		String objetoConnectedId=request.getParameter("objetoConnectedId");	
+		String objetoConnectedTipo=request.getParameter("objetoConnectedTipo");		
+		String dataId=request.getParameter("dataId");
 		
-		Airport airport=new Airport();
-		if(oper!=null && oper.equalsIgnoreCase("delete")){
-			if(id!=null){
-				AirportDao airportDao=(AirportDao) context.getBean("airportDao");
-				try {
-					airportDao.deleteById(Long.parseLong(id));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				request.setAttribute("resultado","Borrado Correcto");
-			}else{
-				request.setAttribute("resultado","Error al borrar");
-			}
+		Tag tag = null;
+		try{
+		tag=request.getParameter("tag")!=null?Tag.createTag(Long.parseLong(request.getParameter("tag"))):null;
+		}catch(NumberFormatException e){
 			
-		}else if(validar(request)==null){
-			airport=new Airport(id,nombre,city,country,IATA_FAA,ICAO,latitud,logitud,altitud,timezone,DST,TZ);
-			AirportDao airportDao=(AirportDao) context.getBean("airportDao");
-			airportDao.save(airport);
-			
-			request.setAttribute("resultado","INSERTADO OK: " + airport);
-		}else{
-			
-			request.setAttribute("resultado",validar(request));
 		}
-		request.setAttribute("airport",airport);
-		AirportDao airportDao = (AirportDao) context.getBean("airportDao");
-		List<Airport> airports =airportDao.getAll();
-		request.setAttribute("airports",airports);
 		
+		String oper=request.getParameter("oper");
 		
-		String nextJSP = "/ioUpdaterAirport.jsp";
-		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
-		dispatcher.forward(request,response);
+		Data data=new Data();
+		if(oper!=null){
+			if(oper.equalsIgnoreCase("delete")){
+		
+				if(id!=null){
+								try {
+									dataService.deleteById(Long.parseLong(id),usuario);
+									resultado=new Resultado(false,"Borrado Correcto");
+								} catch (NumberFormatException e) {
+									e.printStackTrace();
+								} catch (NoAutorizadoException e) {
+									resultado=new Resultado(true,"No tienes permisos para la operacion");
+								} catch (Throwable e) {
+									e.printStackTrace();
+								}
+				}else{
+					resultado=new Resultado(true,"Error al borrar");
+				}
+			
+		    }else if(oper.equalsIgnoreCase("save") && validar(request)==null){
+				data=new Data();
+				if(objetoId!=null) data.setObjetoId(Long.parseLong(objetoId));
+				if(objetoConnectedId!=null) data.setConnectToId(Long.parseLong(objetoConnectedId));
+				if(objetoTipo!=null) data.setObjetoTipo(ObjetoSistema.values()[Integer.parseInt(objetoTipo)]);
+				if(objetoConnectedTipo!=null) data.setObjetoConnected(ObjetoSistema.values()[Integer.parseInt(objetoConnectedTipo)]);
+				data.setValue(value);
+				data.setDescripcion(descripcion);
+				data.setTipoValor(DataValueTipo.valueOf(tipoValor));
+				data.setTag(tag);
+				try{
+					  data.setId(Long.parseLong(id));
+			    }catch(Exception e){
+						
+				}
+				try {
+					dataService.save(data,usuario);
+			    	resultado=new Resultado(false,"Inserción ok");
+					resultado.getMessages().add(data.toString());
+				} catch (NoAutorizadoException e) {
+					resultado=new Resultado(true,"No tienes permisos para la operacion");
+				}
+	
+			}else{
+				resultado=new Resultado(true,"Error validación");
+				resultado.setMessages(validar(request));
+			   
+		    }
+		}
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.println(gson.toJson(resultado));
 		
 	}
-	private String validar(HttpServletRequest request){
-		StringBuilder resultado=new StringBuilder();
+	
+	private List<String> validar(HttpServletRequest request){
+		List<String> resultado=new ArrayList<String>();
+		String oper=request.getParameter("oper");
 		String id=request.getParameter("id");
-		String nombre=request.getParameter("nombre");
-		String city=request.getParameter("city");
-		String country=request.getParameter("country");
-		String IATA_FAA=request.getParameter("IATA_FAA");
-		String ICAO=request.getParameter("ICAO");
-		String latitud=request.getParameter("latitud");
-		String logitud=request.getParameter("logitud");
-		String altitud=request.getParameter("altitud");
-		String timezone=request.getParameter("timezone");
-		String DST=request.getParameter("DST");
-		
-		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
+		String tipoValor=request.getParameter("tipoValor");
+		String objetoId=request.getParameter("objetoId");
+		String objetoTipo=request.getParameter("objetoTipo");
 		
 		
-		
-		if(resultado.length() > 0) return resultado.toString();
+		if(oper==null || oper.length()<1) resultado.add("No se ha seleccionado una operación");
+		if(tipoValor==null || tipoValor.length()<1) resultado.add("TipoValor Obligatorio;");
+		if(objetoId==null || objetoId.length()<1) resultado.add("objetoId Obligatorio;");
+		if(objetoTipo==null || objetoTipo.length()<1) resultado.add("objetoTipo Obligatorio;");
+		String tag = request.getParameter("tag");
+		if(tag==null || tag.length()<1) resultado.add("Tag Obligatorio;");
+		if(resultado.size() > 0) return resultado;
 		return null;
 	}
+
 
 }

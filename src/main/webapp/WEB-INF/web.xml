@@ -104,6 +104,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.DataServletJSON</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>AlertServletJSON</servlet-name>
+  	<display-name>AlertServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.AlertServletJSON</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -164,6 +170,10 @@
   <servlet-mapping>
   	<servlet-name>DataServletJSON</servlet-name>
   	<url-pattern>/DataServletJSON</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+  	<servlet-name>AlertServletJSON</servlet-name>
+  	<url-pattern>/AlertServletJSON</url-pattern>
   </servlet-mapping>
 
 

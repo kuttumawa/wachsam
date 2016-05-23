@@ -1,6 +1,7 @@
 package es.io.wachsam.services;
 
 import java.util.Date;
+import java.util.List;
 
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.OperationLogDao;
@@ -60,6 +61,9 @@ public class AlertService {
 		operationLogDao.save(new OperationLog(alert.getClass().getSimpleName(),alert.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
 	}
 	
+	public List<Alert> getAll(){
+		return dao.getAll();
+	}
 	
 	
 	
