@@ -8,7 +8,9 @@
 
 
 
-
+<style>
+.fila {cursor: pointer}
+</style>
 
 
 <script>
@@ -16,13 +18,13 @@ var objetoId = <%= request.getParameter("objetoId")%>
 var objetoTipo = <%= request.getParameter("objetoTipo")%>
 
 function savedata(){
-	 $("#oper").val("save");
 	 $.ajax({
 		    type: "POST",
-		    url: "DataServletJSON",
+		    url: "DataServletJSON?oper=save",
 		    data: $("#formData").serialize(),
 		    success: function(data) {
-		    	alert(data);
+		    	fectchData();
+		    	$('#myModal').modal('hide');		    	
 		    }
 		  });
 		  return false;
@@ -34,19 +36,19 @@ var url= "DataServletJSON?objetoId="+objetoId+"&objetoTipo="+objetoTipo+"&oper=g
 $.get(url,function (data){
 	console.log(data);
 	$.each(data, function(i, item) {
-	    alert(item);
-	    var row = $('<tr></tr>').addClass('bar');
+	    var row = $('<tr id=\''+item.id+'\'></tr>').addClass('fila');
 	    row.append('<td>'+ item.id+'</td>');
 	    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.tag.descripcion +'\'>'+item.tag.nombre+'</td>');
 	    row.append('<td>'+ item.value+'</td>');
         if(item.connectToId){
-	      row.append('<td>'+ item.connectToId+'-'+item.objetoConnectedTipo+'</td>');
+	        row.append('<td>'+ item.connectToId+'-'+item.objetoConnectedTipo+'</td>');
         }else{
         	row.append('<td></td>');
         }  
 	   
 	    $('#tbodyID').append(row);
 	});
+	$("#tbodyID td").on("click",modifyData);
 	
 },"json");
 
@@ -58,7 +60,7 @@ function getAllAlerts(){
 	$.get(url,function (data){
 		console.log(data);
 		$.each(data, function(i, item) {
-			$('#objetoConnectedSelect').append($('<option>', { 
+			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
 		        text : item.nombre 
 		    }));
@@ -71,7 +73,7 @@ function getAllPeligros(){
 	$.get(url,function (data){
 		console.log(data);
 		$.each(data, function(i, item) {
-			$('#objetoConnectedSelect').append($('<option>', { 
+			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
 		        text : item.nombre 
 		    }));
@@ -87,27 +89,78 @@ function getAllTags(){
 	    type: 'GET',
 	    success: function(data){ 
 	    	$.each(data, function(i, item) {
-				$('#tagSelect').append($('<option>', { 
+				$('#tag').append($('<option>', { 
 			        value: item.id,
 			        text : item.nombre 
 			    }));
 			});
 	    },
 	    error: function(data) {
-	        alert(data); //or whatever
+	        alert(data); 
 	    }
 	});
 		
 	}
 
 
-function loadSelect(){
-	getAllAlerts();
+function loadObjetoConnectedSelect(){
+	$('#objetoConnectedId').children().remove();
+	$('#objetoConnectedId').append($('<option>', { 
+        value: '',
+        text : '' 
+    }));
+	var objeto =$('#objetoConnectedTipo').val();
+	if(objeto == 0) getAllAlerts();
+	else if(objeto == 1) getAllPeligros();
+	else if(objeto == 2) getAllLugares();
+	else if(objeto == 3) getAllFactores();
+	else if(objeto == 4) getAllSitio();
+	else if(objeto == 5) getAllFuente();
+	else if(objeto == 6) getAllAirport();
+	else if(objeto == 7) getAllUsuario();
+}
+function modifyData(e){
+	$('#myModal').modal('show');
+	console.log($(e.target.closest("tr")).prop("id"));
+	var dataId = $(e.target.closest("tr")).prop("id");
+	var url="DataServletJSON?oper=getData&dataId="+dataId;
+	$.getJSON(url,function(data){
+        console.log(data);
+        populateForm(data);
+		});	
+	
+}
+function cleanForm(data){
+	 $('#dataId').val('');
+	 $('#tag').val('');
+	 $('#value').val('');
+	 $('#tipoValor').val('');
+	 $('#descripcion').val('');
+	 $('#objetoConnectedTipo').val('');
+	 $('#objetoConnectedId').val('');	
+}
+function populateForm(data){
+	 $('#dataId').val(data.id);
+	 $('#tag').val(data.tag.id);
+	 $('#value').val(data.value);
+	 $('#tipoValor').val(data.tipoValor);
+	 $('#descripcion').val(data.descripcion);
+	 if($('#objetoConnectedTipo').val() == data.objetoConnectedTipoOrdinal){
+	     $('#objetoConnectedId').val(data.connectToId);
+	 }else{
+		 $('#objetoConnectedTipo').val(data.objetoConnectedTipoOrdinal);
+		 $('#objetoConnectedId').val(data.connectToId);
+		 loadObjetoConnectedSelect();
+	 }	    
+	 	
 }
 
-fectchData();
-loadSelect();
-getAllTags();
+$(function(){
+	fectchData();
+	loadObjetoConnectedSelect();
+	getAllTags();
+	$("#objetoConnectedTipo").on("change",loadObjetoConnectedSelect);
+});
 </script>
 
 <h3>Data</h3>     
@@ -118,7 +171,7 @@ getAllTags();
 </tbody>
 </table>
 
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Nuevo</button>
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Nuevo</button>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -132,12 +185,13 @@ getAllTags();
       </div>
       <div class="modal-body">
  <form id="formData" action="ProvisionalDataUpdaterForYou" method="post" role="form">
-        <input type="objetoId" name="objetoId" value="<%= request.getParameter("objetoId")%>"/>
-        <input type="objetoTipo" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>"/>
+        <input type="text" name="objetoId" value="<%= request.getParameter("objetoId")%>"/>
+        <input type="text" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>"/>
+        <input type="text" name="dataId" id="dataId"/>
         
         <div class="form-group">
 		<label for="">Tag</label>
-		<select class="form-control" name="tag" id="tagSelect">
+		<select class="form-control" name="tag" id="tag">
 		   <option value=""></option>
 		</select>
 		</div>
@@ -156,7 +210,7 @@ getAllTags();
 		<div class="form-group">
 		<label for="">TipoValor</label>
 		
-		<select class="form-control" name="tipoValor" id="tipo">
+		<select class="form-control" name="tipoValor" id="tipoValor">
 		    <option value="VACIO" >VACÍO</option>
 			<option value="NUMERICO" >NUMÉRICO</option>
 			<option value="TEXTO" >TEXTO</option>
@@ -183,7 +237,7 @@ getAllTags();
 		<div class="form-group">
 		<label for="">ObjetoConnected to</label>
 		
-		<select class="form-control" name="objetoConnectedId" id="objetoConnectedSelect">
+		<select class="form-control" name="objetoConnectedId" id="objetoConnectedId">
 		<option value=""></option>
 		
 		</select>

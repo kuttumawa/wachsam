@@ -76,7 +76,15 @@ public class DataService {
 		System.out.println(newdatas);
 		return texto;
 	}
-
+	public Data getDataById(Long id,Usuario usuario) throws NoAutorizadoException{
+		Acciones operation=Acciones.READ;
+		Data data=dao.getData(id);
+		if(!securityService.hasAuth(usuario,Data.class, operation, data))
+		 throw new NoAutorizadoException();
+	
+		return data;
+		
+	}
 	public Long save(Data data,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
 		if(data.getId()!=null) operation=Acciones.UPDATE;

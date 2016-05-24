@@ -247,10 +247,10 @@ for(Tipo tipo_i:tipos){
            <div id="googleMap" style="width:550px;height:300px;"></div>
 	    </div>
 	    <div class="">
-	      <jsp:include page="showData.jsp"/>
-	       <%if(sec.hasAuth(usuario,Data.class,Acciones.CREATE,null)){ %>
-		   <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('eventoId')"/> 
-	       <%}%>
+	     <jsp:include page="showData2.jsp" >
+		    <jsp:param name="objetoId" value="<%=alert.getId()!=null?alert.getId():null%>" />
+		    <jsp:param name="objetoTipo" value="0"/>
+		 </jsp:include>
 	    </div>
        </div>
      </div>

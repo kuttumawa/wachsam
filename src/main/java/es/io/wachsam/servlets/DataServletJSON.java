@@ -60,29 +60,41 @@ public class DataServletJSON extends HttpServlet {
     	response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		String oper=request.getParameter("oper");
-		
-		List<Data> datas=new ArrayList<Data>();
-		List<Tag> tags=new ArrayList<Tag>();
+		String dataId=request.getParameter("dataId");
+
 		if(oper!=null){
 			if(oper.equalsIgnoreCase("getAllForObject")){
+				boolean error=false;
+				List<Data> datas=new ArrayList<Data>();
 				String _objetoId =request.getParameter("objetoId");
 				String _objetoTipo =request.getParameter("objetoTipo");
 				Long objetoId =null;
 				ObjetoSistema objetoTipo=null;
 				try{
 				  objetoId = Long.parseLong(_objetoId);
-				  objetoTipo = ObjetoSistema.values()[Integer.parseInt(_objetoTipo)];
-				 	
+				  objetoTipo = ObjetoSistema.values()[Integer.parseInt(_objetoTipo)];				 	
 				}catch(Exception e){
-					//void
+					error=true;
 				}
-				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
-				datas=dataService.getAllForObject(objetoId, objetoTipo);
+				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();				
+				if(!error) datas=dataService.getAllForObject(objetoId, objetoTipo);
 				out.write(prettyGson.toJson(datas));
 			}else if(oper.equalsIgnoreCase("getAllTags")){
+				List<Tag> tags=new ArrayList<Tag>();
 				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 				tags=dataService.getAllTags();
 				out.write(prettyGson.toJson(tags));
+			}else if(oper.equalsIgnoreCase("getData")){
+				Long id=Long.parseLong(dataId);
+			    Data data=null;
+				try {
+					data = dataService.getDataById(id,usuario);
+					prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+					out.write(prettyGson.toJson(data));
+				} catch (NoAutorizadoException e) {
+					e.printStackTrace();
+				}
+				
 			}
 			
 		}
@@ -134,7 +146,7 @@ public class DataServletJSON extends HttpServlet {
 		DataService dataService=(DataService) context.getBean("dataService");
         Resultado resultado=null;
 		request.getCharacterEncoding();
-		String id=request.getParameter("id");
+		String id=request.getParameter("dataId");
 		String value=request.getParameter("value");
 		String descripcion=request.getParameter("descripcion");
 		String tipoValor=request.getParameter("tipoValor");
