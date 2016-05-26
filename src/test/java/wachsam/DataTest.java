@@ -19,10 +19,13 @@ import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
+import es.io.wachsam.model.NodeAndLinks;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
+import es.io.wachsam.model.Usuario;
 import es.io.wachsam.repositories.PeligroRepository;
+import es.io.wachsam.services.DataService;
 
 public class DataTest extends TestCase {
 	@Resource
@@ -31,6 +34,7 @@ public class DataTest extends TestCase {
 	private List<Data> datas=new ArrayList<Data>();
 	private DataDao dataDao;
 	private TagDao tagDao;
+	private DataService dataService;
 
 	@Resource
 	private ElasticsearchTemplate template;
@@ -42,6 +46,7 @@ public class DataTest extends TestCase {
                 ClassPathXmlApplicationContext("applicationContext_test.xml");
 		dataDao=(DataDao) context.getBean("dataDao");
 		tagDao=(TagDao) context.getBean("tagDao");
+		dataService=(DataService) context.getBean("dataService");
 		assertNotNull("No inicializado dataDao",dataDao);
 		assertNotNull("No inicializado tagDao",tagDao);
 	}
@@ -99,6 +104,13 @@ public class DataTest extends TestCase {
 		data.setTipoValor(DataValueTipo.TEXTO);
 		data.setTag(tag);
 		return data;
+	}
+	@Test
+	public void testGetAllNodeAndLinksForObject(){
+		Usuario usuario=new Usuario();
+		usuario.setId(1L);
+		NodeAndLinks res= dataService.getAllNodeAndLinksForObject(1L, ObjetoSistema.Alert, usuario, new NodeAndLinks());
+	    System.out.println(res);
 	}
 	
 	

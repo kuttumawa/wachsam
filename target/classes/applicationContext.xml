@@ -34,6 +34,8 @@
        <property name="tagDao" ref="tagDao"/>
        <property name="securityService"  ref="securityService"/>
        <property name="operationLogDao"  ref="operationLogDao"/>
+       <property name="alertService"  ref="alertService"/>
+       <property name="peligroService"  ref="peligroService"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>

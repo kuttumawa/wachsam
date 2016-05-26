@@ -140,5 +140,9 @@ public class Peligro {
 
 		return false;
 	}
+	
+	public Node toNode() {
+		return new Node(this.id,this.getNombre(),ObjetoSistema.Peligro.ordinal());		
+	}
 
 }

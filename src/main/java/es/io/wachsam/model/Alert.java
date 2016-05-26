@@ -441,6 +441,10 @@ public class Alert {
 
 		return false;
 	}
+
+	public Node toNode() {
+		return new Node(this.id,this.getNombre(),ObjetoSistema.Alert.ordinal());		
+	}
 	
 	
 

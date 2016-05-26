@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
+import es.io.wachsam.model.NodeAndLinks;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.Usuario;
@@ -77,7 +78,7 @@ public class DataServletJSON extends HttpServlet {
 					error=true;
 				}
 				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();				
-				if(!error) datas=dataService.getAllForObject(objetoId, objetoTipo);
+				if(!error) datas=dataService.getAllForObject(objetoId, objetoTipo,usuario);
 				out.write(prettyGson.toJson(datas));
 			}else if(oper.equalsIgnoreCase("getAllTags")){
 				List<Tag> tags=new ArrayList<Tag>();
@@ -95,6 +96,22 @@ public class DataServletJSON extends HttpServlet {
 					e.printStackTrace();
 				}
 				
+			}else if(oper.equalsIgnoreCase("getNodesAndLinks")){
+				boolean error=false;
+				NodeAndLinks nodeAndLinks=null;
+				String _objetoId =request.getParameter("objetoId");
+				String _objetoTipo =request.getParameter("objetoTipo");
+				Long objetoId =null;
+				ObjetoSistema objetoTipo=null;
+				try{
+				  objetoId = Long.parseLong(_objetoId);
+				  objetoTipo = ObjetoSistema.values()[Integer.parseInt(_objetoTipo)];				 	
+				}catch(Exception e){
+					error=true;
+				}
+				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();				
+				if(!error) nodeAndLinks=dataService.getAllNodeAndLinksForObject(objetoId, objetoTipo,usuario,null);
+				out.write(prettyGson.toJson(nodeAndLinks));
 			}
 			
 		}
@@ -154,7 +171,7 @@ public class DataServletJSON extends HttpServlet {
 		String objetoTipo=request.getParameter("objetoTipo");
 		String objetoConnectedId=request.getParameter("objetoConnectedId");	
 		String objetoConnectedTipo=request.getParameter("objetoConnectedTipo");		
-		String dataId=request.getParameter("dataId");
+		
 		
 		Tag tag = null;
 		try{

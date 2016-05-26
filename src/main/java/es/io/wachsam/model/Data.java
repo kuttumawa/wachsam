@@ -43,9 +43,14 @@ public class Data {
 	ObjetoSistema objetoTipo;
 	@Expose
 	ObjetoSistema objetoConnectedTipo;
-	@Transient
 	@Expose
-	int objetoConnectedTipoOrdinal;
+	@Transient
+	String objetoConnectedTipoString;
+	@Expose
+	@Transient
+	Object connectedObject;
+	
+	
 	
 	
 	
@@ -228,6 +233,34 @@ public class Data {
 		builder.append("]");
 		return builder.toString();
 	}
+
+
+
+	public String getObjetoConnectedTipoString() {
+		return objetoConnectedTipoString;
+	}
+
+
+
+	public void setObjetoConnectedTipoString(String objetoConnectedTipoString) {
+		this.objetoConnectedTipoString = objetoConnectedTipoString;
+	}
+
+
+
+	public Object getConnectedObject() {
+		return connectedObject;
+	}
+
+
+
+	public void setConnectedObject(Object connectedObject) {
+		this.connectedObject = connectedObject;
+	}
+
+
+
+
 
 
 

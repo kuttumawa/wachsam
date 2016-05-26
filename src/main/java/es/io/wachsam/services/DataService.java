@@ -20,7 +20,10 @@ import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Factor;
 import es.io.wachsam.model.Fuente;
+import es.io.wachsam.model.Link;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.Node;
+import es.io.wachsam.model.NodeAndLinks;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
@@ -37,6 +40,8 @@ public class DataService {
 	private TagDao tagDao;
 	private SecurityService securityService;
 	private OperationLogDao operationLogDao;
+	private AlertService alertService;
+	private PeligroService peligroService;
 
 	public DataDao getDao() {
 		return dao;
@@ -156,14 +161,64 @@ public class DataService {
 		return tags;
 	}
 	
-	public List<Data> getAllForObject(Long id,ObjetoSistema ob){
+	public List<Data> getAllForObject(Long id,ObjetoSistema ob,Usuario usuario){
 		List<Data> res=null;
 		Data filtro=new Data();
 		filtro.setObjetoId(id);
 		filtro.setObjetoTipo(ob);
 		res= dao.getAll(filtro);
+		for(Data data:res){
+			data.setObjetoConnectedTipoString(data.getObjetoTipo().name());
+			if(data.getConnectToId()!=null && data.getObjetoConnected()!=null){
+				Object o =null;
+				try{
+					if(data.getObjetoConnected().equals(ObjetoSistema.Alert)) o =	alertService.getAlert(data.getConnectToId(), usuario);
+					else if (data.getObjetoConnected().equals(ObjetoSistema.Peligro)) o =	peligroService.getPeligro(data.getConnectToId(), usuario);
+					data.setConnectedObject(o);
+					
+				}catch(Exception e){
+					//VOID
+				}
+			}
+		}
 		return res;
 	}
+
+
+	public NodeAndLinks getAllNodeAndLinksForObject(Long id,ObjetoSistema ob,Usuario usuario,NodeAndLinks nodeAndLinks){
+		if(nodeAndLinks==null) nodeAndLinks=new NodeAndLinks();	
+		List<Data> datas=null; 
+		Node node_i = null;
+		if(ob.equals(ObjetoSistema.Alert)) node_i=alertService.getAlert(id, usuario).toNode();
+		if(ob.equals(ObjetoSistema.Peligro)) node_i=peligroService.getPeligro(id, usuario).toNode();
+		nodeAndLinks.getNodes().add(node_i);
+		datas=getAllForObject(id,ob,usuario);
+		for(Data data:datas){
+			Node node_j=null;
+			if(data.getConnectedObject()!=null){
+				node_j= getNodeFromObject(data.getConnectedObject());
+				if(!nodeAndLinks.getNodes().contains(node_j)) nodeAndLinks.getNodes().add(node_j);
+				Link link=new Link();
+				link.setSource(nodeAndLinks.getNodes().indexOf(node_i));
+				link.setTarget(nodeAndLinks.getNodes().indexOf(node_j));
+				link.setValue(1);
+				nodeAndLinks.getLinks().add(link);
+			}
+		}
+		return nodeAndLinks;
+	}
+	
+	private ObjetoSistema getObjetoSistemaFromObject(Object o){
+		if(o instanceof Alert)  return ObjetoSistema.Alert;
+		else if(o instanceof Peligro)  return ObjetoSistema.Alert;
+		return null;
+	}
+	private Node getNodeFromObject(Object o){
+		if(o instanceof Alert)  return ((Alert)o).toNode();
+		else if(o instanceof Peligro)  return ((Peligro)o).toNode();
+		return null;
+	}
+	
 	
 	public TagDao getTagDao() {
 		return tagDao;
@@ -193,6 +248,18 @@ public class DataService {
 			 throw new NoAutorizadoException();
 		dao.deleteById(id);
 		operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
+	}
+	public AlertService getAlertService() {
+		return alertService;
+	}
+	public void setAlertService(AlertService alertService) {
+		this.alertService = alertService;
+	}
+	public PeligroService getPeligroService() {
+		return peligroService;
+	}
+	public void setPeligroService(PeligroService peligroService) {
+		this.peligroService = peligroService;
 	}
 
 	

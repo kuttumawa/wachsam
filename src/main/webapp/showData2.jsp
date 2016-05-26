@@ -29,6 +29,18 @@ function savedata(){
 		  });
 		  return false;
 }
+function deletedata(){
+	 $.ajax({
+		    type: "POST",
+		    url: "DataServletJSON?oper=delete",
+		    data: $("#formData").serialize(),
+		    success: function(data) {
+		    	fectchData();
+		    	$('#myModal').modal('hide');		    	
+		    }
+		  });
+		  return false;
+}
 
 function fectchData(){
 var url= "DataServletJSON?objetoId="+objetoId+"&objetoTipo="+objetoTipo+"&oper=getAllForObject";
@@ -41,7 +53,7 @@ $.get(url,function (data){
 	    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.tag.descripcion +'\'>'+item.tag.nombre+'</td>');
 	    row.append('<td>'+ item.value+'</td>');
         if(item.connectToId){
-	        row.append('<td>'+ item.connectToId+'-'+item.objetoConnectedTipo+'</td>');
+	        row.append('<td>'+objetoTipoToString(item)+'</td>');
         }else{
         	row.append('<td></td>');
         }  
@@ -54,8 +66,11 @@ $.get(url,function (data){
 
 	
 }
+function objetoTipoToString(item){
+	return item.connectToId + "-" + item.objetoConnectedTipoString;
+}
 
-function getAllAlerts(){
+function getAllAlerts(comboid){
 	var url= "AlertServletJSON?&oper=getAll";
 	$.get(url,function (data){
 		console.log(data);
@@ -65,10 +80,10 @@ function getAllAlerts(){
 		        text : item.nombre 
 		    }));
 		});
-		
+		if(comboid) $('#objetoConnectedId').val(comboid);
 	},"json");		
 	}
-function getAllPeligros(){
+function getAllPeligros(comboid){
 	var url= "PeligroServletJSON?&oper=getAll";
 	$.get(url,function (data){
 		console.log(data);
@@ -78,7 +93,7 @@ function getAllPeligros(){
 		        text : item.nombre 
 		    }));
 		});
-		
+		if(comboid) $('#objetoConnectedId').val(comboid);
 	},"json");		
 	}
 
@@ -103,7 +118,7 @@ function getAllTags(){
 	}
 
 
-function loadObjetoConnectedSelect(){
+function loadObjetoConnectedSelect(comboid){
 	$('#objetoConnectedId').children().remove();
 	$('#objetoConnectedId').append($('<option>', { 
         value: '',
@@ -111,13 +126,13 @@ function loadObjetoConnectedSelect(){
     }));
 	var objeto =$('#objetoConnectedTipo').val();
 	if(objeto == 0) getAllAlerts();
-	else if(objeto == 1) getAllPeligros();
-	else if(objeto == 2) getAllLugares();
-	else if(objeto == 3) getAllFactores();
-	else if(objeto == 4) getAllSitio();
-	else if(objeto == 5) getAllFuente();
-	else if(objeto == 6) getAllAirport();
-	else if(objeto == 7) getAllUsuario();
+	else if(objeto == 1) getAllPeligros(comboid);
+	else if(objeto == 2) getAllLugares(comboid);
+	else if(objeto == 3) getAllFactores(comboid);
+	else if(objeto == 4) getAllSitio(comboid);
+	else if(objeto == 5) getAllFuente(comboid);
+	else if(objeto == 6) getAllAirport(comboid);
+	else if(objeto == 7) getAllUsuario(comboid);
 }
 function modifyData(e){
 	$('#myModal').modal('show');
@@ -145,12 +160,11 @@ function populateForm(data){
 	 $('#value').val(data.value);
 	 $('#tipoValor').val(data.tipoValor);
 	 $('#descripcion').val(data.descripcion);
-	 if($('#objetoConnectedTipo').val() == data.objetoConnectedTipoOrdinal){
+	 if($('#objetoConnectedTipo').val() == data.objetoConnectedTipo){
 	     $('#objetoConnectedId').val(data.connectToId);
 	 }else{
-		 $('#objetoConnectedTipo').val(data.objetoConnectedTipoOrdinal);
-		 $('#objetoConnectedId').val(data.connectToId);
-		 loadObjetoConnectedSelect();
+		 $('#objetoConnectedTipo').val(data.objetoConnectedTipo);		 
+		 loadObjetoConnectedSelect(data.connectToId);
 	 }	    
 	 	
 }
@@ -163,7 +177,7 @@ $(function(){
 });
 </script>
 
-<h3>Data</h3>     
+<h3>Data<span style="align:right" class=""></span></h3>     
 
 <table class="table table-striped small">
 <tr><th>id</th><th>tag</th><th>valor</th><th>Connected to</th></tr>
@@ -171,7 +185,12 @@ $(function(){
 </tbody>
 </table>
 
-<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">Nuevo</button>
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#myModal">
+      <span class="glyphicon glyphicon-plus-sign"></span>
+</button>
+<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modalGraph">
+      <span class="glyphicon glyphicon-link"></span> 
+</button>
 
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -221,7 +240,6 @@ $(function(){
 
 		<div class="form-group">
 		<label for="">Objeto to Connect</label>
-		
 			<select class="form-control" name="objetoConnectedTipo" id="objetoConnectedTipo">
 				<option value="0">Alert</option>
 				<option value="1">Peligro</option>
@@ -254,8 +272,28 @@ $(function(){
 </div>
       <div class="modal-footer">
         <input type="submit" class="btn btn-primary" value="grabar" onclick="savedata()">
-        <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
-        <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+        <input type="button" class="btn btn-primary" value="delete" onclick="deletedata()">
+      </div>
+</div>
+
+</div>
+</div>
+
+<!-- Modal -->
+<div id="modalGraph" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Graph</h4>
+      </div>
+      <div class="modal-body">
+             <jsp:include page="networkGraph2.jsp"/>
+      </div>
+      <div class="modal-footer">
+       
       </div>
 </div>
 
