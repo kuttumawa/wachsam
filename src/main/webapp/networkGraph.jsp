@@ -18,7 +18,7 @@
 <div id="chart"></div>
 <script>
 
-var width = 960,
+var width = 500,
     height = 500;
 
 var color = d3.scale.category20();

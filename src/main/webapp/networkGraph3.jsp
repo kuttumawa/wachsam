@@ -51,10 +51,12 @@ d3.json(url, function(json) {
 
   var node = svg.selectAll(".node")
       .data(json.nodes)
-    .enter().append("g");
+    .enter().append("g")
+      .attr("class", "node")
+      .call(force.drag);
 
   node.append("circle")
-      .attr("r","10").attr("fill", "white").attr("stroke","black");
+      .attr("r","5");
 
   node.append("text")
       .attr("dx", 12)
