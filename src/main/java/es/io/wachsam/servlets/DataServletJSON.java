@@ -204,9 +204,14 @@ public class DataServletJSON extends HttpServlet {
 		    }else if(oper.equalsIgnoreCase("save") && validar(request)==null){
 				data=new Data();
 				if(objetoId!=null) data.setObjetoId(Long.parseLong(objetoId));
-				if(objetoConnectedId!=null) data.setConnectToId(Long.parseLong(objetoConnectedId));
-				if(objetoTipo!=null) data.setObjetoTipo(ObjetoSistema.values()[Integer.parseInt(objetoTipo)]);
-				if(objetoConnectedTipo!=null) data.setObjetoConnected(ObjetoSistema.values()[Integer.parseInt(objetoConnectedTipo)]);
+				if(objetoTipo!=null) data.setObjetoTipo(ObjetoSistema.values()[Integer.parseInt(objetoTipo)]);				
+				try{
+				  if(objetoConnectedId!=null) data.setConnectToId(Long.parseLong(objetoConnectedId));
+				  if(objetoConnectedTipo!=null) data.setObjetoConnected(ObjetoSistema.values()[Integer.parseInt(objetoConnectedTipo)]);
+				}catch(Exception e){
+					objetoConnectedId=null;
+					objetoConnectedTipo=null;
+				}
 				data.setValue(value);
 				data.setDescripcion(descripcion);
 				data.setTipoValor(DataValueTipo.valueOf(tipoValor));

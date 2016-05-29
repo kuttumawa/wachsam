@@ -443,7 +443,7 @@ public class Alert {
 	}
 
 	public Node toNode() {
-		return new Node(this.id,this.getNombre(),ObjetoSistema.Alert.ordinal());		
+		return new Node(this.id,this.getNombre(),ObjetoSistema.Alert.ordinal(),ObjetoSistema.Alert+":"+this.id + "-" +this.texto);		
 	}
 	
 	

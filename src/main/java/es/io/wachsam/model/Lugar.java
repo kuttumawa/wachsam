@@ -212,5 +212,9 @@ public class Lugar {
 
 		return false;
 	}
+	
+	public Node toNode() {
+		return new Node(this.id,this.getNombre(),ObjetoSistema.Lugar.ordinal(),this.prettyPrint());		
+	}
 
 }

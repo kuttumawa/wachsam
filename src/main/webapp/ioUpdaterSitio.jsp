@@ -185,10 +185,10 @@ for(Data data:datas){
            <div id="googleMap" style="width:600px;height:350px;"></div>
 	    </div>
 	    <div class="">
-	      <jsp:include page="showData.jsp"/>
-	      <%if(sec.hasAuth(usuario,Data.class,Acciones.CREATE,null)){ %>
-		   <input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('sitioId')"/> 
-		   <%} %>
+	      <jsp:include page="showData.jsp" >
+		    <jsp:param name="objetoId" value="<%=sitio.getId()!=null?sitio.getId():null%>" />
+		    <jsp:param name="objetoTipo" value="4"/>
+		 </jsp:include>
 	    </div>
        </div>
 </div>

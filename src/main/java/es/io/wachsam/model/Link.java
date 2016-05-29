@@ -9,11 +9,14 @@ public class Link {
 		int target;
         @Expose
 		int value;
-		public Link(int source, int target, int value) {
+        @Expose
+		String text;
+		public Link(int source, int target, int value,String text) {
 			super();
 			this.source = source;
 			this.target = target;
 			this.value = value;
+			this.text =text;
 		}
 		public Link() {
 			super();
@@ -35,6 +38,12 @@ public class Link {
 		}
 		public void setValue(int value) {
 			this.value = value;
+		}
+		public String getText() {
+			return text;
+		}
+		public void setText(String text) {
+			this.text = text;
 		}
 
 }

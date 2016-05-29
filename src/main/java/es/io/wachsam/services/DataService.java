@@ -42,6 +42,8 @@ public class DataService {
 	private OperationLogDao operationLogDao;
 	private AlertService alertService;
 	private PeligroService peligroService;
+	private LugarService lugarService;
+	private SitioService sitioService;
 
 	public DataDao getDao() {
 		return dao;
@@ -168,12 +170,16 @@ public class DataService {
 		filtro.setObjetoTipo(ob);
 		res= dao.getAll(filtro);
 		for(Data data:res){
-			data.setObjetoConnectedTipoString(data.getObjetoTipo().name());
 			if(data.getConnectToId()!=null && data.getObjetoConnected()!=null){
+				data.setObjetoConnectedTipoString(data.getObjetoConnected().name());			
 				Object o =null;
 				try{
 					if(data.getObjetoConnected().equals(ObjetoSistema.Alert)) o =	alertService.getAlert(data.getConnectToId(), usuario);
 					else if (data.getObjetoConnected().equals(ObjetoSistema.Peligro)) o =	peligroService.getPeligro(data.getConnectToId(), usuario);
+					else if (data.getObjetoConnected().equals(ObjetoSistema.Lugar)) o =	lugarService.getLugar(data.getConnectToId(), usuario);
+					else if (data.getObjetoConnected().equals(ObjetoSistema.Sitio)) o =	sitioService.getSitio(data.getConnectToId(), usuario);
+					
+					
 					data.setConnectedObject(o);
 					
 				}catch(Exception e){
@@ -191,17 +197,21 @@ public class DataService {
 		Node node_i = null;
 		if(ob.equals(ObjetoSistema.Alert)) node_i=alertService.getAlert(id, usuario).toNode();
 		if(ob.equals(ObjetoSistema.Peligro)) node_i=peligroService.getPeligro(id, usuario).toNode();
-		nodeAndLinks.getNodes().add(node_i);
+		if(ob.equals(ObjetoSistema.Lugar)) node_i=lugarService.getLugar(id, usuario).toNode();
+		if(ob.equals(ObjetoSistema.Sitio)) node_i=sitioService.getSitio(id, usuario).toNode();
+		if(!nodeAndLinks.getNodes().contains(node_i))nodeAndLinks.getNodes().add(node_i);
 		datas=getAllForObject(id,ob,usuario);
 		for(Data data:datas){
 			Node node_j=null;
 			if(data.getConnectedObject()!=null){
 				node_j= getNodeFromObject(data.getConnectedObject());
 				if(!nodeAndLinks.getNodes().contains(node_j)) nodeAndLinks.getNodes().add(node_j);
+				nodeAndLinks=getAllNodeAndLinksForObject(node_j.getId(),getObjetoSistemaFromObject(data.getConnectedObject()),usuario,nodeAndLinks);
 				Link link=new Link();
 				link.setSource(nodeAndLinks.getNodes().indexOf(node_i));
 				link.setTarget(nodeAndLinks.getNodes().indexOf(node_j));
-				link.setValue(1);
+				link.setValue(data.getTag().getId().intValue());
+				link.setText(data.getTag().getNombre());
 				nodeAndLinks.getLinks().add(link);
 			}
 		}
@@ -210,12 +220,16 @@ public class DataService {
 	
 	private ObjetoSistema getObjetoSistemaFromObject(Object o){
 		if(o instanceof Alert)  return ObjetoSistema.Alert;
-		else if(o instanceof Peligro)  return ObjetoSistema.Alert;
+		else if(o instanceof Peligro)  return ObjetoSistema.Peligro;
+		else if(o instanceof Lugar)  return ObjetoSistema.Lugar;
+		else if(o instanceof Sitio)  return ObjetoSistema.Sitio;
 		return null;
 	}
 	private Node getNodeFromObject(Object o){
 		if(o instanceof Alert)  return ((Alert)o).toNode();
 		else if(o instanceof Peligro)  return ((Peligro)o).toNode();
+		else if(o instanceof Lugar)  return ((Lugar)o).toNode();
+		else if(o instanceof Sitio)  return ((Sitio)o).toNode();
 		return null;
 	}
 	
@@ -260,6 +274,18 @@ public class DataService {
 	}
 	public void setPeligroService(PeligroService peligroService) {
 		this.peligroService = peligroService;
+	}
+	public LugarService getLugarService() {
+		return lugarService;
+	}
+	public void setLugarService(LugarService lugarService) {
+		this.lugarService = lugarService;
+	}
+	public SitioService getSitioService() {
+		return sitioService;
+	}
+	public void setSitioService(SitioService sitioService) {
+		this.sitioService = sitioService;
 	}
 
 	

@@ -1,6 +1,7 @@
 package es.io.wachsam.services;
 
 import java.util.Date;
+import java.util.List;
 
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.OperationLogDao;
@@ -58,6 +59,9 @@ public class SitioService {
 			 throw new NoAutorizadoException();
 		dao.deleteById(id);
 		operationLogDao.save(new OperationLog(sitio.getClass().getSimpleName(),sitio.getId(),Acciones.DELETE.name(),usuario.getId(),new Date()));
+	}
+	public List<Sitio> getAll() {
+		return dao.getAll();
 	}
 	
 	

@@ -127,10 +127,10 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </form>
 </div>
 <div class="col-sm-5">
-<jsp:include page="showData.jsp"/>
- <%if(sec.hasAuth(usuario,Data.class,Acciones.CREATE,null)){ %>
-<input type="button" class="btn btn-primary" value="Nuevo Dato" onclick="nuevoDato('subjectId')"/> 
- <%}%>
+         <jsp:include page="showData.jsp" >
+		    <jsp:param name="objetoId" value="<%=peligro.getId()!=null?peligro.getId():null%>" />
+		    <jsp:param name="objetoTipo" value="1"/>
+		 </jsp:include>
  </div>
 </div>
 </div>

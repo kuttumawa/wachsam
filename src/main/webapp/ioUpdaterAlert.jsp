@@ -247,7 +247,7 @@ for(Tipo tipo_i:tipos){
            <div id="googleMap" style="width:550px;height:300px;"></div>
 	    </div>
 	    <div class="">
-	     <jsp:include page="showData2.jsp" >
+	     <jsp:include page="showData.jsp" >
 		    <jsp:param name="objetoId" value="<%=alert.getId()!=null?alert.getId():null%>" />
 		    <jsp:param name="objetoTipo" value="0"/>
 		 </jsp:include>

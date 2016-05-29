@@ -28,14 +28,22 @@ public class Sitio {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
 	Long id;
+	@Expose
 	String nombre;
+	@Expose
 	String nombreEn;
+	@Expose
 	String direccion;
+	@Expose
 	TipoSitio tipo;
+	@Expose
 	String texto;
+	@Expose
 	String textoEn;
+	@Expose
 	@ManyToOne(fetch = FetchType.EAGER)
 	Lugar lugarObj;
+	@Expose
 	Integer valoracion;
 	
 	
@@ -261,6 +269,8 @@ public class Sitio {
 		return false;
 	}
 	
-	
+	public Node toNode() {
+		return new Node(this.id,this.getNombre(),ObjetoSistema.Sitio.ordinal(),ObjetoSistema.Sitio +":"+this.id+"-"+this.getNombre());		
+	}
 
 }

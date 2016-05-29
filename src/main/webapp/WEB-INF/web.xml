@@ -116,6 +116,18 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.PeligroServletJSON</servlet-class>
   </servlet>
+   <servlet>
+  	<servlet-name>LugarServletJSON</servlet-name>
+  	<display-name>LugarServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.LugarServletJSON</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>SitioServletJSON</servlet-name>
+  	<display-name>SitioServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.SitioServletJSON</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -184,6 +196,14 @@
    <servlet-mapping>
   	<servlet-name>PeligroServletJSON</servlet-name>
   	<url-pattern>/PeligroServletJSON</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+  	<servlet-name>LugarServletJSON</servlet-name>
+  	<url-pattern>/LugarServletJSON</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>SitioServletJSON</servlet-name>
+  	<url-pattern>/SitioServletJSON</url-pattern>
   </servlet-mapping>
 
 
