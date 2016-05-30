@@ -238,9 +238,9 @@ $(function(){
       </div>
       <div class="modal-body">
  <form id="formData" action="ProvisionalDataUpdaterForYou" method="post" role="form">
-        <input type="text" name="objetoId" value="<%= request.getParameter("objetoId")%>"/>
-        <input type="text" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>"/>
-        <input type="text" name="dataId" id="dataId"/>
+        <input type="text" name="objetoId" value="<%= request.getParameter("objetoId")%>" readonly/>
+        <input type="text" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>" readonly/>
+        <input type="text" name="dataId" id="dataId" readonly/>
         
         <div class="form-group">
 		<label for="">Tag</label>

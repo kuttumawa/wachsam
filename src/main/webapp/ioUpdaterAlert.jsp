@@ -42,6 +42,10 @@ function deleteOper(){
 	
 	
 }
+
+function clonar(){
+	$('#id,#id0').val('');
+}
 </script>
  
 <body>
@@ -237,6 +241,8 @@ for(Tipo tipo_i:tipos){
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+<input type="button" class="btn btn-primary"  onclick="clonar()" value="clonar">
+
 </div>
 </form>
 </div>
