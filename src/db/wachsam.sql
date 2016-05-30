@@ -211,8 +211,8 @@ DROP FOREIGN KEY `FK2EEFAA76382C92`;
 ALTER TABLE `viajarseguro`.`data` 
 CHANGE COLUMN `tag1_id` `tag_id` INT(11) NULL DEFAULT NULL ,
 ADD COLUMN `objetoid` INT(11) NULL AFTER `sitioId`,
-ADD COLUMN `connectedtoid` INT(11) NULL AFTER `objetoid`,
-ADD COLUMN `objettipo` INT(11) NULL AFTER `connectedtoid`,
+ADD COLUMN `connecttoId` INT(11) NULL AFTER `objetoid`,
+ADD COLUMN `objettipo` INT(11) NULL AFTER `connectToId`,
 ADD COLUMN `objetoconnectedtipo` INT(11) NULL AFTER `objettipo`;
 ALTER TABLE `viajarseguro`.`data` 
 ADD CONSTRAINT `FK2EEFAA76382C92`

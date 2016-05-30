@@ -32,8 +32,12 @@
     <bean id="dataService" class="es.io.wachsam.services.DataService">
        <property name="dao" ref="dataDao"/>
        <property name="tagDao" ref="tagDao"/>
-        <property name="securityService"  ref="securityService"/>
-        <property name="operationLogDao"  ref="operationLogDao"/>
+       <property name="securityService"  ref="securityService"/>
+       <property name="operationLogDao"  ref="operationLogDao"/>
+       <property name="alertService"  ref="alertService"/>
+       <property name="peligroService"  ref="peligroService"/>
+       <property name="lugarService"  ref="lugarService"/>
+       <property name="sitioService"  ref="sitioService"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>
@@ -92,7 +96,7 @@
 		<property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
 		<property name="username" value="viajarseguro" />
 		<property name="password" value="buendiabuendia" />
-		<!-- <property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
+<!-- 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
 		<property name="password" value="buendia" /> -->
 	</bean>

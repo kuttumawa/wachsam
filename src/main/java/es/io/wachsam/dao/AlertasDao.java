@@ -61,6 +61,12 @@ public class AlertasDao {
 		return em.createQuery("SELECT p FROM Alert p order by id desc", Alert.class)
 				.getResultList();
 	}
+	
+	@Cacheable(ALERT_CACHE)
+	public List<Alert> getAllMin() {
+		return em.createQuery("SELECT p.id,p.nombre FROM Alert p order by id desc", Alert.class)
+				.getResultList();
+	}
 
 	public List<Alert> getAllPorPaís(String pais) {
 		Query q = em.createQuery(

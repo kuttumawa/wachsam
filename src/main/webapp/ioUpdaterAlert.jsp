@@ -42,6 +42,12 @@ function deleteOper(){
 	
 	
 }
+
+function clonar(){
+	var tx='id   <CLONADO de la alerta' + $('#id').val()+'>';
+	$('#idLabel').text(tx).css('color', 'red')
+	$('#id,#id0').val('');
+}
 </script>
  
 <body>
@@ -88,7 +94,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 
 <div class="form-group">
-<label for="">Id</label>
+<label for=""><span id="idLabel">Id</span></label>
 <input class="form-control" type="text"  id="id0" value="<%= alert.getId()!=null?alert.getId():""  %>" disabled="disabled" />
 <input type="hidden" id="id" name="id" value="<%= alert.getId()!=null?alert.getId():"" %>"  />
 </div>
@@ -237,6 +243,8 @@ for(Tipo tipo_i:tipos){
 <input type="submit" class="btn btn-primary" value="grabar">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
+<input type="button" class="btn btn-primary"  onclick="clonar()" value="clonar">
+
 </div>
 </form>
 </div>
