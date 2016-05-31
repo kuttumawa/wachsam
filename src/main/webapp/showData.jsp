@@ -77,7 +77,7 @@ function getAllAlerts(comboid){
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
-		        text : item.nombre 
+		        text : item.text 
 		    }));
 		});
 		if(comboid) $('#objetoConnectedId').val(comboid);

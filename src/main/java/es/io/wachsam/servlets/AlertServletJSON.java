@@ -21,6 +21,7 @@ import es.io.wachsam.dao.AirportDao;
 import es.io.wachsam.model.Airport;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.Node;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.services.AlertService;
@@ -59,14 +60,18 @@ public class AlertServletJSON extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String oper=request.getParameter("oper");
 		List<Alert> alerts=new ArrayList<Alert>();
+		List<Node> nodes=new ArrayList<Node>();
 		
 		if(oper!=null){
 			if(oper.equalsIgnoreCase("getAll")){
 				alerts=dataService.getAll();
+				for(Alert a:alerts){
+					nodes.add(a.toNode());
+				}
 			}
 			
 		}
-		 out.println(prettyGson.toJson(alerts));
+		 out.println(prettyGson.toJson(nodes));
 	}
 
 
