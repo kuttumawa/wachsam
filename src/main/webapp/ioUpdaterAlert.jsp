@@ -44,6 +44,8 @@ function deleteOper(){
 }
 
 function clonar(){
+	var tx='id   <CLONADO de la alerta' + $('#id').val()+'>';
+	$('#idLabel').text(tx).css('color', 'red')
 	$('#id,#id0').val('');
 }
 </script>
@@ -92,7 +94,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 
 <div class="form-group">
-<label for="">Id</label>
+<label for=""><span id="idLabel">Id</span></label>
 <input class="form-control" type="text"  id="id0" value="<%= alert.getId()!=null?alert.getId():""  %>" disabled="disabled" />
 <input type="hidden" id="id" name="id" value="<%= alert.getId()!=null?alert.getId():"" %>"  />
 </div>
