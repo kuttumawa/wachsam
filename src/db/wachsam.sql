@@ -196,47 +196,28 @@ ALTER TABLE `viajarseguro`.`data`
 ADD CONSTRAINT `FK2EEFAA76382C92`
   FOREIGN KEY (`tag_id`)
   REFERENCES `viajarseguro`.`tag` (`id`);
-
   
-  
-  1. tag1_id --> tag_id
-2.`objetoid` INT(11) NULL DEFAULT NULL
-3.`connecttoid` INT(11) NULL DEFAULT NULL 
-4. `objetotipo` INT(3) NULL DEFAULT NULL 
-5. `objetoconnectedtipo` INT(3) NULL DEFAULT NULL 
-6. ------------------------------
+  CREATE TABLE `data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `value` varchar(500) DEFAULT NULL,
+  `descripcion` varchar(250) DEFAULT NULL,
+  `tipoValor` int(11) NOT NULL,
+  `tag_id` int(11) DEFAULT NULL,
+  `objetoid` int(11) DEFAULT NULL,
+  `connecttoid` int(11) DEFAULT NULL,
+  `objetotipo` int(2) DEFAULT NULL,
+  `objetoconnectedtipo` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  KEY `FK2EEFAA76382C92` (`tag_id`),
+  CONSTRAINT `FK2EEFAA76382C92` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
-ALTER TABLE `viajarseguro`.`data` 
-DROP FOREIGN KEY `FK2EEFAA76382C92`;
-ALTER TABLE `viajarseguro`.`data` 
-CHANGE COLUMN `tag1_id` `tag_id` INT(11) NULL DEFAULT NULL ,
-ADD COLUMN `objetoid` INT(11) NULL AFTER `sitioId`,
-ADD COLUMN `connecttoId` INT(11) NULL AFTER `objetoid`,
-ADD COLUMN `objettipo` INT(11) NULL AFTER `connectToId`,
-ADD COLUMN `objetoconnectedtipo` INT(11) NULL AFTER `objettipo`;
-ALTER TABLE `viajarseguro`.`data` 
-ADD CONSTRAINT `FK2EEFAA76382C92`
-  FOREIGN KEY (`tag_id`)
-  REFERENCES `viajarseguro`.`tag` (`id`);
 
-  ------------------------
---LUGARES
- SELECT * FROM viajarseguro.data where lugarId is not null
- update data
-set data.objetoid = data.lugarid,data.objetotipo = 2
-where lugarId is not null and objetoid is null;
---PELIGROS
-SELECT * FROM viajarseguro.data where subjectId is not null
-update data
-set data.objetoid = data.subjectId,data.objetotipo = 1
-where subjectId is not null and objetoid is null;
---ALERTAS
-SELECT * FROM viajarseguro.data where eventoId is not null;
-update data
-set data.objetoid = data.eventoId, data.objetotipo = 0
-where eventoId is not null and objetoid is null;
---SITIOS
-SELECT * FROM viajarseguro.data where sitioId is not null;
-update data
-set data.objetoid = data.sitioId, data.objetotipo = 4
-where sitioId is not null and objetoid is null;
+ CREATE TABLE `viajarseguro`.`riesgo` (
+  `id` INT(11) NOT NULL,
+  `lugar_id` INT(11) NOT NULL,
+  `peligro_id` INT(11) NOT NULL,
+  `value` INT(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));

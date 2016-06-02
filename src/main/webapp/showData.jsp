@@ -70,18 +70,31 @@ function objetoTipoToString(item){
 	return item.connectToId + "-" + item.objetoConnectedTipoString;
 }
 
+
 function getAllAlerts(comboid){
-	var url= "AlertServletJSON?&oper=getAll";
-	$.get(url,function (data){
-		console.log(data);
-		$.each(data, function(i, item) {
+	var key="getAllAlerts";
+    var alerts=getFromStorage(key);
+	if(alerts){
+		$.each(alerts, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
 		        text : item.text 
-		    }));
+		    }));  
 		});
-		if(comboid) $('#objetoConnectedId').val(comboid);
-	},"json");		
+	}else{
+		var url= "AlertServletJSON?&oper=getAll";
+		$.get(url,function (data){
+			setInStorage(key,data)
+			$.each(data, function(i, item) {
+				$('#objetoConnectedId').append($('<option>', { 
+			        value: item.id,
+			        text : item.text 
+			    }));
+			});
+			
+		},"json");
+	}	
+	if(comboid) $('#objetoConnectedId').val(comboid);	
 	}
 function getAllPeligros(comboid){
 	var url= "PeligroServletJSON?&oper=getAll";

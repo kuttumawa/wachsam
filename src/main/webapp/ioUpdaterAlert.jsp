@@ -240,7 +240,7 @@ for(Tipo tipo_i:tipos){
 
 <input type="hidden" id="oper" name="oper"/>
  <div class="btn-group center-block">
-<input type="submit" class="btn btn-primary" value="grabar">
+<input type="submit" class="btn btn-primary" value="grabar" onclick="evictCache('ALERT_ALL')">
 <input type="button" class="btn btn-primary" value="delete" onclick="deleteOper()">
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 <input type="button" class="btn btn-primary"  onclick="clonar()" value="clonar">

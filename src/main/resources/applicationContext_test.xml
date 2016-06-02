@@ -20,7 +20,7 @@
     <tx:annotation-driven />
     <context:annotation-config /> 
  
-    <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
+       <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
         <property name="cacheManager" ref="cacheManager"/>
      </bean>
     <bean id="alertService" class="es.io.wachsam.services.AlertService">
@@ -36,6 +36,8 @@
        <property name="operationLogDao"  ref="operationLogDao"/>
        <property name="alertService"  ref="alertService"/>
        <property name="peligroService"  ref="peligroService"/>
+       <property name="lugarService"  ref="lugarService"/>
+       <property name="sitioService"  ref="sitioService"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>
@@ -69,6 +71,14 @@
     </bean>
     <bean id="sitioService" class="es.io.wachsam.services.SitioService">
       <property name="dao" ref="sitioDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+     <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" >
+        <property name="cacheManager" ref="cacheManager"/>
+     </bean>
+     <bean id="riegoService" class="es.io.wachsam.services.RiesgoService">
+      <property name="dao" ref="riesgoDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>

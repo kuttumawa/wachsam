@@ -74,6 +74,14 @@
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
+     <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" >
+        <property name="cacheManager" ref="cacheManager"/>
+     </bean>
+     <bean id="riegoService" class="es.io.wachsam.services.RiesgoService">
+      <property name="dao" ref="riesgoDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">
@@ -93,12 +101,12 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
+		<!-- <property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
 		<property name="username" value="viajarseguro" />
-		<property name="password" value="buendiabuendia" />
-<!-- 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
+		<property name="password" value="buendiabuendia" /> -->
+		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="buendia" /> -->
+		<property name="password" value="" />
 	</bean>
  
     <bean id="entityManagerFactory"

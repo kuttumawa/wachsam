@@ -8,51 +8,49 @@ import javax.persistence.Query;
 
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
-import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.Riesgo;
+
 
 @Transactional
-public class LugarDao {
-	final String CACHE="ioCacheLugar";
+public class RiesgoDao {
+	final String CACHE="ioCacheRiesgo";
 	private CacheManager cacheManager;
+
 	@PersistenceContext
 	private EntityManager em;
+	
 	@CacheEvict(CACHE)
-	public Lugar save(Lugar lugar) {
-		if (lugar == null)
+	public Riesgo save(Riesgo riesgo) {
+		if (riesgo == null)
 			return null;
-		if(lugar.getId() == null) em.persist(lugar);
-		else em.merge(lugar);
+		if(riesgo.getId() == null) em.persist(riesgo);
+		else em.merge(riesgo);
 		evictCache();
-		return lugar;
+		return riesgo;
 	}
 	
-	public Lugar getLugar(Long id){
-		return em.find(Lugar.class,id);
+	public Riesgo getRiesgo(Long id){
+		return em.find(Riesgo.class,id);
 	}
 	@Cacheable(CACHE)
-	public List<Lugar> getAll() {
-		return em.createQuery("SELECT p FROM Lugar p order by p.nombre", Lugar.class)
+	public List<Riesgo> getAll() {
+		return em.createQuery("SELECT p FROM Riesgo p", Riesgo.class)
 				.getResultList();
 	}
 	@Cacheable(CACHE)
-	public List<Lugar> getAllPorPaís(String pais) {
+	public List<Riesgo> getRiesgosFromPeligro(Long idpais) {
 		Query q = em.createQuery(
-				"SELECT p FROM Lugar p where p.lugar LIKE :pais", Lugar.class);
-		q.setParameter("pais", "%" + pais + "%");
+				"SELECT p FROM Riesgo p where p.lugar.id = :lugarid", Riesgo.class);
+		q.setParameter("lugar",idpais);
 		return q.getResultList();
-	}
-	public List<Lugar> getAllPorPaísOrdenadosPorNivelyNombre() {
-		return em.createQuery("SELECT p FROM Lugar p order by p.nivel,p.nombre", Lugar.class)
-				.getResultList();
 	}
 	@CacheEvict(CACHE)
 	public void deleteById(Long id) throws Exception {
-		Lugar ent = em.find(Lugar.class, id);
-		em.remove(ent);
+		Riesgo ent = em.find(Riesgo.class, id);
+		em.remove(ent); 
 		evictCache();
 	}
 	public void evictCache(){
@@ -66,6 +64,12 @@ public class LugarDao {
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
+
+	public List<Riesgo> getRiesgosFromPeligro(long parseLong) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	
 	
 }

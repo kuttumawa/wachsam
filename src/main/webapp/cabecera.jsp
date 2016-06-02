@@ -10,6 +10,8 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="js/localCache.js"></script>
+<script>clearLocalStorage()</script>
 <style>
 .btn-group{padding-top: 10px;}
 
@@ -67,6 +69,15 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         </ul>
       </li>
        <%}%>
+       <%if(sec.hasAuth(usuario,Riesgo.class,Acciones.READ,null)){ %>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Riesgos
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="ProvisionalRiesgoUpdaterForYou">Riesgos</a></li> 
+        </ul>
+      </li>
+      <%}%>
        <%if(sec.hasAuth(usuario,Data.class,Acciones.READ,null)){ %>
        <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Datas

@@ -128,6 +128,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.SitioServletJSON</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalRiesgoUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalRiesgoUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalRiesgoUpdaterForYou</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -204,6 +210,10 @@
     <servlet-mapping>
   	<servlet-name>SitioServletJSON</servlet-name>
   	<url-pattern>/SitioServletJSON</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalRiesgoUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalRiesgoUpdaterForYou</url-pattern>
   </servlet-mapping>
 
 

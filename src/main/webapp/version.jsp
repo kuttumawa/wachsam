@@ -1,12 +1,32 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
+1.0.5 ()
+------------------------------------------------------------------------------
+- Búsqueda para todo los objetos.
+- Cacheo local de objetos pesados, preparar browser bd.
+- Eliminación del combo del id de las páginas, sustituirlo por búsqueda.
+- Generalización de la subida de ficheros.
+- Nuevo objeto: Riesgo.
+- Nuevo objeto: Agua.
+- Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: 
+  Ejemplo Droga,Vacuna,Medicamento
+- Clonar en todos los objetos
+- Carga calidad Aguas
+- Carga códigos  países ISO 3166
+- Marca para cada objeto de la última modificación.
+- Icono Heimdallar.
+- Visualización bar code (main page)
+
+------------------------------------------------------------------------------
+
 1.0.4 (30-05-2016)
 ------------------------------------------------------------------------------
 - Corrige bugs permisos
 - Nuevo modelo para los datos asociados
 - Nuevo interfaz para los datos asociados
-- Nuevo visaulización de red para los datos de un objeto
+- Nuevo visualización de red para los datos de un objeto
+- Clonar alertas
 ------------------------------------------------------------------------------
 
 
@@ -64,16 +84,20 @@ FUTURO
    CU2: Acceso a las alertas de Gripe en España del último año.Periodo: Durante la próxima semana.Limitar a 1000 accesos hora.
 5.Auditoría de accesos-tokens
 - Datos: pemitir datos privados para un usuario:
--TK (to come).Idea colaborativa: Ejemplo publicar un TK: El agente infeccioso TK puede afectar al país TK por los evntos detectados TK* 
--Tags ampliar funcionalidad.ie: asociar icono a un dato
--d3.js widget de visualización network de las relaciones de un objeto.
+- TK (to come).Idea colaborativa: Ejemplo publicar un TK: El agente infeccioso TK puede afectar al país TK por los evntos detectados TK* 
+- Tags ampliar funcionalidad.ie: asociar icono a un dato
 - Tipos de sitio en BD
 - layout: footer
 - widget: cloud tag :: http://bl.ocks.org/ericcoopey/6382449
 - bug: widget map se repiten algunos puntos.Ocurre en el mapa general.ej Mauritania
 - bug: revisar cacheo para que se active con todos los parámetros.ejemplo caducado.
 - Configurable Alarms
-
-
+- Nuevo objeto Artículo.CU: Se crea un artículo,nombre,descripción, subject,url.Se encola para indexarlo en ES.  
+- Nuevo objeto Consulta
+- Nuevo objeto Medicamento
+- Nuevo objeto Riesgo
+- kafka http://kafka.apache.org/
+- API REST
+- Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: Ejemplo Droga,Vacuna,Medicamento
 -------------------------------------------------------------------------------
 </pre>
