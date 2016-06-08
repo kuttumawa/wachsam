@@ -7,7 +7,7 @@
 - Cacheo local de objetos pesados, preparar browser bd.
 - Eliminación del combo del id de las páginas, sustituirlo por búsqueda.
 - Generalización de la subida de ficheros.
-- Nuevo objeto: Riesgo.
+- Nuevo objeto: Riesgo.[peligro,lugar,probabilidad,fuente,descripcion]
 - Nuevo objeto: Agua.
 - Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: 
   Ejemplo Droga,Vacuna,Medicamento
@@ -17,7 +17,9 @@
 - Marca para cada objeto de la última modificación.
 - Icono Heimdallar.
 - Visualización bar code (main page)
-
+- Tipos de sitio en BD.
+- Añadir campos longitud latitud en sitio.
+- Sitio: Crear auto completable para lugares en sitio apartir de longitud y latitud. 
 ------------------------------------------------------------------------------
 
 1.0.4 (30-05-2016)

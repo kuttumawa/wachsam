@@ -30,7 +30,7 @@ public class Riesgo {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@Expose
 	Peligro peligro;
-	Integer value;
+	NivelProbabilidad value;
 	public Long getId() {
 		return id;
 	}
@@ -49,10 +49,10 @@ public class Riesgo {
 	public void setPeligro(Peligro peligro) {
 		this.peligro = peligro;
 	}
-	public Integer getValue() {
+	public NivelProbabilidad getValue() {
 		return value;
 	}
-	public void setValue(Integer value) {
+	public void setValue(NivelProbabilidad value) {
 		this.value = value;
 	}
 	

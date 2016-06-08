@@ -25,6 +25,15 @@ function deleteOper(){
 	}
 	
 }
+function newData(){
+	$('#myModal').modal('show');
+	$('#dataId').val('');
+		
+}
+function openForm(){
+	$('#modalGraph').modal('show');
+	refresh();		
+}
 </script>
  
 
@@ -34,6 +43,7 @@ function deleteOper(){
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12">
+
 <%
 Peligro peligro = (Peligro)request.getAttribute("peligro");
 %>
@@ -43,43 +53,32 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 <% out.println(request.getAttribute("resultado")); %>
 </div>
 <%}%>
-
-
-
-<form id="form1" action="ProvisionalPeligroUpdaterForYou" method="get" class="form-inline" role="form">
-<div>
-<label for="">Peligro</label>
-<select class="form-control" name="peligro" onchange="document.getElementById('form1').submit();">
-<option value=""></option>
-<%    
-          List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
-          for(Peligro peligro_i:peligros){
-        	  out.println("<option value=\""+peligro_i.getId()+"\">"+peligro_i.getNombre()+"</option>");
-          }
-         
-%> 
-</select>
-</div>
-<div>
-<label for="">Lugares</label>
-<select class="form-control" name="lugar">
-<option value=""></option>
-<%    
-          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
-          for(Lugar lugar_i:lugares){
-        	  out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
-          }
-         
-%> 
-</select>
-</div>
+<form id="form1" action="ProvisionalRiesgoUpdaterForYou" method="get" class="form-inline" role="form">
+	<div>
+		<label for="">Peligro</label>
+		<select class="form-control" name="peligroId" onchange="document.getElementById('form1').submit();">
+		<option value=""></option>
+		<%    
+		          List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
+		          for(Peligro peligro_i:peligros){
+		        	  out.println("<option value=\""+peligro_i.getId()+"\">"+peligro_i.getNombre()+"</option>");
+		          }
+		         
+		%> 
+		</select>
+		<button type="button" class="btn btn-primary btn-sm" onclick="openForm()">
+		      <span class="glyphicon glyphicon-plus-sign"></span>
+		</button>
+	</div>
 </form>
+
+
  <table>
  <thead>
  <tr><th></th><th>id</th><th>lugar</th><th>value</th></tr>
  </thead>
  <tbody>
-  <%
+ <%
  List<Riesgo> riesgos= (List<Riesgo>)request.getAttribute("riesgos");
  %>
  <%
@@ -95,12 +94,57 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
  
  </table>
 </div>
-<div class="col-sm-5">
-       XXXXXXXXXXXX
-</div>
+
 </div>
 </div>
 </div>
 
 </body> 
 </html>
+
+<div id="modalGraph" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Riesgo</h4>
+      </div>
+      <div class="modal-body">
+             <form id="form2" action="ProvisionalRiesgoUpdaterForYou" method="get" class="form-inline" role="form">
+    			<div class="form-group">
+				<label for="">Lugares</label>
+				<select class="form-control" name="lugarId">
+				<option value=""></option>
+				<%    
+				          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
+				          for(Lugar lugar_i:lugares){
+				        	  out.println("<option value=\""+lugar_i.getId()+"\">"+lugar_i.getNombre()+"</option>");
+				          }
+				         
+				%> 
+				</select>
+				</div>
+				<div class="form-group">
+				<label for="">Probabilidad</label>
+				<select class="form-control" name="nivelProbabilidadId" id="nivelProbabilidadId">
+				<%
+				for (NivelProbabilidad nivel : NivelProbabilidad.values()) {
+					 out.println("<option value=\""+nivel.ordinal()+"\">"+nivel.name()+"</option>");
+				}
+				%>
+				</select> 
+				</div>
+				<button type="button" class="btn btn-primary btn-sm" onclick="newData()">
+				      <span class="glyphicon glyphicon-plus-sign"></span>
+				</button>
+				</form>
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+</div>
+
+</div>
+</div>

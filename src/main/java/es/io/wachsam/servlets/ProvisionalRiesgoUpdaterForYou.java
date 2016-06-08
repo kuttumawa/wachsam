@@ -23,6 +23,7 @@ import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.NivelProbabilidad;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Riesgo;
@@ -89,18 +90,18 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		RiesgoService riesgoService=(RiesgoService) context.getBean("riesgoService");
-		String id=request.getParameter("id");
-		String nombre=request.getParameter("nombre");
-		String nombreEn=request.getParameter("nombreEn");
-		String categoria=request.getParameter("categoria");
-		String damage=request.getParameter("damage");
+		String riesgoId=request.getParameter("riesgoId");
+		String peligroId=request.getParameter("peligroId");
+		String lugarId=request.getParameter("lugarId");
+		String nivelProbabilidad=request.getParameter("nivelProbabilidadId");
+	
 		String oper=request.getParameter("oper");
 		
 		Riesgo riesgo=new Riesgo();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
-			if(id!=null){
+			if(riesgoId!=null){
 				try {
-					riesgoService.deleteById(Long.parseLong(id),usuario);
+					riesgoService.deleteById(Long.parseLong(riesgoId),usuario);
 					request.setAttribute("resultado","Borrado Correcto");
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
@@ -116,6 +117,14 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 			
 		}else if(validar(request)==null){
 			riesgo=new Riesgo();
+			Peligro peligro=new Peligro();
+			peligro.setId(Long.parseLong(peligroId));
+			riesgo.setPeligro(peligro);
+			Lugar lugar=new Lugar();
+			lugar.setId(Long.parseLong(lugarId));
+			riesgo.setLugar(lugar);
+			riesgo.setValue(NivelProbabilidad.values()[Integer.parseInt(nivelProbabilidad)]);
+			
 			try {
 				riesgoService.save(riesgo,usuario);
 				request.setAttribute("resultado","INSERTADO OK: " + riesgo);
@@ -153,15 +162,13 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 	}
 	private String validar(HttpServletRequest request){
 		StringBuilder resultado=new StringBuilder();
-		String id=request.getParameter("id");
-		String nombre=request.getParameter("nombre");
-		String nombreEn=request.getParameter("nombreEn");
-		String categoria=request.getParameter("categoria");
-		String damage=request.getParameter("damage");
+		String peligroId=request.getParameter("peligroId");
+		String lugarId=request.getParameter("lugarId");
+		String nivelProbabilidad=request.getParameter("nivelProbabilidadId");
 		
-		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
-		if(categoria==null || categoria.length()<1) resultado.append("Categoría Obligatorio;");
-		if(damage==null || damage.length()<1) resultado.append("Daño Obligatorio;");
+		if(lugarId==null || lugarId.length()<1) resultado.append("Lugar Obligatorio;");
+		if(peligroId==null || peligroId.length()<1) resultado.append("Peligro Obligatorio;");
+		if(nivelProbabilidad==null || nivelProbabilidad.length()<1) resultado.append("Probabilidad Obligatorio;");
 		
 		if(resultado.length() > 0) return resultado.toString();
 		return null;
