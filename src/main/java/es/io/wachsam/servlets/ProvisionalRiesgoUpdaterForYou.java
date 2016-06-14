@@ -66,11 +66,16 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 		request.setAttribute("lugares",lugares);
 		
 		String peligroId=request.getParameter("peligroId");
-		
+		Peligro peligro=null;
 		List<Riesgo> riesgos=new ArrayList<Riesgo>();
 		if(peligroId!=null && peligroId.length()>0){
-			riesgos=riesgoDao.getRiesgosFromPeligro(Long.parseLong(peligroId));			
+			riesgos=riesgoDao.getRiesgosFromPeligro(Long.parseLong(peligroId));
+			peligro=peligroDao.getPeligro(Long.parseLong(peligroId));
+			if(riesgos==null)  riesgos=new ArrayList<Riesgo>();
 		}
+		
+		
+		request.setAttribute("peligro",peligro);
 		request.setAttribute("riesgos",riesgos);
 		String nextJSP = "/ioUpdaterRiesgo.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);

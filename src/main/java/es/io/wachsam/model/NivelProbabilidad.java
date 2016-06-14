@@ -1,7 +1,7 @@
 package es.io.wachsam.model;
 
 public enum NivelProbabilidad {
-	raro;
+	muy_raro(0),raro(1);
 	
 	private final int value;
 	

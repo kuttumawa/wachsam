@@ -7,6 +7,7 @@ import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.RiesgoDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
+import es.io.wachsam.model.Data;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Riesgo;
 import es.io.wachsam.model.Usuario;
@@ -49,8 +50,12 @@ public class RiesgoService {
 		
 	}
 	
-	public Riesgo getRiesgo(Long id,Usuario usuario){
-			return dao.getRiesgo(id);
+	public Riesgo getRiesgo(Long id,Usuario usuario) throws NoAutorizadoException{
+			Acciones operation=Acciones.READ;
+			Riesgo riesgo=dao.getRiesgo(id);
+			if(!securityService.hasAuth(usuario,Riesgo.class, operation, riesgo))
+			 throw new NoAutorizadoException();
+			return riesgo;
 	}
 	
 	public void deleteById(Long id,Usuario usuario) throws Throwable {
@@ -63,6 +68,9 @@ public class RiesgoService {
 	
 	public List<Riesgo> getAll(){
 		return dao.getAll();
+	}
+	public List<Riesgo> getAllRiesgoForPeligro(Long idPeligro){
+		return dao.getRiesgosFromPeligro(idPeligro);
 	}
 
 }

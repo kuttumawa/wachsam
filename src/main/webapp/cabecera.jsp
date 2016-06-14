@@ -15,6 +15,19 @@
 <style>
 .btn-group{padding-top: 10px;}
 
+.navbar-brand { 
+        padding: 1px 15px;
+    }
+
+.profile-img
+{
+    width: 46px;
+    height: 46px;  
+   
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+}
 </style>
 </head>
 
@@ -32,7 +45,12 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" href="#">Viajar Seguro</a>
+      <a class="navbar-brand" href="#">
+       
+       <img class="profile-img" src="https://s-media-cache-ak0.pinimg.com/236x/70/66/b1/7066b1c4998eb0e9343ceaba7b6845ab.jpg"
+                    alt="Heimdallr"> 
+                        
+       </a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
     <ul class="nav navbar-nav">

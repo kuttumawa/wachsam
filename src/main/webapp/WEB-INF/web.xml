@@ -134,6 +134,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalRiesgoUpdaterForYou</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>RiesgoServletJSON</servlet-name>
+  	<display-name>RiesgoServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.RiesgoServletJSON</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -215,6 +221,9 @@
   	<servlet-name>ProvisionalRiesgoUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalRiesgoUpdaterForYou</url-pattern>
   </servlet-mapping>
-
+  <servlet-mapping>
+  	<servlet-name>RiesgoServletJSON</servlet-name>
+  	<url-pattern>/RiesgoServletJSON</url-pattern>
+  </servlet-mapping>
 
 </web-app>

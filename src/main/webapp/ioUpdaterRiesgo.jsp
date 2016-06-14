@@ -12,28 +12,90 @@ WebApplicationContext context= WebApplicationContextUtils.getWebApplicationConte
 SecurityService sec=(SecurityService)context.getBean("securityService");
 Usuario usuario = (Usuario)request.getSession().getAttribute("user");
 %>
+<style>
+.fila {cursor: pointer}
+</style>
 <script>
-function clearFields(){
-	document.getElementById("id0").value="";
-    document.getElementById("id").value="";
-	
-}
-function deleteOper(){
-	if(confirm('Seguro?')){
-		document.getElementById("oper").value="delete";
-	    document.getElementById('form2').submit();
-	}
+function modifyData(e){
+	$('#modal1Id').modal('show');
+	console.log($(e).children().first().text());
+	var riesgoId = $(e).children().first().text();
+	var url="RiesgoServletJSON?oper=getRiesgo&riesgoId="+riesgoId;
+	$.getJSON(url,function(data){
+        console.log(data);
+        populateForm(data);
+		});	
 	
 }
 function newData(){
-	$('#myModal').modal('show');
+	$('#modal1Id').modal('show');
 	$('#dataId').val('');
 		
 }
-function openForm(){
-	$('#modalGraph').modal('show');
-	refresh();		
+
+function cleanForm(){
+	 $('#riesgoId').val('');
+	 $('#peligroId').val('');
+	 $('#lugarId').val('');
+	 $('#nivelProbabilidadId').val('');
 }
+function populateForm(data){
+	 $('#riesgoId').val(data.id);
+	 $('#peligroId').val(data.tag.id);
+	 $('#lugarId').val(data.value);
+	 $('#nivelProbabilidadId').val(data.tipoValor);
+	
+	 	
+}
+function savedata(){
+	 $.ajax({
+		    type: "POST",
+		    url: "RiesgoServletJSON?oper=save",
+		    data: $("#form2").serialize(),
+		    success: function(data) {
+		    	fectchData();
+		    	$('#modal1Id').modal('hide');		    	
+		    }
+		  });
+		  return false;
+}
+function deletedata(){
+	 $.ajax({
+		    type: "POST",
+		    url: "RiesgoServletJSON?oper=delete",
+		    data: $("#form2").serialize(),
+		    success: function(data) {
+		    	fectchData();
+		    	$('#modal1Id').modal('hide');		    	
+		    }
+		  });
+		  return false;
+}
+function openForm(){
+	$('#modal1Id').modal('show');	
+}
+function fectchData(){
+	var peligroId=$('#peligroId').val();
+	if(!peligroId) return;
+	var url= "RiesgoServletJSON?peligroId="+peligroId+"&oper=getAllForPeligro";
+
+	$.get(url,function (data){
+		$('#tbodyID').children().remove();
+		$.each(data, function(i, item) {
+		    var row = $('<tr id=\''+item.id+'\'></tr>').addClass('fila');
+		    row.append('<td>'+ item.id+'</td>');
+		    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.lugar.nombre +'\'>'+item.lugar.nombre+'</td>');
+		    row.append('<td>'+ item.value+'</td>');
+	        
+		   
+		    $('#tbodyID').append(row);
+		});
+		$("#tbodyID tr").on("click",modifyData());
+		
+	},"json");
+
+		
+	}
 </script>
  
 
@@ -72,19 +134,19 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 	</div>
 </form>
 
-
- <table>
+<h2><%=peligro!=null?peligro.getNombre():"" %></h2>
+ <table class="table table-striped small">
  <thead>
- <tr><th></th><th>id</th><th>lugar</th><th>value</th></tr>
+ <tr><th>id</th><th>lugar</th><th>value</th></tr>
  </thead>
- <tbody>
+ <tbody id="tbodyID">
  <%
  List<Riesgo> riesgos= (List<Riesgo>)request.getAttribute("riesgos");
  %>
  <%
  for(Riesgo r: riesgos){ %>
-  <tr>
-  <td><span style="cursor:pointer" class="glyphicon glyphicon-remove-sign" onclick="delete(<%=r.getId()%>)"></td>
+  <tr onclick="modifyData(this)" class="fila">
+  
   <td><%=r.getId()%></td>
   <td><%=r.getLugar().getNombre()%></td>
   <td><%=r.getValue() %></td></tr>
@@ -102,7 +164,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 </body> 
 </html>
 
-<div id="modalGraph" class="modal fade" role="dialog">
+<div id="modal1Id" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
@@ -112,10 +174,12 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
         <h4 class="modal-title">Riesgo</h4>
       </div>
       <div class="modal-body">
-             <form id="form2" action="ProvisionalRiesgoUpdaterForYou" method="get" class="form-inline" role="form">
+             <form id="form2" action="ProvisionalRiesgoUpdaterForYou" method="post" class="form-inline" role="form">
+    			<input type="text" name="peligroId" id="peligroId" value="<%= request.getParameter("peligroId")%>" readonly/>
+    			<input type="text" name="riesgoId"  id="riesgoId" value="" readonly/>
     			<div class="form-group">
 				<label for="">Lugares</label>
-				<select class="form-control" name="lugarId">
+				<select class="form-control" name="lugarId" id="lugarId">
 				<option value=""></option>
 				<%    
 				          List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -136,13 +200,13 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 				%>
 				</select> 
 				</div>
-				<button type="button" class="btn btn-primary btn-sm" onclick="newData()">
-				      <span class="glyphicon glyphicon-plus-sign"></span>
-				</button>
+				
 				</form>
+				
       </div>
       <div class="modal-footer">
-       
+        <input type="submit" class="btn btn-primary" value="grabar" onclick="savedata()">
+        <input type="button" class="btn btn-primary" value="delete" onclick="deletedata()">
       </div>
 </div>
 

@@ -177,25 +177,7 @@ CREATE TABLE `operationlog` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
--------------------------
-ALTER TABLE `viajarseguro`.`data` 
-DROP FOREIGN KEY `FK2EEFAA76382C92`,
-DROP FOREIGN KEY `FK2EEFAA76391550`,
-DROP FOREIGN KEY `FK2EEFAA7638A0F1`;
-ALTER TABLE `viajarseguro`.`data` 
-DROP COLUMN `tag3_id`,
-DROP COLUMN `tag2_id`,
-CHANGE COLUMN `tag1_id` `tag_id` INT(11) NULL DEFAULT NULL ,
-CHANGE COLUMN `lugarId` `objetoid` INT(11) NULL DEFAULT NULL ,
-CHANGE COLUMN `subjectId` `connecttoid` INT(11) NULL DEFAULT NULL ,
-CHANGE COLUMN `eventoId` `objettipo` INT(99) NULL DEFAULT NULL ,
-CHANGE COLUMN `sitioId` `objetoconnected` INT(99) NULL DEFAULT NULL ,
-DROP INDEX `FK2EEFAA76391550` ,
-DROP INDEX `FK2EEFAA7638A0F1` ;
-ALTER TABLE `viajarseguro`.`data` 
-ADD CONSTRAINT `FK2EEFAA76382C92`
-  FOREIGN KEY (`tag_id`)
-  REFERENCES `viajarseguro`.`tag` (`id`);
+
   
   CREATE TABLE `data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -214,10 +196,11 @@ ADD CONSTRAINT `FK2EEFAA76382C92`
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 
- CREATE TABLE `viajarseguro`.`riesgo` (
-  `id` INT(11) NOT NULL,
-  `lugar_id` INT(11) NOT NULL,
-  `peligro_id` INT(11) NOT NULL,
-  `value` INT(11) NOT NULL,
+CREATE TABLE `riesgo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lugar_id` int(11) NOT NULL,
+  `peligro_id` int(11) NOT NULL,
+  `value` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;

@@ -24,12 +24,13 @@ public class Riesgo {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	Long id;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@Expose
 	Lugar lugar;
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@Expose
 	Peligro peligro;
+	@Expose
 	NivelProbabilidad value;
 	public Long getId() {
 		return id;

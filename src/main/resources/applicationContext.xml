@@ -75,9 +75,9 @@
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
      <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" >
-        <property name="cacheManager" ref="cacheManager"/>
+        
      </bean>
-     <bean id="riegoService" class="es.io.wachsam.services.RiesgoService">
+     <bean id="riesgoService" class="es.io.wachsam.services.RiesgoService">
       <property name="dao" ref="riesgoDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
@@ -106,7 +106,7 @@
 		<property name="password" value="buendiabuendia" /> -->
 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="buendia" />
 	</bean>
  
     <bean id="entityManagerFactory"

@@ -20,7 +20,7 @@
     <tx:annotation-driven />
     <context:annotation-config /> 
  
-       <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
+   <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
         <property name="cacheManager" ref="cacheManager"/>
      </bean>
     <bean id="alertService" class="es.io.wachsam.services.AlertService">
@@ -75,9 +75,9 @@
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
      <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" >
-        <property name="cacheManager" ref="cacheManager"/>
+        
      </bean>
-     <bean id="riegoService" class="es.io.wachsam.services.RiesgoService">
+     <bean id="riesgoService" class="es.io.wachsam.services.RiesgoService">
       <property name="dao" ref="riesgoDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>

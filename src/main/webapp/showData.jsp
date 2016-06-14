@@ -44,7 +44,7 @@ function deletedata(){
 
 function fectchData(){
 var url= "DataServletJSON?objetoId="+objetoId+"&objetoTipo="+objetoTipo+"&oper=getAllForObject";
-//var url="http://localhost:8080/wachsam/DataServletJSON?objetoId=1376424326&objetoTipo=0&oper=getAllForObject";
+
 $.get(url,function (data){
 	$('#tbodyID').children().remove();
 	$.each(data, function(i, item) {
@@ -124,6 +124,45 @@ function getAllLugares(comboid){
 	}
 function getAllSitio(comboid){
 	var url= "SitioServletJSON?&oper=getAll";
+	$.get(url,function (data){
+		console.log(data);
+		$.each(data, function(i, item) {
+			$('#objetoConnectedId').append($('<option>', { 
+		        value: item.id,
+		        text : item.nombre 
+		    }));
+		});
+		if(comboid) $('#objetoConnectedId').val(comboid);
+	},"json");		
+	}
+function getAllFuente(comboid){
+	var url= "FuenteServletJSON?&oper=getAll";
+	$.get(url,function (data){
+		console.log(data);
+		$.each(data, function(i, item) {
+			$('#objetoConnectedId').append($('<option>', { 
+		        value: item.id,
+		        text : item.nombre 
+		    }));
+		});
+		if(comboid) $('#objetoConnectedId').val(comboid);
+	},"json");		
+	}
+function getAllAirport(comboid){
+	var url= "AirportServletJSON?&oper=getAll";
+	$.get(url,function (data){
+		console.log(data);
+		$.each(data, function(i, item) {
+			$('#objetoConnectedId').append($('<option>', { 
+		        value: item.id,
+		        text : item.nombre 
+		    }));
+		});
+		if(comboid) $('#objetoConnectedId').val(comboid);
+	},"json");		
+	}
+function getAllUsuario(comboid){
+	var url= "UsuarioServletJSON?&oper=getAll";
 	$.get(url,function (data){
 		console.log(data);
 		$.each(data, function(i, item) {
@@ -251,9 +290,9 @@ $(function(){
       </div>
       <div class="modal-body">
  <form id="formData" action="ProvisionalDataUpdaterForYou" method="post" role="form">
-        <input type="text" name="objetoId" value="<%= request.getParameter("objetoId")%>" readonly/>
-        <input type="text" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>" readonly/>
-        <input type="text" name="dataId" id="dataId" readonly/>
+        <input type="hidden" name="objetoId" value="<%= request.getParameter("objetoId")%>" readonly/>
+        <input type="hidden" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>" readonly/>
+        <input type="hidden" name="dataId" id="dataId" readonly/>
         
         <div class="form-group">
 		<label for="">Tag</label>
