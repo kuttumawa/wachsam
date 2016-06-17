@@ -1,0 +1,103 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script src="/wachsam/js/vz/barcode/barcode.js"></script>
+
+<button id="btn-update">Add data</button>
+<div class="chart-example" id="chart"></div>
+<script>
+var barcode = barcodeChart();
+
+//--------------------
+function randomInterval(avgSeconds) {
+    return Math.floor(-Math.log(Math.random()) * 1000 * avgSeconds);
+};
+function addData(data, numItems, avgSeconds) {
+    // Compute the most recent time in the data array.
+    var n = data.length,
+        t = (n > 0) ? data[n - 1].date : new Date();
+
+    // Append items with increasing times in the data array.
+    for (var k = 0; k < numItems - 1; k += 1) {
+        t = new Date(t.getTime() + randomInterval(avgSeconds));
+        data.push({date: t});
+    }
+
+    return data;
+}
+function barcode2(sel){
+	console.log(sel);
+}
+//------------------
+var i=0;
+function fetch(){
+	i++;
+	return  [
+	            {name: 'AAPL'+i, mentions: addData([], 150, 300), byHour: 34.3},
+	            {name: 'MSFT', mentions: addData([], 150, 300), byHour: 11.1},
+	            {name: 'GOOG', mentions: addData([], 150, 300), byHour: 19.2},
+	            {name: 'NFLX', mentions: addData([], 150, 300), byHour:  6.7}
+	        ];
+    
+}
+var data = fetch();
+
+//Create a table element.
+var table = d3.select('#chart').selectAll('table')
+    .data([data])
+    .enter()
+    .append('table')
+    .attr('class', 'table table-condensed');
+//Append the table head and body to the table.
+var tableHead = table.append('thead'),
+    tableBody = table.append('tbody');
+//Add the table header content.
+tableHead.append('tr').selectAll('th')
+    .data(['Name', 'Today Mentions', 'mentions/hour'])
+    .enter()
+    .append('th')
+    .text(function(d) { return d; });
+//Add the table body rows.
+var rows = tableBody.selectAll('tr')
+    .data(data)
+    .enter()
+    .append('tr');
+//Add the stock name cell.
+var cname=rows.append('td')
+    .text(function(d) { return d.name; });
+//Add the barcode chart.
+rows.append('td').
+    datum(function(d) { return d.mentions; })
+    .call(barcode);
+rows.append('td').append('p')
+.attr('class', 'pull-right')
+.html(function(d) { return d.byHour; });   
+
+//Bind the data array with the data-item div selection, and call
+//the barcode function on each div. 
+/* d3.select('#chart').selectAll('div.data-item')
+ .data([data])
+ .enter()
+ .append('div')
+ .attr('class', 'data-item')
+ .call(barcode);
+*/
+d3.select('#btn-update')
+.on('click', function() {
+    // Add more random data to the dataset.
+    data = fetch();
+    rows = tableBody.selectAll('tr')
+    .data(data);
+
+    
+	/* //Add the stock name cell.
+	rows.append('td')
+	    .text(function(d) { return d.name; });
+	//Add the barcode chart.
+	rows.append('td').
+	    datum(function(d) { return d.mentions; })
+	    .call(barcode);
+	rows.append('td').append('p')
+	.attr('class', 'pull-right')
+	.html(function(d) { return d.byHour; }); */
+}); 
+</script>

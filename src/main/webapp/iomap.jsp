@@ -29,4 +29,3 @@ google.maps.event.addDomListener(window, 'load', mapini);
 
 
 <div id="wachsam-map" style="width:1000px;height:700px;"></div>
-<div id="wachsam-widget-container"/> 

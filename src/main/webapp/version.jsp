@@ -10,7 +10,7 @@
 - Nuevo objeto: Riesgo.[peligro,lugar,probabilidad,fuente,descripcion]
 - Nuevo objeto: Agua.
 - Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: 
-  Ejemplo Droga,Vacuna,Medicamento
+- Ejemplo Droga,Vacuna,Medicamento
 - Clonar en todos los objetos
 - Carga calidad Aguas
 - Carga códigos  países ISO 3166
@@ -19,7 +19,7 @@
 - Visualización bar code (main page)
 - Tipos de sitio en BD.
 - Añadir campos longitud latitud en sitio.
-- Sitio: Crear auto completable para lugares en sitio apartir de longitud y latitud. 
+- Sitio: Añadir longitud y latitud. 
 ------------------------------------------------------------------------------
 
 1.0.4 (30-05-2016)
@@ -101,5 +101,7 @@ FUTURO
 - kafka http://kafka.apache.org/
 - API REST
 - Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: Ejemplo Droga,Vacuna,Medicamento
+- AWS lambda use cases.
+- AWS S3 integration
 -------------------------------------------------------------------------------
 </pre>
