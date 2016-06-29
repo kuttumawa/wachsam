@@ -140,6 +140,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.RiesgoServletJSON</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>SecurityServletJSON</servlet-name>
+  	<display-name>SecurityServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.SecurityServletJSON</servlet-class>
+  </servlet>
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -224,6 +230,10 @@
   <servlet-mapping>
   	<servlet-name>RiesgoServletJSON</servlet-name>
   	<url-pattern>/RiesgoServletJSON</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SecurityServletJSON</servlet-name>
+  	<url-pattern>/SecurityServletJSON</url-pattern>
   </servlet-mapping>
 
 </web-app>

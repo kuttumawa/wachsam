@@ -1,5 +1,7 @@
 package es.io.wachsam.dao;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.io.wachsam.model.OperationLog;
+import es.io.wachsam.model.Usuario;
 
 @Transactional
 public class OperationLogDao {
@@ -45,4 +48,23 @@ public class OperationLogDao {
         return results;
 		
 	}
+	
+     public List<Long> accesosPorUsuarioUltimoMes(Long usuarioId,int days){
+	   List<Date> results = this.em.createNativeQuery("SELECT timestamp  from operationLog a,usuario b where a.usuarioId=b.id and a.usuarioId="+usuarioId+" and timestamp>SUBDATE(NOW(),"+days+")").getResultList();
+       List<Long> resultado=new ArrayList<Long>();
+       for(Date date : results){
+    	   resultado.add(date.getTime());
+       }
+	   return resultado;
+		
+	}
+    public List<Object[]> accesosPorUsuarioUltimoMes(List<Usuario> usuarios){
+        List<Object[]> resultado=new ArrayList<Object[]>();	 
+        for(Usuario user:usuarios){
+        	Object[] oo={user.getLogin(),accesosPorUsuarioUltimoMes(user.getId(),30)};
+        	resultado.add(oo);
+        }
+        return resultado;
+    }
+     
 }

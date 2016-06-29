@@ -85,11 +85,11 @@ d3.select('#btn-update')
 .on('click', function() {
     // Add more random data to the dataset.
     data = fetch();
+    table = d3.select('#chart').selectAll('table')
+    .data([data])
     rows = tableBody.selectAll('tr')
     .data(data);
-
-    
-	/* //Add the stock name cell.
+    //Add the stock name cell.
 	rows.append('td')
 	    .text(function(d) { return d.name; });
 	//Add the barcode chart.
@@ -98,6 +98,6 @@ d3.select('#btn-update')
 	    .call(barcode);
 	rows.append('td').append('p')
 	.attr('class', 'pull-right')
-	.html(function(d) { return d.byHour; }); */
+	.html(function(d) { return d.byHour; });
 }); 
 </script>

@@ -106,7 +106,7 @@
 		<property name="password" value="buendiabuendia" /> -->
 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="buendia" />
+		<property name="password" value="" />
 	</bean>
  
     <bean id="entityManagerFactory"

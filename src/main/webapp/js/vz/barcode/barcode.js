@@ -5,8 +5,10 @@ var barcodeChart = function() {
     var width = 600,
         height = 30,
         margin = {top: 5, right: 5, bottom: 5, left: 5};
-    var value = function(d) { return d.date; };
-    var timeInterval = d3.time.day;
+    var value = function(d) { 
+    	return new Date(d); 
+    	};
+    var timeInterval = d3.time.month;
 
     // Charting function.
     function chart(selection) {
