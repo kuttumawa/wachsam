@@ -41,9 +41,9 @@ function cleanForm(){
 }
 function populateForm(data){
 	 $('#riesgoId').val(data.id);
-	 $('#peligroId').val(data.tag.id);
-	 $('#lugarId').val(data.value);
-	 $('#nivelProbabilidadId').val(data.tipoValor);
+	 $('#peligroId').val(data.peligro.id);
+	 $('#lugarId').val(data.lugar.id);
+	 $('#nivelProbabilidadId').val(data.value);
 	
 	 	
 }
@@ -86,8 +86,6 @@ function fectchData(){
 		    row.append('<td>'+ item.id+'</td>');
 		    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.lugar.nombre +'\'>'+item.lugar.nombre+'</td>');
 		    row.append('<td>'+ item.value+'</td>');
-	        
-		   
 		    $('#tbodyID').append(row);
 		});
 		$("#tbodyID tr").on("click",modifyData());
@@ -195,7 +193,7 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 				<select class="form-control" name="nivelProbabilidadId" id="nivelProbabilidadId">
 				<%
 				for (NivelProbabilidad nivel : NivelProbabilidad.values()) {
-					 out.println("<option value=\""+nivel.ordinal()+"\">"+nivel.name()+"</option>");
+					 out.println("<option value=\""+nivel.name()+"\">"+nivel.name()+"</option>");
 				}
 				%>
 				</select> 

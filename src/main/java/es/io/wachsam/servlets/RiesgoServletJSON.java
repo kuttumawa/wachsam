@@ -78,7 +78,7 @@ public class RiesgoServletJSON extends HttpServlet {
 				} catch (NoAutorizadoException e) {
 					e.printStackTrace();
 				}
-				out.println(prettyGson.toJson(riesgo));
+				
 				
 			}
 			

@@ -1,7 +1,7 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
-1.0.5 ()
+1.1.0 ()
 ------------------------------------------------------------------------------
 - Búsqueda para todo los objetos.
 - Cacheo local de objetos pesados, preparar browser bd.

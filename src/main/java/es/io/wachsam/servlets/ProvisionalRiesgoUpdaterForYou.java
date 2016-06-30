@@ -128,7 +128,7 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 			Lugar lugar=new Lugar();
 			lugar.setId(Long.parseLong(lugarId));
 			riesgo.setLugar(lugar);
-			riesgo.setValue(NivelProbabilidad.values()[Integer.parseInt(nivelProbabilidad)]);
+			riesgo.setValue(NivelProbabilidad.valueOf(nivelProbabilidad));
 			
 			try {
 				riesgoService.save(riesgo,usuario);
