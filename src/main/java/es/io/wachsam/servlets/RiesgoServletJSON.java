@@ -201,7 +201,7 @@ public class RiesgoServletJSON extends HttpServlet {
 			if(!GenericValidator.isBlankOrNull(riesgoId) && !GenericValidator.isLong(riesgoId)) resultado.add("Error en id del Riesgo");
 			if(GenericValidator.isBlankOrNull(peligroId) || !GenericValidator.isLong(peligroId)) resultado.add("Se debe seleccionar un Peligro");			
 			if(GenericValidator.isBlankOrNull(lugarId) || !GenericValidator.isLong(lugarId)) resultado.add("Se debe seleccionar un Lugar");
-			if(GenericValidator.isBlankOrNull(nivelProbabilidadId) || !GenericValidator.isInt(nivelProbabilidadId)) resultado.add("Se debe seleccionar una Probabilidad");
+			if(GenericValidator.isBlankOrNull(nivelProbabilidadId)) resultado.add("Se debe seleccionar una Probabilidad");
 			
 			if(resultado.size() > 0) return resultado;
 			return null;

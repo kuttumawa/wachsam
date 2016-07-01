@@ -53,8 +53,12 @@ function savedata(){
 		    url: "RiesgoServletJSON?oper=save",
 		    data: $("#form2").serialize(),
 		    success: function(data) {
-		    	fectchData();
-		    	$('#modal1Id').modal('hide');		    	
+                if(!data.error){
+			    	fectchData();
+			    	$('#modal1Id').modal('hide');
+                }else{
+                	$('#error').text(data.resultado);
+				}		    	
 		    }
 		  });
 		  return false;
@@ -170,6 +174,9 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Riesgo</h4>
+        <div id="error" class="alert alert-danger">
+                 xxxxxxx
+        </div>
       </div>
       <div class="modal-body">
              <form id="form2" action="ProvisionalRiesgoUpdaterForYou" method="post" class="form-inline" role="form">
