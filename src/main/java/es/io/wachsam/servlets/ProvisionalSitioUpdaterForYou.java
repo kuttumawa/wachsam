@@ -1,7 +1,6 @@
 package es.io.wachsam.servlets;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,22 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.SitioDao;
-import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.exception.NoAutorizadoException;
-import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Sitio;
-import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.DataService;
-import es.io.wachsam.services.PeligroService;
 import es.io.wachsam.services.SitioService;
 
 /**
@@ -133,7 +127,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			sitio.setTexto(texto);
 			sitio.setTextoEn(textoEn);
 			sitio.setValoracion(Integer.parseInt(valoracion));
-			sitio.setTipo(TipoSitio.values()[Integer.parseInt(tipo)]);			
+			sitio.setTipo(new TipoSitio(tipo,null,null));			
 			Lugar lugar=new Lugar();
 			lugar.setId(Long.parseLong(lugarId));
 			sitio.setLugarObj(lugar);

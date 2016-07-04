@@ -171,7 +171,7 @@ public class CacheTest extends TestCase {
 		sitio.setLugarObj(null); 
 		sitio.setTexto("texto");
 		sitio.setTexto("textoEn");
-		sitio.setTipo(TipoSitio.values()[0]);
+		sitio.setTipo(new TipoSitio(0L,null,null));
 		return sitio;
 	}
 	private Lugar createNewLugar(String name){

@@ -35,6 +35,7 @@ public class Sitio {
 	@Expose
 	String direccion;
 	@Expose
+	@ManyToOne(fetch = FetchType.EAGER)
 	TipoSitio tipo;
 	@Expose
 	String texto;
@@ -55,7 +56,7 @@ public class Sitio {
 		this.nombre=csv[0];
 		this.nombreEn=csv[1];
 		this.direccion=csv[2];
-		this.tipo=TipoSitio.values()[Integer.parseInt(csv[3])];
+		this.tipo=new TipoSitio(Long.parseLong(csv[3]),null,null);
 		this.texto=csv[4];
 		this.textoEn=csv[5];
 		if(csv[6]!=null && csv[6].length()>1){
@@ -230,12 +231,12 @@ public class Sitio {
 		if(GenericValidator.isBlankOrNull(csv[3])) errores.add("Tipo Sitio Obligatorio;");
 		else if(GenericValidator.isInt(csv[3])){
 			try{
-				TipoSitio tipo=TipoSitio.values()[Integer.parseInt(csv[3])];
+				Integer.parseInt(csv[3]);
 			}catch(Exception e){
-				errores.add("Tipo Sitio no es correcto valores " + TipoSitio.values());
+				errores.add("Tipo Sitio no es correcto");
 			}
 		}else{
-			errores.add("Tipo Sitio no es correcto valores " + Arrays.toString(TipoSitio.values()));
+			errores.add("Tipo Sitio no es correcto valores");
 		}
 		
 		//texto
@@ -259,7 +260,7 @@ public class Sitio {
 					if(permiso.getFiltroFlag()==null || !permiso.getFiltroFlag()) return true;
 					else{
 						List<Long> filtroTipo =permiso.listOfIdsFromJson("tipo");
-						if(this.tipo!=null && filtroTipo.contains(new Long(this.tipo.ordinal()))) return true;
+						if(this.tipo!=null && filtroTipo.contains(new Long(tipo.getId()))) return true;
 					}
 				}
 			}

@@ -4,14 +4,14 @@
 1.1.0 ()
 ------------------------------------------------------------------------------
 - Búsqueda para todo los objetos.
-- Cacheo local de objetos pesados, preparar browser bd.
+-* Cacheo local de objetos pesados, preparar browser bd.
 - Eliminación del combo del id de las páginas, sustituirlo por búsqueda.
 - Generalización de la subida de ficheros.
 - Definición de metadatos para subida de ficheros:
     {objeto"datumid":"nombreTag","columnas":["nombre","descripcion","lugar"],"data":[]}
     
     
-- Nuevo objeto: Riesgo.[peligro,lugar,probabilidad,fuente,descripcion]
+-* Nuevo objeto: Riesgo.[peligro,lugar,probabilidad,fuente,descripcion]
 - Nuevo objeto: Agua.
 - Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: 
 - Ejemplo Droga,Vacuna,Medicamento
@@ -19,8 +19,8 @@
 - Carga calidad Aguas
 - Carga códigos  países ISO 3166
 - Marca para cada objeto de la última modificación.
-- Icono Heimdallar.
-- Visualización bar code (main page)
+-* Icono Heimdallar.
+-* Visualización bar code (main page)
 - Tipos de sitio en BD.
 - Añadir campos longitud latitud en sitio.
 - Sitio: Añadir longitud y latitud. 

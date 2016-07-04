@@ -193,7 +193,7 @@ CREATE TABLE `operationlog` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `FK2EEFAA76382C92` (`tag_id`),
   CONSTRAINT `FK2EEFAA76382C92` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 CREATE TABLE `riesgo` (
@@ -204,3 +204,27 @@ CREATE TABLE `riesgo` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+CREATE TABLE `viajarseguro`.`tipositio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(45) NOT NULL,
+  `descripcion` VARCHAR(250) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+  
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('9', 'Hospital');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('1', 'Embajada');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('2', 'CamaraHiperbárica');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('3', 'Playa');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('4', 'Cueva');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('5', 'Pico');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('6', 'Mercado');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('7', 'Carcel');
+INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('8', 'Campo de Refugiados');
+
+-- cambio de id
+update sitio set tipo=9 where tipo=0;
+
+
+
+

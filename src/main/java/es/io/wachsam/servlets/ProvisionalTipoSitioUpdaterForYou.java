@@ -9,25 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.json.JSONObject;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import es.io.wachsam.dao.UsuarioDao;
-import es.io.wachsam.model.Acciones;
-import es.io.wachsam.model.Permiso;
-
+import es.io.wachsam.dao.TipoSitioDao;
+import es.io.wachsam.model.TipoSitio;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
  */
-public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
+public class ProvisionalTipoSitioUpdaterForYou extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProvisionalPermisoUpdaterForYou() {
+    public ProvisionalTipoSitioUpdaterForYou() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -43,17 +40,17 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 			   return;
 		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-		UsuarioDao usuarioDao = (UsuarioDao) context.getBean("usuarioDao");
-		List<Permiso> permisos =usuarioDao.getAllPermiso();
-		request.setAttribute("permisos",permisos);
+		TipoSitioDao tipoSitioDao = (TipoSitioDao) context.getBean("tipoSitioDao");
+		List<TipoSitio> tipoSitios =tipoSitioDao.getAll();
+		request.setAttribute("tipoSitios",tipoSitios);
 		
-		String permisoId=request.getParameter("permiso");
-		Permiso permiso=new Permiso();
-		if(permisoId!=null && permisoId.length()>0){
-			permiso=usuarioDao.getPermiso(Long.parseLong(permisoId));
+		String tipoSitioId=request.getParameter("tipoSitio");
+		TipoSitio tipoSitio=new TipoSitio();
+		if(tipoSitioId!=null && tipoSitioId.length()>0){
+			tipoSitio=tipoSitioDao.getTipoSitio(Long.parseLong(tipoSitioId));
 		}
-		request.setAttribute("permiso",permiso);
-		String nextJSP = "/ioUpdaterPermiso.jsp";
+		request.setAttribute("tipoSitio",tipoSitio);
+		String nextJSP = "/ioUpdaterTipoSitio.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
 	}
@@ -72,19 +69,16 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 		request.getCharacterEncoding();
 		String id=request.getParameter("id");
 		String nombre=request.getParameter("nombre");
-		String accion=request.getParameter("accion");
-		String objeto=request.getParameter("objeto");
-		String filtroFlag=request.getParameter("filtroFlag");
-		String filtro=request.getParameter("filtro");
+		String descripcion=request.getParameter("descripcion");
+		
 		String oper=request.getParameter("oper");
 		
-		
-		Permiso permiso=new Permiso();
+		TipoSitio tipoSitio=new TipoSitio();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
 			if(id!=null){
-				UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
+				TipoSitioDao tipoSitioDao=(TipoSitioDao) context.getBean("tipoSitioDao");
 				try {
-					usuarioDao.deleteByIdPermiso(Long.parseLong(id));
+					tipoSitioDao.deleteById(Long.parseLong(id));
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (Exception e) {
@@ -96,32 +90,21 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 			}
 			
 		}else if(validar(request)==null){
-			permiso=new Permiso();
-			try{
-			  if(id!=null)permiso.setId(Long.parseLong(id));
-			}catch(Exception e){
-				
-			}
-			permiso.setObjeto(objeto);
-			permiso.setAccion(Acciones.values()[Integer.parseInt(accion)]);
-			permiso.setNombre(nombre!=null?nombre:"");
-			permiso.setFiltro(filtro);
-			permiso.setFiltroFlag(filtroFlag!=null && filtroFlag.length()>0?true:false);
-			UsuarioDao usuarioDao=(UsuarioDao) context.getBean("usuarioDao");
-			usuarioDao.savePermiso(permiso);
+			tipoSitio=new TipoSitio(id,nombre,descripcion);
+			TipoSitioDao tipoSitioDao=(TipoSitioDao) context.getBean("tipoSitioDao");
+			tipoSitioDao.save(tipoSitio);
 			
-			request.setAttribute("resultado","INSERTADO OK: " + permiso);
+			request.setAttribute("resultado","INSERTADO OK: " + tipoSitio);
 		}else{
-			
-			request.setAttribute("resultado",validar(request));
+	     	request.setAttribute("resultado",validar(request));
 		}
-		request.setAttribute("permiso",permiso);
-		UsuarioDao usuarioDao = (UsuarioDao) context.getBean("usuarioDao");
-		List<Permiso> permisos =usuarioDao.getAllPermiso();
-		request.setAttribute("permisos",permisos);
+		request.setAttribute("tipoSitio",tipoSitio);
+		TipoSitioDao tipoSitioDao = (TipoSitioDao) context.getBean("tipoSitioDao");
+		List<TipoSitio> tipoSitios =tipoSitioDao.getAll();
+		request.setAttribute("tipoSitios",tipoSitios);
 		
 		
-		String nextJSP = "/ioUpdaterPermiso.jsp";
+		String nextJSP = "/ioUpdaterTipoSitio.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
 		
@@ -129,20 +112,12 @@ public class ProvisionalPermisoUpdaterForYou extends HttpServlet {
 	private String validar(HttpServletRequest request){
 		StringBuilder resultado=new StringBuilder();
 		String id=request.getParameter("id");
-		String accion=request.getParameter("accion");
-		String objeto=request.getParameter("objeto");
-		String oper=request.getParameter("oper");
-		String filtroFlag=request.getParameter("filtroFlag");
-		String filtro=request.getParameter("filtro");
-		if(objeto==null || objeto.length()<1) resultado.append("Objeto Obligatorio;");
-		if(accion==null || accion.length()<1) resultado.append("Accion Obligatorio;");
-		if(filtro!=null && filtro.length()>0){
-			try{
-				JSONObject obj = new JSONObject(filtro);
-			}catch(Exception e){
-				resultado.append("En filtro: bad JSON format");
-			}
-		}
+		String nombre=request.getParameter("nombre");
+		String descripcion=request.getParameter("descripcion");
+		
+		
+		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
+		
 		
 		
 		if(resultado.length() > 0) return resultado.toString();

@@ -20,7 +20,7 @@
     <tx:annotation-driven />
     <context:annotation-config /> 
  
-   <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
+  <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
         <property name="cacheManager" ref="cacheManager"/>
      </bean>
     <bean id="alertService" class="es.io.wachsam.services.AlertService">
@@ -54,6 +54,7 @@
      <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
      <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
      <bean id="usuarioDao" class="es.io.wachsam.dao.UsuarioDao" />
+     <bean id="tipoSitioDao" class="es.io.wachsam.dao.TipoSitioDao" />
      <bean id="securityService" class="es.io.wachsam.services.SecurityService">
           <property name="usuarioDao" ref="usuarioDao"/>
           <property name="operationLogDao"  ref="operationLogDao"/>
@@ -82,6 +83,11 @@
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
+    <bean id="tipoSitioService" class="es.io.wachsam.services.TipoSitioService">
+      <property name="dao" ref="tipoSitioDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
     
     <bean id="dataSource2"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -89,7 +95,7 @@
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
-		<property name="password" value="buendia" />
+		<property name="password" value="" />
 	</bean>
  
     <bean id="entityManagerFactory"

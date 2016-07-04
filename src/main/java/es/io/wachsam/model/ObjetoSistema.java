@@ -12,5 +12,6 @@ public enum ObjetoSistema {
 	@SerializedName("5") Fuente,
 	@SerializedName("6") Airport,
 	@SerializedName("7") Usuario,
-	@SerializedName("8") Riesgo;
+	@SerializedName("8") Riesgo,
+	@SerializedName("9") TipoSitio;
 }

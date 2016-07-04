@@ -54,6 +54,7 @@
      <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
      <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
      <bean id="usuarioDao" class="es.io.wachsam.dao.UsuarioDao" />
+     <bean id="tipoSitioDao" class="es.io.wachsam.dao.TipoSitioDao" />
      <bean id="securityService" class="es.io.wachsam.services.SecurityService">
           <property name="usuarioDao" ref="usuarioDao"/>
           <property name="operationLogDao"  ref="operationLogDao"/>
@@ -79,6 +80,11 @@
      </bean>
      <bean id="riesgoService" class="es.io.wachsam.services.RiesgoService">
       <property name="dao" ref="riesgoDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    <bean id="tipoSitioService" class="es.io.wachsam.services.TipoSitioService">
+      <property name="dao" ref="tipoSitioDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>

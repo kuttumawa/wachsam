@@ -18,6 +18,7 @@ import es.io.wachsam.model.PermisosGod;
 import es.io.wachsam.model.Riesgo;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
 
 /**
@@ -69,6 +70,8 @@ public class SecurityService {
 			resultado=((PermisosGod)object).hasPermisos(usuario, accion);
 		}else if(class1.getName().equalsIgnoreCase(Riesgo.class.getName())){
 			resultado=((Riesgo)object).hasPermisos(usuario, accion);
+		}else if(class1.getName().equalsIgnoreCase(TipoSitio.class.getName())){
+			resultado=((TipoSitio)object).hasPermisos(usuario, accion);
 		}
 		
 		return resultado;
