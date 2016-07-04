@@ -224,6 +224,10 @@ INSERT INTO `viajarseguro`.`tipositio` (`id`, `nombre`) VALUES ('8', 'Campo de R
 
 -- cambio de id
 update sitio set tipo=9 where tipo=0;
+----
+ALTER TABLE `viajarseguro`.`sitio` 
+CHANGE COLUMN `tipo` `tipo_id` INT(11) NOT NULL ;
+
 
 
 

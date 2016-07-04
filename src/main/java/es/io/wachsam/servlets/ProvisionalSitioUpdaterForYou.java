@@ -25,6 +25,7 @@ import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.DataService;
 import es.io.wachsam.services.SitioService;
+import es.io.wachsam.services.TipoSitioService;
 
 /**
  * Servlet implementation class ProvisionalAlertUpdaterForYou
@@ -54,6 +55,10 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		SitioDao sitioDao = (SitioDao) context.getBean("sitioDao");
 		List<Sitio> sitios =sitioDao.getAll();
 		request.setAttribute("sitios",sitios);
+		
+		TipoSitioService tipoSitioService = (TipoSitioService) context.getBean("tipoSitioService");
+		List<TipoSitio> tipoSitios =tipoSitioService.getAll();
+		request.setAttribute("tipoSitios",tipoSitios);
 		
 		List<Data> datas=new ArrayList<Data>();
 		String sitioId=request.getParameter("sitioId");

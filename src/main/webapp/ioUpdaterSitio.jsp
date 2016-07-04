@@ -122,18 +122,23 @@ for(Data data:datas){
 <textarea class="form-control" name="textoEn" id="textoEn" cols="70" rows="4"><%= sitio.getTextoEn()!=null?sitio.getTextoEn():"" %></textarea>
 </div>
 
+
 <div class="form-group">
 <label for="">Tipo</label>
-<select class="form-control" name="tipo" id="tipo">
-	<option value="0" <%=sitio.getTipo()!=null && sitio.getTipo().equals(0)?" selected":"" %>>Hospital</option>
-	<option value="1" <%= sitio.getTipo()!=null && sitio.getTipo().equals(1)?" selected":""%>>Embajada</option>
-	<option value="2" <%= sitio.getTipo()!=null && sitio.getTipo().equals(2)?" selected":""%>>CamaraHiperbárica</option>
-	<option value="3" <%= sitio.getTipo()!=null && sitio.getTipo().equals(3)?" selected":""%>>Playa</option>
-	<option value="4" <%= sitio.getTipo()!=null && sitio.getTipo().equals(4)?" selected":""%>>Cueva</option>
-	<option value="5" <%= sitio.getTipo()!=null && sitio.getTipo().equals(5)?" selected":""%>>Pico</option>
-	<option value="6" <%= sitio.getTipo()!=null && sitio.getTipo().equals(6)?" selected":""%>>Mercado</option>
-	<option value="7" <%= sitio.getTipo()!=null && sitio.getTipo().equals(7)?" selected":""%>>Carcel</option>
-	<option value="8" <%= sitio.getTipo()!=null && sitio.getTipo().equals(8)?" selected":""%>>Campo de Refugiados</option>
+<select class="form-control" name="lugarId" id="lugar">
+<option value=""></option>
+<%    
+			List<TipoSitio> tipoSitios =  (List<TipoSitio>)request.getAttribute("tipoSitios");
+			for(TipoSitio tipoSitio:tipoSitios){
+				  
+				  if(sitio.getTipo()!=null && sitio.getTipo().getId().equals(tipoSitio.getId())){
+					  out.println("<option value=\""+tipoSitio.getId()+"\" selected >"+tipoSitio.getNombre()+"</option>"); 
+				  }else{
+				      out.println("<option value=\""+tipoSitio.getId()+"\">"+tipoSitio.getNombre()+"</option>");
+				  }        	         	
+			}
+        
+%> 
 </select>
 </div>
 

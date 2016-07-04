@@ -152,7 +152,7 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalTipoSitioUpdaterForYou</servlet-class>
   </servlet>
-  <servlet>
+
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>

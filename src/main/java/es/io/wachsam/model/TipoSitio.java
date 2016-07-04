@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import com.google.gson.annotations.Expose;
 
 @Entity
-@Table(name="tipoSitio")
+@Table(name="tipositio")
 public class TipoSitio {
 	
 	@Id
