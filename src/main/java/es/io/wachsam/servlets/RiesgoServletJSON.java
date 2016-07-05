@@ -96,6 +96,7 @@ public class RiesgoServletJSON extends HttpServlet {
 	    	
 			boolean error;
 	    	String resultado;
+	    	Object objeto;
 	    	List<String> messages=new ArrayList<String>();
 			public boolean isError() {
 				return error;
@@ -114,6 +115,12 @@ public class RiesgoServletJSON extends HttpServlet {
 			}
 			public void setMessages(List<String> messages) {
 				this.messages = messages;
+			}
+			public Object getObjeto() {
+				return objeto;
+			}
+			public void setObjeto(Object objeto) {
+				this.objeto = objeto;
 			}
 	    }
 		/**
@@ -158,8 +165,9 @@ public class RiesgoServletJSON extends HttpServlet {
 					}
 				
 			    }else if(oper.equalsIgnoreCase("save") && validar(request)==null){
-				
+				   
 					try{
+						
 						Lugar lugar=new Lugar();
 						lugar.setId(Long.parseLong(lugarId));
 						Peligro peligro=new Peligro();
@@ -167,10 +175,15 @@ public class RiesgoServletJSON extends HttpServlet {
 					    if(!GenericValidator.isBlankOrNull(riesgoId)) riesgo.setId(Long.parseLong(riesgoId));
 						riesgo.setLugar(lugar);
 					    riesgo.setPeligro(peligro);
-					    riesgo.setValue(NivelProbabilidad.values()[Integer.parseInt(nivelProbabilidadId)]);
-						riesgoService.save(riesgo,usuario);
-				    	resultado=new Resultado(false,"Inserción ok");
-						resultado.getMessages().add(riesgo.toString());
+					    riesgo.setValue(NivelProbabilidad.valueOf(nivelProbabilidadId));
+					    //Validar que no existe ya el riesgo para el peligro
+						if(riesgoService.existeYaRiesgo(riesgo)){
+							resultado=new Resultado(true,"Ya existe el Riesgo");
+						}else{
+							riesgoService.save(riesgo,usuario);
+					    	resultado=new Resultado(false,"Inserción ok");
+							resultado.setObjeto(riesgo);
+						}
 					} catch (NoAutorizadoException e) {
 						resultado=new Resultado(true,"No tienes permisos para la operacion");
 					}catch(Exception e){
@@ -202,6 +215,8 @@ public class RiesgoServletJSON extends HttpServlet {
 			if(GenericValidator.isBlankOrNull(peligroId) || !GenericValidator.isLong(peligroId)) resultado.add("Se debe seleccionar un Peligro");			
 			if(GenericValidator.isBlankOrNull(lugarId) || !GenericValidator.isLong(lugarId)) resultado.add("Se debe seleccionar un Lugar");
 			if(GenericValidator.isBlankOrNull(nivelProbabilidadId)) resultado.add("Se debe seleccionar una Probabilidad");
+			
+			
 			
 			if(resultado.size() > 0) return resultado;
 			return null;

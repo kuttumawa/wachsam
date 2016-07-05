@@ -100,7 +100,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		String texto=request.getParameter("texto");
 		String textoEn=request.getParameter("textoEn");
 		String valoracion=request.getParameter("valoracion");
-		String tipo=request.getParameter("tipo");
+		String tipo=request.getParameter("tipoSitio");
 		String direccion=request.getParameter("direccion");
 		String lugarId=request.getParameter("lugarId");
 		String oper=request.getParameter("oper");

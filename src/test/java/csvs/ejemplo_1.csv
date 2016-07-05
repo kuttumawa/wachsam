@@ -1,5 +1,3 @@
-// Comentario
-// la primera línea son metadatos
 // {"objeto":"sitio",
 // "id":"0",   indica la columna don se encuentra el id.
 // "col":[{"nombre":"1"},{"nombreEn":"2"},{"tipo":"3"},{"lugar":"ISO-3166-1-num_to_lugar(4)"},{"valoracion":"5"}],

@@ -18,7 +18,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
 <script>
 function modifyData(e){
 	$('#modal1Id').modal('show');
-	console.log($(e).children().first().text());
+	$('#error').hide();
 	var riesgoId = $(e).children().first().text();
 	var url="RiesgoServletJSON?oper=getRiesgo&riesgoId="+riesgoId;
 	$.getJSON(url,function(data){
@@ -27,13 +27,15 @@ function modifyData(e){
 		});	
 	
 }
-function newData(){
+function newData(){	
 	$('#modal1Id').modal('show');
+	$('#error').hide();
 	$('#dataId').val('');
 		
 }
 
 function cleanForm(){
+	 
 	 $('#riesgoId').val('');
 	 $('#peligroId').val('');
 	 $('#lugarId').val('');
@@ -57,6 +59,7 @@ function savedata(){
 			    	fectchData();
 			    	$('#modal1Id').modal('hide');
                 }else{
+                	$('#error').show();
                 	$('#error').text(data.resultado);
 				}		    	
 		    }
@@ -76,7 +79,9 @@ function deletedata(){
 		  return false;
 }
 function openForm(){
-	$('#modal1Id').modal('show');	
+	$('#error').hide();
+	$('#modal1Id').modal('show');
+	
 }
 function fectchData(){
 	var peligroId=$('#peligroId').val();
@@ -86,13 +91,13 @@ function fectchData(){
 	$.get(url,function (data){
 		$('#tbodyID').children().remove();
 		$.each(data, function(i, item) {
-		    var row = $('<tr id=\''+item.id+'\'></tr>').addClass('fila');
+		    var row = $('<tr id=\''+item.id+'\' onclick=\'modifyData(this)\' \'></tr>').addClass('fila');
 		    row.append('<td>'+ item.id+'</td>');
 		    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.lugar.nombre +'\'>'+item.lugar.nombre+'</td>');
 		    row.append('<td>'+ item.value+'</td>');
 		    $('#tbodyID').append(row);
 		});
-		$("#tbodyID tr").on("click",modifyData());
+		
 		
 	},"json");
 
@@ -175,13 +180,13 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Riesgo</h4>
         <div id="error" class="alert alert-danger">
-                 xxxxxxx
+               
         </div>
       </div>
       <div class="modal-body">
              <form id="form2" action="ProvisionalRiesgoUpdaterForYou" method="post" class="form-inline" role="form">
-    			<input type="text" name="peligroId" id="peligroId" value="<%= request.getParameter("peligroId")%>" readonly/>
-    			<input type="text" name="riesgoId"  id="riesgoId" value="" readonly/>
+    			<input type="hidden" name="peligroId" id="peligroId" value="<%= request.getParameter("peligroId")%>" readonly/>
+    			<input type="hidden" name="riesgoId"  id="riesgoId" value="" readonly/>
     			<div class="form-group">
 				<label for="">Lugares</label>
 				<select class="form-control" name="lugarId" id="lugarId">

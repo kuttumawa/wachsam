@@ -58,6 +58,15 @@ public class RiesgoDao {
 		
 	}
 
+	public boolean existeYaRiesgo(Riesgo riesgo) {
+		Query q = em.createQuery(
+				"SELECT p FROM Riesgo p where p.peligro.id = :peligroid and p.lugar.id =:lugarId", Riesgo.class);
+		q.setParameter("peligroid",riesgo.getPeligro().getId());
+		q.setParameter("lugarId",riesgo.getLugar().getId());
+		if (q.getResultList()==null || q.getResultList().isEmpty()) return false;
+		else return true;
+	}
+
 	
 	
 

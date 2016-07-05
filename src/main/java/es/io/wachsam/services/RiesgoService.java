@@ -9,6 +9,7 @@ import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.OperationLog;
+import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Riesgo;
 import es.io.wachsam.model.Usuario;
 
@@ -72,5 +73,10 @@ public class RiesgoService {
 	public List<Riesgo> getAllRiesgoForPeligro(Long idPeligro){
 		return dao.getRiesgosFromPeligro(idPeligro);
 	}
+	public boolean existeYaRiesgo(Riesgo riesgo) {
+		return dao.existeYaRiesgo(riesgo);
+		
+	}
+	
 
 }

@@ -125,7 +125,7 @@ for(Data data:datas){
 
 <div class="form-group">
 <label for="">Tipo</label>
-<select class="form-control" name="lugarId" id="lugar">
+<select class="form-control" name="tipoSitio" id="lugar">
 <option value=""></option>
 <%    
 			List<TipoSitio> tipoSitios =  (List<TipoSitio>)request.getAttribute("tipoSitios");
