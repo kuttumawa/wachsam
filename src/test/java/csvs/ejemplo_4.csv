@@ -1,0 +1,14 @@
+//CU1- Cargar datos de malaria por pais y año en formato ISO-3166-1-alpha-2
+// 
+//Metadata:
+{"objeto":"lugar","id":"ISO-3166-1-alpha-2-num_to_lugar_id(0)","data":[{"num_casos_2015":"1"}],"modo":"S"}
+//datos:
+AF,
+AL,
+AR,
+
+
+
+//NOTAS:
+// ISO-3166-1-num_to_lugar_id(0) convierte el valor encontrado en la columna 0 de ISO-3166-1-num al id del objeto lugar:
+// 1. select id from data, lugar where data.objetoid=lugar.id and data.tag_id=7 and data.value=<VALOR_COL(0)>

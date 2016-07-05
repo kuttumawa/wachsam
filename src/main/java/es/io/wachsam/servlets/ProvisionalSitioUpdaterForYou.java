@@ -179,7 +179,9 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 		List<Lugar> lugares =lugarDao.getAll();
 		request.setAttribute("lugares",lugares);
 		
-		
+		TipoSitioService tipoSitioService = (TipoSitioService) context.getBean("tipoSitioService");
+		List<TipoSitio> tipoSitios =tipoSitioService.getAll();
+		request.setAttribute("tipoSitios",tipoSitios);
 		
 		String nextJSP = "/ioUpdaterSitio.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);

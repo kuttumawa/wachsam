@@ -1,0 +1,11 @@
+//CU1- Cargar en la tabla lugares el dato población y nº de camas de hospital por 1000, insertar y sobreescibir si existe.
+//Metadata:
+{"objeto":"lugar","id":"ISO-3166-1-num_to_lugar_id(0)","data":[{"poblacion":"1"},{"camas-hos-1000":"2"}],"modo":"S"}
+//datos:
+248,1000000,50
+50,9939938,33
+
+
+//NOTAS:
+// ISO-3166-1-num_to_lugar_id(0) convierte el valor encontrado en la columna 0 de ISO-3166-1-num al id del objeto lugar:
+// 1. select id from data, lugar where data.objetoid=lugar.id and data.tag_id=7 and data.value=<VALOR_COL(0)>
