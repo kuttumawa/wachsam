@@ -31,7 +31,8 @@ public class JSONtest {
 	public void testTipoSitioSave() throws IOException{
 	   String json_1="{\"a\":\"lion1\","
 	   		         //+ "\"b\":\"lion2\","
-	   		         + "\"c\":\"lion3\"}";
+	   		         + "\"c\":3,"
+	   		         + "\"d\":\"z\"}";
 	   
 	   ObjectMapper objectMapper = new ObjectMapper();
 	   A a = objectMapper.readValue(json_1, A.class);
@@ -45,7 +46,10 @@ public class JSONtest {
 	  
 	
  	}
-	
+	// Leer metadata
+	// obtener objeto
+	// obtener col del json
+	// sus
 
 
 }
