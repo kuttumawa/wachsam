@@ -1,0 +1,26 @@
+//metadata data
+id,value,descripcion,tipoValor,tag,objetoId,objetoTipo,connectToId,objetoConnectedTipo
+
+
+ej1------------número  de casos de  malaria en brasil 
+
+objetoId,objetoTipo,tag,tipoValor,value,connectToId,objetoConnectedTipo
+
+1,1,num_casos,NUMERICO,12,2,2 --> nº casos de malaria en brasil
+
+ej2------------número  de casos de  malaria en brasil GENÉRICO
+
+A:objetoId(1),A:objetoTipo(1),A:tag(num_casos),A:tipoValor(2),value,F:Guess_text_to_lugar(connectToId),A:objetoConnectedTipo(2)
+
+12,BRASIL   --> nº casos de malaria en brasil
+12,Burundi  --> nº casos de malaria en Burundi
+
+
+A:objetoId(F:Guess_text_to_peligro(malaria)),
+//A: El mismo valor para todos los objetos
+//objetoId Field del objeto 
+//(insertar 
+// F: Formula
+
+
+

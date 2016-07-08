@@ -24,7 +24,8 @@
 - Tipos de sitio en BD.
 - Añadir campos longitud latitud en sitio.
 - Sitio: Añadir longitud y latitud. 
-- Cambio librería JSON org.json por Jackson.  
+- Cambio librería JSON org.json por Jackson. 
+- Tag tipo valor.
 ------------------------------------------------------------------------------
 
 1.0.4 (30-05-2016)

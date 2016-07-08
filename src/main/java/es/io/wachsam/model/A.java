@@ -1,7 +1,7 @@
 package es.io.wachsam.model;
 
 public class A{
-	String a;
+	public String a;
 	String b;
 	String c;
 	long d;

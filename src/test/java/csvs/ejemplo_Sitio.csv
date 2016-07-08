@@ -1,0 +1,47 @@
+
+metadata:
+
+id,nombre,nombreEn,direccion,tipo,texto,textoEn,lugarObj,valoracion
+
+ej1--------
+
+nombre,direccion,tipo,lugarObj,valoracion
+
+Hospital Americo Boavida,"calle del pex,1",9,248,4
+..
+
+ej2--------
+
+nombre,direccion,tipo,F:ISO-3166-1-num_to_lugar(lugarObj),valoracion
+
+Hospital Americo Boavida,"calle del pex,1",9,34,4
+..
+
+ej3--------
+
+nombre,direccion,tipo,F:ISO-3166-1-alpha-2_to_lugar(lugarObj),valoracion
+
+Hospital Americo Boavida,"calle del pex,1",9,AF,4
+..
+
+ej4--------
+
+nombre,direccion,tipo,F:Guess_text_to_lugar(lugarObj),valoracion
+
+Hospital Americo Boavida,"calle del pex,1",9,afganistan,4
+..
+
+
+ej5--------Sitio + Datas //carga de datos para hospitales número de camas,
+
+nombre,direccion,tipo,lugarObj,valoracion,D:[num_camas_por1000],D:[director]
+
+Hospital Americo Boavida,"calle del pex,1",9,248,4,12,"Daniel Boom"
+
+
+ej5--------Sitio + Datas //carga de dato complejo hospital_alternativo
+
+nombre,direccion,tipo,lugarObj,valoracion,CD:[A:tag(hospital_alternativo),connectToId,objetoConnectedTipo(3)]
+
+Hospital Americo Boavida,"calle del pex,1",9,248,4,66
+
