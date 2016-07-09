@@ -2,6 +2,10 @@ package wachsam;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import es.io.wachsam.model.A;
+import es.io.wachsam.model.Sitio;
 
 
 
@@ -28,7 +33,7 @@ public class JSONtest {
 
 	
 	@Test
-	public void testTipoSitioSave() throws IOException{
+	public void testThis() throws IOException{
 	   String json_1="{\"a\":\"lion1\","
 	   		         //+ "\"b\":\"lion2\","
 	   		         + "\"c\":\"lion3\"}";
@@ -45,6 +50,19 @@ public class JSONtest {
 	  
 	
  	}
+	@Test
+	public void testIntrospection(){
+		List<Field> privateFields = new ArrayList<Field>();
+	    Field[] allFields = Sitio.class.getDeclaredFields();
+	    for (Field field : allFields) {
+	        //if (Modifier.isPrivate(field.getModifiers())) {
+	            privateFields.add(field);
+	            System.out.println(field.getName() + "-" + field.getType());
+	       // }
+	    }
+		
+		
+	}
 	
 
 

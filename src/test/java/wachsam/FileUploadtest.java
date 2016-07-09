@@ -55,19 +55,18 @@ public class FileUploadtest extends TestCase {
 		
 	}
 
-	/**
-	 * [nommbre;nombreEn;direccion;tipo;texto;textoEn;lugarId*;valoracion]
-	 */
-	@Test
-	public void testSitioCSVvaliation() throws IOException{
-		String csvSitioLineConError[]={"nommbre;nombreEn","nommbre;nombreEn;direccion;1;texto;textoEn;22;7","nommbre;nombreEn;direccion;1;texto;textoEn;AFGANISTAN;7"};
-		int csvSitioLineNumeroDeErroresEsperados[]={1,1,1};
-		List<String> errores=null;
-		for(int i=0;i<csvSitioLineConError.length;i++){
-			errores=Sitio.validateCSVLine(csvSitioLineConError[i]);
-			assertEquals(csvSitioLineNumeroDeErroresEsperados[i],errores.size());
-		}
 	
+	
+	String[] ex_carga_sitio={
+			"nombre,nombreEn,direccion,tipo,texto,textoEn,lugarObj,valoracion",
+			"",
+			""
+	};		
+			                 
+	
+	@Test
+	public void testSitioCSV() throws IOException{
+		//
  	}
 	
 }
