@@ -65,5 +65,8 @@ public class PeligroService {
 	public List<Peligro> getAll(){
 		return dao.getAll();
 	}
+	public List<Peligro> getPeligroFromTexto(String texto) {
+		return dao.getPeligroFromTexto(texto);
+	}
 
 }

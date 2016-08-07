@@ -152,7 +152,7 @@ public class ProvisionalAlertUpdaterForYou extends HttpServlet {
 				alert.setTexto(textoNew);
 				try {
 					alertService.save(alert,usuario);
-					dataService.saveData(newdatas, alert,usuario);
+					dataService.saveData(newdatas, alert,usuario,null);
 				
 					DataDao dataDao = (DataDao) context.getBean("dataDao");
 					Data filtro=new Data();

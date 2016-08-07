@@ -63,6 +63,18 @@ public class LugarService {
 	public List<Lugar> getAll() {
 		return dao.getAll();
 	}
+	public List<Lugar> getLugarFromTexto(String pais){
+		return dao.getLugarFromTexto(pais);
+	}
+	public List<Long> getLugarFromISO_3166_1_alpha2(String code) {
+		return dao.getLugarFromISO_3166_1_alpha2(code);
+	}
+	public List<Long> getLugarFromISO_3166_1_alpha3(String code) {
+		return dao.getLugarFromISO_3166_1_alpha3(code);
+	}
+	public List<Long> getLugarFromISO_3166_1_num(String code) {
+		return dao.getLugarFromISO_3166_1_num(code);
+	}
 	
 	
 

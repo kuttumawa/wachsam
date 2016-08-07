@@ -102,7 +102,7 @@ public class DataService {
 		return data.getId();
 		
 	}
-	public void saveData(List<Data> datas,Object objeto,Usuario usuario) throws NoAutorizadoException{
+	public void saveData(List<Data> datas,Object objeto,Usuario usuario,String stamp) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
 		for(Data data:datas){
 			if(data.getId()!=null) operation=Acciones.UPDATE;
@@ -146,8 +146,9 @@ public class DataService {
 				data.setObjetoId(fuente.getId());
 				data.setObjetoTipo(ObjetoSistema.Fuente);
 			}
+			if(data.getTipoValor()==null)data.setTipoValor(DataValueTipo.TEXTO);
 			dao.save(data);
-			operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));			
+			operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date(),stamp));			
 		}
 			
 	}
@@ -287,6 +288,10 @@ public class DataService {
 	public void setSitioService(SitioService sitioService) {
 		this.sitioService = sitioService;
 	}
+	public List<Tag> getTagFromTextoAlias(String texto) {
+		return dao.getTagFromTextoAlias(texto);
+	}
+	
 
 	
 

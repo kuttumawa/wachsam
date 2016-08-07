@@ -4,9 +4,11 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import es.io.wachsam.model.Riesgo;
 import es.io.wachsam.model.Tag;
 
 @Transactional
@@ -35,5 +37,13 @@ public class TagDao {
 	public void deleteById(Long id) throws Exception {
 		Tag tag = em.find(Tag.class, id);
 		em.remove(tag); 
+	}
+
+	public Tag fetchTag(String tagAlias) {
+		Query q = em.createQuery(
+				"SELECT p FROM Tag p where p.alias=:tagAlias", Tag.class);
+		q.setParameter("tagAlias",tagAlias);
+		return (Tag) q.getSingleResult();
+		
 	}
 }

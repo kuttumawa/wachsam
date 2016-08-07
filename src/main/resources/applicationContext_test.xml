@@ -65,6 +65,7 @@
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
       </bean>
+      <bean id="fileUploadDao" class="es.io.wachsam.dao.FileUploadDao"/>
     <bean id="peligroService" class="es.io.wachsam.services.PeligroService">
       <property name="dao" ref="peligroDao"/>
       <property name="securityService"  ref="securityService"/>
@@ -87,6 +88,16 @@
       <property name="dao" ref="tipoSitioDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+      <bean id="fileUploadService" class="es.io.wachsam.services.FileUploadService">
+       <property name="dataService" ref="dataService"/>
+       <property name="securityService"  ref="securityService"/>
+       <property name="operationLogDao"  ref="operationLogDao"/>
+       <property name="alertService"  ref="alertService"/>
+       <property name="peligroService"  ref="peligroService"/>
+       <property name="lugarService"  ref="lugarService"/>
+       <property name="sitioService"  ref="sitioService"/>
+       <property name="fileUploadDao" ref="fileUploadDao"/>
     </bean>
     
     <bean id="dataSource2"

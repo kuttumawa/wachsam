@@ -75,9 +75,8 @@
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
-     <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" >
-        
-     </bean>
+     <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" />
+     <bean id="fileUploadDao" class="es.io.wachsam.dao.FileUploadDao"/>
      <bean id="riesgoService" class="es.io.wachsam.services.RiesgoService">
       <property name="dao" ref="riesgoDao"/>
       <property name="securityService"  ref="securityService"/>
@@ -87,6 +86,16 @@
       <property name="dao" ref="tipoSitioDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    <bean id="fileUploadService" class="es.io.wachsam.services.FileUploadService">
+       <property name="dataService" ref="dataService"/>
+       <property name="securityService"  ref="securityService"/>
+       <property name="operationLogDao"  ref="operationLogDao"/>
+       <property name="alertService"  ref="alertService"/>
+       <property name="peligroService"  ref="peligroService"/>
+       <property name="lugarService"  ref="lugarService"/>
+       <property name="sitioService"  ref="sitioService"/>
+       <property name="fileUploadDao" ref="fileUploadDao"/>
     </bean>
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">

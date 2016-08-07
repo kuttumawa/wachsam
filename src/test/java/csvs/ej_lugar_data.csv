@@ -1,0 +1,5 @@
+//Carga datos para lugares localizados por nombre del país
+
+F:texto_to_lugar(id),D:poblacion,D:idioma
+BRASIL,300000000,portuguese
+CHAD,10000000,french

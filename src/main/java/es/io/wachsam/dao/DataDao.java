@@ -9,6 +9,8 @@ import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.Tag;
 
 @Transactional
 public class DataDao {
@@ -72,6 +74,13 @@ public class DataDao {
 		List<Data> resultado= q.getResultList();
         
 		return resultado;
+	}
+
+	public List<Tag> getTagFromTextoAlias(String texto) {
+		Query q = em.createQuery(
+				"SELECT p FROM Tag p where p.nombre = :nombre", Tag.class);
+		q.setParameter("nombre",texto);
+		return q.getResultList();
 	}
 	
 }

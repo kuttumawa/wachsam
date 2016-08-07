@@ -66,6 +66,29 @@ public class LugarDao {
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
+	public List<Lugar> getLugarFromTexto(String pais) {
+		Query q = em.createQuery(
+				"SELECT p FROM Lugar p where p.nombre = :pais", Lugar.class);
+		q.setParameter("pais",pais);
+		return q.getResultList();
+	}
+
+	public List<Long> getLugarFromISO_3166_1_alpha2(String code) {
+		String query="SELECT lugar.id FROM lugar,data where lugar.id=data.objetoid and value='"+code+"' and data.tag_id=(select id from tag where tag.alias='ISO_3166_1_alpha2')";
+		Query q = em.createNativeQuery(query);
+		return q.getResultList();
+	}
 	
+	public List<Long> getLugarFromISO_3166_1_alpha3(String code) {
+		String query="SELECT lugar.id FROM lugar,data where lugar.id=data.objetoid and value='"+code+"' and data.tag_id=(select id from tag where tag.alias='ISO_3166_1_alpha3')";
+		Query q = em.createNativeQuery(query);
+		return q.getResultList();
+	}
+	
+	public List<Long> getLugarFromISO_3166_1_num(String code) {
+		String query="SELECT lugar.id FROM lugar,data where lugar.id=data.objetoid and value='"+code+"' and data.tag_id=(select id from tag where tag.alias='ISO_3166_1_num')";
+		Query q = em.createNativeQuery(query);
+		return q.getResultList();
+	}
 	
 }

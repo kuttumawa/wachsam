@@ -21,7 +21,7 @@ import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import com.google.gson.annotations.Expose;
 @Entity
 @Table(name="sitio")
-public class Sitio {
+public class Sitio implements ObjetoSistemaIF {
 	
 	@org.springframework.data.annotation.Id
 	@Id
@@ -52,23 +52,7 @@ public class Sitio {
 	public Sitio() {
 		super();
 	}
-	public Sitio(String[] csv) {
-		this.nombre=csv[0];
-		this.nombreEn=csv[1];
-		this.direccion=csv[2];
-		this.tipo=new TipoSitio(Long.parseLong(csv[3]),null,null);
-		this.texto=csv[4];
-		this.textoEn=csv[5];
-		if(csv[6]!=null && csv[6].length()>1){
-			Lugar lugar=new Lugar();
-			lugar.setId(Long.parseLong(csv[6]));
-		}
-		if(csv[7]!=null) this.valoracion=Integer.parseInt(csv[7]);
-		else this.valoracion=-1;
-	}
-
-
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -198,60 +182,11 @@ public class Sitio {
 		if(direccion!=null && direccion.length()>100) errores.add("Dirección debe se menor de 100");
 		if(texto!=null && texto.length()>500) errores.add("Texto debe se menor de 500");
 		if(textoEn!=null && textoEn.length()>500) errores.add("Text debe se menor de 500");
-	   
+		if(tipo==null) errores.add("Tipo es Obligatorio");
 		return errores;
 	}
 	
-	/**
-	 * @param csv [nommbre;nombreEn;direccion;tipo;texto;textoEn;lugarId*;valoracion]
-	 * 
-	 * *lugarId: puede ser numérico , o String si string se intentará encontra un lugar con la proximidad textual menor.
-	 * @return
-	 */
-	public static List<String> validateCSVLine(String csvLine){
-		String CSV_SEPARATOR=";";
-		int CSVLINE_ELEMENTS=8;
-		String[] csv=csvLine.split(CSV_SEPARATOR);
-		List<String> errores=new ArrayList<String>();
-		if(csv.length != CSVLINE_ELEMENTS){
-			errores.add("Debe contener 8 elementos separados por ';'");
-			return errores;
-		}
 	
-		//Nombre
-		if(GenericValidator.isBlankOrNull(csv[0])) errores.add("Nombre Obligatorio;");
-		
-		//NombreEn
-		if(csv[1]!=null && csv[1].length()>100) errores.add("Nombre Eng debe ser menor de 100");
-
-		//direccion
-		if(csv[2]!=null && csv[2].length()>100) errores.add("Dirección debe ser menor de 100");
-		
-		//tipo
-		if(GenericValidator.isBlankOrNull(csv[3])) errores.add("Tipo Sitio Obligatorio;");
-		else if(GenericValidator.isInt(csv[3])){
-			try{
-				Integer.parseInt(csv[3]);
-			}catch(Exception e){
-				errores.add("Tipo Sitio no es correcto");
-			}
-		}else{
-			errores.add("Tipo Sitio no es correcto valores");
-		}
-		
-		//texto
-		if(csv[4]!=null && csv[4].length()>500) errores.add("Texto debe ser menor de 500");
-		//textoEn
-		if(csv[5]!=null && csv[5].length()>500) errores.add("Text debe ser menor de 500");
-		//lugar
-		if(csv[6]!=null && csv[6].length()>100) errores.add("Lugar debe  ser menor de 100");
-		
-		//valoracion
-	    if(csv[7]!=null && !GenericValidator.isInt(csv[7])) errores.add("Valoracion debe  ser númerico");
-	    else if(csv[7]!=null && !csv[7].matches("-?[12345]")) errores.add("Valoracion debe ser 1,2,3,4,5");
-	   
-		return errores;
-	}
 	
 	public boolean hasPermisos(Usuario usuario, Acciones accion) {
 		for (Permiso permiso : usuario.getPermisos()) {
@@ -273,5 +208,9 @@ public class Sitio {
 	public Node toNode() {
 		return new Node(this.id,this.getNombre(),ObjetoSistema.Sitio.ordinal(),ObjetoSistema.Sitio +":"+this.id+"-"+this.getNombre());		
 	}
+
+	
+	
+	
 
 }

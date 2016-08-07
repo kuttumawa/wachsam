@@ -228,6 +228,10 @@ update sitio set tipo=9 where tipo=0;
 ALTER TABLE `viajarseguro`.`sitio` 
 CHANGE COLUMN `tipo` `tipo_id` INT(11) NOT NULL ;
 
+----
+ALTER TABLE `viajarseguro`.`operationlog` 
+ADD COLUMN `stamp` VARCHAR(100) NULL AFTER `usuarioId`;
+
 
 
 

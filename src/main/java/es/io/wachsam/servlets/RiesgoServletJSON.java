@@ -177,7 +177,7 @@ public class RiesgoServletJSON extends HttpServlet {
 					    riesgo.setPeligro(peligro);
 					    riesgo.setValue(NivelProbabilidad.valueOf(nivelProbabilidadId));
 					    //Validar que no existe ya el riesgo para el peligro
-						if(riesgoService.existeYaRiesgo(riesgo)){
+						if(riesgo.getId()==null && riesgoService.existeYaRiesgo(riesgo)){
 							resultado=new Resultado(true,"Ya existe el Riesgo");
 						}else{
 							riesgoService.save(riesgo,usuario);

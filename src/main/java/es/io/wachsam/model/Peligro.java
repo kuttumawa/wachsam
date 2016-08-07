@@ -1,11 +1,15 @@
 package es.io.wachsam.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.validator.GenericValidator;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldIndex;
@@ -14,7 +18,7 @@ import com.google.gson.annotations.Expose;
 @Document(indexName = "peligro",type = "peligro" , shards = 1, replicas = 0, indexStoreType = "memory", refreshInterval = "-1")
 @Entity
 @Table(name="peligro")
-public class Peligro {
+public class Peligro implements ObjetoSistemaIF{
 	
 	@org.springframework.data.annotation.Id
 	@Id
@@ -144,5 +148,12 @@ public class Peligro {
 	public Node toNode() {
 		return new Node(this.id,this.getNombre(),ObjetoSistema.Peligro.ordinal(),this.toString());		
 	}
-
+	public  List<String> validate(){
+		List<String> errores=new ArrayList<String>();
+		if(GenericValidator.isBlankOrNull(nombre)) errores.add("Nombre Obligatorio;");
+		if(nombreEn!=null && nombreEn.length()>100) errores.add("Nombre Eng debe se menor de 100");
+		if(categoria==null) errores.add("categoria es Obligatorio");
+		if(damage==null) errores.add("damage es Obligatorio");
+		return errores;
+	}
 }

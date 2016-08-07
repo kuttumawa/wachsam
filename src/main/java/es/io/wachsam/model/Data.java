@@ -1,5 +1,8 @@
 package es.io.wachsam.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.apache.commons.validator.GenericValidator;
 
 import com.google.gson.annotations.Expose;
 
@@ -21,7 +26,7 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name="data")
-public class Data {
+public class Data implements ObjetoSistemaIF{
 	@Expose
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -185,7 +190,7 @@ public class Data {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("DataN [");
+		builder.append("Data [");
 		if (id != null) {
 			builder.append("id=");
 			builder.append(id);
@@ -258,7 +263,16 @@ public class Data {
 		this.connectedObject = connectedObject;
 	}
 
-
+	public  List<String> validate(){
+		List<String> errores=new ArrayList<String>();
+		if(objetoId==null) errores.add("objetoId es Obligatorio");
+		if(objetoTipo==null) errores.add("objetoTipo es Obligatorio");
+		if(tag==null) errores.add("tag es Obligatorio");
+		if(connectToId!=null && objetoConnectedTipo==null) errores.add("objetoConnectedTipo es Obligatorio");
+		if(value!=null && value.length()>500) errores.add("value debe se menor de 500");
+		if(descripcion!=null && descripcion.length()>250) errores.add("descripcion debe se menor de 500");
+		return errores;
+	}
 
 
 

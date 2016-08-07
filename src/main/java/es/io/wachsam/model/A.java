@@ -1,9 +1,10 @@
 package es.io.wachsam.model;
 
 public class A{
-	String a;
+	public String a;
 	String b;
 	String c;
+	long d;
 	
 	public A() {
 		super();
@@ -25,5 +26,11 @@ public class A{
 	}
 	public void setC(String c) {
 		this.c = c;
+	}
+	public long getD() {
+		return d;
+	}
+	public void setD(long d) {
+		this.d = d;
 	}
 }

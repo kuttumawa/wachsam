@@ -12,6 +12,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 
 
@@ -64,6 +65,13 @@ public class PeligroDao {
 
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
+	}
+
+	public List<Peligro> getPeligroFromTexto(String nombre) {
+		Query q = em.createQuery(
+				"SELECT p FROM Peligro p where p.nombre = :nombre", Peligro.class);
+		q.setParameter("nombre",nombre);
+		return q.getResultList();
 	}
 	
 	

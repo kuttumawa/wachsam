@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,8 +27,13 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import es.io.wachsam.dao.AirportDao;
+import es.io.wachsam.dao.FactorDao;
 import es.io.wachsam.dao.SitioDao;
+import es.io.wachsam.model.Data;
+import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Sitio;
+import es.io.wachsam.model.Usuario;
+import es.io.wachsam.services.FileUploadService;
 
 @WebServlet(name = "FileUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig
@@ -51,50 +57,57 @@ public class FileUploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 	        HttpServletResponse response)
 	        throws ServletException, IOException {
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");		
+		if(request.getSession().getAttribute("user")==null){
+			   String nextJSP = "/login.jsp";
+			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+			   dispatcher.forward(request,response);
+			   return;
+		}
 	    response.setContentType("text/html;charset=UTF-8");
 	    context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		
 	    final Part filePart = request.getPart("file");
 	    final String objeto = request.getParameter("objeto");
-	    
+	    boolean actualizaObjeto = false;
+	    actualizaObjeto=request.getParameter("actualizaObjeto")!=null?true:false;
 
 	    OutputStream out = null;
 	    InputStream filecontent = null;
 	    final PrintWriter writer = response.getWriter();
-	    List<String> resultado=new ArrayList<String>();
-
+	    List<String> errores=new ArrayList<String>();
+	    FileUploadService fileUploadService=(FileUploadService) context.getBean("fileUploadService");
 	    try {
 	        filecontent = filePart.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(filecontent,"ISO-8859-1"));
 	        String line = null;	       
 	        int n=1;
-	        Boolean error=null;
-	        try{
-	        	String log="";
-	        	while((line = in.readLine()) != null) {
-		            try{
-		            	validateObject(objeto,line);
-		            	log = procesarObject(objeto,line);
-		            }catch(Exception e){
-		            	log=e.getMessage();
-		            	resultado.add(n++ + ": "+log);
-		            	break;
-		            }
-	        		
-		            resultado.add(n++ + ": "+log);
-		        }
-	        	
-	        }catch (UnsupportedOperationException e){
-		    	resultado.add(e.getMessage());
+	        List<String> csv =new ArrayList<String>();
+	       	while((line = in.readLine()) != null) {
+	        		if(line.length()>0 && !line.matches("^//.*")) csv.add(line);
 		    }
-	        
-	        request.setAttribute("resultado",resultado);
+	       	Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.valueOf(objeto),csv,errores);	
+	        if(errores.size()>0){
+	        	 request.setAttribute("resultado",errores);
+	        }else{
+	        	try{
+	        	  fileUploadService.save(dat,objeto,usuario,actualizaObjeto);
+	        	}catch(Exception e){
+	        		errores.add(e.getCause().getCause().toString());
+	        	}
+	        	if(errores.size()<1)errores.add("CargadoOK objeto: "+objeto + "["+dat.size()+"]");
+	        }
+	        request.setAttribute("resultado",errores);
 	        String nextJSP = "/fileUpload.jsp";
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			dispatcher.forward(request,response);
 	       
 	    }catch (Exception e){
-	    	request.setAttribute("resultado",e.getMessage());
+	    	errores.add(e.toString());
+	    	request.setAttribute("resultado",errores);
+	    	String nextJSP = "/fileUpload.jsp";
+			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+			dispatcher.forward(request,response);
 	    }finally {
 	        if (out != null) {
 	            out.close();
@@ -106,6 +119,7 @@ public class FileUploadServlet extends HttpServlet {
 	            writer.close();
 	        }
 	    }
+	    
 	    
 	}
     private void readLinea(File theFile) throws IOException{
@@ -132,40 +146,7 @@ public class FileUploadServlet extends HttpServlet {
 	    return null;
 	}
 	
-	private String validateObject(String object,String line) throws Exception{
-		List<String> errores=null;
-		if(object.equalsIgnoreCase("sitio")) errores=Sitio.validateCSVLine(line);
-		else {
-			throw new UnsupportedOperationException("No existe la operación por  el momento");
-		}
-		
-		StringBuilder sb=new StringBuilder(line);
-		if(errores.size()!=0) {
-			sb.append(" {ERROR ");
-		    for(String s:errores){
-			  sb.append("|"+s);
-		    }
-		    sb.append("}");
-		    throw new Exception(sb.toString());
-		}else{
-			sb.append(" {OK}");
-		}
-		return sb.toString();
-	}
-	private String procesarObject(String object,String line){
-		String l=null;
-		if(object.equalsIgnoreCase("sitio")){
-			if(sitioDao==null) sitioDao = (SitioDao) context.getBean("sitioDao");
-			Sitio sitio=new Sitio(line.split(";"));
-			sitioDao.save(sitio);
-			l=line + "{ GRABADO} id: " + sitio.getId();
-		}
-		else {
-			throw new UnsupportedOperationException("No existe la operación por  el momento");
-		}
-		
-		return l;
-	}
+	
 	public SitioDao getSitioDao() {
 		return sitioDao;
 	}

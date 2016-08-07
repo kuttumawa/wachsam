@@ -28,6 +28,16 @@ public class OperationLog {
 	String operation;
 	Long usuarioId;
 	Date timestamp;
+	public OperationLog(String objeto, Long objetoId, String operation, Long usuarioId, Date timestamp, String stamp) {
+		super();
+		this.objeto = objeto;
+		this.objetoId = objetoId;
+		this.operation = operation;
+		this.usuarioId = usuarioId;
+		this.timestamp = timestamp;
+		this.stamp = stamp;
+	}
+	String stamp;
 	public Long getId() {
 		return id;
 	}
@@ -75,6 +85,12 @@ public class OperationLog {
 		this.operation = operation;
 		this.usuarioId = usuarioId;
 		this.timestamp = timestamp;
+	}
+	public String getStamp() {
+		return stamp;
+	}
+	public void setStamp(String stamp) {
+		this.stamp = stamp;
 	}
 	
 	

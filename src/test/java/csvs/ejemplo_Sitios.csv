@@ -1,0 +1,5 @@
+//Carga sitios + datos
+A:nombreEn(VOID),nombre,D:num_camas_por1000,direccion,A:textoEn(NUMB),valoracion,A:tipo(9),F:ISO_3166_1_alpha2_to_lugar(lugarObj),D:director
+Hos1,456,calle hos1,123,BR,Vodox
+Hos2,33,calle hos2,1234,AL,Daniel Bloom
+

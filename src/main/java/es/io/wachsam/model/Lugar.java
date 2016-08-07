@@ -1,5 +1,6 @@
 package es.io.wachsam.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,12 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.validator.GenericValidator;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name="lugar")
-public class Lugar {
+public class Lugar implements ObjetoSistemaIF{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Expose
@@ -215,6 +218,16 @@ public class Lugar {
 	
 	public Node toNode() {
 		return new Node(this.id,this.getNombre(),ObjetoSistema.Lugar.ordinal(),this.prettyPrint());		
+	}
+
+	public  List<String> validate(){
+		List<String> errores=new ArrayList<String>();
+		if(GenericValidator.isBlankOrNull(nombre)) errores.add("nombre Obligatorio");
+		if(nombreEn!=null && nombreEn.length()>100) errores.add("nombre Eng debe se menor de 100");
+		if(GenericValidator.isBlankOrNull(latitud))  errores.add("latitud Obligatorio");
+		if(GenericValidator.isBlankOrNull(longitud))  errores.add("longitud Obligatorio");
+		if(nivel==null) errores.add("nivel es Obligatorio");
+		return errores;
 	}
 
 }
