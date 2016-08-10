@@ -171,7 +171,7 @@ public class Sitio implements ObjetoSistemaIF {
 		builder.append(", valoracion=");
 		builder.append(valoracion);
 		
-		return builder.toString().substring(0,Math.min(70,builder.toString().length()))+"]";
+		return builder.toString().substring(0,Math.min(60,builder.toString().length()))+"]";
 		
 	}
 	

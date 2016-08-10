@@ -8,7 +8,45 @@
     <head>
         <title>File Upload</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-       
+      <style>
+      .spin {
+			  -webkit-animation: spin .5s infinite linear;
+			  -moz-animation: spin .5s infinite linear;
+			  -o-animation: spin .5s infinite linear;
+			  animation: spin .5s infinite linear;
+			     -webkit-transform-origin: 50% 58%;
+			         transform-origin:50% 58%;
+			         -ms-transform-origin:50% 58%; /* IE 9 */
+			}
+
+			@-moz-keyframes spin {
+			  from {
+			    -moz-transform: rotate(0deg);
+			  }
+			  to {
+			    -moz-transform: rotate(360deg);
+			  }
+			}
+
+			@-webkit-keyframes spin {
+			  from {
+			    -webkit-transform: rotate(0deg);
+			  }
+			  to {
+			    -webkit-transform: rotate(360deg);
+			  }
+			}
+
+			@keyframes spin {
+			  from {
+			    transform: rotate(0deg);
+			  }
+			  to {
+			    transform: rotate(360deg);
+			  }
+			}
+      
+      </style> 
     </head>
     <body>
     <div class="container">
@@ -37,15 +75,17 @@
                 <%} %>
            </select>
         </div>
-        <div class="form-group">
+       <div class="form-group">
             <label for="file">File</label>
             <input  class="file-input-wrapper btn btn-info btn-xs" type="file" name="file" id="file" data-filename-placement="inside"/> 
-            <input type="checkbox" name="actualizaObjeto" value="ok">Actualiza Objeto principal</input>
-        </div>    
-           
+            <span id="wait" class="glyphicon glyphicon-refresh spin"></span>
+        </div>  
+        <div class="form-group">
+            <input type="checkbox" name="actualizaObjeto" value="ok">Actualiza Objeto principal</input>       
+        </div>              
         <div class="btn-group center-block">
             <input class="btn btn-primary" type="submit" value="Upload" name="upload" id="upload" />
-         </div>
+        </div>
       </form>
      
      

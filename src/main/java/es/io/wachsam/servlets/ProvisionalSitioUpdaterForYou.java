@@ -52,8 +52,15 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			   return;
 		}
 		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		
+		Long tipoSitioFiltro=request.getParameter("tipoSitioFiltro")!=null?Long.parseLong(request.getParameter("tipoSitioFiltro")):1L;
+		Sitio sitioFilter=new Sitio();
+		if(tipoSitioFiltro!=null){
+			TipoSitio tipoSitio=new TipoSitio(tipoSitioFiltro,null,null);
+			sitioFilter.setTipo(tipoSitio);
+		}
 		SitioDao sitioDao = (SitioDao) context.getBean("sitioDao");
-		List<Sitio> sitios =sitioDao.getAll();
+		List<Sitio> sitios =sitioDao.getAll(sitioFilter);
 		request.setAttribute("sitios",sitios);
 		
 		TipoSitioService tipoSitioService = (TipoSitioService) context.getBean("tipoSitioService");
@@ -71,7 +78,9 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 			filtro.setObjetoConnected(ObjetoSistema.Sitio);
 			datas=dataDao.getAll(filtro);
 			request.setAttribute("datas",datas);
+			tipoSitioFiltro=sitio.getTipo().getId();
 		}
+		request.setAttribute("tipoSitioFiltro",tipoSitioFiltro);		
 		request.setAttribute("sitio",sitio);
 		LugarDao lugarDao = (LugarDao) context.getBean("lugarDao");
 		List<Lugar> lugares =lugarDao.getAll();
@@ -162,6 +171,7 @@ public class ProvisionalSitioUpdaterForYou extends HttpServlet {
 				datas=dataDao.getAll(filtro);
 				request.setAttribute("datas",datas);
 				request.setAttribute("resultado","INSERTADO OK: " + sitio + "\n DATOS:" + newdatas);
+			    request.setAttribute("tipoSitioFiltro",sitio.getTipo().getId());
 			} catch (NoAutorizadoException e) {
 				request.setAttribute("resultado","No tienes permisos para la operacion");
 			}

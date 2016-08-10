@@ -11,6 +11,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -86,14 +88,20 @@ public class FileUploadServlet extends HttpServlet {
 	       	while((line = in.readLine()) != null) {
 	        		if(line.length()>0 && !line.matches("^//.*")) csv.add(line);
 		    }
-	       	Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.valueOf(objeto),csv,errores);	
-	        if(errores.size()>0){
+	       	fileUploadService.procesarMetadata(csv,objeto,errores);
+	        Map<Object,List<Data>> dat=null;
+	       	
+	        if(errores.size()==0)
+	       	  dat=fileUploadService.cargarCsv(ObjetoSistema.valueOf(objeto),csv,errores);	
+	       	
+	       	if(errores.size()>0){
 	        	 request.setAttribute("resultado",errores);
 	        }else{
 	        	try{
 	        	  fileUploadService.save(dat,objeto,usuario,actualizaObjeto);
 	        	}catch(Exception e){
-	        		errores.add(e.getCause().getCause().toString());
+	        		if(e.getCause()!=null)errores.add(e.getCause().getCause().toString());
+	        		else errores.add(e.toString());
 	        	}
 	        	if(errores.size()<1)errores.add("CargadoOK objeto: "+objeto + "["+dat.size()+"]");
 	        }
@@ -122,6 +130,7 @@ public class FileUploadServlet extends HttpServlet {
 	    
 	    
 	}
+	
     private void readLinea(File theFile) throws IOException{
     	LineIterator it = FileUtils.lineIterator(theFile, "ISO-8859-1");
     	try {
