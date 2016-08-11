@@ -64,7 +64,7 @@ public class DataService {
 	 	Iterator it = result.entrySet().iterator();
 		 while (it.hasNext()) {
 		        Map.Entry pair = (Map.Entry)it.next();
-		        System.out.println(pair.getKey() + " = " + pair.getValue());
+		       // System.out.println(pair.getKey() + " = " + pair.getValue());
 		        String t=pair.getKey().toString().replaceAll("<","").replaceAll(">","");
 		        for(Tag tag:tags){
 		        	String tagalias=tag.getAlias().replaceAll("\\s","");
@@ -79,8 +79,8 @@ public class DataService {
 		        	}
 		        }
 		    }
-		System.out.println(texto);
-		System.out.println(newdatas);
+		//System.out.println(texto);
+		//System.out.println(newdatas);
 		return texto;
 	}
 	public Data getDataById(Long id,Usuario usuario) throws NoAutorizadoException{

@@ -44,13 +44,13 @@ public class OperationLogDao {
 	
 	public List<Object[]> accesosAgrupadosPorUsuarioDia(){
 		
-		List<Object[]> results = this.em.createNativeQuery("SELECT count(*),b.login, DATE_FORMAT(timestamp, '%e %b %Y') AS date_formatted from operationLog a,usuario b where usuarioId=b.id group by date_formatted,usuarioId").getResultList();
+		List<Object[]> results = this.em.createNativeQuery("SELECT count(*),b.login, DATE_FORMAT(timestamp, '%e %b %Y') AS date_formatted from operationlog a,usuario b where usuarioId=b.id group by date_formatted,usuarioId").getResultList();
         return results;
 		
 	}
 	
      public List<Long> accesosPorUsuarioUltimoMes(Long usuarioId,int days){
-	   List<Date> results = this.em.createNativeQuery("SELECT timestamp  from operationLog a,usuario b where a.usuarioId=b.id and a.usuarioId="+usuarioId+" and timestamp>SUBDATE(NOW(),"+days+")").getResultList();
+	   List<Date> results = this.em.createNativeQuery("SELECT timestamp  from operationlog a,usuario b where a.usuarioId=b.id and a.usuarioId="+usuarioId+" and timestamp>SUBDATE(NOW(),"+days+")").getResultList();
        List<Long> resultado=new ArrayList<Long>();
        for(Date date : results){
     	   resultado.add(date.getTime());

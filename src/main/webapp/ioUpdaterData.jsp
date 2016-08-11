@@ -50,7 +50,7 @@ Data data = (Data)request.getAttribute("data");
 <%    
           List<Data> datas =  (List<Data>)request.getAttribute("datas");
           for(Data data_i:datas){
-        	  out.println("<option value=\""+data_i.getId()+"\">"+data_i+"</option>");
+        	  out.println("<option value=\""+data_i.getId()+"\">"+data_i.prettyPrint()+"</option>");
           }
          
 %> 

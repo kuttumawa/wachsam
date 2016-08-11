@@ -40,8 +40,12 @@ public class AlertService {
 	}
 	public Alert save(Alert alert,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
-		if(alert.getId()!=null) operation=Acciones.UPDATE;
-		if(!securityService.hasAuth(usuario,Alert.class, operation, alert))
+		Alert checkedAlert=alert;
+		if(alert.getId()!=null){
+			operation=Acciones.UPDATE;
+			checkedAlert=dao.getAlert(alert.getId());
+		}
+		if(!securityService.hasAuth(usuario,Alert.class, operation, checkedAlert))
 		 throw new NoAutorizadoException();
 		alert= dao.save(alert);
 		operationLogDao.save(new OperationLog(alert.getClass().getSimpleName(),alert.getId(),operation.name(),usuario.getId(),new Date()));

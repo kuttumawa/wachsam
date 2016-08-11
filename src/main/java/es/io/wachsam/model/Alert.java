@@ -293,7 +293,7 @@ public class Alert {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		return builder.toString().substring(0, Math.min(70, texto.length()));
+		return builder.toString().substring(0, Math.min(70, builder.toString().length()));
 	}
 
 	public Long getId() {

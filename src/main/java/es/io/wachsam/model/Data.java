@@ -238,6 +238,40 @@ public class Data implements ObjetoSistemaIF{
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	public String prettyPrint() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Data [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (tag != null) {
+			builder.append("tag=");
+			builder.append(tag.nombre);
+			builder.append(", ");
+		}
+		if (value != null) {
+			builder.append("value=");
+			builder.append(value.substring(0, Math.min(30, value.length())));
+			builder.append(", ");
+		}						
+		if (objetoId != null) {
+			builder.append("objetoId=");
+			builder.append(objetoId);
+			builder.append(", ");
+		}
+		
+		if (objetoTipo != null) {
+			builder.append("objetoTipo=");
+			builder.append(objetoTipo);
+			builder.append(", ");
+		}
+		
+		builder.append("]");
+		return builder.toString();
+	}
 
 
 

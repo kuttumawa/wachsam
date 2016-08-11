@@ -37,7 +37,7 @@ function drawBarcode(data){
 	    tableBody = table.append('tbody');
 	//Add the table header content.
 	tableHead.append('tr').selectAll('th')
-	    .data(['Usuario', 'Contribuciones último mes'])
+	    .data(['', 'Actividad últimos 30 días'])
 	    .enter()
 	    .append('th')
 	    .text(function(d) { return d; });

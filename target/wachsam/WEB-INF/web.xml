@@ -128,6 +128,31 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.SitioServletJSON</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalRiesgoUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalRiesgoUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalRiesgoUpdaterForYou</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>RiesgoServletJSON</servlet-name>
+  	<display-name>RiesgoServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.RiesgoServletJSON</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>SecurityServletJSON</servlet-name>
+  	<display-name>SecurityServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.SecurityServletJSON</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>ProvisionalTipoSitioUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalTipoSitioUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalTipoSitioUpdaterForYou</servlet-class>
+  </servlet>
+
   
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
@@ -205,6 +230,21 @@
   	<servlet-name>SitioServletJSON</servlet-name>
   	<url-pattern>/SitioServletJSON</url-pattern>
   </servlet-mapping>
-
+  <servlet-mapping>
+  	<servlet-name>ProvisionalRiesgoUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalRiesgoUpdaterForYou</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RiesgoServletJSON</servlet-name>
+  	<url-pattern>/RiesgoServletJSON</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>SecurityServletJSON</servlet-name>
+  	<url-pattern>/SecurityServletJSON</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ProvisionalTipoSitioUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalTipoSitioUpdaterForYou</url-pattern>
+  </servlet-mapping>
 
 </web-app>
