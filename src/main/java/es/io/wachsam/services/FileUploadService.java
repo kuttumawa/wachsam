@@ -13,6 +13,8 @@ import java.util.regex.Pattern;
 
 import javax.persistence.NoResultException;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import es.io.wachsam.dao.FileUploadDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
@@ -33,6 +35,7 @@ import es.io.wachsam.util.Tools;
  *
  *
  */
+
 public class FileUploadService {
 	private SecurityService securityService;
 	private OperationLogDao operationLogDao;

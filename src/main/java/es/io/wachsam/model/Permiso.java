@@ -98,6 +98,17 @@ public class Permiso {
 		
 		return res;
  	}
+	public List<String> listOfStringFromJson(String name){
+		List<String> res=new ArrayList<String>();
+		if(filtro!=null && filtro.length()>0){
+			JSONObject obj = new JSONObject(filtro);
+			JSONArray arr = obj.getJSONArray(name);
+			for (int i = 0; i < arr.length(); i++)
+			    res.add(arr.getString(i));
+		}
+		
+		return res;
+ 	}
 
 	public Boolean getFiltroFlag() {
 		return filtroFlag;

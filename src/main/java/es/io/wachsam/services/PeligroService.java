@@ -41,8 +41,12 @@ public class PeligroService {
 	}
 	public Peligro save(Peligro peligro,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
-		if(peligro.getId()!=null) operation=Acciones.UPDATE;
-		if(!securityService.hasAuth(usuario,Peligro.class, operation, peligro))
+		Peligro peligroOld=peligro;
+		if(peligro.getId()!=null) {
+			operation=Acciones.UPDATE;
+			peligroOld=dao.getPeligro(peligro.getId());
+		}
+		if(!securityService.hasAuth(usuario,Peligro.class, operation, peligroOld))
 		 throw new NoAutorizadoException();
 		peligro= dao.save(peligro);
 		operationLogDao.save(new OperationLog(peligro.getClass().getSimpleName(),peligro.getId(),operation.name(),usuario.getId(),new Date()));

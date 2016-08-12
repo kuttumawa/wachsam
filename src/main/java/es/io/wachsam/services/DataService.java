@@ -94,8 +94,12 @@ public class DataService {
 	}
 	public Long save(Data data,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
-		if(data.getId()!=null) operation=Acciones.UPDATE;
-		if(!securityService.hasAuth(usuario,Data.class, operation, data))
+		Data dataOld=data;
+		if(data.getId()!=null){
+			operation=Acciones.UPDATE;
+			dataOld=dao.getData(data.getId());
+		}
+		if(!securityService.hasAuth(usuario,Data.class, operation, dataOld))
 		 throw new NoAutorizadoException();
 		dao.save(data);
 		operationLogDao.save(new OperationLog(data.getClass().getSimpleName(),data.getId(),operation.name(),usuario.getId(),new Date()));

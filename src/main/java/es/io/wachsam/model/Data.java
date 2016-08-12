@@ -59,15 +59,17 @@ public class Data implements ObjetoSistemaIF{
 	
 	
 	
+	/**
+	 * ie: {"objetoTipo":["Alert","Peligro"]} permite acceso a los datos para alertas y peligros.
+	 */
 	public boolean hasPermisos(Usuario usuario, Acciones accion) {
 		for (Permiso permiso : usuario.getPermisos()) {
 			if (permiso.getObjeto().equalsIgnoreCase(this.getClass().getSimpleName())) {
 				if (permiso.getAccion().equals(Acciones.ALL)|| permiso.getAccion().equals(accion)){
 					if(permiso.getFiltroFlag()==null || !permiso.getFiltroFlag()) return true;
 					else{
-						boolean resultado1 = false,resultado2 = false;
-							
-						return resultado1 && resultado2;
+						List<String> filtroObjetoTipo =permiso.listOfStringFromJson("objetoTipo");
+						if(this.objetoTipo!=null && filtroObjetoTipo.contains(objetoTipo.name())) return true;
 					}
 				}
 			}
