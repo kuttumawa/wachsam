@@ -40,8 +40,12 @@ public class LugarService {
 	}
 	public Lugar save(Lugar lugar,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
-		if(lugar.getId()!=null) operation=Acciones.UPDATE;
-		if(!securityService.hasAuth(usuario,Lugar.class, operation, lugar))
+		Lugar lugarOld=lugar;
+		if(lugar.getId()!=null){
+			operation=Acciones.UPDATE;
+			lugar=dao.getLugar(lugar.getId());
+		}
+		if(!securityService.hasAuth(usuario,Lugar.class, operation, lugarOld))
 		 throw new NoAutorizadoException();
 		lugar= dao.save(lugar);
 		operationLogDao.save(new OperationLog(lugar.getClass().getSimpleName(),lugar.getId(),operation.name(),usuario.getId(),new Date()));

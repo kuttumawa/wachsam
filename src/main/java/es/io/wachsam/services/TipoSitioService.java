@@ -38,8 +38,12 @@ public class TipoSitioService {
 	}
 	public TipoSitio save(TipoSitio tipoSitio,Usuario usuario) throws NoAutorizadoException{
 		Acciones operation=Acciones.CREATE;
-		if(tipoSitio.getId()!=null) operation=Acciones.UPDATE;
-		if(!securityService.hasAuth(usuario,TipoSitio.class, operation, tipoSitio))
+		TipoSitio tipoSitioOld=tipoSitio;
+		if(tipoSitio.getId()!=null){
+			operation=Acciones.UPDATE;
+			tipoSitioOld=dao.getTipoSitio(tipoSitio.getId());
+		}
+		if(!securityService.hasAuth(usuario,TipoSitio.class, operation, tipoSitioOld))
 		 throw new NoAutorizadoException();
 		tipoSitio= dao.save(tipoSitio);
 		operationLogDao.save(new OperationLog(tipoSitio.getClass().getSimpleName(),tipoSitio.getId(),operation.name(),usuario.getId(),new Date()));

@@ -1,31 +1,32 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
-1.1.0 ()
+1.2.0 (futuro)
 ------------------------------------------------------------------------------
 - Búsqueda para todo los objetos.
--* Cacheo local de objetos pesados, preparar browser bd.
+- Descarga formato csv de los resultados de una búsqueda.
 - Eliminación del combo del id de las páginas, sustituirlo por búsqueda.
+- Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: Ejemplo Droga,Vacuna,Medicamento
+- Clonar en todos los objetos.
+- Mejoras en tags: organización,más datos(categoría,único por objeto)
+- Rollback de cargas masivas
+- Nuevo Objeto Artículo: Metadatos(nombre,autor,descripción,permiso..)  + url a a un fichero físico. Implementar con S3 
+- Nuevo objeto Mitigación: (Riesgo,Factor,valor(-3,-2,-1,0,1,2,3)) ie: [[Malaria, Mosquitera,-3].
+
+1.1.0 (12-08-2015)
+------------------------------------------------------------------------------
+- Cacheo local de objetos pesados, preparar browser bd.
 - Generalización de la subida de ficheros.
-- Definición de metadatos para subida de ficheros:
-    {objeto"datumid":"nombreTag","columnas":["nombre","descripcion","lugar"],"data":[]}
-    
-    
--* Nuevo objeto: Riesgo.[peligro,lugar,probabilidad,fuente,descripcion]
-- Nuevo objeto: Agua.
-- Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: 
-- Ejemplo Droga,Vacuna,Medicamento
-- Clonar en todos los objetos
-- Carga calidad Aguas
-- Carga códigos  países ISO 3166
-- Marca para cada objeto de la última modificación.
--* Icono Heimdallar.
--* Visualización bar code (main page)
-- Tipos de sitio en BD.
-- Añadir campos longitud latitud en sitio.
-- Sitio: Añadir longitud y latitud. 
-- Cambio librería JSON org.json por Jackson. 
-- Tag tipo valor.
+- Definición de metadatos para subida de ficheros.
+- Nuevo objeto: Riesgo.[peligro,lugar,probabilidad]
+- Nuevo objeto Tipo sitio.
+- Icono Heimdallar.
+- Visualización Actividad: bar code (main page)
+- Correción bug en permisos de modificación en todos los objetos.
+- Cargas de datos:
+     -códigos países ISO 3166(alpha2.alpha3,num)
+     -Aguas de baño Europa
+
 ------------------------------------------------------------------------------
 
 1.0.4 (30-05-2016)
@@ -75,7 +76,7 @@ TODO
 
 -------------------------------------------------------------------------------
 
-FUTURO
+TODO
 -------------------------------------------------------------------------------
 1-Cargar datos de cámaras hiperbáricas.(fuente http://www.e-med.co.uk/hyperbaric_locator/regions.php)
 2-Cargar datos de rutas aéreas.
@@ -103,13 +104,11 @@ FUTURO
 - Nuevo objeto Artículo.CU: Se crea un artículo,nombre,descripción, subject,url.Se encola para indexarlo en ES.  
 - Nuevo objeto Consulta
 - Nuevo objeto Medicamento
-- Nuevo objeto Riesgo
 - kafka http://kafka.apache.org/
 - API REST
 - Objetos Secundarios,  objetos de importancia secundaria sin geolocalización: Ejemplo Droga,Vacuna,Medicamento
 - AWS lambda use cases.
 - AWS S3 integration
-
 - Nuevo objeto: Teoría.un pregunta que debe ser verificado por una/varias hipótesis..
 - Nuevo objeto: Hipótesis.Es una teóría a probar.campos [nombre,descripción,grado de verificación,lista de evidencias(evidencia,peso)]
 - Nuevo objeto (data): Evidencia. campos[nombre,descripción,fuente]
@@ -137,36 +136,9 @@ FUTURO
                 
 -  Buscador con descarga csv. 
 -  En cargas masivas permitir hacer copia de seguridad del objeto. Definir sistema de versiones.
+-  Cambio librería JSON org.json por Jackson.
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 
 
-ADENDA CARGA MASIVA
-valores: modo [R]  R_eave default overwrite data if exists
-datumId: Utiliza el dato asociado al objeto para localizarlo, si no es único NOP.
-funciones: ISO-3166-1-num_to_lugar() --> Convierte  ISO a Lugar_id
- ----------------------
-CU0- Cargar el dato ISO-3166-1-numeric para lugares
--metadata
-{"objeto":"lugar","id":"0","data":["ISO-3166-1-num"],"modo":"O"}
--fichero
-	1,23
-	3,233
------------------------
-CU1- Cargar en la tabla lugares el dato población y nº de camas de hospital por 1000, insertar y sobreescibir si existe.
-Metadata:
-{"objeto":"lugar","datumId":"ISO-3166-1-num","data":["poblacion","camas-hos-1000"],"modo":"IO"}
-Fichero:
-	248,1000000,50
-	50,9939938,33
-..
------------------------
-CU2-Cargar Campos de refugiados en objeto Sitio geolocalizados con dato ISO-31661
--Fichero:
-pais,ISO-3166-1,nombre,población
-campo1,camp1,6,248,4,100000
--Metadata:
-{"objeto":"sitio","col":["nombre":"0","nombreEn":"1","tipo":"2","lugar":"ISO-3166-1-num_to_lugar(3)","valoracion":"4"],
- "data":["poblacion"],"modo":"I"}
------------------------
 </pre>
