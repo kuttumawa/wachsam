@@ -74,7 +74,7 @@ private CacheManager cacheManager;
 		if (filtro.getLugarObj()!=null && filtro.getLugarObj().getId() != null)
 			sb.append(" and p.lugarId =" + filtro.getLugarObj().getId());
 		if (filtro.getTipo()!=null)
-			sb.append(" and p.tipo =" + filtro.getTipo());
+			sb.append(" and p.tipo_id =" + filtro.getTipo().getId());
 		
 		sb.append(" order by id desc");
 		Query q = em.createNativeQuery(sb.toString(), Sitio.class);

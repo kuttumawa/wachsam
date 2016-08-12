@@ -1,0 +1,10 @@
+
+ROLLBACK MASIVO
+
+delete from data where id in (SELECT objetoid FROM viajarseguro.operationlog WHERE
+    stamp = 'd3f6addd-16ec-4117-b767-e7298565d45d' AND objeto = 'Data');
+    
+delete from sitio where id in (SELECT objetoid FROM viajarseguro.operationlog WHERE
+    stamp = 'd3f6addd-16ec-4117-b767-e7298565d45d' AND objeto = 'Sitio');
+    
+delete  FROM viajarseguro.operationlog WHERE stamp = 'd3f6addd-16ec-4117-b767-e7298565d45d'

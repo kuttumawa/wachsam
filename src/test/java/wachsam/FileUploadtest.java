@@ -46,9 +46,20 @@ public class FileUploadtest extends TestCase {
 	}
 
 	
-	
-			
-			                 
+	@Test
+	public void testCheckMetadata(){
+		String objeto="Sitio";
+		String[] csv={
+				"Lugar->A:nombreEn(VOID),nombre,D:num_camas_por1000,direccion,A:textoEn(NUMB),"
+				+ "valoracion,tipo,F:ISO_3166_1_alpha2_to_lugar(lugarObj),D:director",
+				"Hos1,456,calle hos1,123,9,BR,Vodox",
+				"Hos2,33,calle hos2,1234,97,TD,Daniel Bloom"
+		};
+		List<String> errores=new ArrayList<String>();
+		fileUploadService.procesarMetadata(Arrays.asList(csv),objeto,errores);
+		assertEquals(1,errores.size());
+	}		
+		 	                 
 	
 
 	@Test

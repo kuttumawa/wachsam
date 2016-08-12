@@ -21,7 +21,7 @@ logs=opedao.getAll();
 <h3>Logs</h3>     
 
 <table class="table table-striped small">
-<tr><th>id</th><th>Objeto</th><th>Objeto Id</th><th>Operación</th><th>Usuario</th><th>TimeStamp</th></tr>
+<tr><th>id</th><th>Objeto</th><th>Objeto Id</th><th>Operación</th><th>Usuario</th><th>TimeStamp</th><th>Stamp</th></tr>
 
 <%for(OperationLog log:logs){%>
 
@@ -33,6 +33,7 @@ logs=opedao.getAll();
 <td><%=log.getOperation() %></td>
 <td><%=log.getUsuarioId() %></td>
 <td><%=log.getTimestamp() %></td>
+<td><%=log.getStamp()!=null?log.getStamp():"" %></td>
 </tr>
 <%} %>
 </table>

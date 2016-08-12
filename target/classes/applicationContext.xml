@@ -121,7 +121,11 @@
 		<property name="password" value="buendiabuendia" />
 		<!-- <property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
+<<<<<<< HEAD
 		<property name="password" value="buendia" /> -->
+=======
+		<property name="password" value="" />
+>>>>>>> e18b8dbdff936de485eff3ebba64f071564a4f4b
 	</bean>
  
     <bean id="entityManagerFactory"

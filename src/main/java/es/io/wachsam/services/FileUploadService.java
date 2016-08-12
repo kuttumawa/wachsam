@@ -302,6 +302,7 @@ public class FileUploadService {
 				}
 			}else{
 				fileUploadDao.insert(o);
+				operationLog.setObjetoId(((ObjetoSistemaIF)(o)).getId());
 				operationLogDao.save(operationLog);
 			}						
 			
@@ -309,5 +310,23 @@ public class FileUploadService {
 			List<Data> datumList=dat.get(o);
 			dataService.saveData(datumList, o, usuario, stamp);
 		}   
+	}
+	
+	public void procesarMetadata(List<String> csv, String objeto, List<String> errores){
+		if(csv.size()<1) errores.add("Empty file");
+		String metadata=csv.get(0);
+		String pattern = "^(.*)->";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(metadata);
+	    if (m.find( )) {
+	    	if(m.group(1).equalsIgnoreCase(objeto)){
+	    	        csv.set(0,m.replaceAll(""));
+	    	     
+	    	}else{
+	    		errores.add("El objeto seleccionado:"+objeto+" no corresponde con el metadata");
+	    	}
+	    } else {
+	    	 errores.add("En metadata no se incluye el objeto , ejemplo: "+ objeto +"->aaa,bbb,bbb... "); 
+	    }
 	}
 }

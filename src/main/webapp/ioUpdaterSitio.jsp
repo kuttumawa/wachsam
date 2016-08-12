@@ -50,6 +50,7 @@ function deleteOper(){
     <div class="col-sm-6">
      <%
 Sitio sitio = (Sitio)request.getAttribute("sitio");
+Long tipoSitioFiltro=(Long)request.getAttribute("tipoSitioFiltro");
 List<Data> datas=(List<Data>)request.getAttribute("datas");
 String iconoClass="";
 if(datas!=null){
@@ -70,7 +71,7 @@ for(Data data:datas){
 <form id="form1" action="ProvisionalSitioUpdaterForYou" method="get" class="form-inline" role="form">
 <div class="form-group">
 <label for="">Sitio</label>
-<select class="form-control" name="sitioId" onchange="document.getElementById('form1').submit();">
+<select class="form-control input-sm" name="sitioId" onchange="document.getElementById('form1').submit();">
 <option value=""></option>
 <%    
           List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
@@ -79,6 +80,24 @@ for(Data data:datas){
           }
          
 %>  
+</select>
+</div>
+<div class="form-group">
+<label for="">Tipo</label>
+<select class="form-control input-sm" name="tipoSitioFiltro"  onchange="document.getElementById('form1').submit();">
+
+<%    
+			List<TipoSitio> tipoSitios =  (List<TipoSitio>)request.getAttribute("tipoSitios");
+			for(TipoSitio tipoSitio:tipoSitios){
+				  
+				  if(tipoSitioFiltro.equals(tipoSitio.getId())){
+					  out.println("<option value=\""+tipoSitio.getId()+"\" selected >"+tipoSitio.getNombre()+"</option>"); 
+				  }else{
+				      out.println("<option value=\""+tipoSitio.getId()+"\">"+tipoSitio.getNombre()+"</option>");
+				  }        	         	
+			}
+        
+%> 
 </select>
 </div>
 </form>
@@ -128,7 +147,6 @@ for(Data data:datas){
 <select class="form-control" name="tipoSitio" id="lugar">
 <option value=""></option>
 <%    
-			List<TipoSitio> tipoSitios =  (List<TipoSitio>)request.getAttribute("tipoSitios");
 			for(TipoSitio tipoSitio:tipoSitios){
 				  
 				  if(sitio.getTipo()!=null && sitio.getTipo().getId().equals(tipoSitio.getId())){
