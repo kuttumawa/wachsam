@@ -72,6 +72,8 @@ public class BuscarAlertServlet extends HttpServlet {
 			   dispatcher.forward(request,response);
 			   return;
 		}
+		int offset=0;
+		int maxNumberResults=1;
 		
 		String nombre=request.getParameter("nombre")!=null && request.getParameter("nombre").length()>1 ?request.getParameter("nombre"):null;
 		String texto=request.getParameter("texto")!=null && request.getParameter("texto").length()>1 ?request.getParameter("texto").trim():null;
@@ -91,7 +93,7 @@ public class BuscarAlertServlet extends HttpServlet {
 		      }
 		String order=null;
 		AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
-		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order);
+		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,offset,maxNumberResults);
 		Iterator<Alert> alertsIT=alerts.iterator();
 	      while (alertsIT.hasNext()) {
 	    	   Alert a = alertsIT.next(); 

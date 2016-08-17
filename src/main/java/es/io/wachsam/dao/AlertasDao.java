@@ -304,7 +304,7 @@ public class AlertasDao {
 	}
 	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
-			String tipo,String order) {
+			String tipo,String order,int offset,int maxNumberResults) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
 		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
 		tipo=removeAcentos(tipo);
@@ -378,6 +378,8 @@ public class AlertasDao {
 		    sb.append(" ORDER BY fechaPub DESC,id DESC");
 		}
 		Query q = em.createQuery(sb.toString(), Alert.class);
+		q.setFirstResult(offset);
+		q.setMaxResults(maxNumberResults);
 		index=0;
 		for(String texto_i:textoArray){
 			if (texto_i != null && texto_i.length() > 0) {
