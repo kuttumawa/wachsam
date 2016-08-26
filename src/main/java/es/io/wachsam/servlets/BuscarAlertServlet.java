@@ -58,6 +58,8 @@ public class BuscarAlertServlet extends HttpServlet {
 		
 		String nextJSP = "/buscarAlert.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+		
+		request.setAttribute("page",0);
 		dispatcher.forward(request,response);
 	}
 
@@ -72,8 +74,8 @@ public class BuscarAlertServlet extends HttpServlet {
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		int offset=0;
-		int maxNumberResults=1;
+		int pageSize = 1;
+		int totalResults=0;
 		
 		String nombre=request.getParameter("nombre")!=null && request.getParameter("nombre").length()>1 ?request.getParameter("nombre"):null;
 		String texto=request.getParameter("texto")!=null && request.getParameter("texto").length()>1 ?request.getParameter("texto").trim():null;
@@ -82,6 +84,12 @@ public class BuscarAlertServlet extends HttpServlet {
 		String fechaPubDesde=request.getParameter("fechaPubDesde")!=null && request.getParameter("fechaPubDesde").length()>1 ?request.getParameter("fechaPubDesde"):null;
 		Long peligro=request.getParameter("peligro")!=null && request.getParameter("peligro").length()>1 ?Long.parseLong(request.getParameter("peligro")):null;
 		String caducidad=request.getParameter("caducidad")!=null && request.getParameter("caducidad").length()>1 ?request.getParameter("caducidad"):null;
+		Boolean showCaducadas=null;
+		if(caducidad!=null){
+  		   if(caducidad.equalsIgnoreCase("nocaducadas"))showCaducadas=false;
+  		   else showCaducadas=true;
+  	    }
+		Integer page=request.getParameter("page")!=null?Integer.parseInt(request.getParameter("page")):0;
 		
 		Date fechaDesde=null;
 		 if(fechaPubDesde!=null && fechaPubDesde.length()>0){
@@ -93,17 +101,8 @@ public class BuscarAlertServlet extends HttpServlet {
 		      }
 		String order=null;
 		AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
-		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,offset,maxNumberResults);
-		Iterator<Alert> alertsIT=alerts.iterator();
-	      while (alertsIT.hasNext()) {
-	    	   Alert a = alertsIT.next(); 
-	    	   if(caducidad!=null){
-	    		   if(caducidad.equalsIgnoreCase("nocaducadas") && a.isCaducado())alertsIT.remove();
-	    		   else if(caducidad.equalsIgnoreCase("caducadas") && !a.isCaducado()) alertsIT.remove();
-	    	   }
-		       
-	    	}
 		
+		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas,page,pageSize);
 		request.setAttribute("alertas",alerts);
 		
 		
@@ -114,6 +113,14 @@ public class BuscarAlertServlet extends HttpServlet {
 		LugarDao lugarDao = (LugarDao) context.getBean("lugarDao");
 		List<Lugar> lugares =lugarDao.getAll();
 		request.setAttribute("lugares",lugares);
+		
+		totalResults=alertDao.getNumeroAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas);
+		int numpages=(int) Math.ceil(totalResults/pageSize);
+		request.setAttribute("page",0);
+		request.setAttribute("totalResults",totalResults);
+		request.setAttribute("numpages",numpages);
+		
+		request.setAttribute("texto",texto);
 		
 		String nextJSP = "/buscarAlert.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);

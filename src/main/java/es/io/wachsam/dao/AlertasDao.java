@@ -304,7 +304,7 @@ public class AlertasDao {
 	}
 	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
-			String tipo,String order,int offset,int maxNumberResults) {
+			String tipo,String order,Boolean caducidad,int offset,int maxNumberResults) {
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
 		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
 		tipo=removeAcentos(tipo);
@@ -356,6 +356,12 @@ public class AlertasDao {
 		}
 		if (tipo != null && tipo.length() > 3) {
 			sb.append(" and tipo like :tipo");
+		}
+		if (caducidad != null && caducidad.equals(true)) {
+			sb.append(" and caducidad = 1");
+		}
+		if (caducidad != null && caducidad.equals(false)) {
+			sb.append(" and caducidad = 0");
 		}
 		if(order != null && order.length() > 0){
 			String[] orden=order.split("\\s");
@@ -427,6 +433,116 @@ public class AlertasDao {
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
-
+	public int getNumeroAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
+			String tipo,String order,Boolean caducidad) {
+		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
+		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
+		tipo=removeAcentos(tipo);
+		boolean flag=false;
+		int index=0;
+		
+		
+		for(String texto_i:textoArray){
+			if (texto_i != null && texto_i.length() > 0) {
+				
+				if(!flag){
+					 sb.append(" and (");
+					 flag=true;
+				}
+				else sb.append(" or ");
+				if(!texto_i.contains("{-TEXTO}")){
+				  sb.append("(texto like :texto"+index);
+				  sb.append(" or text  like :text"+index);
+				  sb.append(" or nombre  like :nombre"+index+")");
+				}else{
+				  sb.append("(nombre)  like :nombre"+index+")");
+				}
+			}
+			index++;
+		}
+		index=0;
+		if(flag) {
+			sb.append(")");
+			flag=!flag;
+		}
+			
+		
+		if (pais != null) {
+				sb.append(" and lugarObj.id = :lugar ");
+		}
+		if (peligro != null) {
+			sb.append(" and peligro.id = :peligro ");
+	}
+			
+		
+		index=0;
+		if(flag) {
+			sb.append(")");
+			flag=!flag;
+		}
+		
+		if (fecha != null) {
+			sb.append(" and fechaPub > :fecha");
+		}
+		if (tipo != null && tipo.length() > 3) {
+			sb.append(" and tipo like :tipo");
+		}
+		if (caducidad != null && caducidad.equals(true)) {
+			sb.append(" and caducidad = 1");
+		}
+		if (caducidad != null && caducidad.equals(false)) {
+			sb.append(" and caducidad = 0");
+		}
+		if(order != null && order.length() > 0){
+			String[] orden=order.split("\\s");
+			String[] p={"nombre","fecha","tipo"};
+			List<String> permitidos=Arrays.asList(p);
+			boolean flagPrimero=true;
+			for(String s:orden){
+				if(!permitidos.contains(s)) continue;
+				if(s.equalsIgnoreCase("fecha")) s="fechaPub";
+				if(flagPrimero){
+				   sb.append(" ORDER BY ").append(s);
+				   flagPrimero=false;
+				}else{
+					sb.append(",").append(s);
+				}
+			}
+			if(!flagPrimero)sb.append(" DESC,id DESC");
+			else sb.append(" ORDER BY fechaPub DESC,id DESC");
+		}else{
+		    sb.append(" ORDER BY fechaPub DESC,id DESC");
+		}
+		Query q = em.createQuery(sb.toString(), Alert.class);
+		index=0;
+		for(String texto_i:textoArray){
+			if (texto_i != null && texto_i.length() > 0) {
+				if(!texto_i.contains("{-TEXTO}")){
+					q.setParameter("texto"+index, "%" + texto_i+ "%");
+					q.setParameter("text"+index, "%" + texto_i + "%");
+					q.setParameter("nombre"+index, "%" + texto_i + "%");
+				}else{
+					q.setParameter("nombre"+index, texto_i.replaceAll("\\{\\-TEXTO\\}",""));
+				}
+			}
+			index++;
+		}
+		index=0;
+		
+		if (pais != null) {
+				q.setParameter("lugar",pais);
+			}
+		if (peligro != null) {
+			q.setParameter("peligro",peligro);
+		}
+		
+		if (fecha != null) {
+			q.setParameter("fecha", fecha);
+		}
+		if (tipo != null && tipo.length() > 0) {
+			q.setParameter("tipo", "%" + tipo + "%");
+		}
+		return q.getResultList().size();
+	}
 	
 }

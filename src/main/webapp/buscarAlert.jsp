@@ -51,7 +51,7 @@ function clearFields(){
 
 <div  class="form-group">
 <label for="">Texto</label><br>
-<textarea class="form-control input-sm" name="texto" id="texto" cols="100" rows="1"></textarea>
+<textarea class="form-control input-sm" name="texto" id="texto" cols="100" rows="1"><%=request.getAttribute("texto") %></textarea>
 </div>
 
 <div  class="form-group">
@@ -161,13 +161,20 @@ if(request.getAttribute("alertas")!=null){ %>
 </tr>
 <%} %>
 </table>
-<h4>Resultados:&nbsp; <%=alerts.size() %></h4>
+<%
+int numpages = (Integer)request.getAttribute("numpages");
+int currentpage = (Integer)request.getAttribute("page");
+int totalResults = (Integer)request.getAttribute("totalResults");
+%>
+<h4>Resultados:&nbsp;<%=alerts.size()%>&nbsp;de&nbsp;<%=totalResults %></h4>
 <ul class="pagination pagination-sm">
-  <li><a href="#">1</a></li>
-  <li class="active"><a href="#">2</a></li>
-  <li><a href="#">3</a></li>
-  <li><a href="#">4</a></li>
-  <li><a href="#">5</a></li>
+
+<%
+  for(int i=0;i<numpages;i++){
+%>
+  <li><a href="#" class="<%=i==currentpage?"active":""%>"><%= i %></a></li>
+<%} %>  
+ 
 </ul>
 
 <%}else{%>
