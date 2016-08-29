@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -19,16 +20,17 @@ import es.io.wachsam.model.DB;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 
+
 @Transactional
 public class AlertasDao {
 	final String ALERT_CACHE="ioCacheAlertas";
 	private CacheManager cacheManager;
-
+	private static final Logger LOG = Logger.getLogger(AlertasDao.class);
 	@PersistenceContext
 	private EntityManager em;
 	@CacheEvict(ALERT_CACHE)
 	public Alert save(Alert alert) {
-		
+		LOG.debug("Entrando save: " + alert);
 		if(alert.getPeligro()!=null && alert.getPeligro().getId()!=null){
 			alert.setPeligro(em.find(Peligro.class,alert.getPeligro().getId()));
 		}
@@ -41,6 +43,7 @@ public class AlertasDao {
 		if(alert.getId() == null) em.persist(alert);
 		else em.merge(alert);
 		evictCache();
+		LOG.debug("Saliendo save id: " + alert.getId());
 		return alert;
 	}
 	
@@ -77,6 +80,7 @@ public class AlertasDao {
 	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertas(String texto, String pais, Date fecha,
 			String tipo,String order) {
+		LOG.debug("Entrando getAlertas: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order);
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
 		String[] paisArray=pais!=null?removeAcentos(pais.trim()).split("\\|"):new String[]{};
 		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
@@ -179,7 +183,9 @@ public class AlertasDao {
 		if (tipo != null && tipo.length() > 0) {
 			q.setParameter("tipo", "%" + tipo + "%");
 		}
-		return q.getResultList();
+		List<Alert> res=q.getResultList();
+		LOG.debug("Saliendo getAlertas encontrados: " + res.size());
+		return res;
 	}
 	
 	public static String removeAcentos(String input) {
@@ -197,6 +203,7 @@ public class AlertasDao {
 	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertasMysql(String texto, String pais, Date fecha,
 			String tipo,String order) {
+		LOG.debug("Entrando getAlertasMysql: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order);		
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
 		String[] paisArray=pais!=null?removeAcentos(pais.trim()).split("\\|"):new String[]{};
 		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
@@ -300,11 +307,14 @@ public class AlertasDao {
 		if (tipo != null && tipo.length() > 0) {
 			q.setParameter("tipo", "%" + tipo + "%");
 		}
-		return q.getResultList();
+		List<Alert> res=q.getResultList();
+		LOG.debug("Saliendo getAlertasMysql encontrados: " + res.size());
+		return res;
 	}
 	@Cacheable(ALERT_CACHE)
 	public List<Alert> getAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order,Boolean caducidad,int offset,int maxNumberResults) {
+		LOG.debug("Entrando getAlertasMysql: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order+",caducidad="+caducidad+",offset="+offset+",maxNumberResults="+maxNumberResults);				
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
 		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
 		tipo=removeAcentos(tipo);
@@ -414,7 +424,9 @@ public class AlertasDao {
 		if (tipo != null && tipo.length() > 0) {
 			q.setParameter("tipo", "%" + tipo + "%");
 		}
-		return q.getResultList();
+		List<Alert> res=q.getResultList();
+		LOG.debug("Saliendo getAlertasMysql encontrados: " + res.size());
+		return res;
 	}
 	@CacheEvict(ALERT_CACHE)
 	public void deleteById(Long id) throws Exception {
@@ -435,6 +447,7 @@ public class AlertasDao {
 	}
 	public int getNumeroAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order,Boolean caducidad) {
+		LOG.debug("Entrando getNumeroAlertasMysql: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order+",caducidad="+caducidad);						
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
 		String[] textoArray=texto!=null?removeAcentos(texto.trim()).split("\\|"):new String[]{};
 		tipo=removeAcentos(tipo);
@@ -542,7 +555,10 @@ public class AlertasDao {
 		if (tipo != null && tipo.length() > 0) {
 			q.setParameter("tipo", "%" + tipo + "%");
 		}
-		return q.getResultList().size();
+		List<Alert> res=q.getResultList();
+		LOG.debug("Saliendo getAlertasMysql encontrados: " + res.size());
+		return res.size();
+		
 	}
 	
 }

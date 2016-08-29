@@ -89,8 +89,12 @@ public class BuscarAlertServlet extends HttpServlet {
   		   if(caducidad.equalsIgnoreCase("nocaducadas"))showCaducadas=false;
   		   else showCaducadas=true;
   	    }
-		Integer page=request.getParameter("page")!=null?Integer.parseInt(request.getParameter("page")):0;
-		
+		Integer page=0;
+		try{
+			page=request.getParameter("page")!=null?Integer.parseInt(request.getParameter("page")):0;
+		}catch(Exception e){
+			
+		}
 		Date fechaDesde=null;
 		 if(fechaPubDesde!=null && fechaPubDesde.length()>0){
 		      try{
@@ -116,7 +120,7 @@ public class BuscarAlertServlet extends HttpServlet {
 		
 		totalResults=alertDao.getNumeroAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas);
 		int numpages=(int) Math.ceil(totalResults/pageSize);
-		request.setAttribute("page",0);
+		request.setAttribute("page",page);
 		request.setAttribute("totalResults",totalResults);
 		request.setAttribute("numpages",numpages);
 		

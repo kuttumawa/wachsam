@@ -1,7 +1,9 @@
 package es.io.wachsam.services;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.OperationLogDao;
@@ -63,6 +65,39 @@ public class AlertService {
 	
 	public List<Alert> getAll(){
 		return dao.getAll();
+	}
+	public List<Alert> getAlertasMysql(Map<String,String> filter, int page,int pageSize) {
+		String texto=filter.containsKey("texto")?filter.get("texto"):null;
+		String tipo=filter.containsKey("tipo")?filter.get("tipo"):null;
+		String order=filter.containsKey("order")?filter.get("order"):null;
+		Long lugarId=null;
+		Long peligroId=null;
+		try{
+			lugarId=filter.containsKey("lugarId")?Long.parseLong(filter.get("lugarId")):null;
+			peligroId=filter.containsKey("peligroId")?Long.parseLong(filter.get("peligroId")):null;
+		}catch(Exception e){
+			
+		}
+		Date fechaDesde=null;
+		if(filter.containsKey("fechaDesde")){
+			try{
+			    fechaDesde=new SimpleDateFormat("yyyy-MM-dd").parse(filter.get("fechaDesde"));
+			}catch(Exception e){
+					   //void
+		    }
+	    }
+		Boolean caducadas=null;
+		if(filter.containsKey("caducadas")){
+			try{
+			    caducadas=Boolean.parseBoolean(filter.get("caducadas"));
+			}catch(Exception e){
+					   //void
+		    }
+	    }
+				
+		List<Alert> alerts=dao.getAlertasMysql(texto,lugarId,peligroId,fechaDesde, tipo, order,caducadas,page,pageSize);
+		
+		return alerts;
 	}
 	
 	

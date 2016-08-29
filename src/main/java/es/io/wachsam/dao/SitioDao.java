@@ -82,6 +82,26 @@ private CacheManager cacheManager;
         
 		return resultado;
 	}
+	@Cacheable(SITIO_CACHE)
+	public List<Sitio> getAll(Sitio filtro,String order,int page,int pageSize) {
+		StringBuffer sb = new StringBuffer();
+		sb.append("SELECT p.* FROM Sitio p where 1=1");
+		if (filtro.getLugarObj()!=null && filtro.getLugarObj().getId() != null)
+			sb.append(" and p.lugarId =" + filtro.getLugarObj().getId());
+		if (filtro.getTipo()!=null)
+			sb.append(" and p.tipo_id =" + filtro.getTipo().getId());
+		if(order!=null){
+			sb.append(" order by " + order);
+		}else{
+		    sb.append(" order by id desc");
+		}		
+		Query q = em.createNativeQuery(sb.toString(), Sitio.class);
+		q.setFirstResult(page);
+		q.setMaxResults(pageSize);
+		List<Sitio> resultado= q.getResultList();
+        
+		return resultado;
+	}
 	public void evictCache(){
 		cacheManager.getCache(SITIO_CACHE).clear();
 	}
@@ -93,4 +113,6 @@ private CacheManager cacheManager;
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
+
+	
 }

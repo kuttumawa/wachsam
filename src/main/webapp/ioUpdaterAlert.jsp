@@ -72,21 +72,7 @@ Alert alert = (Alert)request.getAttribute("alert");
 
 
 
-<form id="form1" action="ProvisionalAlertUpdaterForYou" method="get" role="form">
-<div>
-<label for="">Alerta</label>
-<select class="form-control" name="alert" onchange="document.getElementById('form1').submit();">
-<option value=""></option>
-<%    
-          List<Alert> alertas =  (List<Alert>)request.getAttribute("alertas");
-          for(Alert alert_i:alertas){
-        	  out.println("<option value=\""+alert_i.getId()+"\">"+alert_i.prettyPrint()+"</option>");
-          }
-         
-%> 
-</select>
-</div>
-</form>
+
 
 
 <form id="form2" action="ProvisionalAlertUpdaterForYou" method="post" role="form">

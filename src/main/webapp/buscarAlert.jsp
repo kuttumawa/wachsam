@@ -4,6 +4,7 @@
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
 <html> 
+<jsp:include page="cabecera.jsp"/>
 <style>
 
 .caducado{
@@ -29,10 +30,14 @@ function clearFields(){
 	document.getElementById("caducidad").value="";
 }
 
+function submitForm(page){
+	document.getElementById("page").value=page;
+	document.forms["form2"].submit();
+}
 </script>
  
 <body>
-<jsp:include page="cabecera.jsp"/>
+
 <div class="container">
 
 <%if(request.getAttribute("resultado")!=null){ %>
@@ -47,11 +52,11 @@ function clearFields(){
 
 
 <form id="form2" action="BuscarAlert" method="post"  role="form">
-
+<input id="page" name="page" type="hidden"/>
 
 <div  class="form-group">
 <label for="">Texto</label><br>
-<textarea class="form-control input-sm" name="texto" id="texto" cols="100" rows="1"><%=request.getAttribute("texto") %></textarea>
+<textarea class="form-control input-sm" name="texto" id="texto" cols="100" rows="1"><%=request.getAttribute("texto")!=null?request.getAttribute("texto"):""%></textarea>
 </div>
 
 <div  class="form-group">
@@ -172,7 +177,7 @@ int totalResults = (Integer)request.getAttribute("totalResults");
 <%
   for(int i=0;i<numpages;i++){
 %>
-  <li><a href="#" class="<%=i==currentpage?"active":""%>"><%= i %></a></li>
+  <li><a href="javascript:submitForm(<%=i %>)" class="<%=i==currentpage?"active":""%>"><%= i %></a></li>
 <%} %>  
  
 </ul>
