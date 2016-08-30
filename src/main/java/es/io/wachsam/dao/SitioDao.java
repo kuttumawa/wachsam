@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.validator.GenericValidator;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -90,7 +91,7 @@ private CacheManager cacheManager;
 			sb.append(" and p.lugarId =" + filtro.getLugarObj().getId());
 		if (filtro.getTipo()!=null)
 			sb.append(" and p.tipo_id =" + filtro.getTipo().getId());
-		if(order!=null){
+		if(!GenericValidator.isBlankOrNull(order)){
 			sb.append(" order by " + order);
 		}else{
 		    sb.append(" order by id desc");

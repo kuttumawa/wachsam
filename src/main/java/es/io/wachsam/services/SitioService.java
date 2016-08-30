@@ -17,10 +17,7 @@ import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
 
-/**
- * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
- *
- */
+
 public class SitioService {
 	private SitioDao dao;
 	private SecurityService securityService;
@@ -77,6 +74,9 @@ public class SitioService {
 			int pageSize) {
 		Sitio sitio=new Sitio();
 		String order=filter.containsKey("order")?filter.get("order"):null;
+		if(filter.containsKey("id") && GenericValidator.isLong(filter.get("id"))){
+			sitio.setId(Long.parseLong(filter.get("id")));
+		}
 		if(filter.containsKey("lugarId") && GenericValidator.isLong(filter.get("lugarId"))){
 			try{
 				Lugar lugar=new Lugar();

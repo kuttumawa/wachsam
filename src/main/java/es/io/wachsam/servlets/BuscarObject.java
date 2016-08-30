@@ -41,7 +41,7 @@ public class BuscarObject extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getSession().getAttribute("user")==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
@@ -53,26 +53,26 @@ public class BuscarObject extends HttpServlet {
 	    final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		String page=request.getParameter("page");
 		String object=request.getParameter("object");
 		String filter=request.getParameter("filter");
-		String order=request.getParameter("filter");
 		
-		int pageSize=50;
-		int pageNum=Integer.parseInt(page);
+		
+		
 		Type type = new TypeToken<Map<String, String>>(){}.getType();
 		Map<String, String> filterMap = gson.fromJson(filter,type);
-		
+		int pageSize=50;
+		int pageNum=Integer.parseInt(filterMap.get("page"));
 		if(object.equalsIgnoreCase(ObjetoSistema.Alert.name())){
 			AlertService alertService=(AlertService) context.getBean("alertService");	
-			List<Alert> alerts=alertService.getAlertasMysql(filterMap,pageNum,pageSize);			
+			List<Alert> alerts=alertService.getAlertasMysql(filterMap,pageNum,pageSize);
+			out.println(prettyGson.toJson(alerts));
 		}else if(object.equalsIgnoreCase(ObjetoSistema.Sitio.name())){
 			SitioService sitioService=(SitioService) context.getBean("sitioService");	
 			List<Sitio> sitios=sitioService.getSitios(filterMap,pageNum,pageSize);
+			out.println(prettyGson.toJson(sitios));
 		}
 			
 		
-		//out.println(prettyGson.toJson(nodes));
 	}
 
 }

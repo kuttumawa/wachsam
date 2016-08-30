@@ -72,9 +72,11 @@ public class AlertService {
 		String order=filter.containsKey("order")?filter.get("order"):null;
 		Long lugarId=null;
 		Long peligroId=null;
+		Long id=null;
 		try{
 			lugarId=filter.containsKey("lugarId")?Long.parseLong(filter.get("lugarId")):null;
 			peligroId=filter.containsKey("peligroId")?Long.parseLong(filter.get("peligroId")):null;
+			id=filter.containsKey("id")?Long.parseLong(filter.get("id")):null;
 		}catch(Exception e){
 			
 		}
@@ -95,7 +97,7 @@ public class AlertService {
 		    }
 	    }
 				
-		List<Alert> alerts=dao.getAlertasMysql(texto,lugarId,peligroId,fechaDesde, tipo, order,caducadas,page,pageSize);
+		List<Alert> alerts=dao.getAlertasMysql(id,texto,lugarId,peligroId,fechaDesde, tipo, order,caducadas,page,pageSize);
 		
 		return alerts;
 	}

@@ -312,7 +312,7 @@ public class AlertasDao {
 		return res;
 	}
 	@Cacheable(ALERT_CACHE)
-	public List<Alert> getAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
+	public List<Alert> getAlertasMysql(Long id,String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order,Boolean caducidad,int offset,int maxNumberResults) {
 		LOG.debug("Entrando getAlertasMysql: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order+",caducidad="+caducidad+",offset="+offset+",maxNumberResults="+maxNumberResults);				
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -321,58 +321,62 @@ public class AlertasDao {
 		boolean flag=false;
 		int index=0;
 		
-		
-		for(String texto_i:textoArray){
-			if (texto_i != null && texto_i.length() > 0) {
-				
-				if(!flag){
-					 sb.append(" and (");
-					 flag=true;
+		if(id!=null){
+			sb.append(" and id = :id ");
+		}else{
+			for(String texto_i:textoArray){
+				if (texto_i != null && texto_i.length() > 0) {
+					
+					if(!flag){
+						 sb.append(" and (");
+						 flag=true;
+					}
+					else sb.append(" or ");
+					if(!texto_i.contains("{-TEXTO}")){
+					  sb.append("(texto like :texto"+index);
+					  sb.append(" or text  like :text"+index);
+					  sb.append(" or nombre  like :nombre"+index+")");
+					}else{
+					  sb.append("(nombre)  like :nombre"+index+")");
+					}
 				}
-				else sb.append(" or ");
-				if(!texto_i.contains("{-TEXTO}")){
-				  sb.append("(texto like :texto"+index);
-				  sb.append(" or text  like :text"+index);
-				  sb.append(" or nombre  like :nombre"+index+")");
-				}else{
-				  sb.append("(nombre)  like :nombre"+index+")");
-				}
+				index++;
 			}
-			index++;
-		}
-		index=0;
-		if(flag) {
-			sb.append(")");
-			flag=!flag;
-		}
+			index=0;
+			if(flag) {
+				sb.append(")");
+				flag=!flag;
+			}
+				
 			
-		
-		if (pais != null) {
-				sb.append(" and lugarObj.id = :lugar ");
-		}
-		if (peligro != null) {
-			sb.append(" and peligro.id = :peligro ");
-	}
+			if (pais != null) {
+					sb.append(" and lugarObj.id = :lugar ");
+			}
+			if (peligro != null) {
+				sb.append(" and peligro.id = :peligro ");
+		    }
+				
 			
-		
-		index=0;
-		if(flag) {
-			sb.append(")");
-			flag=!flag;
+			index=0;
+			if(flag) {
+				sb.append(")");
+				flag=!flag;
+			}
+			
+			if (fecha != null) {
+				sb.append(" and fechaPub > :fecha");
+			}
+			if (tipo != null && tipo.length() > 3) {
+				sb.append(" and tipo like :tipo");
+			}
+			if (caducidad != null && caducidad.equals(true)) {
+				sb.append(" and caducidad = 1");
+			}
+			if (caducidad != null && caducidad.equals(false)) {
+				sb.append(" and caducidad = 0");
+			}
 		}
 		
-		if (fecha != null) {
-			sb.append(" and fechaPub > :fecha");
-		}
-		if (tipo != null && tipo.length() > 3) {
-			sb.append(" and tipo like :tipo");
-		}
-		if (caducidad != null && caducidad.equals(true)) {
-			sb.append(" and caducidad = 1");
-		}
-		if (caducidad != null && caducidad.equals(false)) {
-			sb.append(" and caducidad = 0");
-		}
 		if(order != null && order.length() > 0){
 			String[] orden=order.split("\\s");
 			String[] p={"nombre","fecha","tipo"};
@@ -393,6 +397,7 @@ public class AlertasDao {
 		}else{
 		    sb.append(" ORDER BY fechaPub DESC,id DESC");
 		}
+		
 		Query q = em.createQuery(sb.toString(), Alert.class);
 		q.setFirstResult(offset);
 		q.setMaxResults(maxNumberResults);
@@ -410,7 +415,9 @@ public class AlertasDao {
 			index++;
 		}
 		index=0;
-		
+		if (id != null) {
+			q.setParameter("id",id);
+		}
 		if (pais != null) {
 				q.setParameter("lugar",pais);
 			}
@@ -445,7 +452,7 @@ public class AlertasDao {
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
-	public int getNumeroAlertasMysql(String texto, Long pais,Long peligro, Date fecha,
+	public int getNumeroAlertasMysql(Long id,String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order,Boolean caducidad) {
 		LOG.debug("Entrando getNumeroAlertasMysql: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order+",caducidad="+caducidad);						
 		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
@@ -453,58 +460,62 @@ public class AlertasDao {
 		tipo=removeAcentos(tipo);
 		boolean flag=false;
 		int index=0;
+
+		if(id!=null){
+			sb.append(" and id = :id ");
+		}else{
 		
-		
-		for(String texto_i:textoArray){
-			if (texto_i != null && texto_i.length() > 0) {
-				
-				if(!flag){
-					 sb.append(" and (");
-					 flag=true;
+			for(String texto_i:textoArray){
+				if (texto_i != null && texto_i.length() > 0) {
+					
+					if(!flag){
+						 sb.append(" and (");
+						 flag=true;
+					}
+					else sb.append(" or ");
+					if(!texto_i.contains("{-TEXTO}")){
+					  sb.append("(texto like :texto"+index);
+					  sb.append(" or text  like :text"+index);
+					  sb.append(" or nombre  like :nombre"+index+")");
+					}else{
+					  sb.append("(nombre)  like :nombre"+index+")");
+					}
 				}
-				else sb.append(" or ");
-				if(!texto_i.contains("{-TEXTO}")){
-				  sb.append("(texto like :texto"+index);
-				  sb.append(" or text  like :text"+index);
-				  sb.append(" or nombre  like :nombre"+index+")");
-				}else{
-				  sb.append("(nombre)  like :nombre"+index+")");
-				}
+				index++;
 			}
-			index++;
-		}
-		index=0;
-		if(flag) {
-			sb.append(")");
-			flag=!flag;
-		}
+			index=0;
+			if(flag) {
+				sb.append(")");
+				flag=!flag;
+			}
+				
 			
-		
-		if (pais != null) {
-				sb.append(" and lugarObj.id = :lugar ");
+			if (pais != null) {
+					sb.append(" and lugarObj.id = :lugar ");
+			}
+			if (peligro != null) {
+				sb.append(" and peligro.id = :peligro ");
 		}
-		if (peligro != null) {
-			sb.append(" and peligro.id = :peligro ");
-	}
+				
 			
-		
-		index=0;
-		if(flag) {
-			sb.append(")");
-			flag=!flag;
-		}
-		
-		if (fecha != null) {
-			sb.append(" and fechaPub > :fecha");
-		}
-		if (tipo != null && tipo.length() > 3) {
-			sb.append(" and tipo like :tipo");
-		}
-		if (caducidad != null && caducidad.equals(true)) {
-			sb.append(" and caducidad = 1");
-		}
-		if (caducidad != null && caducidad.equals(false)) {
-			sb.append(" and caducidad = 0");
+			index=0;
+			if(flag) {
+				sb.append(")");
+				flag=!flag;
+			}
+			
+			if (fecha != null) {
+				sb.append(" and fechaPub > :fecha");
+			}
+			if (tipo != null && tipo.length() > 3) {
+				sb.append(" and tipo like :tipo");
+			}
+			if (caducidad != null && caducidad.equals(true)) {
+				sb.append(" and caducidad = 1");
+			}
+			if (caducidad != null && caducidad.equals(false)) {
+				sb.append(" and caducidad = 0");
+			}
 		}
 		if(order != null && order.length() > 0){
 			String[] orden=order.split("\\s");
@@ -541,7 +552,9 @@ public class AlertasDao {
 			index++;
 		}
 		index=0;
-		
+		if (id != null) {
+			q.setParameter("id",id);
+		}
 		if (pais != null) {
 				q.setParameter("lugar",pais);
 			}

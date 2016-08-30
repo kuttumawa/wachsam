@@ -106,7 +106,7 @@ public class BuscarAlertServlet extends HttpServlet {
 		String order=null;
 		AlertasDao alertDao=(AlertasDao) context.getBean("alertasDao");
 		
-		List<Alert> alerts=alertDao.getAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas,page,pageSize);
+		List<Alert> alerts=alertDao.getAlertasMysql(null,texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas,page,pageSize);
 		request.setAttribute("alertas",alerts);
 		
 		
@@ -118,7 +118,7 @@ public class BuscarAlertServlet extends HttpServlet {
 		List<Lugar> lugares =lugarDao.getAll();
 		request.setAttribute("lugares",lugares);
 		
-		totalResults=alertDao.getNumeroAlertasMysql(texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas);
+		totalResults=alertDao.getNumeroAlertasMysql(null,texto, lugar,peligro, fechaDesde, tipo, order,showCaducadas);
 		int numpages=(int) Math.ceil(totalResults/pageSize);
 		request.setAttribute("page",page);
 		request.setAttribute("totalResults",totalResults);
