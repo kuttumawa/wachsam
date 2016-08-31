@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Node;
 import es.io.wachsam.model.ObjetoSistema;
+import es.io.wachsam.model.ResultadoBusqueda;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.services.AlertService;
 import es.io.wachsam.services.SitioService;
@@ -55,23 +56,29 @@ public class BuscarObject extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String object=request.getParameter("object");
 		String filter=request.getParameter("filter");
-		
+		ResultadoBusqueda res=new ResultadoBusqueda();
 		
 		
 		Type type = new TypeToken<Map<String, String>>(){}.getType();
 		Map<String, String> filterMap = gson.fromJson(filter,type);
-		int pageSize=50;
+		int pageSize=20;
 		int pageNum=Integer.parseInt(filterMap.get("page"));
+		int totalResults=0;
 		if(object.equalsIgnoreCase(ObjetoSistema.Alert.name())){
 			AlertService alertService=(AlertService) context.getBean("alertService");	
 			List<Alert> alerts=alertService.getAlertasMysql(filterMap,pageNum,pageSize);
-			out.println(prettyGson.toJson(alerts));
+			res.setData(alerts.toArray());			
 		}else if(object.equalsIgnoreCase(ObjetoSistema.Sitio.name())){
 			SitioService sitioService=(SitioService) context.getBean("sitioService");	
+			totalResults=sitioService.getNumeroTotalSitios(filterMap);
 			List<Sitio> sitios=sitioService.getSitios(filterMap,pageNum,pageSize);
-			out.println(prettyGson.toJson(sitios));
+			res.setData(sitios.toArray());		
 		}
-			
+		int numpages=(int) Math.ceil(totalResults/pageSize);
+		res.setNumpages(numpages);
+		res.setTotalResults(totalResults);
+		res.setCurrentpage(pageNum);
+		out.println(prettyGson.toJson(res));	
 		
 	}
 
