@@ -12,6 +12,15 @@ WebApplicationContext context= WebApplicationContextUtils.getWebApplicationConte
 SecurityService sec=(SecurityService)context.getBean("securityService");
 Usuario usuario = (Usuario)request.getSession().getAttribute("user");
 %>
+<style>
+#modalSearch  {
+top:5%;
+right:50%;
+outline: none;
+width:900px;
+}
+
+</style>
 
 <script>
 function clearFields(){
@@ -36,6 +45,10 @@ function deleteOper(){
 	}
 	
 	
+}
+function openSearch(){
+	$('#modalSearch').modal('show');
+		
 }
 </script>
  
@@ -101,6 +114,12 @@ for(Data data:datas){
 </select>
 </div>
 </form>
+
+<h3>Sitio&nbsp;
+<button type="button" class="btn btn-primary btn-sm" onclick="openSearch()">
+      <span class="glyphicon glyphicon-search"></span>
+</button>
+</h3>
 
 
 <form id="form2" action="ProvisionalSitioUpdaterForYou" method="post" role="form">
@@ -205,7 +224,7 @@ for(Data data:datas){
         <div class="col">
 	    <div class="">
 	       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-           <div id="googleMap" style="width:600px;height:350px;"></div>
+           <div id="googleMap" style="width:500px;height:250px;"></div>
 	    </div>
 	    <div class="">
 	      <jsp:include page="showData.jsp" >
@@ -310,6 +329,26 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
 </script>
+</div>
+
+<!-- Modal -->
+<div id="modalSearch" class="modal fade" role="dialog" >
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Buscar</h4>
+      </div>
+      <div class="modal-body">
+             <jsp:include page="buscarSitio.jsp"/>
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+</div>
+</div>
 </div>
 
 

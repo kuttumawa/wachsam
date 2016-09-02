@@ -1,5 +1,5 @@
-<jsp:include page="cabecera.jsp"/>
 
+<jsp:include page="cabecera.jsp"/>
 <script>
 var objectoSistema="Sitio";
 $.fn.serializeObject = function()
@@ -23,7 +23,7 @@ function buscar(page){
 	 $.ajax({
 		    type:"POST",
 		    url: "BuscarObject",
-		    data:"object="+objectoSistema+"&filter="+JSON.stringify($('form').serializeObject()),
+		    data:"object="+objectoSistema+"&filter="+JSON.stringify($('#formFilter').serializeObject()),
 		    success: function(data) {
 		    	paintData(data);
 		    }
@@ -37,9 +37,9 @@ function paintData(data){
 }
 function makePagination(container,data){
 	var list = $("<ul/>").addClass('pagination pagination-sm');
-	var NUMBER_PAGES_TO_SHOW=5;
-	var desde=Math.max(0,data.currentpage-1);
-    var hasta=Math.min(NUMBER_PAGES_TO_SHOW+data.currentpage,data.numpages);
+	var INTERVAL=5;
+	var desde=Math.max(0,data.currentpage-INTERVAL-Math.max(0,data.currentpage+INTERVAL-data.numpages));
+    var hasta=Math.min(data.numpages,data.currentpage+INTERVAL);
 	for(i = desde;i<= hasta;i++){
 		 var li = $("<li/>");
 		 if(data.currentpage==i) li.addClass('active');
@@ -73,21 +73,37 @@ function makeTable(container, data) {
     });
     return container.append(table);
 }
-$(function() {
-    $('form').submit(function() {
-        $('#result').text(JSON.stringify($('form').serializeObject()));
-        return false;
-    });
-});
+
 </script>
-<form action="">
-page:<input type=text name="page" id="page"/>
-order:<input type=text name="order"/>
-id:<input type="text" name="id"/>
-nombre:<input type="text" name="nombre"/>
-lugarId:<input type="text" name="lugarId"/>
-tipoId:<input type="text" name="tipoId"/>
-<input type="button" onclick="buscar()" value="Buscar"/>;
+<div class="container">
+<form action="" role="form" id="formFilter">
+
+<input type=hidden name="page" id="page" value="0"/>
+<input type=hidden name="order"/>
+
+<div  class="form-group">
+<label for="id">id</label>
+<input type="text" class="form-control" name="id" id="id"/>
+</div>
+<div  class="form-group">
+<label for="nombre">nombre</label>
+<input type="text" class="form-control" name="nombre" id="nombre"/>
+</div>
+<div  class="form-group">
+<label for="lugarId">lugarId</label>
+<input type="text" class="form-control" name="lugarId" id="lugarId"/>
+</div>
+<div  class="form-group">
+<label for="tipoId">tipoId</label>
+<input type="text" class="form-control" name="tipoId" id="tipoId"/>
+</div>
+<div class="btn-group center-block" style="margin-bottom:20px">
+<input class="btn btn-primary btn-sm" value="Buscar" type="button" onclick="buscar()">
+</div>
 </form>
 
-<div id="resultado"/>
+<div class="panel panel-default">
+<div class="panel-body" id="resultado"></div>
+</div>
+
+</div>
