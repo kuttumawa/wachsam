@@ -2,19 +2,22 @@ package es.io.wachsam.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.validator.GenericValidator;
 
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
+import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.OperationLog;
+import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
 
-/**
- * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
- *
- */
+
 public class SitioService {
 	private SitioDao dao;
 	private SecurityService securityService;
@@ -66,6 +69,62 @@ public class SitioService {
 	}
 	public List<Sitio> getAll() {
 		return dao.getAll();
+	}
+	public List<Sitio> getSitios(Map<String, String> filter, int pageNum,
+			int pageSize) {
+		Sitio sitio=new Sitio();
+		String order=filter.containsKey("order")?filter.get("order"):null;
+		if(filter.containsKey("id") && GenericValidator.isLong(filter.get("id"))){
+			sitio.setId(Long.parseLong(filter.get("id")));
+		}
+		if(filter.containsKey("lugarId") && GenericValidator.isLong(filter.get("lugarId"))){
+			try{
+				Lugar lugar=new Lugar();
+				lugar.setId(Long.parseLong(filter.get("lugarId")));
+			    sitio.setLugarObj(lugar);
+			}catch(Exception e){
+			
+			}
+		}
+		if(filter.containsKey("tipoId") && GenericValidator.isLong(filter.get("tipoId"))){
+			try{
+				TipoSitio tipo=new TipoSitio();
+				tipo.setId(Long.parseLong(filter.get("tipoId")));
+				sitio.setTipo(tipo);
+			}catch(Exception e){
+			
+			}
+		}
+		List<Sitio> sitios=dao.getAll(sitio,order,pageNum,pageSize);
+		
+		return sitios;
+	}
+	public int getNumeroTotalSitios(Map<String, String> filter) {
+		Sitio sitio=new Sitio();
+		String order=filter.containsKey("order")?filter.get("order"):null;
+		if(filter.containsKey("id") && GenericValidator.isLong(filter.get("id"))){
+			sitio.setId(Long.parseLong(filter.get("id")));
+		}
+		if(filter.containsKey("lugarId") && GenericValidator.isLong(filter.get("lugarId"))){
+			try{
+				Lugar lugar=new Lugar();
+				lugar.setId(Long.parseLong(filter.get("lugarId")));
+			    sitio.setLugarObj(lugar);
+			}catch(Exception e){
+			
+			}
+		}
+		if(filter.containsKey("tipoId") && GenericValidator.isLong(filter.get("tipoId"))){
+			try{
+				TipoSitio tipo=new TipoSitio();
+				tipo.setId(Long.parseLong(filter.get("tipoId")));
+				sitio.setTipo(tipo);
+			}catch(Exception e){
+			
+			}
+		}
+		List<Sitio> sitios=dao.getAll(sitio);		
+		return sitios.size();	
 	}
 	
 	

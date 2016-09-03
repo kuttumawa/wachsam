@@ -4,10 +4,9 @@
     <%@ page import="es.io.wachsam.model.*"  %>
     <%@ page import="java.util.*"  %>
 <html> 
+<jsp:include page="cabecera.jsp"/>
 <style>
-table, th, td {
-    border: 1px solid black;
-}
+
 .caducado{
 color: red;
 }
@@ -31,10 +30,14 @@ function clearFields(){
 	document.getElementById("caducidad").value="";
 }
 
+function submitForm(page){
+	document.getElementById("page").value=page;
+	document.forms["form2"].submit();
+}
 </script>
  
 <body>
-<jsp:include page="cabecera.jsp"/>
+
 <div class="container">
 
 <%if(request.getAttribute("resultado")!=null){ %>
@@ -49,18 +52,16 @@ function clearFields(){
 
 
 <form id="form2" action="BuscarAlert" method="post"  role="form">
-
+<input id="page" name="page" type="hidden"/>
 
 <div  class="form-group">
 <label for="">Texto</label><br>
-<textarea class="form-control" name="texto" id="texto" cols="100" rows="1"></textarea>
+<textarea class="form-control input-sm" name="texto" id="texto" cols="100" rows="1"><%=request.getAttribute("texto")!=null?request.getAttribute("texto"):""%></textarea>
 </div>
 
 <div  class="form-group">
 <label for="">Peligro</label>
-
-
-<select  class="form-control" name="peligro" id="peligro">
+<select  class="form-control input-sm" name="peligro" id="peligro">
 <option value=""></option>
 <%    
           List<Peligro> peligros =  (List<Peligro>)request.getAttribute("peligros");
@@ -75,7 +76,7 @@ function clearFields(){
 <div  class="form-group">
 <label for="">Lugar</label>
 
-<select  class="form-control" name="lugar" id="lugar">
+<select  class="form-control input-sm" name="lugar" id="lugar">
 <option value=""></option>
 <%    
 			List<Lugar> lugares =  (List<Lugar>)request.getAttribute("lugares");
@@ -99,6 +100,7 @@ class Tipo{
 	}
 }	
 	List<Tipo> tipos = new ArrayList<Tipo>();
+	tipos.add(new Tipo("justInfo","Just Information you may ignore"));
 	tipos.add(new Tipo("informativa","Level 1 Watch, Practice Usual Precautions"));
 	tipos.add(new Tipo("normal","Level 2 Alert, Practice Enhanced Precautions"));
 	tipos.add(new Tipo("severa","Level 3 Warning, Avoid Nonessential Travel"));
@@ -110,7 +112,7 @@ class Tipo{
 <div  class="form-group">
 <label for="">Tipo</label>
 
-<select  class="form-control" name="tipo" id="tipo">
+<select  class="form-control input-sm" name="tipo" id="tipo">
 <option value="">Todas</option>
 <%
 for(Tipo tipo_i:tipos){
@@ -130,7 +132,7 @@ for(Tipo tipo_i:tipos){
 
 <div  class="form-group">
 <label for="">Fecha (dd/mm/yyyy) Desde</label>
-<input class="form-control" type="date" id="fechaPub" name="fechaPubDesde" value=""/>
+<input class="form-control input-sm" type="date" id="fechaPub" name="fechaPubDesde" value=""/>
 </div>
 
 
@@ -140,18 +142,18 @@ for(Tipo tipo_i:tipos){
 
 <input type="hidden" id="oper" name="oper"/>
 <div class="btn-group center-block">
-<input class="btn btn-primary" type="submit" value="buscar">
-<input class="btn btn-primary" type="button" value="limpiar" onclick="clearFields()">
+<input class="btn btn-primary btn-sm" type="submit" value="buscar">
+<input class="btn btn-primary btn-sm" type="button" value="limpiar" onclick="clearFields()">
 </div>
 </form>
 
-
+<div  style="margin-top: 3em" >
 <%
 List<Alert> alerts= (List<Alert>)request.getAttribute("alertas");
 if(request.getAttribute("alertas")!=null){ %>
-<fieldset>
-<h3>Resultados:&nbsp; <%=alerts.size() %></h3>
-<table class="table table-striped small">
+
+
+<table class="table table-condensed  table-striped small">
 <tr><th>id</th><th>nombre</th><th>tipo</th><th>fecha</th><th>texto</th></tr>
 
 <%for(Alert a:alerts){%>
@@ -164,12 +166,25 @@ if(request.getAttribute("alertas")!=null){ %>
 </tr>
 <%} %>
 </table>
-</fieldset>
+<%
+int numpages = (Integer)request.getAttribute("numpages");
+int currentpage = (Integer)request.getAttribute("page");
+int totalResults = (Integer)request.getAttribute("totalResults");
+%>
+<h4>Resultados:&nbsp;<%=alerts.size()%>&nbsp;de&nbsp;<%=totalResults %></h4>
+<ul class="pagination pagination-sm">
+
+<%
+  for(int i=0;i<numpages;i++){
+%>
+  <li><a href="javascript:submitForm(<%=i %>)" class="<%=i==currentpage?"active":""%>"><%= i %></a></li>
+<%} %>  
+ 
+</ul>
+
 <%}else{%>
-<div>
----- Sin resultado ----
-</div>
 <%}%>
+</div>
 </div>
 </body> 
 </html>
