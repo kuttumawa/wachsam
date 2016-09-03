@@ -70,7 +70,7 @@ private CacheManager cacheManager;
 	@Cacheable(SITIO_CACHE)
 	public List<Sitio> getAll(Sitio filtro) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.* FROM Sitio p where 1=1");
+		sb.append("SELECT p.* FROM sitio p where 1=1");
 		if (filtro.getLugarObj()!=null && filtro.getLugarObj().getId() != null)
 			sb.append(" and p.lugarId =" + filtro.getLugarObj().getId());
 		if (filtro.getTipo()!=null)

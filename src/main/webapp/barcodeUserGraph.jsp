@@ -1,5 +1,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-<script src="/wachsam/js/vz/barcode/barcode.js"></script>
+<script src="js/vz/barcode/barcode.js"></script>
 
 
 <div class="chart-example" id="chart"></div>
@@ -11,8 +11,8 @@ var barcode = barcodeChart();
 $.ajax({
     type: "GET",
     contentType: "application/json; charset=utf-8",
-    url: 'SecurityServletJSON?oper=accesosPorUsuarioUltimoMes',
-    dataType: 'json',
+    url: "SecurityServletJSON?oper=accesosPorUsuarioUltimoMes",
+    dataType: "json",
     async: true,
     data: "{}", 
     success: function (data) {

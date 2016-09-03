@@ -26,6 +26,7 @@ import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.ObjetoSistemaIF;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
@@ -291,7 +292,7 @@ public class FileUploadService {
 	public void save(Map<Object, List<Data>> dat, String objeto, Usuario usuario,boolean actualizaObjeto) throws Exception {
 		String stamp=UUID.randomUUID().toString();
 		for(Object o: dat.keySet()){
-			
+			System.out.println("----->"+((Sitio)o).getNombre());
 			ObjetoSistemaIF oo=(ObjetoSistemaIF) o;
 			OperationLog operationLog=new OperationLog(objeto,oo.getId(),Acciones.CREATE.name(),usuario.getId(),new Date(),stamp);
 			

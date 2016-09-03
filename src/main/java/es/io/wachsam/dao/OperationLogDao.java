@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +36,11 @@ public class OperationLogDao {
 	public List<OperationLog> getAll() {
 		return em.createQuery("SELECT p FROM OperationLog p order by id desc", OperationLog.class)
 				.getResultList();
+	}
+	public List<OperationLog> getDesde(Date timestamp ) {
+		Query q= em.createQuery("SELECT p FROM OperationLog p where p.timestamp > :timestamp  order by id desc", OperationLog.class);
+		q.setParameter("timestamp",timestamp);
+		return q.getResultList();
 	}
 
 	public void deleteById(Long id) throws Exception {
