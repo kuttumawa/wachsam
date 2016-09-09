@@ -15,7 +15,9 @@
 WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 OperationLogDao opedao=(OperationLogDao)context.getBean("operationLogDao");
 List<OperationLog> logs= new ArrayList<OperationLog>();
-logs=opedao.getAll();
+Calendar q=Calendar.getInstance();
+q.add(Calendar.DAY_OF_MONTH,-30);
+logs=opedao.getDesde(q.getTime());
 %>  
 <jsp:include page="cabecera.jsp"/>
 <h3>Logs</h3>     

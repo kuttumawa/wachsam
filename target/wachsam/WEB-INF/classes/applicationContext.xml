@@ -54,6 +54,7 @@
      <bean id="fuenteDao" class="es.io.wachsam.dao.FuenteDao" />
      <bean id="factorDao" class="es.io.wachsam.dao.FactorDao" />
      <bean id="usuarioDao" class="es.io.wachsam.dao.UsuarioDao" />
+     <bean id="tipoSitioDao" class="es.io.wachsam.dao.TipoSitioDao" />
      <bean id="securityService" class="es.io.wachsam.services.SecurityService">
           <property name="usuarioDao" ref="usuarioDao"/>
           <property name="operationLogDao"  ref="operationLogDao"/>
@@ -73,6 +74,28 @@
       <property name="dao" ref="sitioDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+     <bean id="riesgoDao" class="es.io.wachsam.dao.RiesgoDao" />
+     <bean id="fileUploadDao" class="es.io.wachsam.dao.FileUploadDao"/>
+     <bean id="riesgoService" class="es.io.wachsam.services.RiesgoService">
+      <property name="dao" ref="riesgoDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    <bean id="tipoSitioService" class="es.io.wachsam.services.TipoSitioService">
+      <property name="dao" ref="tipoSitioDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    <bean id="fileUploadService" class="es.io.wachsam.services.FileUploadService">
+       <property name="dataService" ref="dataService"/>
+       <property name="securityService"  ref="securityService"/>
+       <property name="operationLogDao"  ref="operationLogDao"/>
+       <property name="alertService"  ref="alertService"/>
+       <property name="peligroService"  ref="peligroService"/>
+       <property name="lugarService"  ref="lugarService"/>
+       <property name="sitioService"  ref="sitioService"/>
+       <property name="fileUploadDao" ref="fileUploadDao"/>
     </bean>
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
@@ -96,9 +119,10 @@
 		<property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
 		<property name="username" value="viajarseguro" />
 		<property name="password" value="buendiabuendia" />
-<!-- 		<property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
+		<!-- <property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
 		<property name="username" value="root" />
 		<property name="password" value="buendia" /> -->
+
 	</bean>
  
     <bean id="entityManagerFactory"

@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,11 @@ public class OperationLogDao {
 		return em.createQuery("SELECT p FROM OperationLog p order by id desc", OperationLog.class)
 				.getResultList();
 	}
+	public List<OperationLog> getDesde(Date timestamp ) {
+		Query q= em.createQuery("SELECT p FROM OperationLog p where p.timestamp > :timestamp  order by id desc", OperationLog.class);
+		q.setParameter("timestamp",timestamp);
+		return q.getResultList();
+	}
 
 	public void deleteById(Long id) throws Exception {
 		OperationLog operationLog = em.find(OperationLog.class, id);
@@ -44,13 +50,13 @@ public class OperationLogDao {
 	
 	public List<Object[]> accesosAgrupadosPorUsuarioDia(){
 		
-		List<Object[]> results = this.em.createNativeQuery("SELECT count(*),b.login, DATE_FORMAT(timestamp, '%e %b %Y') AS date_formatted from operationLog a,usuario b where usuarioId=b.id group by date_formatted,usuarioId").getResultList();
+		List<Object[]> results = this.em.createNativeQuery("SELECT count(*),b.login, DATE_FORMAT(timestamp, '%e %b %Y') AS date_formatted from operationlog a,usuario b where usuarioId=b.id group by date_formatted,usuarioId").getResultList();
         return results;
 		
 	}
 	
      public List<Long> accesosPorUsuarioUltimoMes(Long usuarioId,int days){
-	   List<Date> results = this.em.createNativeQuery("SELECT timestamp  from operationLog a,usuario b where a.usuarioId=b.id and a.usuarioId="+usuarioId+" and timestamp>SUBDATE(NOW(),"+days+")").getResultList();
+	   List<Date> results = this.em.createNativeQuery("SELECT timestamp  from operationlog a,usuario b where a.usuarioId=b.id and a.usuarioId="+usuarioId+" and timestamp>SUBDATE(NOW(),"+days+")").getResultList();
        List<Long> resultado=new ArrayList<Long>();
        for(Date date : results){
     	   resultado.add(date.getTime());
