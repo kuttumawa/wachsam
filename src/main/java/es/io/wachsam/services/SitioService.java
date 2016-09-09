@@ -86,6 +86,13 @@ public class SitioService {
 			
 			}
 		}
+		if(filter.containsKey("nombre") && !GenericValidator.isBlankOrNull(filter.get("nombre"))){
+			try{
+			   sitio.setNombre(filter.get("nombre"));
+			}catch(Exception e){
+			
+			}
+		}
 		if(filter.containsKey("tipoId") && GenericValidator.isLong(filter.get("tipoId"))){
 			try{
 				TipoSitio tipo=new TipoSitio();
@@ -110,6 +117,13 @@ public class SitioService {
 				Lugar lugar=new Lugar();
 				lugar.setId(Long.parseLong(filter.get("lugarId")));
 			    sitio.setLugarObj(lugar);
+			}catch(Exception e){
+			
+			}
+		}
+		if(filter.containsKey("nombre") && !GenericValidator.isBlankOrNull(filter.get("nombre"))){
+			try{
+			   sitio.setNombre(filter.get("nombre"));
 			}catch(Exception e){
 			
 			}

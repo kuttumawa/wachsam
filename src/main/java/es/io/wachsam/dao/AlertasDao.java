@@ -399,8 +399,8 @@ public class AlertasDao {
 		}
 		
 		Query q = em.createQuery(sb.toString(), Alert.class);
-		q.setFirstResult(offset);
-		q.setMaxResults(maxNumberResults);
+		if(offset>0)q.setFirstResult(offset);
+		if(maxNumberResults>0)q.setMaxResults(maxNumberResults);
 		index=0;
 		for(String texto_i:textoArray){
 			if (texto_i != null && texto_i.length() > 0) {

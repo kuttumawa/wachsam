@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.validator.GenericValidator;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -23,7 +24,9 @@ import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Node;
 import es.io.wachsam.model.ObjetoSistema;
+import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.AlertService;
 import es.io.wachsam.services.DataService;
 
@@ -45,14 +48,15 @@ public class AlertServletJSON extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")==null){
+		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
+		if(usuario==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-		AlertService dataService=(AlertService) context.getBean("alertService");
+		AlertService alertService=(AlertService) context.getBean("alertService");
 		final Gson gson=new Gson();
 	    final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 	   //http://localhost:8080/wachsam/DataServletJSON?objetoId=1376424326&objetoTipo=0&oper=getAllForObject
@@ -61,17 +65,22 @@ public class AlertServletJSON extends HttpServlet {
 		String oper=request.getParameter("oper");
 		List<Alert> alerts=new ArrayList<Alert>();
 		List<Node> nodes=new ArrayList<Node>();
-		
+		String _id=request.getParameter("id");
 		if(oper!=null){
 			if(oper.equalsIgnoreCase("getAll")){
-				alerts=dataService.getAll();
+				alerts=alertService.getAll();
 				for(Alert a:alerts){
 					nodes.add(a.toNode());
 				}
+				out.println(prettyGson.toJson(nodes));
+			}else if(oper.equalsIgnoreCase("getAlert") && GenericValidator.isLong(_id)){
+			    Long id=Long.parseLong(_id);
+				Alert alert=alertService.getAlert(id, usuario);
+				out.println(prettyGson.toJson(alert));
 			}
 			
 		}
-		 out.println(prettyGson.toJson(nodes));
+		
 	}
 
 

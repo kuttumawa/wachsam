@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.validator.GenericValidator;
+
 import es.io.wachsam.dao.AlertasDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
@@ -68,22 +70,22 @@ public class AlertService {
 	}
 	public List<Alert> getAlertasMysql(Map<String,String> filter, int page,int pageSize) {
 		String texto=filter.containsKey("texto")?filter.get("texto"):null;
-		String tipo=filter.containsKey("tipo")?filter.get("tipo"):null;
+		String tipo=filter.containsKey("tipoId")?filter.get("tipoId"):null;
 		String order=filter.containsKey("order")?filter.get("order"):null;
 		Long lugarId=null;
 		Long peligroId=null;
 		Long id=null;
 		try{
-			lugarId=filter.containsKey("lugarId")?Long.parseLong(filter.get("lugarId")):null;
-			peligroId=filter.containsKey("peligroId")?Long.parseLong(filter.get("peligroId")):null;
-			id=filter.containsKey("id")?Long.parseLong(filter.get("id")):null;
+			lugarId=filter.containsKey("lugarId") && GenericValidator.isLong(filter.get("lugarId"))?Long.parseLong(filter.get("lugarId")):null;
+			peligroId=filter.containsKey("peligroId") && GenericValidator.isLong(filter.get("peligroId")) ?Long.parseLong(filter.get("peligroId")):null;
+			id=filter.containsKey("id")&& GenericValidator.isLong(filter.get("id"))?Long.parseLong(filter.get("id")):null;
 		}catch(Exception e){
 			
 		}
 		Date fechaDesde=null;
-		if(filter.containsKey("fechaDesde")){
+		if(filter.containsKey("fechaPubDesde")){
 			try{
-			    fechaDesde=new SimpleDateFormat("yyyy-MM-dd").parse(filter.get("fechaDesde"));
+			    fechaDesde=new SimpleDateFormat("yyyy-MM-dd").parse(filter.get("fechaPubDesde"));
 			}catch(Exception e){
 					   //void
 		    }
@@ -100,6 +102,41 @@ public class AlertService {
 		List<Alert> alerts=dao.getAlertasMysql(id,texto,lugarId,peligroId,fechaDesde, tipo, order,caducadas,page,pageSize);
 		
 		return alerts;
+	}
+	public int getNumeroTotalSitios(Map<String,String> filter) {
+		String texto=filter.containsKey("texto")?filter.get("texto"):null;
+		String tipo=filter.containsKey("tipoId")?filter.get("tipoId"):null;
+		String order=filter.containsKey("order")?filter.get("order"):null;
+		Long lugarId=null;
+		Long peligroId=null;
+		Long id=null;
+		try{
+			lugarId=filter.containsKey("lugarId") && GenericValidator.isLong(filter.get("lugarId"))?Long.parseLong(filter.get("lugarId")):null;
+			peligroId=filter.containsKey("peligroId") && GenericValidator.isLong(filter.get("peligroId")) ?Long.parseLong(filter.get("peligroId")):null;
+			id=filter.containsKey("id")&& GenericValidator.isLong(filter.get("id"))?Long.parseLong(filter.get("id")):null;
+     	}catch(Exception e){
+			
+		}
+		Date fechaDesde=null;
+		if(filter.containsKey("fechaPubDesde")){
+			try{
+			    fechaDesde=new SimpleDateFormat("yyyy-MM-dd").parse(filter.get("fechaPubDesde"));
+			}catch(Exception e){
+					   //void
+		    }
+	    }
+		Boolean caducadas=null;
+		if(filter.containsKey("caducadas")){
+			try{
+			    caducadas=Boolean.parseBoolean(filter.get("caducadas"));
+			}catch(Exception e){
+					   //void
+		    }
+	    }
+				
+		List<Alert> alerts=dao.getAlertasMysql(id,texto,lugarId,peligroId,fechaDesde, tipo, order,caducadas,-1,-1);
+		
+		return alerts.size();
 	}
 	
 	

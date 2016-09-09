@@ -1,4 +1,8 @@
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+    <%@ page import="es.io.wachsam.model.*"  %>
+    <%@ page import="java.util.*"  %>
 <%-- <jsp:include page="cabecera.jsp"/> --%>
 <style>
 .fuente {
@@ -9,7 +13,7 @@ cursor:pointer;
 }
 </style>
 <script>
-var objectoSistema="Sitio";
+var objectoSistema="Alert";
 $.fn.serializeObject = function()
 {
     var o = {};
@@ -72,29 +76,35 @@ function makeTable(container, data) {
     var theader=$("<tr/>");
     theader.append($("<th/>").text("id"));
     theader.append($("<th/>").text("nombre"));
+    theader.append($("<th/>").text("peligro"));
     theader.append($("<th/>").text("lugar"));
-    theader.append($("<th/>").text("dirección"));
+    theader.append($("<th/>").text("tipo"));
+    theader.append($("<th/>").text("fecha"));
+    theader.append($("<th/>").text("texto"));
     
     table.append(theader);
     $.each(data, function(rowIndex, d) {
         var row = $("<tr/>");
         row.addClass('pointer');
-        row.click(function(){fecthSitio(d.id)});
+        row.click(function(){fecthAlert(d.id)});
         row.append($("<td/>").text(d.id));
         row.append($("<td/>").text(d.nombre));
+        row.append($("<td/>").text(d.peligro.nombre));
         if(d.lugarObj){ row.append($("<td/>").text(d.lugarObj.nombre))}
         else{ row.append($("<td/>").text("--"))};
-        row.append($("<td/>").text(d.direccion));       
+        row.append($("<td/>").text(d.tipo)); 
+        row.append($("<td/>").text(d.fechaPubFormatted)); 
+        row.append($("<td/>").text(d.texto));         
         table.append(row);
     });
     return container.append(table);
 }
 
-function getAllTipoSitio(){
-	var url= "SitioServletJSON?&oper=getAllTipoSitio";
+function getAllpeligros(){
+	var url= "PeligroServletJSON?&oper=getAll";
 	$.get(url,function (data){
 		$.each(data, function(i, item) {
-			$('#tipoId_formFilter').append($('<option>', { 
+			$('#peligroId_formFilter').append($('<option>', { 
 		        value: item.id,
 		        text : item.nombre 
 		    }));
@@ -102,6 +112,7 @@ function getAllTipoSitio(){
 		
 	},"json");		
 	}
+
 function getAllLugares(){
 	var url= "LugarServletJSON?&oper=getAll";
 	$.get(url,function (data){
@@ -115,16 +126,18 @@ function getAllLugares(){
 	},"json");		
 	}
 $(function(){
-	getAllTipoSitio();
+	getAllpeligros();
 	getAllLugares();
 });
-function fecthSitio(id){
-	var url= "SitioServletJSON?&oper=getSitio&id="+id;
+function fecthAlert(id){
+	var url= "AlertServletJSON?&oper=getAlert&id="+id;
 	$.get(url,function (data){
 		loadFields(data);		
 	},"json");		
 	}
-
+function onClickRow(id){
+	
+}
 </script>
 <div class="container">
 <form action="" role="form" id="formFilter" class="form-horizontal">
@@ -140,9 +153,18 @@ function fecthSitio(id){
 </div>
 
 <div  class="form-group form-group-sm">
-<label class="col-sm-2 control-label"  for="nombre">nombre</label>
+<label class="col-sm-2 control-label"  for="nombre">texto</label>
 <div class="col-sm-4">
-<input type="text" class="form-control input-sm" name="nombre" id="nombre_formFilter"/>
+<input type="text" class="form-control input-sm" name="texto" id="texto_formFilter"/>
+</div>
+</div>
+
+<div  class="form-group form-group-sm">
+<label class="col-sm-2 control-label"  for="lugarId">peligro</label>
+<div class="col-sm-4">
+<select class="form-control" class="form-control input-sm" name="peligroId" id="peligroId_formFilter">
+		<option value=""></option>		
+</select>
 </div>
 </div>
 
@@ -155,14 +177,56 @@ function fecthSitio(id){
 </div>
 </div>
 
+
+<%
+class Tipo{
+	public String id;
+	public String texto;
+	public Tipo(String id,String texto){
+		this.id=id;
+		this.texto=texto;
+	}
+}	
+	List<Tipo> tipos = new ArrayList<Tipo>();
+	tipos.add(new Tipo("justInfo","Just Information you may ignore"));
+	tipos.add(new Tipo("informativa","Level 1 Watch, Practice Usual Precautions"));
+	tipos.add(new Tipo("normal","Level 2 Alert, Practice Enhanced Precautions"));
+	tipos.add(new Tipo("severa","Level 3 Warning, Avoid Nonessential Travel"));
+	
+%>
+
+
 <div  class="form-group form-group-sm">
 <label class="col-sm-2 control-label"  for="tipoId">Tipo</label>
 <div class="col-sm-4">
 <select class="form-control" name="tipoId" id="tipoId_formFilter">
-		<option value=""></option>		
-</select>
+<option value=""></option>
+<%
+  for(Tipo tipo_i:tipos){
+      out.println("<option value=\""+tipo_i.id+"\">"+tipo_i.texto+"</option>");
+  }
+%>
+</select> 
 </div>
 </div>
+
+<div  class="form-group form-group-sm">
+<label class="col-sm-2 control-label"  for="tipoId">Fecha Desde</label>
+<div class="col-sm-4">
+<input class="form-control input-sm" type="date" id="fechaPub" name="fechaPubDesde" value=""/>
+</div>
+</div>
+
+<div  class="form-group form-group-sm">
+<label class="col-sm-2 control-label"  for="caducidad"></label>
+<div class="checkbox col-sm-4">
+<label><input type="checkbox" name="caducidad" value="" checked>Todas</label>
+<label><input type="checkbox" name="caducidad" value="nocaducadas">No caducadas</label>
+<label><input type="checkbox" name="caducidad" value="caducadas">Caducadas</label>
+</div>
+</div>
+
+
 
 <div class="btn-group center-block" style="margin-bottom:35px">
 <input class="btn btn-primary btn-sm" value="Buscar" type="button" onclick="buscar()">

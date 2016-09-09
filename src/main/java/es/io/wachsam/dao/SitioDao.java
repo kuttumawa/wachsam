@@ -73,10 +73,11 @@ private CacheManager cacheManager;
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT p.* FROM Sitio p where 1=1");
 		if (filtro.getLugarObj()!=null && filtro.getLugarObj().getId() != null)
-			sb.append(" and p.lugarId =" + filtro.getLugarObj().getId());
+			sb.append(" and p.lugarObj_id =" + filtro.getLugarObj().getId());
 		if (filtro.getTipo()!=null)
 			sb.append(" and p.tipo_id =" + filtro.getTipo().getId());
-		
+		if (filtro.getNombre()!=null)
+			sb.append(" and p.nombre like '%" + filtro.getNombre() +"%'");
 		sb.append(" order by id desc");
 		Query q = em.createNativeQuery(sb.toString(), Sitio.class);
 		List<Sitio> resultado= q.getResultList();
@@ -88,16 +89,18 @@ private CacheManager cacheManager;
 		StringBuffer sb = new StringBuffer();
 		sb.append("SELECT p.* FROM Sitio p where 1=1");
 		if (filtro.getLugarObj()!=null && filtro.getLugarObj().getId() != null)
-			sb.append(" and p.lugarId =" + filtro.getLugarObj().getId());
+			sb.append(" and p.lugarObj_id =" + filtro.getLugarObj().getId());
 		if (filtro.getTipo()!=null)
 			sb.append(" and p.tipo_id =" + filtro.getTipo().getId());
+		if (filtro.getNombre()!=null)
+			sb.append(" and p.nombre like '%" + filtro.getNombre() +"%'");		
 		if(!GenericValidator.isBlankOrNull(order)){
 			sb.append(" order by " + order);
 		}else{
 		    sb.append(" order by id desc");
 		}		
 		Query q = em.createNativeQuery(sb.toString(), Sitio.class);
-		q.setFirstResult(page);
+		q.setFirstResult(page*pageSize);
 		q.setMaxResults(pageSize);
 		List<Sitio> resultado= q.getResultList();
         

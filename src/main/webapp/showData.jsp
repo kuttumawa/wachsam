@@ -16,15 +16,16 @@
 <script>
 var objetoId = <%= request.getParameter("objetoId")%>
 var objetoTipo = <%= request.getParameter("objetoTipo")%>
+var callMeAfterFunction;
 
 function savedata(){
 	 $.ajax({
 		    type: "POST",
-		    url: "DataServletJSON?oper=save",
+		    url: "DataServletJSON?oper=save&objetoId="+objetoId,
 		    data: $("#formData").serialize(),
 		    success: function(data) {
 		    	fectchData();
-		    	$('#myModal').modal('hide');		    	
+		    	$('#myModal').modal('hide');
 		    }
 		  });
 		  return false;
@@ -36,7 +37,7 @@ function deletedata(){
 		    data: $("#formData").serialize(),
 		    success: function(data) {
 		    	fectchData();
-		    	$('#myModal').modal('hide');		    	
+		    	$('#myModal').modal('hide');
 		    }
 		  });
 		  return false;
@@ -57,10 +58,11 @@ $.get(url,function (data){
         }else{
         	row.append('<td></td>');
         }  
-	   
+	    
 	    $('#tbodyID').append(row);
 	});
 	$("#tbodyID td").on("click",modifyData);
+	if(callMeAfterFunction)callMeAfterFunction(data);
 	
 },"json");
 
@@ -99,7 +101,6 @@ function getAllAlerts(comboid){
 function getAllPeligros(comboid){
 	var url= "PeligroServletJSON?&oper=getAll";
 	$.get(url,function (data){
-		console.log(data);
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
@@ -112,7 +113,6 @@ function getAllPeligros(comboid){
 function getAllLugares(comboid){
 	var url= "LugarServletJSON?&oper=getAll";
 	$.get(url,function (data){
-		console.log(data);
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
@@ -125,7 +125,6 @@ function getAllLugares(comboid){
 function getAllSitio(comboid){
 	var url= "SitioServletJSON?&oper=getAll";
 	$.get(url,function (data){
-		console.log(data);
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
@@ -138,7 +137,6 @@ function getAllSitio(comboid){
 function getAllFuente(comboid){
 	var url= "FuenteServletJSON?&oper=getAll";
 	$.get(url,function (data){
-		console.log(data);
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
@@ -151,7 +149,6 @@ function getAllFuente(comboid){
 function getAllAirport(comboid){
 	var url= "AirportServletJSON?&oper=getAll";
 	$.get(url,function (data){
-		console.log(data);
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
@@ -164,7 +161,6 @@ function getAllAirport(comboid){
 function getAllUsuario(comboid){
 	var url= "UsuarioServletJSON?&oper=getAll";
 	$.get(url,function (data){
-		console.log(data);
 		$.each(data, function(i, item) {
 			$('#objetoConnectedId').append($('<option>', { 
 		        value: item.id,
@@ -223,9 +219,8 @@ function modifyData(e){
 	
 }
 function newData(){
-	$('#myModal').modal('show');
-	$('#dataId').val('');
-		
+	cleanForm();
+	$('#myModal').modal('show');		
 }
 function paintGraph(){
 	$('#modalGraph').modal('show');

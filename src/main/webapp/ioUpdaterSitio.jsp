@@ -7,19 +7,14 @@
     <%@ page import="org.springframework.web.context.WebApplicationContext"  %> 
     <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"  %> 
 <html> 
+<jsp:include page="cabecera.jsp"/>
 <%
 WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 SecurityService sec=(SecurityService)context.getBean("securityService");
 Usuario usuario = (Usuario)request.getSession().getAttribute("user");
 %>
 <style>
-#modalSearch  {
-top:5%;
-right:50%;
-outline: none;
-width:900px;
-}
-
+#modalSearch .modal-dialog  {width:95%;}
 </style>
 
 <script>
@@ -31,11 +26,48 @@ function clearFields(){
     document.getElementById("texto").value="";
     document.getElementById("textoEn").value="";
     document.getElementById("direccion").value="";
-    document.getElementById("lugarId").value="";
+    document.getElementById("lugar").value="";
     document.getElementById("tipo").value="";
-    $('tr').remove()
+    $('tr').remove();
 
 
+}
+function refreshmap(data){
+    var isLat=false;
+    var isLon=false
+	$.each(data, function(i, item) {
+	       try{
+		    if(item.tag.nombre==="latitud"){
+			     latitud=item.value;
+			     isLat=true;
+		    }     
+		    else if(item.tag.nombre==="longitud"){
+			     longitud=item.value;
+			     isLon=true;
+		    }     
+		}catch(err){
+		}
+	});
+	if(isLat && isLon) initialize(latitud,longitud,2);
+}
+function loadFields(data){
+	if(data.id)document.getElementById("id0").value=data.id;
+    if(data.id)document.getElementById("id").value=data.id;
+    if(data.nombre)document.getElementById("nombre").value=data.nombre;
+    if(data.nombreEn)document.getElementById("nombreEn").value=data.nombreEn;
+    if(data.texto)document.getElementById("texto").value=data.texto;
+    if(data.textoEn)document.getElementById("textoEn").value=data.textoEn;
+    if(data.direccion)document.getElementById("direccion").value=data.direccion;
+    if(data.lugarObj.id)document.getElementById("lugar").value=data.lugarObj.id;
+    if(data.tipo.id)document.getElementById("tipo").value=data.tipo.id;
+    objetoId=data.id;
+    closeSearch();
+    initialize(data.lugarObj.latitud,data.lugarObj.longitud,data.lugarObj.nivel);
+    callMeAfterFunction=refreshmap;
+    fectchData();
+   
+    
+   
 }
 function deleteOper(){
 
@@ -50,13 +82,21 @@ function openSearch(){
 	$('#modalSearch').modal('show');
 		
 }
+function closeSearch(){
+	$('#modalSearch').modal('hide');
+		
+}
+
+$(function(){
+	initialize(0,0,1);
+});
 </script>
  
 <body>
 
 <div class="container">
 
-<jsp:include page="cabecera.jsp"/>
+
 
 <div class="container-fluid">
   <div class="row">
@@ -81,39 +121,11 @@ for(Data data:datas){
 
 
 
-<form id="form1" action="ProvisionalSitioUpdaterForYou" method="get" class="form-inline" role="form">
-<div class="form-group">
-<label for="">Sitio</label>
-<select class="form-control input-sm" name="sitioId" onchange="document.getElementById('form1').submit();">
-<option value=""></option>
 <%    
-          List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
-          for(Sitio sitio_i:sitios){
-        	  out.println("<option value=\""+sitio_i.getId()+"\">"+sitio_i.prettyPrint()+"</option>");
-          }
-         
+        List<Sitio> sitios =  (List<Sitio>)request.getAttribute("sitios");
+		List<TipoSitio> tipoSitios =  (List<TipoSitio>)request.getAttribute("tipoSitios");         
 %>  
-</select>
-</div>
-<div class="form-group">
-<label for="">Tipo</label>
-<select class="form-control input-sm" name="tipoSitioFiltro"  onchange="document.getElementById('form1').submit();">
 
-<%    
-			List<TipoSitio> tipoSitios =  (List<TipoSitio>)request.getAttribute("tipoSitios");
-			for(TipoSitio tipoSitio:tipoSitios){
-				  
-				  if(tipoSitioFiltro.equals(tipoSitio.getId())){
-					  out.println("<option value=\""+tipoSitio.getId()+"\" selected >"+tipoSitio.getNombre()+"</option>"); 
-				  }else{
-				      out.println("<option value=\""+tipoSitio.getId()+"\">"+tipoSitio.getNombre()+"</option>");
-				  }        	         	
-			}
-        
-%> 
-</select>
-</div>
-</form>
 
 <h3>Sitio&nbsp;
 <button type="button" class="btn btn-primary btn-sm" onclick="openSearch()">
@@ -163,7 +175,7 @@ for(Data data:datas){
 
 <div class="form-group">
 <label for="">Tipo</label>
-<select class="form-control" name="tipoSitio" id="lugar">
+<select class="form-control" name="tipoSitio" id="tipo">
 <option value=""></option>
 <%    
 			for(TipoSitio tipoSitio:tipoSitios){
@@ -223,8 +235,7 @@ for(Data data:datas){
 <div class="col-sm-6">
         <div class="col">
 	    <div class="">
-	       <input id="pac-input" class="controls" type="text" placeholder="Search Box">
-           <div id="googleMap" style="width:500px;height:250px;"></div>
+	        <div id="googleMap" style="width:500px;height:250px;"></div>
 	    </div>
 	    <div class="">
 	      <jsp:include page="showData.jsp" >
@@ -235,100 +246,6 @@ for(Data data:datas){
        </div>
 </div>
 </div>
-</div>
-
-
-
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
-  
-<script>
-var markers = [];
-var map;
-function initialize() {
-  var myCenter=new google.maps.LatLng(<%= sitio.getLugarObj()!=null && sitio.getLugarObj().getLatitud()!=null && sitio.getLugarObj().getLatitud().length()>0 ?sitio.getLugarObj().getLatitud():"0"%>,<%= sitio.getLugarObj()!=null && sitio.getLugarObj().getLongitud()!=null && sitio.getLugarObj().getLatitud().length()>0?sitio.getLugarObj().getLongitud():"0"%>);
-  var mapProp = {
-    center:myCenter,
-    zoom:<%= sitio.getLugarObj()!=null && sitio.getLugarObj().getNivel()!=null?sitio.getLugarObj().getNivel():"1"%>,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-  map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-  // Create the search box and link it to the UI element.
-  var input = /** @type {HTMLInputElement} */(
-      document.getElementById('pac-input'));
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-  var searchBox = new google.maps.places.SearchBox(
-    /** @type {HTMLInputElement} */(input));
-  
-  google.maps.event.addListener(map, 'click', function(event) {
-	  placeMarker(event.latLng);
-	  });
-  google.maps.event.addListener(searchBox, 'places_changed', function() {
-	    var places = searchBox.getPlaces();
-
-	    if (places.length == 0) {
-	      return;
-	    }
-	    for (var i = 0, marker; marker = markers[i]; i++) {
-	      marker.setMap(null);
-	    }
-
-	    // For each place, get the icon, place name, and location.
-	    markers = [];
-	    var bounds = new google.maps.LatLngBounds();
-	    for (var i = 0, place; place = places[i]; i++) {
-	      var image = {
-	        url: place.icon,
-	        size: new google.maps.Size(71, 71),
-	        origin: new google.maps.Point(0, 0),
-	        anchor: new google.maps.Point(17, 34),
-	        scaledSize: new google.maps.Size(25, 25)
-	      };
-
-	      // Create a marker for each place.
-	      var marker = new google.maps.Marker({
-	        map: map,
-	        icon: image,
-	        title: place.name,
-	        position: place.geometry.location
-	      });
-
-	      markers.push(marker);
-
-	      bounds.extend(place.geometry.location);
-	      map.setCenter(place.geometry.location);
-	    }
-        //console.log(bounds);
-	    //map.fitBounds(bounds);
-	  });
-  google.maps.event.addListener(map, 'bounds_changed', function() {
-	    var bounds = map.getBounds();
-	    searchBox.setBounds(bounds);
-	  });
-	function placeMarker(location) {
-	  var currentMark = new google.maps.Marker({
-	    position: location,
-	    map: map,
-	  });
-	  var infowindow = new google.maps.InfoWindow({
-	    content: 'Latitude: ' + location.lat() +
-	    '<br>Longitude: ' + location.lng() + '<br>' + ''
-	    + '<input style="float:right" type="button" onclick="document.getElementById(\'latitud\').value='+location.lat()+';document.getElementById(\'longitud\').value='+location.lng()+';"/>'});
-	  infowindow.open(map,currentMark);
-      
-	  google.maps.event.addListener(infowindow,'closeclick',function(){
-		   currentMark.setMap(null);
-		});
-	}
-  var marker=new google.maps.Marker({
-  position:myCenter,
-  });
-
-   marker.setMap(map);
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-
-</script>
 </div>
 
 <!-- Modal -->
@@ -350,6 +267,52 @@ google.maps.event.addDomListener(window, 'load', initialize);
 </div>
 </div>
 </div>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&libraries=places"></script>
+  
+<script>
+
+function initialize(lat,lon,nivel) {
+  var myCenter=new google.maps.LatLng(lat,lon);
+  if(!nivel) zoomNivel = 1;
+  var mapProp = {
+    center:myCenter,
+    zoom:nivel ,
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  };
+ var markers = [];
+ var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+     google.maps.event.addListener(map, 'click', function(event) {
+	  placeMarker(event.latLng);
+	  });
+
+	function placeMarker(location) {
+	  var currentMark = new google.maps.Marker({
+	    position: location,
+	    map: map,
+	  });
+	  var infowindow = new google.maps.InfoWindow({
+	    content: 'Latitude: ' + location.lat() +
+	    '<br>Longitude: ' + location.lng() + '<br>' + ''
+	    + '<input style="float:right" type="button" onclick="document.getElementById(\'latitud\').value='+location.lat()+';document.getElementById(\'longitud\').value='+location.lng()+';"/>'});
+	  infowindow.open(map,currentMark);
+      
+	  google.maps.event.addListener(infowindow,'closeclick',function(){
+		   currentMark.setMap(null);
+		});
+	}
+  var marker=new google.maps.Marker({
+  position:myCenter,
+  });
+
+   marker.setMap(map);
+}
+
+
+</script>
+</div>
+
+
 
 
 

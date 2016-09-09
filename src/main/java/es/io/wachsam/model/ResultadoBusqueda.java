@@ -11,6 +11,8 @@ public class ResultadoBusqueda {
 	@Expose
 	int totalResults;
 	@Expose
+	int pageSize;
+	@Expose
     Object[] data=null;
 	public int getNumpages() {
 		return numpages;
@@ -35,6 +37,12 @@ public class ResultadoBusqueda {
 	}
 	public void setData(Object[] data) {
 		this.data = data;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
 	}
 	
 

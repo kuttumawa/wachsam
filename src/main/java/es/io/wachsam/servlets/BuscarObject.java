@@ -3,7 +3,6 @@ package es.io.wachsam.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +20,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import es.io.wachsam.model.Alert;
-import es.io.wachsam.model.Node;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.ResultadoBusqueda;
 import es.io.wachsam.model.Sitio;
@@ -66,7 +64,11 @@ public class BuscarObject extends HttpServlet {
 		int totalResults=0;
 		if(object.equalsIgnoreCase(ObjetoSistema.Alert.name())){
 			AlertService alertService=(AlertService) context.getBean("alertService");	
+			totalResults=alertService.getNumeroTotalSitios(filterMap);
 			List<Alert> alerts=alertService.getAlertasMysql(filterMap,pageNum,pageSize);
+			for(Alert _alert:alerts){
+				_alert.setFechaPubFormatted();
+			}
 			res.setData(alerts.toArray());			
 		}else if(object.equalsIgnoreCase(ObjetoSistema.Sitio.name())){
 			SitioService sitioService=(SitioService) context.getBean("sitioService");	
