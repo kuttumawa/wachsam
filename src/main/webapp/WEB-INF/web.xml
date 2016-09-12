@@ -152,11 +152,17 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalTipoSitioUpdaterForYou</servlet-class>
   </servlet>
-    <servlet>
+  <servlet>
   	<servlet-name>BuscarObject</servlet-name>
   	<display-name>BuscarObject</display-name>
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.BuscarObject</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>BuscarObjectCSV</servlet-name>
+  	<display-name>BuscarObjectCSV</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.BuscarObjectCSV</servlet-class>
   </servlet>
 
   
@@ -255,6 +261,10 @@
     <servlet-mapping>
     <servlet-name>BuscarObject</servlet-name>
   	<url-pattern>/BuscarObject</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BuscarObjectCSV</servlet-name>
+  	<url-pattern>/BuscarObjectCSV</url-pattern>
   </servlet-mapping>
   
 <error-page>

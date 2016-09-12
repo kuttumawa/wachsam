@@ -42,6 +42,11 @@ function buscar(page){
 		  });
 		  return false;
 }
+function downloadResults(){
+	var url= "BuscarObjectCSV?object="+objectoSistema+"&filter="+JSON.stringify($('#formFilter').serializeObject());
+	window.location.href = url;
+		
+}
 function paintData(data){
 	$('#resultado').children().remove();
 	if(data.totalResults){
@@ -237,5 +242,7 @@ class Tipo{
 <div class="panel panel-default" style="display:none" id="panelResult">
 <div class="panel-body" id="resultado"></div>
 </div>
-
+<button type="button" class="btn btn-primary btn-sm" onclick="downloadResults()">
+      <span class="glyphicon glyphicon-download-alt"></span>
+</button>
 </div>

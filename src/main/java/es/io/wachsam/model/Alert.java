@@ -445,6 +445,62 @@ public class Alert {
 	public Node toNode() {
 		return new Node(this.id,this.getNombre(),ObjetoSistema.Alert.ordinal(),this.prettyPrint());		
 	}
+
+	public static String toCSVCabecera(String separador) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("id");
+		builder.append(separador+"nombre");
+		builder.append(separador+"tipo");
+		builder.append(separador+"link1");
+		builder.append(separador+"link2");
+		builder.append(separador+"link3");
+		builder.append(separador+"texto");
+		builder.append(separador+"text");
+		builder.append(separador+"lugar");
+		builder.append(separador+"fechaPub");
+		builder.append(separador+"caducidad");
+		builder.append(separador+"fechaPubFormatted");
+		builder.append(separador+"lugarObj.nombre");
+		builder.append(separador+"lugarObj.latitud");
+		builder.append(separador+"lugarObj.longitud");
+		builder.append(separador+"peligro.nombre");
+		return builder.toString();		
+	}
+	public String toCSV(String separador) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(id);
+		builder.append(separador);
+		builder.append(nombre);
+		builder.append(separador);
+		builder.append(tipo);
+		builder.append(separador);
+		builder.append(link1);
+		builder.append(separador);
+		builder.append(link2);
+		builder.append(separador);
+		builder.append(link3);
+		builder.append(separador);
+		builder.append(texto);
+		builder.append(separador);
+		builder.append(text);
+		builder.append(separador);
+		builder.append(lugar);
+		builder.append(separador);
+		builder.append(fechaPub);
+		builder.append(separador);
+		builder.append(caducidad);
+		builder.append(separador);
+		builder.append(fechaPubFormatted);
+		builder.append(separador);
+		builder.append(lugarObj!=null?lugarObj.getNombre():"");
+		builder.append(separador);
+		builder.append(lugarObj!=null?lugarObj.getLatitud():"");
+		builder.append(separador);
+		builder.append(lugarObj!=null?lugarObj.getLongitud():"");
+		builder.append(separador);
+		builder.append(peligro!=null?peligro.getNombre():"");
+		return builder.toString();
+	}
 	
 	
 
