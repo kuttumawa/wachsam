@@ -83,7 +83,7 @@ public class Magno extends HttpServlet {
 	    	   Alert a = alertsIT.next(); 
 	    	   a.isCaducado();
 		       if((caducadas==null || !caducadas.equalsIgnoreCase("true")) && a.isCaducado())alertsIT.remove();
-		       else  a.setFechaPubFormatted();
+		       else  a.setFechaPubFormatted_ddMMyyyy();
 		       if (english==null) {
 		    	   a.setText("");
 		       }else{

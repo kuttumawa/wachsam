@@ -67,7 +67,7 @@ public class BuscarObject extends HttpServlet {
 			totalResults=alertService.getNumeroTotalSitios(filterMap);
 			List<Alert> alerts=alertService.getAlertasMysql(filterMap,pageNum,pageSize);
 			for(Alert _alert:alerts){
-				_alert.setFechaPubFormatted();
+				_alert.getFechaPubFormattedForDateHtmlInput();
 			}
 			res.setData(alerts.toArray());			
 		}else if(object.equalsIgnoreCase(ObjetoSistema.Sitio.name())){

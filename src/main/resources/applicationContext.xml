@@ -97,6 +97,13 @@
        <property name="sitioService"  ref="sitioService"/>
        <property name="fileUploadDao" ref="fileUploadDao"/>
     </bean>
+     <bean id="recursoDao" class="es.io.wachsam.dao.RecursoDao" />
+     <bean id="recursoService" class="es.io.wachsam.services.RecursoService">
+      <property name="dao" ref="recursoDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    <bean id="s3service" class="es.io.wachsam.services.S3service"/>
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">

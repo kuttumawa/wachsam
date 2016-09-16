@@ -22,8 +22,7 @@
 .profile-img
 {
     width: 46px;
-    height: 46px;  
-   
+    height: 46px;    
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
     border-radius: 50%;
@@ -60,9 +59,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Alertas
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="BuscarAlert">Buscar </a></li>
-          <li><a href="ProvisionalAlertUpdaterForYou">Alertas</a></li>
-           
+          <li><a href="ProvisionalAlertUpdaterForYou">Alertas</a></li>           
         </ul>
       </li>
       <%}%>
@@ -71,7 +68,6 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Lugares
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Buscar_OFF</a></li>
           <li><a href="ProvisionalLugarUpdaterForYou">Lugares</a></li> 
         </ul>
       </li>
@@ -81,10 +77,9 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Peligros
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Buscar_OFF</a></li>
           <li><a href="ProvisionalPeligroUpdaterForYou">Peligros</a></li>
-          <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>
-        </ul>
+         
+         </ul>
       </li>
        <%}%>
        <%if(sec.hasAuth(usuario,Riesgo.class,Acciones.READ,null)){ %>
@@ -93,6 +88,8 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="ProvisionalRiesgoUpdaterForYou">Riesgos</a></li> 
+          <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>
+          <li><a href="ProvisionalFactorUpdaterForYou">Mitigaciones</a></li>  
         </ul>
       </li>
       <%}%>
@@ -122,7 +119,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="upload">File Upload</a></li>        
-        </ul>
+        </ul>     
       </li>
       <%}%>
       <%if(sec.hasAuth(usuario,PermisosAvanzados.class,Acciones.READ,null)){ %>
@@ -132,6 +129,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <ul class="dropdown-menu">
           <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li>
           <li><a href="ProvisionalTipoSitioUpdaterForYou">Tipo Sitio</a></li>
+           <li><a href="recurso">Art&iacute;culo</a></li>
         </ul>
       </li>
       <%}%>

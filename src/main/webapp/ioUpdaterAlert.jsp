@@ -58,14 +58,14 @@ function loadFields(data){
 	if(data.id)document.getElementById("id0").value=data.id;
     if(data.id)document.getElementById("id").value=data.id;
     if(data.nombre)document.getElementById("nombre").value=data.nombre;
-    if(data.nombreEn)document.getElementById("texto").value=data.texto;
-    if(data.texto)document.getElementById("text").value=data.text;
+    if(data.texto)document.getElementById("texto").value=data.texto;
+    if(data.text)document.getElementById("text").value=data.text;
 	if(data.link1)document.getElementById("link1").value=data.link1;
 	if(data.link2)document.getElementById("link2").value=data.link2;
 	if(data.link3)document.getElementById("link3").value=data.link3;
-	if(data.lugar)document.getElementById("lugar").value=data.lugar;
-	if(data.peligro)document.getElementById("peligro").value=data.peligro;
-	if(data.fechaPub)document.getElementById("fechaPub").value=data.fechaPub;
+	if(data.lugarObj)document.getElementById("lugar").value=data.lugarObj.id;
+	if(data.peligro)document.getElementById("peligro").value=data.peligro.id;
+	if(data.fechaPubFormatted)document.getElementById("fechaPub").value=data.fechaPubFormatted;
 	if(data.tipo)document.getElementById("tipo").value=data.tipo;
 	if(data.caducidad)document.getElementById("caducidad").value=data.caducidad;
 	if(data.fuente)document.getElementById("fuente").value=data.fuente.id;
@@ -74,9 +74,7 @@ function loadFields(data){
     initialize(data.lugarObj.latitud,data.lugarObj.longitud,data.lugarObj.nivel);
     callMeAfterFunction=refreshmap;
     fectchData();
-   
-    
-   
+  
 }
 function deleteOper(){
 
@@ -304,10 +302,7 @@ for(Tipo tipo_i:tipos){
 		 </jsp:include>
 	    </div>
        </div>
-     </div>
-    
-    
-    
+     </div>   
 </div>
 </div>
 

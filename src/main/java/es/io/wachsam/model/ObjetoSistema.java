@@ -14,6 +14,8 @@ public enum ObjetoSistema {
 	@SerializedName("7") Usuario,
 	@SerializedName("8") Riesgo,
 	@SerializedName("9") TipoSitio,
+	@SerializedName("10") Mitigacion,
+	@SerializedName("11") Recurso,
 	@SerializedName("100") Data;
 	
 	public Object getInstanceObject(){
@@ -27,6 +29,9 @@ public enum ObjetoSistema {
 		else if(this.equals(Usuario)) return new Usuario();
 		else if(this.equals(Riesgo)) return new Riesgo();
 		else if(this.equals(TipoSitio)) return new TipoSitio();
+		else if(this.equals(Data)) return  new Data();
+		else if(this.equals(Mitigacion)) return  new Mitigacion();
+		else if(this.equals(Recurso)) return  new Recurso();
 		else if(this.equals(Data)) return  new Data();
 		return null;
 	}

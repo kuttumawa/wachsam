@@ -76,6 +76,7 @@ public class AlertServletJSON extends HttpServlet {
 			}else if(oper.equalsIgnoreCase("getAlert") && GenericValidator.isLong(_id)){
 			    Long id=Long.parseLong(_id);
 				Alert alert=alertService.getAlert(id, usuario);
+				alert.getFechaPubFormattedForDateHtmlInput();
 				out.println(prettyGson.toJson(alert));
 			}
 			

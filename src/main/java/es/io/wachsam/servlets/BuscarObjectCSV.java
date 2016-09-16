@@ -82,6 +82,7 @@ public class BuscarObjectCSV extends HttpServlet {
 			resultado.append("\n");
 			
 			for(Alert _alert:alerts){
+				_alert.setFechaPubFormatted_ddMMyyyy();
 				resultado.append(_alert.toCSV(";"));
 				//Get all data for object
 				Map<Long,String> x= toMap(dataService.getAllForObject(_alert.getId(), ObjetoSistema.Alert, usuario));

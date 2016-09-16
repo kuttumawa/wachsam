@@ -53,8 +53,10 @@ function paintData(data){
 		makeTable($('#resultado'),data.data);
 		makePagination($('#resultado'),data);
 		$('#resultado').append($('<div/>').addClass('fuente').text(data.data.length + ' ..de.. ' + data.totalResults));
+		$('#downloadButtonId').show();		
 	}else{
 		$('#resultado').text("Sin Resultado"); 
+		$('#downloadButtonId').hide();		
 	}
 	$('#panelResult').show();		
 }
@@ -85,8 +87,7 @@ function makeTable(container, data) {
     theader.append($("<th/>").text("lugar"));
     theader.append($("<th/>").text("tipo"));
     theader.append($("<th/>").text("fecha"));
-    theader.append($("<th/>").text("texto"));
-    
+    theader.append($("<th/>").text("texto"));   
     table.append(theader);
     $.each(data, function(rowIndex, d) {
         var row = $("<tr/>");
@@ -140,9 +141,7 @@ function fecthAlert(id){
 		loadFields(data);		
 	},"json");		
 	}
-function onClickRow(id){
-	
-}
+
 </script>
 <div class="container">
 <form action="" role="form" id="formFilter" class="form-horizontal">
@@ -242,7 +241,7 @@ class Tipo{
 <div class="panel panel-default" style="display:none" id="panelResult">
 <div class="panel-body" id="resultado"></div>
 </div>
-<button type="button" class="btn btn-primary btn-sm" onclick="downloadResults()">
+<button type="button" class="btn btn-primary btn-sm" id="downloadButtonId" onclick="downloadResults()" style="display:none">
       <span class="glyphicon glyphicon-download-alt"></span>
 </button>
 </div>

@@ -233,6 +233,30 @@ ALTER TABLE `viajarseguro`.`operationlog`
 ADD COLUMN `stamp` VARCHAR(100) NULL AFTER `usuarioId`;
 
 
+--------------------1.2.0
+CREATE TABLE `viajarseguro`.`mitigacion` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `peligro_id` INT NOT NULL,
+  `factor_id` INT NOT NULL,
+  `value` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `id_UNIQUE` (`id` ASC));
+
+  
+CREATE TABLE `recurso` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(150) NOT NULL,
+  `descripcion` varchar(500) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `fecha` date NOT NULL,
+  `uri` varchar(250) DEFAULT NULL,
+  `s3Bucket` varchar(150) DEFAULT NULL,
+  `s3Publico` int(11) DEFAULT NULL,
+  `formato` varchar(100) DEFAULT NULL,
+  `size` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 

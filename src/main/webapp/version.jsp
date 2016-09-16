@@ -3,10 +3,9 @@
 <pre>
 1.2.0 (futuro)
 ------------------------------------------------------------------------------
-- Búsqueda para todo los objetos.
+- Búsqueda objetos pesados.
 - Descarga formato csv de los resultados de una búsqueda.
 - Eliminación del combo del id de las páginas, sustituirlo por búsqueda.
-- Objetos Secundarios, agrupación de objetos de importancia secundaria sin geolocalización: Ejemplo Droga,Vacuna,Medicamento
 - Clonar en todos los objetos.
 - Mejoras en tags: organización,más datos(categoría,único por objeto)
 - Rollback de cargas masivas

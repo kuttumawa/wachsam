@@ -14,7 +14,9 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
 %>
 <style>
 .fila {cursor: pointer}
+#modal1Id .modal-dialog  {width:75%;}
 </style>
+
 <script>
 function modifyData(e){
 	$('#modal1Id').modal('show');

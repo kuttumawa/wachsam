@@ -211,8 +211,17 @@ public class Alert {
 		return fechaPubFormatted;
 	}
 
-	public void setFechaPubFormatted() {
+	public void setFechaPubFormatted_ddMMyyyy() {
 		SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+		try {
+			fechaPubFormatted = df.format(fechaPub);
+		} catch (Exception e) {
+			fechaPubFormatted = null;
+		}
+
+	}
+	public void setFechaPubFormatted_yyyyMMdd() {
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		try {
 			fechaPubFormatted = df.format(fechaPub);
 		} catch (Exception e) {
@@ -236,7 +245,7 @@ public class Alert {
 		this.text = text;
 		this.lugar = lugar;
 		this.fechaPub = fechaPub;
-		setFechaPubFormatted();
+		setFechaPubFormatted_ddMMyyyy();
 		this.lugarObj = lugarObj;
 		this.peligro = peligro;
 		this.caducidad = caducidad;
