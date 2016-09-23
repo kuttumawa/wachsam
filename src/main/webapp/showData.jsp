@@ -24,8 +24,12 @@ function savedata(){
 		    url: "DataServletJSON?oper=save&objetoId="+objetoId,
 		    data: $("#formData").serialize(),
 		    success: function(data) {
-		    	fectchData();
-		    	$('#myModal').modal('hide');
+		    	if(data.error){
+			    	fectchData();
+		    	    $('#myModal').modal('hide');
+		    	}else{
+		    		 $('#dataResultado').text(data.messages);
+			    	}    
 		    }
 		  });
 		  return false;
@@ -284,6 +288,7 @@ $(function(){
         <h4 class="modal-title">Nuevo Dato</h4>
       </div>
       <div class="modal-body">
+      <div id="dataResultado"/>
  <form id="formData" action="ProvisionalDataUpdaterForYou" method="post" role="form">
         <input type="hidden" name="objetoId" value="<%= request.getParameter("objetoId")%>" readonly/>
         <input type="hidden" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>" readonly/>

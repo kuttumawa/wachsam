@@ -102,8 +102,16 @@
       <property name="dao" ref="recursoDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
+      <property name="s3service"  ref="s3service"/>
     </bean>
-    <bean id="s3service" class="es.io.wachsam.services.S3service"/>
+    <bean id="s3service" class="es.io.wachsam.services.S3service" init-method="s3serviceInit">
+      <property name="BUCKET_NAME" value="wachsam-articulos-repository" />
+      <property name="S3_URL_CONTEXT" value="https://s3.amazonaws.com/" />
+      <property name="acceskey" value="" />
+      <property name="secretKey" value="" />
+    </bean>
+    
+    
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">

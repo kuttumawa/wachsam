@@ -19,6 +19,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.CopyObjectRequest;
+import com.amazonaws.services.s3.model.CopyObjectResult;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -31,7 +34,20 @@ public class S3service{
 	AWSCredentials credentials;
 	AmazonS3 s3client;
 	private static final Logger LOG = Logger.getLogger(S3service.class);
-	public S3service()  {
+	private String BUCKET_NAME="wachsam-articulos-repository";
+	private  String S3_URL_CONTEXT ="https://s3.amazonaws.com/";
+	private String acceskey;
+	private String secretKey;
+	public void s3serviceInit()  {
+		ClientConfiguration clientConfig = new ClientConfiguration();
+		clientConfig.setProtocol(Protocol.HTTPS);
+		clientConfig.setProxyHost("proxybc.mjusticia.es");
+		clientConfig.setProxyPort(8080);
+		clientConfig.setProxyUsername("dlinares");
+		clientConfig.setProxyPassword("Infocentro2032");
+		
+		credentials= new BasicAWSCredentials(acceskey,secretKey);
+		s3client = new AmazonS3Client(credentials,clientConfig);
 			}
 	
 	public void createBucket(String bucketName) {		
@@ -116,6 +132,45 @@ public class S3service{
 		request.getExpiration();
 		return s3client.generatePresignedUrl(request);
 		
+	}
+	
+	public void renameObject(String bucketName,String oldKeyName,String newKeyName){
+		CopyObjectRequest copyObjRequest = new CopyObjectRequest(bucketName, 
+				oldKeyName, bucketName, newKeyName);
+		CopyObjectResult result=s3client.copyObject(copyObjRequest);
+		s3client.deleteObject(new DeleteObjectRequest(bucketName, oldKeyName));
+	}
+
+	public String getBUCKET_NAME() {
+		return BUCKET_NAME;
+	}
+
+	public void setBUCKET_NAME(String bUCKET_NAME) {
+		BUCKET_NAME = bUCKET_NAME;
+	}
+
+	public String getS3_URL_CONTEXT() {
+		return S3_URL_CONTEXT;
+	}
+
+	public void setS3_URL_CONTEXT(String s3_URL_CONTEXT) {
+		S3_URL_CONTEXT = s3_URL_CONTEXT;
+	}
+
+	public String getAcceskey() {
+		return acceskey;
+	}
+
+	public void setAcceskey(String acceskey) {
+		this.acceskey = acceskey;
+	}
+
+	public String getSecretKey() {
+		return secretKey;
+	}
+
+	public void setSecretKey(String secretKey) {
+		this.secretKey = secretKey;
 	}
 	
 	

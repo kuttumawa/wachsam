@@ -129,7 +129,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <ul class="dropdown-menu">
           <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li>
           <li><a href="ProvisionalTipoSitioUpdaterForYou">Tipo Sitio</a></li>
-           <li><a href="recurso">Art&iacute;culo</a></li>
+           <li><a href="recurso">Recurso</a></li>
         </ul>
       </li>
       <%}%>

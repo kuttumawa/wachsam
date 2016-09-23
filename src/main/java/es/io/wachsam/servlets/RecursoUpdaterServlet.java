@@ -3,6 +3,7 @@ package es.io.wachsam.servlets;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -19,10 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
+import org.apache.commons.validator.GenericValidator;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import es.io.wachsam.exception.NoAutorizadoException;
+import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Recurso;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.RecursoService;
@@ -67,6 +73,14 @@ public class RecursoUpdaterServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		String oper=request.getParameter("oper");
+		if(oper!=null && oper.equalsIgnoreCase("getRecurso")){
+			PrintWriter out = response.getWriter();
+			final Gson gson=new Gson();
+		    final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();		 
+			out.write(prettyGson.toJson(recurso));
+			return;
+		}
 	    request.setAttribute("recurso",recurso);
 		String nextJSP = "/ioUpdaterRecurso.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
@@ -88,13 +102,13 @@ public class RecursoUpdaterServlet extends HttpServlet {
 		RecursoService recursoService = (RecursoService) context.getBean("recursoService");
 		S3service s3service = (S3service) context.getBean("s3service");
 		
-		final String BUCKET_NAME="wachsam-articulos-repository";
-		final String S3_URL_CONTEXT="https://s3.amazonaws.com/";
+		
+		
 		List<String> resultado=new ArrayList<String>();
 		Recurso recurso=new Recurso();;	
 		String _recursoId=request.getParameter("recursoId");
 		Long recursoId=null;
-		if(_recursoId!=null){
+		if(!GenericValidator.isBlankOrNull(_recursoId) && GenericValidator.isLong(_recursoId) ){
 			recursoId=Long.parseLong(_recursoId);
 		}		
 		String descripcion=request.getParameter("descripcion");
@@ -109,16 +123,14 @@ public class RecursoUpdaterServlet extends HttpServlet {
 			if(recursoId!=null){
 				try {
 					recurso=recursoService.getRecurso(recursoId, usuario);
-					recursoService.deleteById(recursoId,usuario);
-					s3service.deleteObject(recurso.getS3Bucket(), recurso.getS3Key());
-					resultado.add("Borrado Correcto");
-				
+					recursoService.deleteById(recursoId,usuario);					
+					resultado.add("Borrado Correcto");				
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				} catch (NoAutorizadoException e) {
 					resultado.add("No tienes permisos para la operacion");
 				} catch (Throwable e) {
-					e.printStackTrace();
+					resultado.add("Error al borrar: "+ e);
 				}
 			}else{
 				resultado.add("Error al borrar");
@@ -141,6 +153,7 @@ public class RecursoUpdaterServlet extends HttpServlet {
 					resultado.add("No tienes permisos para la operacion");
 				} catch (Throwable e) {
 					e.printStackTrace();
+					resultado.add("Error download: "+ e);
 				}
 			}else{
 				resultado.add("Error en al descarga del documento");
@@ -158,24 +171,14 @@ public class RecursoUpdaterServlet extends HttpServlet {
 					recurso.setId(recursoId);
 					recurso.setNombre(nombre);
 					recurso.setCreador(usuario);
-					recurso.setFechaCreacion(new Date());
-					recursoService.save(recurso,usuario);				
-					if(filePart!=null && filePart.getSize()>0 ){						
-						recurso.setSize(filePart.getSize());					
-						recurso.setFechaCreacion(new Date());
-						recurso.setS3Bucket(BUCKET_NAME);
-						s3service.uploadFile(recurso.getS3Bucket(),recurso.getS3Key(),filecontent,recurso.toMetadata(),recurso.getFormato());
-						if(_s3Publico!=null && _s3Publico.equalsIgnoreCase("true")) {
-							recurso.setS3Publico(true);
-							recurso.setUri(S3_URL_CONTEXT+BUCKET_NAME+"/"+ URLEncoder.encode(recurso.getS3Key(),StandardCharsets.ISO_8859_1.toString()));
-							s3service.changeObjectACLPublic(recurso.getS3Bucket(), recurso.getS3Key());
-						}else{
+					recurso.setSize(filePart!=null?filePart.getSize():0);
+					recurso.setS3Bucket(s3service.getBUCKET_NAME());
+					if(_s3Publico!=null && _s3Publico.equalsIgnoreCase("true")) {
+							recurso.setS3Publico(true);							
+					}else{
 							recurso.setS3Publico(false);
-							recurso.setUri(null);
-							s3service.changeObjectACLPrivate(recurso.getS3Bucket(), recurso.getS3Key());
-						}
-						recursoService.save(recurso,usuario);						
-					}
+					}																
+					recursoService.save(recurso,usuario,filePart.getInputStream());						
 					resultado.add("INSERTADO OK: " + recurso);
 				} catch (NoAutorizadoException e) {
 					resultado.add("No tienes permisos para la operacion");					

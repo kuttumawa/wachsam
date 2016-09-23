@@ -21,9 +21,11 @@ import com.google.gson.reflect.TypeToken;
 
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.ObjetoSistema;
+import es.io.wachsam.model.Recurso;
 import es.io.wachsam.model.ResultadoBusqueda;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.services.AlertService;
+import es.io.wachsam.services.RecursoService;
 import es.io.wachsam.services.SitioService;
 
 /**
@@ -75,6 +77,11 @@ public class BuscarObject extends HttpServlet {
 			totalResults=sitioService.getNumeroTotalSitios(filterMap);
 			List<Sitio> sitios=sitioService.getSitios(filterMap,pageNum,pageSize);
 			res.setData(sitios.toArray());		
+		}else if(object.equalsIgnoreCase(ObjetoSistema.Recurso.name())){
+			RecursoService recursoService=(RecursoService) context.getBean("recursoService");	
+			totalResults=recursoService.getNumeroTotalRecursos(filterMap);
+			List<Recurso> recursos=recursoService.getRecursos(filterMap,pageNum,pageSize);
+			res.setData(recursos.toArray());		
 		}
 		int numpages=(int) Math.ceil(totalResults/pageSize);
 		res.setNumpages(numpages);

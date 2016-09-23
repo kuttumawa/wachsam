@@ -94,7 +94,7 @@ public class Recurso {
 	}
 
 	public String getS3Key() {
-		return nombre +"_###_"+ id;
+		return id + "_"+ nombre;
 	}
 
 	public void setS3Key(String s3Key) {
@@ -169,6 +169,7 @@ public class Recurso {
 		List<String> errores=new ArrayList<String>();
 		if(GenericValidator.isBlankOrNull(nombre)) errores.add("Nombre Obligatorio;");
 		if(nombre!=null && nombre.length()>100) errores.add("Nombre  debe se menor de 100");
+		if(descripcion!=null && descripcion.length()>500) errores.add("Descripción  debe se menor de 500");
 		if(GenericValidator.isBlankOrNull(formato)) errores.add("Formato Obligatorio;");
 		return errores;
 	}
