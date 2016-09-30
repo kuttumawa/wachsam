@@ -38,6 +38,7 @@
        <property name="peligroService"  ref="peligroService"/>
        <property name="lugarService"  ref="lugarService"/>
        <property name="sitioService"  ref="sitioService"/>
+        <property name="recursoService"  ref="recursoService"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>
@@ -109,6 +110,16 @@
       <property name="S3_URL_CONTEXT" value="https://s3.amazonaws.com/" />
       <property name="acceskey" value="" />
       <property name="secretKey" value="" />
+      <property name="proxyHost" value="" />
+      <property name="proxyPort" value="" />
+      <property name="proxyUsername" value="" />
+      <property name="proxyPassword" value="" />
+    </bean>
+    <bean id="mitigacionDao" class="es.io.wachsam.dao.MitigacionDao" />
+    <bean id="mitigacionService" class="es.io.wachsam.services.MitigacionService">
+      <property name="dao" ref="mitigacionDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
     </bean>
     
     

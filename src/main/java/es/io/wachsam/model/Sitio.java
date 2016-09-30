@@ -209,7 +209,45 @@ public class Sitio implements ObjetoSistemaIF {
 		return new Node(this.id,this.getNombre(),ObjetoSistema.Sitio.ordinal(),ObjetoSistema.Sitio +":"+this.id+"-"+this.getNombre());		
 	}
 
-	
+	public static String toCSVCabecera(String separador) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("id");
+		builder.append(separador+"nombre");
+		builder.append(separador+"nombreEn");
+		builder.append(separador+"direccion");
+		builder.append(separador+"tipo");
+		builder.append(separador+"texto");
+		builder.append(separador+"textoEn");
+		builder.append(separador+"lugarObj.nombre");
+		builder.append(separador+"lugarObj.latitud");
+		builder.append(separador+"lugarObj.longitud");
+		builder.append(separador+"valoracion");		
+		return builder.toString();		
+	}
+	public String toCSV(String separador) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(id);
+		builder.append(separador);
+		builder.append(nombre);
+		builder.append(separador);
+		builder.append(nombreEn);
+		builder.append(separador);
+		builder.append(direccion);
+		builder.append(separador);
+		builder.append(tipo);
+		builder.append(separador);
+		builder.append(texto);
+		builder.append(separador);
+		builder.append(textoEn);
+		builder.append(separador);	
+		builder.append(lugarObj!=null?lugarObj.getNombre():"");
+		builder.append(separador);
+		builder.append(lugarObj!=null?lugarObj.getLatitud():"");
+		builder.append(separador);
+		builder.append(lugarObj!=null?lugarObj.getLongitud():"");
+		builder.append(separador);	
+		return builder.toString();
+	}
 	
 	
 

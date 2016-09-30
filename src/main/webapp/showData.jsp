@@ -277,6 +277,27 @@ $(function(){
       <span class="glyphicon glyphicon-link"></span> 
 </button>
 
+
+<!-- Modal -->
+<div id="modalGraph" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Red de Conexiones</h4>
+      </div>
+      <div class="modal-body">
+            <jsp:include page="networkGraph.jsp"/>
+      </div>
+      <div class="modal-footer">
+       
+      </div>
+  </div>
+</div>
+</div>
+
+
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -365,24 +386,5 @@ $(function(){
 </div>
 </div>
 
-<!-- Modal -->
-<div id="modalGraph" class="modal fade" role="dialog">
-  <div class="modal-dialog">
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Red de Conexiones</h4>
-      </div>
-      <div class="modal-body">
-             <jsp:include page="networkGraph.jsp"/>
-      </div>
-      <div class="modal-footer">
-       
-      </div>
-</div>
-
-</div>
-</div>
 

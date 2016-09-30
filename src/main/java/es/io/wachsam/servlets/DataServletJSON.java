@@ -110,7 +110,12 @@ public class DataServletJSON extends HttpServlet {
 					error=true;
 				}
 				prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();				
-				if(!error) nodeAndLinks=dataService.getAllNodeAndLinksForObject(objetoId, objetoTipo,usuario,null);
+				if(!error)
+					try {
+						nodeAndLinks=dataService.getAllNodeAndLinksForObject(objetoId, objetoTipo,usuario,null);
+					} catch (NoAutorizadoException e) {
+						error=true;
+					}
 				out.write(prettyGson.toJson(nodeAndLinks));
 			}
 			

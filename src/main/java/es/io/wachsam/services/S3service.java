@@ -38,17 +38,26 @@ public class S3service{
 	private  String S3_URL_CONTEXT ="https://s3.amazonaws.com/";
 	private String acceskey;
 	private String secretKey;
+	private String proxyHost;
+	private Integer proxyPort;
+	private String proxyUsername;
+	private String proxyPassword;
 	public void s3serviceInit()  {
-		ClientConfiguration clientConfig = new ClientConfiguration();
-		clientConfig.setProtocol(Protocol.HTTPS);
-		clientConfig.setProxyHost("proxybc.mjusticia.es");
-		clientConfig.setProxyPort(8080);
-		clientConfig.setProxyUsername("dlinares");
-		clientConfig.setProxyPassword("Infocentro2032");
-		
-		credentials= new BasicAWSCredentials(acceskey,secretKey);
-		s3client = new AmazonS3Client(credentials,clientConfig);
-			}
+		if(getProxyHost()!=null){
+			ClientConfiguration clientConfig = new ClientConfiguration();
+			clientConfig.setProtocol(Protocol.HTTPS);
+			clientConfig.setProxyHost(proxyHost);
+			clientConfig.setProxyPort(proxyPort);
+			clientConfig.setProxyUsername(proxyPassword);
+			clientConfig.setProxyPassword(proxyPassword);
+			credentials= new BasicAWSCredentials(acceskey,secretKey);
+			s3client = new AmazonS3Client(credentials,clientConfig);
+		}else{
+			credentials= new BasicAWSCredentials(acceskey,secretKey);
+			s3client = new AmazonS3Client(credentials);
+		}
+
+	}
 	
 	public void createBucket(String bucketName) {		
 		s3client.createBucket(bucketName);
@@ -171,6 +180,38 @@ public class S3service{
 
 	public void setSecretKey(String secretKey) {
 		this.secretKey = secretKey;
+	}
+
+	public String getProxyHost() {
+		return proxyHost;
+	}
+
+	public void setProxyHost(String proxyHost) {
+		this.proxyHost = proxyHost;
+	}
+
+	public Integer getProxyPort() {
+		return proxyPort;
+	}
+
+	public void setProxyPort(Integer proxyPort) {
+		this.proxyPort = proxyPort;
+	}
+
+	public String getProxyUsername() {
+		return proxyUsername;
+	}
+
+	public void setProxyUsername(String proxyUsername) {
+		this.proxyUsername = proxyUsername;
+	}
+
+	public String getProxyPassword() {
+		return proxyPassword;
+	}
+
+	public void setProxyPassword(String proxyPassword) {
+		this.proxyPassword = proxyPassword;
 	}
 	
 	

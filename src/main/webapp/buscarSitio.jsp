@@ -44,8 +44,10 @@ function paintData(data){
 		makeTable($('#resultado'),data.data);
 		makePagination($('#resultado'),data);
 		$('#resultado').append($('<div/>').addClass('fuente').text(data.data.length + ' ..de.. ' + data.totalResults));
+		$('#downloadButtonId').show();	
 	}else{
-		$('#resultado').text("Sin Resultado"); 
+		$('#resultado').text("Sin Resultado");
+		$('#downloadButtonId').hide();	 
 	}
 	$('#panelResult').show();		
 }
@@ -125,6 +127,12 @@ function fecthSitio(id){
 	},"json");		
 	}
 
+function downloadResults(){
+	var url= "BuscarObjectCSV?object="+objectoSistema+"&filter="+JSON.stringify($('#formFilter').serializeObject());
+	window.location.href = url;
+		
+}
+
 </script>
 <div class="container">
 <form action="" role="form" id="formFilter" class="form-horizontal">
@@ -173,5 +181,7 @@ function fecthSitio(id){
 <div class="panel panel-default" style="display:none" id="panelResult">
 <div class="panel-body" id="resultado"></div>
 </div>
-
+<button type="button" class="btn btn-primary btn-sm" id="downloadButtonId" onclick="downloadResults()" style="display:none">
+      <span class="glyphicon glyphicon-download-alt"></span>
+</button>
 </div>

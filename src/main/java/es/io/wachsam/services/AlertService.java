@@ -142,7 +142,7 @@ public class AlertService {
 		
 		return alerts.size();
 	}
-	public List<Alert> getAllSitios(Map<String,String> filter) {
+	public List<Alert> getAllAlerts(Map<String,String> filter) {
 		String texto=filter.containsKey("texto")?filter.get("texto"):null;
 		String tipo=filter.containsKey("tipoId")?filter.get("tipoId"):null;
 		String order=filter.containsKey("order")?filter.get("order"):null;

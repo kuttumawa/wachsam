@@ -140,6 +140,41 @@ public class SitioService {
 		List<Sitio> sitios=dao.getAll(sitio);		
 		return sitios.size();	
 	}
+	public List<Sitio> getAllSitios(Map<String, String> filter) {
+		Sitio sitio=new Sitio();
+		String order=filter.containsKey("order")?filter.get("order"):null;
+		if(filter.containsKey("id") && GenericValidator.isLong(filter.get("id"))){
+			sitio.setId(Long.parseLong(filter.get("id")));
+		}
+		if(filter.containsKey("lugarId") && GenericValidator.isLong(filter.get("lugarId"))){
+			try{
+				Lugar lugar=new Lugar();
+				lugar.setId(Long.parseLong(filter.get("lugarId")));
+			    sitio.setLugarObj(lugar);
+			}catch(Exception e){
+			
+			}
+		}
+		if(filter.containsKey("nombre") && !GenericValidator.isBlankOrNull(filter.get("nombre"))){
+			try{
+			   sitio.setNombre(filter.get("nombre"));
+			}catch(Exception e){
+			
+			}
+		}
+		if(filter.containsKey("tipoId") && GenericValidator.isLong(filter.get("tipoId"))){
+			try{
+				TipoSitio tipo=new TipoSitio();
+				tipo.setId(Long.parseLong(filter.get("tipoId")));
+				sitio.setTipo(tipo);
+			}catch(Exception e){
+			
+			}
+		}
+		List<Sitio> sitios=dao.getAll(sitio);	
+		
+		return sitios;
+	}
 	
 	
 

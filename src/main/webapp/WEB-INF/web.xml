@@ -164,6 +164,18 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.BuscarObjectCSV</servlet-class>
   </servlet>
+    <servlet>
+  	<servlet-name>ProvisionalMitigacionUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalMitigacionUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalMitigacionUpdaterForYou</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>MitigacionServletJSON</servlet-name>
+  	<display-name>MitigacionServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.MitigacionServletJSON</servlet-class>
+  </servlet>
 
   
   <servlet-mapping>
@@ -265,6 +277,14 @@
   <servlet-mapping>
     <servlet-name>BuscarObjectCSV</servlet-name>
   	<url-pattern>/BuscarObjectCSV</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalMitigacionUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalMitigacionUpdaterForYou</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>MitigacionServletJSON</servlet-name>
+  	<url-pattern>/MitigacionServletJSON</url-pattern>
   </servlet-mapping>
   
 <error-page>

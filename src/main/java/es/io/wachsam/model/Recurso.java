@@ -248,6 +248,50 @@ public class Recurso {
 		return builder.toString();
 	}
 
+	public Node toNode() {
+		return new Node(this.id,this.getNombre(),ObjetoSistema.Recurso.ordinal(),ObjetoSistema.Recurso +":"+this.id+"-"+this.getNombre());		
+	}
 	
+	public static String toCSVCabecera(String separador) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("id");
+		builder.append(separador+"nombre");
+		builder.append(separador+"s3Key");
+		builder.append(separador+"s3Bucket");
+		builder.append(separador+"s3Publico");
+		builder.append(separador+"descripcion");
+		builder.append(separador+"formato");
+		builder.append(separador+"creador");
+		builder.append(separador+"uri");
+		builder.append(separador+"fecha");
+		builder.append(separador+"size");		
+		return builder.toString();		
+	}
+	public String toCSV(String separador) {
+		StringBuilder builder = new StringBuilder();
+		builder.append(id);
+		builder.append(separador);
+		builder.append(nombre);
+		builder.append(separador);
+		builder.append(getS3Key());
+		builder.append(separador);
+		builder.append(s3Bucket);
+		builder.append(separador);
+		builder.append(s3Publico);
+		builder.append(separador);
+		builder.append(descripcion);
+		builder.append(separador);
+		builder.append(formato);
+		builder.append(separador);
+		builder.append(creador!=null?creador.getLogin():"");
+		builder.append(separador);	
+		builder.append(uri!=null?uri:"");
+		builder.append(separador);
+		builder.append(fecha);
+		builder.append(separador);
+		builder.append(size);
+		builder.append(separador);	
+		return builder.toString();
+	}
 	
 }

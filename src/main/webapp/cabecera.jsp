@@ -89,7 +89,7 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <ul class="dropdown-menu">
           <li><a href="ProvisionalRiesgoUpdaterForYou">Riesgos</a></li> 
           <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>
-          <li><a href="ProvisionalFactorUpdaterForYou">Mitigaciones</a></li>  
+          <li><a href="ProvisionalMitigacionUpdaterForYou">Mitigaciones</a></li>  
         </ul>
       </li>
       <%}%>

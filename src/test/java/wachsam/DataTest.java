@@ -17,6 +17,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
 import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.TagDao;
+import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.NodeAndLinks;
@@ -109,7 +110,13 @@ public class DataTest extends TestCase {
 	public void testGetAllNodeAndLinksForObject(){
 		Usuario usuario=new Usuario();
 		usuario.setId(1L);
-		NodeAndLinks res= dataService.getAllNodeAndLinksForObject(1L, ObjetoSistema.Alert, usuario, new NodeAndLinks());
+		NodeAndLinks res=null;
+		try {
+			res = dataService.getAllNodeAndLinksForObject(1L, ObjetoSistema.Alert, usuario, new NodeAndLinks());
+		} catch (NoAutorizadoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	    System.out.println(res);
 	}
 	

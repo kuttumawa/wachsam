@@ -27,6 +27,7 @@ import es.io.wachsam.model.NodeAndLinks;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.Recurso;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.Usuario;
@@ -44,6 +45,7 @@ public class DataService {
 	private PeligroService peligroService;
 	private LugarService lugarService;
 	private SitioService sitioService;
+	private RecursoService recursoService;
 
 	public DataDao getDao() {
 		return dao;
@@ -149,6 +151,10 @@ public class DataService {
 				Fuente fuente= (Fuente) objeto;
 				data.setObjetoId(fuente.getId());
 				data.setObjetoTipo(ObjetoSistema.Fuente);
+			}else if(objeto instanceof Recurso){
+				Recurso recurso= (Recurso) objeto;
+				data.setObjetoId(recurso.getId());
+				data.setObjetoTipo(ObjetoSistema.Recurso);
 			}
 			if(data.getTipoValor()==null)data.setTipoValor(DataValueTipo.TEXTO);
 			dao.save(data);
@@ -183,6 +189,7 @@ public class DataService {
 					else if (data.getObjetoConnected().equals(ObjetoSistema.Peligro)) o =	peligroService.getPeligro(data.getConnectToId(), usuario);
 					else if (data.getObjetoConnected().equals(ObjetoSistema.Lugar)) o =	lugarService.getLugar(data.getConnectToId(), usuario);
 					else if (data.getObjetoConnected().equals(ObjetoSistema.Sitio)) o =	sitioService.getSitio(data.getConnectToId(), usuario);
+					else if (data.getObjetoConnected().equals(ObjetoSistema.Recurso)) o =	recursoService.getRecurso(data.getConnectToId(), usuario);
 					
 					
 					data.setConnectedObject(o);
@@ -196,7 +203,7 @@ public class DataService {
 	}
 
 
-	public NodeAndLinks getAllNodeAndLinksForObject(Long id,ObjetoSistema ob,Usuario usuario,NodeAndLinks nodeAndLinks){
+	public NodeAndLinks getAllNodeAndLinksForObject(Long id,ObjetoSistema ob,Usuario usuario,NodeAndLinks nodeAndLinks) throws NoAutorizadoException{
 		if(nodeAndLinks==null) nodeAndLinks=new NodeAndLinks();	
 		List<Data> datas=null; 
 		Node node_i = null;
@@ -204,6 +211,7 @@ public class DataService {
 		if(ob.equals(ObjetoSistema.Peligro)) node_i=peligroService.getPeligro(id, usuario).toNode();
 		if(ob.equals(ObjetoSistema.Lugar)) node_i=lugarService.getLugar(id, usuario).toNode();
 		if(ob.equals(ObjetoSistema.Sitio)) node_i=sitioService.getSitio(id, usuario).toNode();
+		if(ob.equals(ObjetoSistema.Recurso)) node_i=recursoService.getRecurso(id, usuario).toNode();
 		if(!nodeAndLinks.getNodes().contains(node_i))nodeAndLinks.getNodes().add(node_i);
 		datas=getAllForObject(id,ob,usuario);
 		for(Data data:datas){
@@ -294,6 +302,12 @@ public class DataService {
 	}
 	public List<Tag> getTagFromTextoAlias(String texto) {
 		return dao.getTagFromTextoAlias(texto);
+	}
+	public RecursoService getRecursoService() {
+		return recursoService;
+	}
+	public void setRecursoService(RecursoService recursoService) {
+		this.recursoService = recursoService;
 	}
 	
 

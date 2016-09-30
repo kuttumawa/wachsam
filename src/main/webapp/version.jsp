@@ -5,11 +5,10 @@
 ------------------------------------------------------------------------------
 - Búsqueda objetos pesados.
 - Descarga formato csv de los resultados de una búsqueda.
-- Eliminación del combo del id de las páginas, sustituirlo por búsqueda.
-- Clonar en todos los objetos.
+- Eliminación del combo del id de las páginas, sustituirlo por búsqueda
 - Mejoras en tags: organización,más datos(categoría,único por objeto)
 - Rollback de cargas masivas
-- Nuevo Objeto Artículo: Metadatos(nombre,autor,descripción,permiso..)  + url a a un fichero físico. Implementar con S3 
+- Nuevo Objeto Recurso: Metadatos(nombre,autor,descripción,permiso..)  + url a a un fichero físico. Implementar con S3 
 - Nuevo objeto Mitigación: (Riesgo,Factor,valor(-3,-2,-1,0,1,2,3)) ie: [[Malaria, Mosquitera,-3].
 
 1.1.0 (12-08-2015)

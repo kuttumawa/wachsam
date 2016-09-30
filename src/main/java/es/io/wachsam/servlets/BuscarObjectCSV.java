@@ -24,12 +24,14 @@ import com.google.gson.reflect.TypeToken;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.ObjetoSistema;
+import es.io.wachsam.model.Recurso;
 import es.io.wachsam.model.ResultadoBusqueda;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.AlertService;
 import es.io.wachsam.services.DataService;
+import es.io.wachsam.services.RecursoService;
 import es.io.wachsam.services.SitioService;
 
 /**
@@ -42,7 +44,7 @@ public class BuscarObjectCSV extends HttpServlet {
      * @see HttpServlet#HttpServlet()
      */
     public BuscarObjectCSV() {
-        super();
+        super(); 
         // TODO Auto-generated constructor stub
     }
 
@@ -70,17 +72,15 @@ public class BuscarObjectCSV extends HttpServlet {
 		DataService dataService=(DataService) context.getBean("dataService");
 		if(object.equalsIgnoreCase(ObjetoSistema.Alert.name())){
 			AlertService alertService=(AlertService) context.getBean("alertService");	
-			List<Alert> alerts= alertService.getAllSitios(filterMap);
+			List<Alert> alerts= alertService.getAllAlerts(filterMap);
 			resultado.append(Alert.toCSVCabecera(";"));
-			
-			//TODO: add header for data
 			List<Tag> tags=dataService.getAllTags();
+			resultado.append(";");
 			for(Tag tag:tags){
 				resultado.append(tag.getNombre());
 				resultado.append(";");
 			}
-			resultado.append("\n");
-			
+			resultado.append("\n");			
 			for(Alert _alert:alerts){
 				_alert.setFechaPubFormatted_ddMMyyyy();
 				resultado.append(_alert.toCSV(";"));
@@ -99,7 +99,60 @@ public class BuscarObjectCSV extends HttpServlet {
 			}
 			out.println(resultado);		
 		}else if(object.equalsIgnoreCase(ObjetoSistema.Sitio.name())){
-			SitioService sitioService=(SitioService) context.getBean("sitioService");	
+			SitioService sitioService=(SitioService) context.getBean("sitioService");
+			List<Sitio> sitios= sitioService.getAllSitios(filterMap);
+			resultado.append(Sitio.toCSVCabecera(";"));
+			resultado.append(";");
+			List<Tag> tags=dataService.getAllTags();
+			for(Tag tag:tags){
+				resultado.append(tag.getNombre());
+				resultado.append(";");
+			}
+			resultado.append("\n");			
+			for(Sitio _sitio:sitios){
+				resultado.append(_sitio.toCSV(";"));
+				//Get all data for object
+				Map<Long,String> x= toMap(dataService.getAllForObject(_sitio.getId(), ObjetoSistema.Sitio, usuario));
+				for(Tag tag:tags){
+					if(x.containsKey(tag.getId())) {
+						resultado.append(x.get(tag.getId()));
+						resultado.append(";");
+					}
+					else {
+						resultado.append(";");
+					}
+				}
+				resultado.append("\n");
+			}
+			out.println(resultado);		
+				
+		}else if(object.equalsIgnoreCase(ObjetoSistema.Recurso.name())){
+			RecursoService recursoService=(RecursoService) context.getBean("recursoService");
+			List<Recurso> recursos= recursoService.getAllRecursos(filterMap);
+			resultado.append(Recurso.toCSVCabecera(";"));
+			resultado.append(";");
+			List<Tag> tags=dataService.getAllTags();
+			for(Tag tag:tags){
+				resultado.append(tag.getNombre());
+				resultado.append(";");
+			}
+			resultado.append("\n");			
+			for(Recurso _recurso:recursos){
+				resultado.append(_recurso.toCSV(";"));
+				//Get all data for object
+				Map<Long,String> x= toMap(dataService.getAllForObject(_recurso.getId(), ObjetoSistema.Recurso, usuario));
+				for(Tag tag:tags){
+					if(x.containsKey(tag.getId())) {
+						resultado.append(x.get(tag.getId()));
+						resultado.append(";");
+					}
+					else {
+						resultado.append(";");
+					}
+				}
+				resultado.append("\n");
+			}
+			out.println(resultado);		
 				
 		}
 		

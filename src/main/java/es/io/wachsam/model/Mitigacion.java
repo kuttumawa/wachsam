@@ -27,6 +27,9 @@ public class Mitigacion {
 	@ManyToOne(fetch = FetchType.EAGER)	
 	@Expose
 	Peligro peligro;
+	@ManyToOne(fetch = FetchType.EAGER)	
+	@Expose
+	Factor factor;
 	@Expose
 	ValorMitigacion value;
 	public Long getId() {
@@ -47,6 +50,12 @@ public class Mitigacion {
 	public void setValue(ValorMitigacion value) {
 		this.value = value;
 	}
+	public Factor getFactor() {
+		return factor;
+	}
+	public void setFactor(Factor factor) {
+		this.factor = factor;
+	}
 	
 	public boolean hasPermisos(Usuario usuario, Acciones accion) {
 		for (Permiso permiso : usuario.getPermisos()) {
@@ -63,5 +72,6 @@ public class Mitigacion {
 
 		return false;
 	}
+	
 	
 }

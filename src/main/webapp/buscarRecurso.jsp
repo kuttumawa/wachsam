@@ -38,14 +38,21 @@ function buscar(page){
 		  });
 		  return false;
 }
+function downloadResults(){
+	var url= "BuscarObjectCSV?object="+objectoSistema+"&filter="+JSON.stringify($('#formFilter').serializeObject());
+	window.location.href = url;
+		
+}
 function paintData(data){
 	$('#resultado').children().remove();
 	if(data.totalResults){
 		makeTable($('#resultado'),data.data);
 		makePagination($('#resultado'),data);
 		$('#resultado').append($('<div/>').addClass('fuente').text(data.data.length + ' ..de.. ' + data.totalResults));
+		$('#downloadButtonId').show();		
 	}else{
-		$('#resultado').text("Sin Resultado"); 
+		$('#resultado').text("Sin Resultado");
+		$('#downloadButtonId').hide(); 
 	}
 	$('#panelResult').show();		
 }
@@ -74,7 +81,7 @@ function makeTable(container, data) {
     theader.append($("<th/>").text("nombre"));
     theader.append($("<th/>").text("descripción"));
     theader.append($("<th/>").text("formato"));
-    theader.append($("<th/>").text("público"));
+    theader.append($("<th/>").text(""));
  
     
     table.append(theader);
@@ -86,7 +93,12 @@ function makeTable(container, data) {
         row.append($("<td/>").text(d.nombre));
         row.append($("<td/>").text(d.descripcion));
         row.append($("<td/>").text(d.formato));   
-        row.append($("<td/>").text(d.s3Publico));      
+        if(d.s3Publico){
+          row.append($("<td/>").html($("<span/>").addClass('glyphicon glyphicon-eye-open'))); 
+        }else{
+           row.append($("<td/>")); 
+        }     
+        
         table.append(row);
     });
     return container.append(table);
@@ -142,5 +154,7 @@ function fecthRecurso(id){
 <div class="panel panel-default" style="display:none" id="panelResult">
 <div class="panel-body" id="resultado"></div>
 </div>
-
+<button type="button" class="btn btn-primary btn-sm" id="downloadButtonId" onclick="downloadResults()" style="display:none">
+      <span class="glyphicon glyphicon-download-alt"></span>
+</button>
 </div>

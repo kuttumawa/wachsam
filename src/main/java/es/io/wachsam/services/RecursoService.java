@@ -125,6 +125,32 @@ public class RecursoService {
 		List<Recurso> recursos=dao.getAll(recurso);
 		return recursos.size();
 	}
+	public List<Recurso>  getAllRecursos(Map<String, String> filter) {
+		Recurso recurso=new Recurso();
+		String order=filter.containsKey("order")?filter.get("order"):null;
+		if(filter.containsKey("id") && GenericValidator.isLong(filter.get("id"))){
+			recurso.setId(Long.parseLong(filter.get("id")));
+		}
+		
+		if(filter.containsKey("nombre") && !GenericValidator.isBlankOrNull(filter.get("nombre"))){
+			try{
+				recurso.setNombre(filter.get("nombre"));
+			}catch(Exception e){
+			
+			}
+		}
+		
+		if(filter.containsKey("decripcion") && !GenericValidator.isBlankOrNull(filter.get("decripcion"))){
+			try{
+				recurso.setNombre(filter.get("decripcion"));
+			}catch(Exception e){
+			
+			}
+		}
+		
+		List<Recurso> recursos=dao.getAll(recurso);
+		return recursos;
+	}
 	public Recurso save(Recurso recurso, Usuario usuario, InputStream inputStream) throws NoAutorizadoException {
 		Acciones operation=Acciones.CREATE;
 		Recurso recursoOld=recurso;
