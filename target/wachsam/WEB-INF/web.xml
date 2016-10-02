@@ -152,6 +152,30 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.ProvisionalTipoSitioUpdaterForYou</servlet-class>
   </servlet>
+  <servlet>
+  	<servlet-name>BuscarObject</servlet-name>
+  	<display-name>BuscarObject</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.BuscarObject</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>BuscarObjectCSV</servlet-name>
+  	<display-name>BuscarObjectCSV</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.BuscarObjectCSV</servlet-class>
+  </servlet>
+    <servlet>
+  	<servlet-name>ProvisionalMitigacionUpdaterForYou</servlet-name>
+  	<display-name>ProvisionalMitigacionUpdaterForYou</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.ProvisionalMitigacionUpdaterForYou</servlet-class>
+  </servlet>
+   <servlet>
+  	<servlet-name>MitigacionServletJSON</servlet-name>
+  	<display-name>MitigacionServletJSON</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.MitigacionServletJSON</servlet-class>
+  </servlet>
 
   
   <servlet-mapping>
@@ -246,5 +270,47 @@
     <servlet-name>ProvisionalTipoSitioUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalTipoSitioUpdaterForYou</url-pattern>
   </servlet-mapping>
+    <servlet-mapping>
+    <servlet-name>BuscarObject</servlet-name>
+  	<url-pattern>/BuscarObject</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>BuscarObjectCSV</servlet-name>
+  	<url-pattern>/BuscarObjectCSV</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>ProvisionalMitigacionUpdaterForYou</servlet-name>
+  	<url-pattern>/ProvisionalMitigacionUpdaterForYou</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>MitigacionServletJSON</servlet-name>
+  	<url-pattern>/MitigacionServletJSON</url-pattern>
+  </servlet-mapping>
+  
+<error-page>
+    <!-- Missing login -->
+    <error-code>401</error-code>
+    <location>/general-error.html</location>
+</error-page>
+<error-page>
+    <!-- Forbidden directory listing -->
+    <error-code>403</error-code>
+    <location>/general-error.html</location>
+</error-page>
+<error-page>
+    <!-- Missing resource -->
+    <error-code>404</error-code>
+    <location>/general-error.html</location>
+</error-page>
+<error-page>
+    <!-- Uncaught exception -->
+    <error-code>500</error-code>
+    <location>/general-error.html</location>
+</error-page>
+<error-page>
+    <!-- Unsupported servlet method -->
+    <error-code>503</error-code>
+    <location>/general-error.html</location>
+</error-page>
 
 </web-app>

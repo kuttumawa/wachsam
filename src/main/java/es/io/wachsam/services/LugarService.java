@@ -3,6 +3,8 @@ package es.io.wachsam.services;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
@@ -15,6 +17,7 @@ import es.io.wachsam.model.Usuario;
  * @see http://www.adictosaltrabajo.com/tutoriales/tutoriales.php?pagina=GsonJavaJSON
  *
  */
+@Transactional
 public class LugarService {
 	private LugarDao dao;
 	private SecurityService securityService;
@@ -43,7 +46,7 @@ public class LugarService {
 		Lugar lugarOld=lugar;
 		if(lugar.getId()!=null){
 			operation=Acciones.UPDATE;
-			lugar=dao.getLugar(lugar.getId());
+			lugarOld=dao.getLugar(lugar.getId());
 		}
 		if(!securityService.hasAuth(usuario,Lugar.class, operation, lugarOld))
 		 throw new NoAutorizadoException();
@@ -78,6 +81,35 @@ public class LugarService {
 	}
 	public List<Long> getLugarFromISO_3166_1_num(String code) {
 		return dao.getLugarFromISO_3166_1_num(code);
+	}
+	public StringBuilder getAllLugaresConJerarquiaDe(Lugar lugar,StringBuilder sb){
+		sb.append("{");
+		sb.append("\"id\":");
+		sb.append("\""+ lugar.getId() +"\",");
+		sb.append("\"name\":");
+		sb.append("\""+ lugar.getNombre() +"\",");
+		sb.append("\"children\":[");
+		List<Lugar> hijos= dao.getLugarHijos(lugar);
+		for(Lugar hijo:hijos){
+			try{
+			if(!hijo.getId().equals(lugar.getId())) getAllLugaresConJerarquiaDe(hijo,sb);
+			}catch(Exception e){
+				continue;
+			}
+		}
+		try{
+		  //sb.replace(sb.lastIndexOf(","),sb.lastIndexOf(",")+1,"");
+		}catch(Exception e){
+			//VOID
+		}
+		sb.append("]},");
+		
+		return sb;
+	}
+	
+	public String getAllLugaresConJerarquiaDeJSON(Lugar lugar){
+		String res=getAllLugaresConJerarquiaDe(lugar, new StringBuilder()).toString();
+		return res.replaceAll("\\},\\]", "}]").replaceAll("\\]\\},$", "]}");
 	}
 	
 	

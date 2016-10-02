@@ -154,6 +154,7 @@ public class RecursoService {
 	public Recurso save(Recurso recurso, Usuario usuario, InputStream inputStream) throws NoAutorizadoException {
 		Acciones operation=Acciones.CREATE;
 		Recurso recursoOld=recurso;
+		recurso.setFechaCreacion(new Date());
 		if(recurso.getId()!=null){
 			operation=Acciones.UPDATE;
 			recursoOld=dao.getRecurso(recurso.getId());
@@ -162,7 +163,7 @@ public class RecursoService {
 		}
 		if(!securityService.hasAuth(usuario,Recurso.class, operation, recursoOld))
 		 throw new NoAutorizadoException();
-		recurso.setFechaCreacion(new Date());
+		
 		//CAMBIO NOMBRE
 		if(!recurso.getNombre().equals(recursoOld.getNombre())){
 			//CAMBIO FICHERO

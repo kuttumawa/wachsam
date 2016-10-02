@@ -10,6 +10,7 @@ import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Factor;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.Mitigacion;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Permiso;
@@ -75,6 +76,8 @@ public class SecurityService {
 			resultado=((TipoSitio)object).hasPermisos(usuario, accion);
 		}else if(class1.getName().equalsIgnoreCase(Recurso.class.getName())){
 			resultado=((Recurso)object).hasPermisos(usuario, accion);
+		}else if(class1.getName().equalsIgnoreCase(Mitigacion.class.getName())){
+			resultado=((Mitigacion)object).hasPermisos(usuario, accion);
 		}
 		
 		return resultado;

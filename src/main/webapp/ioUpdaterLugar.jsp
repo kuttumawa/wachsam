@@ -52,6 +52,7 @@ function deleteOper(){
         text-overflow: ellipsis;
         width: 400px;
       }
+ #modalDendroId .modal-dialog  {width:99%;}
 </style>
 <jsp:include page="cabecera.jsp"/>
 <div class="container">
@@ -85,6 +86,9 @@ function deleteOper(){
 		          
 		%> 
 		</select>
+		<%if(lugar.getId()!=null){ %>
+		<span class="glyphicon glyphicon-info-sign pointer" onclick="paintDendrogram();$('#modalDendroId').modal('show')"></span>
+		<%}%>
 		</div>
 		</form>
       <form id="form2" action="ProvisionalLugarUpdaterForYou" method="post">
@@ -338,3 +342,94 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 </body> 
 </html>
+
+<%if(lugar.getId()!=null){ %>
+<!--modal dendrograma -->
+<style>
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
+<div id="modalDendroId" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>             
+        </div>
+     
+      <div class="modal-body">
+           <div id="dendrogram"></div>
+      </div>
+      
+</div>
+
+</div>
+</div>
+<script>
+function paintDendrogram(){
+var radius = 760 / 2;
+
+var cluster = d3.layout.cluster()
+    .size([360, radius - 120]);
+
+var diagonal = d3.svg.diagonal.radial()
+    .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+
+var svg = d3.select("#dendrogram").append("svg")
+    .attr("width", radius * 2)
+    .attr("height", radius * 2)
+  .append("g")
+    .attr("transform", "translate(" + radius + "," + radius + ")");
+
+d3.json("LugarServletJSON?&oper=getJerarquia&lugarId=<%=lugar.getId()%>", function(error, root) {
+  if (error) throw error;
+
+  var nodes = cluster.nodes(root);
+
+  var link = svg.selectAll("path.link")
+      .data(cluster.links(nodes))
+    .enter().append("path")
+      .attr("class", "link")
+      .attr("d", diagonal);
+
+  var node = svg.selectAll("g.node")
+      .data(nodes)
+    .enter().append("g")
+      .attr("class", "node")
+      .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+
+  node.append("circle")
+      .attr("r", 4.5);
+
+  node.append("text")
+      .attr("dy", ".31em")
+      .attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+      .attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+      .text(function(d) { return d.name; });
+});
+
+d3.select("dendrogram").style("height", radius * 2 + "px");
+}
+</script>
+<!-- fin modal dendrograma -->
+<%}%>

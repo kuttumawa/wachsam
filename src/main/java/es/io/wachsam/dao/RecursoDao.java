@@ -52,7 +52,7 @@ public class RecursoDao {
 	public List<Recurso> getAll(Recurso recurso, String order, int pageNum,
 			int pageSize) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.* FROM Recurso p LEFT JOIN Data d ON p.id=d.id where 1=1");
+		sb.append("SELECT p.* FROM recurso p LEFT JOIN Data d ON p.id=d.id where 1=1");
 		if (recurso.getNombre()!=null)
 			sb.append(" and p.nombre like '%" + recurso.getNombre() +"%'");	
 		if (recurso.getDescripcion()!=null)
@@ -70,7 +70,7 @@ public class RecursoDao {
 	}
 	public List<Recurso> getAll(Recurso recurso) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT p.* FROM Recurso p LEFT JOIN Data d ON p.id=d.id where 1=1");
+		sb.append("SELECT p.* FROM recurso p LEFT JOIN Data d ON p.id=d.id where 1=1");
 		if (recurso.getNombre()!=null)
 			sb.append(" and p.nombre like '%" + recurso.getNombre() +"%'");	
 		if (recurso.getDescripcion()!=null)

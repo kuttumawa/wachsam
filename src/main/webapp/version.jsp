@@ -1,17 +1,21 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
-1.2.0 (futuro)
+futuro
+------------------------------------------------------------------------------
+- Mejoras en tags: organización,más datos(categoría,único por objeto)
+
+1.2.0 (2-09-2016)
 ------------------------------------------------------------------------------
 - Búsqueda objetos pesados.
 - Descarga formato csv de los resultados de una búsqueda.
 - Eliminación del combo del id de las páginas, sustituirlo por búsqueda
-- Mejoras en tags: organización,más datos(categoría,único por objeto)
-- Rollback de cargas masivas
+- Fix error grabación lugares
 - Nuevo Objeto Recurso: Metadatos(nombre,autor,descripción,permiso..)  + url a a un fichero físico. Implementar con S3 
 - Nuevo objeto Mitigación: (Riesgo,Factor,valor(-3,-2,-1,0,1,2,3)) ie: [[Malaria, Mosquitera,-3].
+- Dendrograma para lugares
 
-1.1.0 (12-08-2015)
+1.1.0 (12-08-2016)
 ------------------------------------------------------------------------------
 - Cacheo local de objetos pesados, preparar browser bd.
 - Generalización de la subida de ficheros.
@@ -135,6 +139,7 @@ TODO
 -  Buscador con descarga csv. 
 -  En cargas masivas permitir hacer copia de seguridad del objeto. Definir sistema de versiones.
 -  Cambio librería JSON org.json por Jackson.
+- Rollback de cargas masivas
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 

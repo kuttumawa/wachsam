@@ -6,13 +6,14 @@ var cluster = d3.layout.cluster()
 var diagonal = d3.svg.diagonal.radial()
     .projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#dendrogram").append("svg")
     .attr("width", radius * 2)
     .attr("height", radius * 2)
   .append("g")
     .attr("transform", "translate(" + radius + "," + radius + ")");
 
-d3.json("/wachsam/js/vz/dendrogram/data.json", function(error, root) {
+//d3.json("/wachsam/js/vz/dendrogram/data.json", function(error, root) {
+d3.json("http://localhost:8080/wachsam/LugarServletJSON?&oper=getJerarquia&lugarId=4", function(error, root) {
   if (error) throw error;
 
   var nodes = cluster.nodes(root);

@@ -43,7 +43,7 @@ public class S3service{
 	private String proxyUsername;
 	private String proxyPassword;
 	public void s3serviceInit()  {
-		if(getProxyHost()!=null){
+		if(getProxyHost()!=null && getProxyHost().length()>0){
 			ClientConfiguration clientConfig = new ClientConfiguration();
 			clientConfig.setProtocol(Protocol.HTTPS);
 			clientConfig.setProxyHost(proxyHost);

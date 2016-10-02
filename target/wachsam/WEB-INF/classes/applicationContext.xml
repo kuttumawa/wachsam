@@ -38,6 +38,7 @@
        <property name="peligroService"  ref="peligroService"/>
        <property name="lugarService"  ref="lugarService"/>
        <property name="sitioService"  ref="sitioService"/>
+        <property name="recursoService"  ref="recursoService"/>
     </bean>
      <bean id="lugarDao" class="es.io.wachsam.dao.LugarDao" >
         <property name="cacheManager" ref="cacheManager"/>
@@ -97,6 +98,31 @@
        <property name="sitioService"  ref="sitioService"/>
        <property name="fileUploadDao" ref="fileUploadDao"/>
     </bean>
+     <bean id="recursoDao" class="es.io.wachsam.dao.RecursoDao" />
+     <bean id="recursoService" class="es.io.wachsam.services.RecursoService">
+      <property name="dao" ref="recursoDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+      <property name="s3service"  ref="s3service"/>
+    </bean>
+    <bean id="s3service" class="es.io.wachsam.services.S3service" init-method="s3serviceInit">
+      <property name="BUCKET_NAME" value="wachsam-articulos-repository" />
+      <property name="S3_URL_CONTEXT" value="https://s3.amazonaws.com/" />
+      <property name="acceskey" value="AKIAJ36MUPXC2EI3KSIA" />
+      <property name="secretKey" value="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" />
+      <property name="proxyHost" value="" />
+      <property name="proxyPort" value="" />
+      <property name="proxyUsername" value="" />
+      <property name="proxyPassword" value="" />
+    </bean>
+    <bean id="mitigacionDao" class="es.io.wachsam.dao.MitigacionDao" />
+    <bean id="mitigacionService" class="es.io.wachsam.services.MitigacionService">
+      <property name="dao" ref="mitigacionDao"/>
+      <property name="securityService"  ref="securityService"/>
+      <property name="operationLogDao"  ref="operationLogDao"/>
+    </bean>
+    
+    
     <!--bean id="dataSource"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName">

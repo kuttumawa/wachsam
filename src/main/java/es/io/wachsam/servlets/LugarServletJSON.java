@@ -24,6 +24,7 @@ import es.io.wachsam.model.Data;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Tag;
+import es.io.wachsam.model.Usuario;
 import es.io.wachsam.services.AlertService;
 import es.io.wachsam.services.DataService;
 import es.io.wachsam.services.LugarService;
@@ -46,13 +47,14 @@ public class LugarServletJSON extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if(request.getSession().getAttribute("user")==null){
+		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
+		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
+		if(usuario==null){
 			   String nextJSP = "/login.jsp";
 			   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 			   dispatcher.forward(request,response);
 			   return;
 		}
-		WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 		LugarService lugarService=(LugarService) context.getBean("lugarService");
 		final Gson gson=new Gson();
 	    final Gson prettyGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
@@ -60,15 +62,21 @@ public class LugarServletJSON extends HttpServlet {
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		String oper=request.getParameter("oper");
+		String lugarId=request.getParameter("lugarId");
 		List<Lugar> lugares=new ArrayList<Lugar>();
 		
 		if(oper!=null){
 			if(oper.equalsIgnoreCase("getAll")){
 				lugares=lugarService.getAll();
+				out.println(prettyGson.toJson(lugares));
+			}else if(oper.equalsIgnoreCase("getJerarquia")){
+				Lugar lugar=lugarService.getLugar(Long.parseLong(lugarId), usuario);
+				String res=lugarService.getAllLugaresConJerarquiaDeJSON(lugar);
+				out.println(res);
 			}
 			
 		}
-		 out.println(prettyGson.toJson(lugares));
+		 
 	}
 
 	

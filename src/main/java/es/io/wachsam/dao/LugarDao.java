@@ -91,4 +91,11 @@ public class LugarDao {
 		return q.getResultList();
 	}
 	
+	public 	List<Lugar> getLugarHijos(Lugar lugar){
+		Query q = em.createQuery(
+				"SELECT p FROM Lugar p where p.padre1 = :lugar", Lugar.class);
+		q.setParameter("lugar",lugar);
+		return q.getResultList();
+	}
+	
 }

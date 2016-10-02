@@ -27,6 +27,14 @@
     -webkit-border-radius: 50%;
     border-radius: 50%;
 }
+
+.fuente {
+font-style: italic;
+}
+.pointer{
+cursor:pointer;
+}
+
 </style>
 </head>
 
@@ -56,10 +64,10 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
      <!--  <li class="active"><a href="#">Home</a></li> -->
       <%if(sec.hasAuth(usuario,Alert.class,Acciones.READ,null)){ %>
       <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Alertas
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Eventos
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="ProvisionalAlertUpdaterForYou">Alertas</a></li>           
+          <li><a href="ProvisionalAlertUpdaterForYou">Eventos</a></li>           
         </ul>
       </li>
       <%}%>

@@ -61,7 +61,7 @@ public class BuscarObject extends HttpServlet {
 		
 		Type type = new TypeToken<Map<String, String>>(){}.getType();
 		Map<String, String> filterMap = gson.fromJson(filter,type);
-		int pageSize=20;
+		int pageSize=200;
 		int pageNum=Integer.parseInt(filterMap.get("page"));
 		int totalResults=0;
 		if(object.equalsIgnoreCase(ObjetoSistema.Alert.name())){
