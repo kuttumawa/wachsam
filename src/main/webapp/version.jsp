@@ -3,9 +3,11 @@
 <pre>
 futuro
 ------------------------------------------------------------------------------
-- Mejoras en tags: organización,más datos(categoría,único por objeto)
+- Mejoras en tags: organización, más datos(categoría,único por objeto)
+- Búsqueda avanzada con tags
+- Elastic Search integration
 
-1.2.0 (2-09-2016)
+1.2.0 (2-10-2016)
 ------------------------------------------------------------------------------
 - Búsqueda objetos pesados.
 - Descarga formato csv de los resultados de una búsqueda.
@@ -13,7 +15,7 @@ futuro
 - Fix error grabación lugares
 - Nuevo Objeto Recurso: Metadatos(nombre,autor,descripción,permiso..)  + url a a un fichero físico. Implementar con S3 
 - Nuevo objeto Mitigación: (Riesgo,Factor,valor(-3,-2,-1,0,1,2,3)) ie: [[Malaria, Mosquitera,-3].
-- Dendrograma para lugares
+- Dendrograma para lugares.
 
 1.1.0 (12-08-2016)
 ------------------------------------------------------------------------------

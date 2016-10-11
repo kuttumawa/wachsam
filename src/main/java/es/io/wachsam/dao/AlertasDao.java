@@ -452,6 +452,7 @@ public class AlertasDao {
 	public void setCacheManager(CacheManager cacheManager) {
 		this.cacheManager = cacheManager;
 	}
+	@Cacheable(ALERT_CACHE)
 	public int getNumeroAlertasMysql(Long id,String texto, Long pais,Long peligro, Date fecha,
 			String tipo,String order,Boolean caducidad) {
 		LOG.debug("Entrando getNumeroAlertasMysql: texto=" + texto +",pais="+pais+",fecha="+fecha+",tipo="+",order="+order+",caducidad="+caducidad);						
