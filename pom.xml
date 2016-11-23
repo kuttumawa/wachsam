@@ -11,6 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>4.1.4.RELEASE</spring.version>
    </properties>
+  
   <dependencies>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -147,5 +148,56 @@
   </dependencies>
   <build>
     <finalName>wachsam</finalName>
+	<pluginManagement>
+	  <plugins>
+	    <plugin>
+		   <groupId>org.codehaus.mojo</groupId>
+           <artifactId>findbugs-maven-plugin</artifactId>
+           <version>3.0.1</version>
+		</plugin>
+	    <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-pmd-plugin</artifactId>
+             <version>3.7</version>
+		</plugin>
+        <plugin>
+		   <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-checkstyle-plugin</artifactId>
+           <version>2.15</version>
+		</plugin>		
+	  </plugins>	  
+	</pluginManagement>
   </build>
+  <reporting>
+    <plugins>
+	    <plugin>
+		   <groupId>org.codehaus.mojo</groupId>
+           <artifactId>findbugs-maven-plugin</artifactId>
+           <version>3.0.1</version>
+		   <configuration>
+		      <effort>Max</effort>
+			  <threshold>Low</threshold>
+			  <xmlOutput>true</xmlOutput>
+		   </configuration>
+		</plugin>
+		<plugin>
+		   <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-pmd-plugin</artifactId>
+           <version>3.7</version>
+		   <reportSets>
+		      <reportSet>
+			    <reports>
+				  <report>pmd</report>
+				  <report>cpd</report>
+			    </reports>
+			  </reportSet>
+		   </reportSets>
+		</plugin>
+		<plugin>
+		   <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-checkstyle-plugin</artifactId>
+           <version>2.15</version>
+		</plugin>	
+	</plugins>
+  </reporting>
 </project>
