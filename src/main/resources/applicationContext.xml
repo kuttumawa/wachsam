@@ -19,7 +19,7 @@
     
     <tx:annotation-driven />
     <context:annotation-config />
- 
+    <context:property-placeholder />
     <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
         <property name="cacheManager" ref="cacheManager"/>
      </bean>
@@ -82,6 +82,7 @@
       <property name="dao" ref="riesgoDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
+      <property name="lugarService"  ref="lugarService"/>
     </bean>
     <bean id="tipoSitioService" class="es.io.wachsam.services.TipoSitioService">
       <property name="dao" ref="tipoSitioDao"/>
@@ -106,10 +107,10 @@
       <property name="s3service"  ref="s3service"/>
     </bean>
     <bean id="s3service" class="es.io.wachsam.services.S3service" init-method="s3serviceInit">
-      <property name="BUCKET_NAME" value="wachsam-articulos-repository" />
+      <property name="BUCKET_NAME" value="${BUCKET_NAME}" />
       <property name="S3_URL_CONTEXT" value="https://s3.amazonaws.com/" />
-      <property name="acceskey" value="" />
-      <property name="secretKey" value="" />
+      <property name="acceskey" value="${ACCESS_KEY}" />
+      <property name="secretKey" value="${SECRET_KEY}" />
       <property name="proxyHost" value="" />
       <property name="proxyPort" value="" />
       <property name="proxyUsername" value="" />
@@ -142,12 +143,10 @@
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
  
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://aa1dq2hzsxmnuj1.chnqmmdgk9gp.us-west-2.rds.amazonaws.com:3306/viajarseguro" />
-		<property name="username" value="viajarseguro" />
-		<property name="password" value="buendiabuendia" />
-		<!-- <property name="url" value="jdbc:mysql://localhost:3306/viajarseguro" />
-		<property name="username" value="root" />
-		<property name="password" value="buendia" /> -->
+		<property name="url" value="${JDBC_CONNECTION_STRING}" />
+		<property name="username" value="${DB_USER}" />
+		<property name="password" value="${DB_PASS}" />
+
 
 	</bean>
  

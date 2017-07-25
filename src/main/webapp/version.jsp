@@ -1,9 +1,20 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
-futuro
-------------------------------------------------------------------------------
-- Mejoras en tags: organización,más datos(categoría,único por objeto)
+1.3.0 (22-07-2017)
+-----------------------------------------------------------------------------
+- Nuevo Riesgo:
+id,lugar_id,peligro_id,probabilidad,fechapub,caducidad,fechaactivacion,mesactivacion,diaactivacion,texto,text,formuladisipacion,desactivado
+- Funciones de disipación:
+     how: Ajustan la probabilidad inicial,decrementandola durante el tiempo
+     3 tipos: 
+             - homogenea: P(t)= Pinicial
+             - lineal: P(t) = Pinicial - (Pinicial/Caducidad)*t
+             - Asintótica decreciente: P(t)= (1/t)*Pinicial 
+
+-Peligro añadido texto/text
+-Tendencia: Compara los 6 últimos meses actuales, con los pasados para lugar y peligro. 
+
 
 1.2.0 (2-09-2016)
 ------------------------------------------------------------------------------
@@ -140,6 +151,7 @@ TODO
 -  En cargas masivas permitir hacer copia de seguridad del objeto. Definir sistema de versiones.
 -  Cambio librería JSON org.json por Jackson.
 - Rollback de cargas masivas
+- Mejoras en tags: organización,más datos(categoría,único por objeto)
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 

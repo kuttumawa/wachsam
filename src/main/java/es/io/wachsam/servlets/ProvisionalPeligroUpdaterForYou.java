@@ -94,6 +94,8 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 		String categoria=request.getParameter("categoria");
 		String damage=request.getParameter("damage");
 		String oper=request.getParameter("oper");
+		String texto=request.getParameter("texto");
+		String text=request.getParameter("text");
 		
 		Peligro peligro=new Peligro();
 		if(oper!=null && oper.equalsIgnoreCase("delete")){
@@ -114,7 +116,7 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 			}
 			
 		}else if(validar(request)==null){
-			peligro=new Peligro(id,nombre,nombreEn,categoria,damage);
+			peligro=new Peligro(id,nombre,nombreEn,categoria,damage,texto,text);
 			try {
 				peligroService.save(peligro,usuario);
 				request.setAttribute("resultado","INSERTADO OK: " + peligro);
@@ -157,10 +159,14 @@ public class ProvisionalPeligroUpdaterForYou extends HttpServlet {
 		String nombreEn=request.getParameter("nombreEn");
 		String categoria=request.getParameter("categoria");
 		String damage=request.getParameter("damage");
+		String texto=request.getParameter("texto");
+		String text=request.getParameter("text");
 		
 		if(nombre==null || nombre.length()<1) resultado.append("Nombre Obligatorio;");
 		if(categoria==null || categoria.length()<1) resultado.append("Categoría Obligatorio;");
 		if(damage==null || damage.length()<1) resultado.append("Daño Obligatorio;");
+		if(texto!=null && texto.length()>900) resultado.append("Texto excede tamaño");
+		if(text!=null && text.length()>900) resultado.append("Text excede tamaño");
 		
 		if(resultado.length() > 0) return resultado.toString();
 		return null;

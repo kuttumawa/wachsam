@@ -31,6 +31,10 @@ public class Peligro implements ObjetoSistemaIF{
 	@Expose
 	String nombreEn;
 	@Expose
+	String texto;
+	@Expose
+	String text;
+	@Expose
 	CategoriaPeligro categoria;
 	@Expose
 	Integer damage;
@@ -40,17 +44,19 @@ public class Peligro implements ObjetoSistemaIF{
 	}
 	
 	public Peligro(Long id, String nombre, String nombreEn,
-			CategoriaPeligro categoria, Integer damage) {
+			CategoriaPeligro categoria, Integer damage,String texto,String text) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.nombreEn = nombreEn;
 		this.categoria = categoria;
 		this.damage = damage;
+		this.texto=texto;
+		this.text=text;
 	}
 
 	public Peligro(String id, String nombre, String nombreEn,
-			String categoria, String damage) {
+			String categoria, String damage,String texto,String text) {
 		try{
 			this.id= Long.parseLong(id.trim());
 		}catch(Exception e){
@@ -77,6 +83,8 @@ public class Peligro implements ObjetoSistemaIF{
 		}catch(Exception e){
 			
 		}
+		this.texto=texto!=null?texto.trim():null;
+		this.text=text!=null?text.trim():null;;
 		
 	}
 
@@ -154,6 +162,25 @@ public class Peligro implements ObjetoSistemaIF{
 		if(nombreEn!=null && nombreEn.length()>100) errores.add("Nombre Eng debe se menor de 100");
 		if(categoria==null) errores.add("categoria es Obligatorio");
 		if(damage==null) errores.add("damage es Obligatorio");
+		if(texto!=null && texto.length()>900) errores.add("Texto excede tamaño");
+		if(text!=null && text.length()>900) errores.add("Text excede tamaño");
+		
 		return errores;
+	}
+
+	public String getTexto() {
+		return texto;
+	}
+
+	public void setTexto(String texto) {
+		this.texto = texto;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }

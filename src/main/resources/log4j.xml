@@ -10,7 +10,7 @@
       	</layout>
    	</appender>
     <logger name="es.io.wachsam">
-        <level value="DEBUG"/>
+        <level value="ERROR"/>
 		<appender-ref ref="CONSOLE"/>
    </logger>
     

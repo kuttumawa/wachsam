@@ -1,8 +1,10 @@
 package es.io.wachsam.servlets;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -23,6 +25,7 @@ import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.Mes;
 import es.io.wachsam.model.NivelProbabilidad;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Peligro;
@@ -70,6 +73,10 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 		List<Riesgo> riesgos=new ArrayList<Riesgo>();
 		if(peligroId!=null && peligroId.length()>0){
 			riesgos=riesgoDao.getRiesgosFromPeligro(Long.parseLong(peligroId));
+			for(Riesgo r: riesgos){
+				r.iniRiesgoTransientInfo();
+			}
+			Collections.sort(riesgos,Riesgo.getRiesgoLugarComparator());
 			peligro=peligroDao.getPeligro(Long.parseLong(peligroId));
 			if(riesgos==null)  riesgos=new ArrayList<Riesgo>();
 		}
@@ -77,7 +84,7 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 		
 		request.setAttribute("peligro",peligro);
 		request.setAttribute("riesgos",riesgos);
-		String nextJSP = "/ioUpdaterRiesgo.jsp";
+		String nextJSP = "/riesgoPeligro.jsp";
 		RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
 		dispatcher.forward(request,response);
 	}
@@ -85,7 +92,10 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	/*protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Usuario usuario=(Usuario)request.getSession().getAttribute("user");
 		if(usuario==null){
 			   String nextJSP = "/login.jsp";
@@ -99,7 +109,9 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 		String peligroId=request.getParameter("peligroId");
 		String lugarId=request.getParameter("lugarId");
 		String nivelProbabilidad=request.getParameter("nivelProbabilidadId");
-	
+		String fechaActivacion=request.getParameter("fechaActivacion");
+		String mesActivacion=request.getParameter("mesActivacion");
+		String caducidad=request.getParameter("caducidad");
 		String oper=request.getParameter("oper");
 		
 		Riesgo riesgo=new Riesgo();
@@ -129,6 +141,21 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 			lugar.setId(Long.parseLong(lugarId));
 			riesgo.setLugar(lugar);
 			riesgo.setValue(NivelProbabilidad.valueOf(nivelProbabilidad));
+			riesgo.setCaducidad(Integer.parseInt(caducidad));
+			if(fechaActivacion!=null)
+				try {
+					riesgo.setFechaActivacion(new SimpleDateFormat("yyyy-MM-dd").parse(fechaActivacion.trim()));
+				} catch (ParseException e1) {
+					e1.printStackTrace();
+				}
+			else{
+				riesgo.setFechaActivacion(null);
+			}
+			if(mesActivacion!=null && mesActivacion.length()>0){
+				riesgo.setMesActivacion(Mes.valueOf(mesActivacion));
+			}else{
+				riesgo.setMesActivacion(null);
+			}
 			
 			try {
 				riesgoService.save(riesgo,usuario);
@@ -170,13 +197,30 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 		String peligroId=request.getParameter("peligroId");
 		String lugarId=request.getParameter("lugarId");
 		String nivelProbabilidad=request.getParameter("nivelProbabilidadId");
+		String fechaActivacion=request.getParameter("fechaActivacion");
+		String mesActivacion=request.getParameter("fechaActivacion");
+		String caducidad=request.getParameter("caducidad");
 		
 		if(lugarId==null || lugarId.length()<1) resultado.append("Lugar Obligatorio;");
 		if(peligroId==null || peligroId.length()<1) resultado.append("Peligro Obligatorio;");
 		if(nivelProbabilidad==null || nivelProbabilidad.length()<1) resultado.append("Probabilidad Obligatorio;");
-		
+		if(fechaActivacion!=null && fechaActivacion.length()>0){
+		      try{
+				   new SimpleDateFormat("yyyy-MM-dd").parse(fechaActivacion);
+				}catch(Exception e){
+					 resultado.append(" Fecha Formato Erróneo");
+				}
+		      }
+		if(mesActivacion==null){
+			try{
+				Mes.valueOf(mesActivacion);
+			}catch(IllegalArgumentException e){
+				resultado.append("mesActivacion valor no válido;");
+			}
+        }
+		if(caducidad==null || caducidad.length()<1) resultado.append("Caducidad Obligatorio;");
 		if(resultado.length() > 0) return resultado.toString();
 		return null;
 	}
-
+*/
 }

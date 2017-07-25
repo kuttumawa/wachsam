@@ -1,6 +1,9 @@
 package es.io.wachsam.services;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +15,10 @@ import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Alert;
+import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.OperationLog;
+import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.Tendencia;
 import es.io.wachsam.model.Usuario;
 
 /**
@@ -178,8 +184,24 @@ public class AlertService {
 		return alerts;
 	}
 	
-	
-	
+	private double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
+	public Tendencia calcularTendencia(Lugar lugar,Peligro peligro,Date desde,Date hasta){
+		int numEventosActual= dao.getNumeroAlertasMysql(lugar.getId(), peligro.getId(),desde, hasta);
+		Calendar pasadoDesde=Calendar.getInstance();
+		pasadoDesde.setTime(desde);
+		pasadoDesde.add(Calendar.YEAR,-1);
+		Calendar pasadoHasta=Calendar.getInstance();
+		pasadoHasta.setTime(hasta);
+		pasadoHasta.add(Calendar.YEAR,-1);
+		int numEventosPasado= dao.getNumeroAlertasMysql(lugar.getId(), peligro.getId(),pasadoDesde.getTime(), pasadoHasta.getTime());
+		return new Tendencia(numEventosActual,numEventosPasado,hasta.getTime()-desde.getTime());
+				
+	}
 	
 	
 

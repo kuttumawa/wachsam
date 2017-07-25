@@ -1,5 +1,6 @@
 package es.io.wachsam.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -111,7 +112,19 @@ public class LugarService {
 		String res=getAllLugaresConJerarquiaDe(lugar, new StringBuilder()).toString();
 		return res.replaceAll("\\},\\]", "}]").replaceAll("\\]\\},$", "]}");
 	}
-	
-	
+	public List<Lugar>  getAscendientes(Long lugarId){
+		Lugar lugar=dao.getLugar(lugarId);
+		return  getAscendientes(lugar,null);
+	}
+	public List<Lugar>  getAscendientes(Lugar lugar,List<Lugar> lugares){
+		if(lugares==null) lugares = new ArrayList<Lugar>(); 
+		lugares.add(lugar);
+		if(lugar.getNivel()==null || lugar.getNivel()<2) return lugares;
+		if(lugar.getPadre1()==null || lugar.getPadre1().getId()==null) return lugares;
+		if(!lugar.getId().equals(lugar.getPadre1().getId())){
+			getAscendientes(lugar.getPadre1(),lugares);
+		}
+		return lugares;
+	}
 
 }

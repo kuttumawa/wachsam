@@ -573,5 +573,45 @@ public class AlertasDao {
 		return res.size();
 		
 	}
+
+	public int getNumeroAlertasMysql(Long pais,Long peligro, Date fecha,Date hasta) {
+		StringBuilder sb = new StringBuilder("SELECT p FROM Alert p where 1=1");
+	
+	        if (pais != null) {
+					sb.append(" and lugarObj.id = :lugar ");
+			}
+			if (peligro != null) {
+				sb.append(" and peligro.id = :peligro ");
+		    }			
+			if (fecha != null) {
+				sb.append(" and fechaPub > :fecha");
+			}
+			if (fecha != null) {
+				sb.append(" and fechaPub < :hasta");
+			}
+
+		Query q = em.createQuery(sb.toString(), Alert.class);
+	
+
+		if (pais != null) {
+				q.setParameter("lugar",pais);
+			}
+		if (peligro != null) {
+			q.setParameter("peligro",peligro);
+		}
+		
+		if (fecha != null) {
+			q.setParameter("fecha", fecha);
+		}
+		if (hasta != null) {
+			q.setParameter("hasta", hasta);
+		}
+		
+		List<Alert> res=q.getResultList();
+		LOG.debug("Saliendo getAlertasMysql encontrados: " + res.size());
+		return res.size();
+		
+	}
 	
 }
+

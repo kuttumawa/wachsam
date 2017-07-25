@@ -20,6 +20,8 @@ function clearFields(){
 	document.getElementById("nombreEn").value="";
 	document.getElementById("damage").value="";
 	document.getElementById("oper").value="";
+	document.getElementById("texto").value="";
+	document.getElementById("text").value="";
 	$('tr').remove()
 }
 function deleteOper(){
@@ -87,7 +89,18 @@ Peligro peligro = (Peligro)request.getAttribute("peligro");
 <label for="">Name</label>
 <input class="form-control" type="text" id="nombreEn" name="nombreEn" value="<%= peligro.getNombreEn()!=null?peligro.getNombreEn():""%>"/>
 </div>
-
+<div class="form-group">
+    <label for="">Texto</label><br>
+    <textarea class="form-control" name="texto" id="texto" cols="70" rows="2">
+    <%= peligro.getTexto()!=null?peligro.getTexto():"" %>
+    </textarea>
+</div>
+<div class="form-group">
+    <label for="">Text</label><br>
+    <textarea class="form-control" name="text" id="text" cols="70" rows="2">
+    <%= peligro.getText()!=null?peligro.getText():"" %>
+    </textarea>
+</div>
 <div class="form-group">
 <label for="">Categoría</label>
 

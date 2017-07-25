@@ -170,7 +170,7 @@ public class Lugar implements ObjetoSistemaIF{
 		StringBuilder builder = new StringBuilder();
 		builder.append("Lugar [");
 		if (id != null)
-			builder.append("id=").append(id).append(", ");
+			builder.append("id=").append(""+id).append(", ");
 		if (nombre != null)
 			builder.append("nombre=").append(nombre).append(", ");
 		if (nombreEn != null)

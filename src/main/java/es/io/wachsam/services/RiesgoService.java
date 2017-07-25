@@ -1,5 +1,6 @@
 package es.io.wachsam.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import es.io.wachsam.dao.RiesgoDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Riesgo;
@@ -21,6 +23,7 @@ public class RiesgoService {
 	private RiesgoDao dao;
 	private SecurityService securityService;
 	private OperationLogDao operationLogDao;
+	private LugarService lugarService;
 	public RiesgoDao getDao() {
 		return dao;
 	}
@@ -81,6 +84,40 @@ public class RiesgoService {
 		return dao.existeYaRiesgo(riesgo);
 		
 	}
-	
+	public List<Riesgo> getAllRiesgoForLugar(Long lugarId) {
+		return dao.getRiesgosFromLugar(lugarId);
+	}
+	public List<Riesgo> getAllRiesgoForLugarQuan(Long lugarId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public List<Riesgo> getAllRiesgoForLugarConAscendentes(Long lugarId) {
+		List<Lugar> lugares=lugarService.getAscendientes(lugarId);
+		List<Riesgo> listRiesgo=new ArrayList<Riesgo>();
+		for(Lugar lugar:lugares){
+			List<Riesgo> listRiesgoTemp=dao.getRiesgosFromLugar(lugar.getId());
+			for(Riesgo r_candidato:listRiesgoTemp){
+				boolean addit=true;
+				for(Riesgo r_final:listRiesgo){
+					if(r_candidato.getPeligro().getId().equals(r_final.getPeligro().getId())){
+						addit=false;
+						break;
+					}		
+				}
+				if(addit){
+					if(!r_candidato.getLugar().getId().equals(lugarId)) r_candidato.setHeredado(r_candidato.getLugar().getNombre());
+					listRiesgo.add(r_candidato);
+				}
+			}
+			
+		}		
+		return listRiesgo;
+	}
+	public LugarService getLugarService() {
+		return lugarService;
+	}
+	public void setLugarService(LugarService lugarService) {
+		this.lugarService = lugarService;
+	}
 
 }

@@ -8,6 +8,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="js/localCache.js"></script>
@@ -35,6 +36,12 @@ font-style: italic;
 cursor:pointer;
 }
 
+/* Rules for icon sizes: */
+.material-icons.md-18 { font-size: 18px; }
+.material-icons.md-24 { font-size: 24px; } /* Default */
+.material-icons.md-36 { font-size: 36px; }
+.material-icons.md-48 { font-size: 48px; }
+
 </style>
 </head>
 
@@ -42,6 +49,12 @@ cursor:pointer;
 WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
 SecurityService sec=(SecurityService)context.getBean("securityService");
 Usuario usuario = (Usuario)request.getSession().getAttribute("user");
+if(usuario==null){
+	   String nextJSP = "/login.jsp";
+	   RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+	   dispatcher.forward(request,response);
+	   return;
+}
 %>
 
 <nav class="navbar navbar-inverse ">
@@ -95,7 +108,8 @@ Usuario usuario = (Usuario)request.getSession().getAttribute("user");
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">Riesgos
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="ProvisionalRiesgoUpdaterForYou">Riesgos</a></li> 
+          <li><a href="riesgoLugar.jsp">Riesgos por Lugar</a></li> 
+          <li><a href="riesgoPeligro.jsp">Riesgos por Peligro</a></li> 
           <li><a href="ProvisionalFactorUpdaterForYou">Factores</a></li>
           <li><a href="ProvisionalMitigacionUpdaterForYou">Mitigaciones</a></li>  
         </ul>

@@ -5,13 +5,13 @@ package es.io.wachsam.model;
  *
  */
 public enum NivelProbabilidad {
-	Impossibility(0,""),
-	Almost_certainly_not(5,""),
-	Probably_not(30,""),
-	Fifty_fifty(50,""),
-	Probable(75,""),
-	Almost_certain(80,""),
-	Certain(0.99,"")	
+	Impossibility(0,"Imposible(0%)"),
+	Almost_certainly_not(0.05,"Muy Baja(<5%)"),
+	Probably_not(0.25,"Baja(<25%)"),
+	Fifty_fifty(0.5,"Media(<50%)"),
+	Probable(0.75,"Alta(<75%)"),
+	Almost_certain(0.95,"Muy Alta(<95%)"),
+	Certain(1,"Cierto(100%)")	
 	;
 	
 	private final double value;

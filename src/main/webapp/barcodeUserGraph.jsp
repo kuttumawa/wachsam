@@ -14,7 +14,7 @@ $.ajax({
     url: "SecurityServletJSON?oper=accesosPorUsuarioUltimoMes",
     dataType: "json",
     async: true,
-    data: "{}", 
+    data: "", 
     success: function (data) {
     	drawBarcode(data);
 

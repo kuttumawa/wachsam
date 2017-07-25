@@ -1,5 +1,6 @@
 package es.io.wachsam.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,7 +24,10 @@ public class RiesgoDao {
 	public Riesgo save(Riesgo riesgo) {
 		if (riesgo == null)
 			return null;
-		if(riesgo.getId() == null) em.persist(riesgo);
+		riesgo.setFechapub(new Date());		
+		if(riesgo.getId() == null){ 
+			em.persist(riesgo);
+		}
 		else em.merge(riesgo);
 	
 		return riesgo;
@@ -40,8 +44,37 @@ public class RiesgoDao {
 
 	public List<Riesgo> getRiesgosFromLugar(Long idpais) {
 		Query q = em.createQuery(
-				"SELECT p FROM Riesgo p where p.lugar.id = :lugarid", Riesgo.class);
-		q.setParameter("lugar",idpais);
+				"SELECT p FROM Riesgo p where p.lugar.id = :lugarid order by p.probabilidad desc", Riesgo.class);
+		q.setParameter("lugarid",idpais);
+		return q.getResultList();
+	}
+	public List<Riesgo> getRiesgosFromLugarConAscendientes(Long idpais) {
+		/*
+		 * ie: Para Argelia 
+				 * SELECT
+		    p.id as parent_id,
+		    p.nombre as parent_id,
+		    c1.id as child_id,
+		    c1.nombre as child_name,
+			c2.id as child_id,
+		    c2.nombre as child_name,
+		    c3.id as child_id,
+		    c3.nombre as child_name
+			FROM 
+			    viajarseguro.lugar p
+			LEFT JOIN viajarseguro.lugar c1
+			    ON c1.id= p.padre1_id and c1.id != p.id
+			LEFT JOIN viajarseguro.lugar c2
+			    ON c2.id = c1.padre1_id and c2.id != c1.id
+			LEFT JOIN viajarseguro.lugar c3
+			    ON c3.id = c2.padre1_id and c3.id != c2.id
+			WHERE
+			    p.id=19
+		 */
+		
+		Query q = em.createQuery(
+				"SELECT p FROM Riesgo p where p.lugar.id = :lugarid order by p.value desc", Riesgo.class);
+		q.setParameter("lugarid",idpais);
 		return q.getResultList();
 	}
 

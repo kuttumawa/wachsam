@@ -83,6 +83,7 @@
       <property name="dao" ref="riesgoDao"/>
       <property name="securityService"  ref="securityService"/>
       <property name="operationLogDao"  ref="operationLogDao"/>
+      <property name="lugarService"  ref="lugarService"/>
     </bean>
     <bean id="tipoSitioService" class="es.io.wachsam.services.TipoSitioService">
       <property name="dao" ref="tipoSitioDao"/>
