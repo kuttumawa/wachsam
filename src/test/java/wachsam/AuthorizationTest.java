@@ -39,12 +39,12 @@ import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
-import es.io.wachsam.repositories.PeligroRepository;
+
 import es.io.wachsam.services.SecurityService;
 
 public class AuthorizationTest extends TestCase {
 	@Resource
-	private PeligroRepository repository;
+	
 	private List<Tag> tags=new ArrayList<Tag>();
 	private List<Data> datas=new ArrayList<Data>();
 	private List<Sitio> sitios=new ArrayList<Sitio>();
@@ -142,7 +142,7 @@ public class AuthorizationTest extends TestCase {
 	}
 	private Alert crearAlerta(Long id){
 		Alert alert =new Alert();
-		Peligro peligro=new Peligro(id,"PELIGRO_"+id,"",CategoriaPeligro.conflicto,12);
+		Peligro peligro=new Peligro(id,"PELIGRO_"+id,"",CategoriaPeligro.conflicto,12, "", "");
 		alert.setPeligro(peligro);
 		return alert;
 	}

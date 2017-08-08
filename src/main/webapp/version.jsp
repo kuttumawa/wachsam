@@ -1,6 +1,31 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
+1.3.1 (7-08-2017)
+- API:
+   Riesgo: Obtiene los riesgos de un lugar
+   - parameter:
+      countryCode -Riesgo por código ISO_3166_1_alpha2
+      countryId   -Riesgos por id
+      peligroId   -Filtra por id interno peligro
+      lang        -filtra por lenguaje
+      max         -número máximo de resultados (default 100)
+      skip        -indice sobre los resultados devueltos.
+   -metadata in header
+     Results-Matching  - Resultados totales encontrados (no devueltos)
+     Results-Skipped   - Indice desde que se devolvió.
+     Results-Presented - número de resultados devueltos
+   - ejemplos:
+         /riesgos?id=1,11,33
+		 /riesgos?countryCode=AL,BE,GB&max=50&index=10
+		 /riesgos?peligroId=3,23,123
+		 /riesgos?peligroId=3,23,123&countryCode=AL,BE&max=50&index=10&lang=en
+
+         
+
+ 
+
+
 1.3.0 (22-07-2017)
 -----------------------------------------------------------------------------
 - Nuevo Riesgo:
@@ -15,8 +40,15 @@ id,lugar_id,peligro_id,probabilidad,fechapub,caducidad,fechaactivacion,mesactiva
 -Peligro añadido texto/text
 -Tendencia: Compara los 6 últimos meses actuales, con los pasados para lugar y peligro. 
 
+=======
+futuro
+------------------------------------------------------------------------------
+- Mejoras en tags: organización, más datos(categoría,único por objeto)
+- Búsqueda avanzada con tags
+- Elastic Search integration
 
-1.2.0 (2-09-2016)
+
+1.2.0 (2-10-2016)
 ------------------------------------------------------------------------------
 - Búsqueda objetos pesados.
 - Descarga formato csv de los resultados de una búsqueda.
@@ -24,7 +56,7 @@ id,lugar_id,peligro_id,probabilidad,fechapub,caducidad,fechaactivacion,mesactiva
 - Fix error grabación lugares
 - Nuevo Objeto Recurso: Metadatos(nombre,autor,descripción,permiso..)  + url a a un fichero físico. Implementar con S3 
 - Nuevo objeto Mitigación: (Riesgo,Factor,valor(-3,-2,-1,0,1,2,3)) ie: [[Malaria, Mosquitera,-3].
-- Dendrograma para lugares
+- Dendrograma para lugares.
 
 1.1.0 (12-08-2016)
 ------------------------------------------------------------------------------

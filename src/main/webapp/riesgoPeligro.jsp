@@ -17,23 +17,24 @@
 </style>
 
 <script>
-function modifyData(e){
-	cleanForm();
-	$('#error').hide();
+function modifyRiesgo(e){
+	cleanFormRiesgo();
+	openTabRiesgo();
+	$('#dataResultado').hide();
 	$('#modal1Id').modal('show');
 	$('#modalFooterId').show();
 	  
 	var riesgoId = $(e).children().first().text();
 	var url="RiesgoServletJSON?oper=getRiesgo&riesgoId="+riesgoId;
 	$.getJSON(url,function(data){
-        populateForm(data);
+        populateFormRiesgo(data);
 		});	
 	 
 	
 }
 
 
-function cleanForm(){
+function cleanFormRiesgo(){
 	 
 	 $('#riesgoId').val('');
 	 $('#lugarId').val('');
@@ -48,7 +49,7 @@ function cleanForm(){
 	 $('#diaActivacion').val('');
 	 $('#fechaAnual').text('');
 }
-function populateForm(data){
+function populateFormRiesgo(data){
 	 $('#riesgoId').val(data.id);
 	 $('#peligroId').val(data.peligro.id);
 	 $('#lugarId').val(data.lugar.id);
@@ -73,6 +74,13 @@ function populateForm(data){
 		 $("#radio1").prop('checked', true);
 	 }
 	 disableRadio();
+	 //data
+	 $('#objetoTipo').val(8);
+	 $('#objetoId').val(data.id);
+	 objetoId=data.id;
+	 objetoTipo=8;
+	 iniData();
+	//fin data
 	 
 }
 function getAllLugares(){
@@ -103,11 +111,11 @@ function getAllPeligros(){
 function fectchRiesgosFromPeligro(){
 $("#tituloId").text("Riesgo: " + $("#peligroId_formFilter :selected").text());
 var url= "RiesgoServletJSON?peligroId="+$("#peligroId_formFilter").val()+"&oper=getAllForPeligro";
-
+$('#wait').show();
 $.get(url,function (data){
 	$('#tbodyID').children().remove();
 	$.each(data, function(i, item) {
-	    var row = $('<tr id=\''+item.id+'\' onclick=\'modifyData(this)\' \'></tr>').addClass('fila');
+	    var row = $('<tr id=\''+item.id+'\' onclick=\'modifyRiesgo(this)\' \'></tr>').addClass('fila');
 	    row.append('<td>'+ item.id+'</td>');
 	    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.lugar.nombre +'\'>'+item.lugar.nombre+'</td>');
 	    row.append('<td>'+ item.probabilidad+'</td>');
@@ -144,14 +152,14 @@ $.get(url,function (data){
 		};
 	    $('#tbodyID').append(row);
 	});
-	
+	$('#wait').hide();
 
 	
 },"json");
 
 	
 }
-function savedata(){
+function saveRiesgo(){
 	 $.ajax({
 		    type: "POST",
 		    url: "RiesgoServletJSON?oper=save",
@@ -161,19 +169,19 @@ function savedata(){
             	   fectchRiesgosFromPeligro();
 			    	$('#modal1Id').modal('hide');
                }else{
-               	$('#error').show();
+               	$('#dataResultado').show();
                	var msgs="";
                	for(var i in data.messages){
                		msgs+=data.messages[i];
                		msgs+="; ";
                	};
-               	$('#error').text(msgs);
+               	$('#dataResultado').text(msgs);
 				}		    	
 		    }
 		  });
 		  return false;
 }
-function deletedata(){
+function deleteRiesgo(){
 	 $.ajax({
 		    type: "POST",
 		    url: "RiesgoServletJSON?oper=delete",
@@ -198,7 +206,10 @@ function openForm(){
 	}else{
 		$('#peligroId').val($('#peligroId_formFilter').val());
 	}	
-	cleanForm();
+	cleanFormRiesgo();
+	cleanFormData();
+	openTabRiesgo();
+	$('#datatbodyID').children().remove();
 	$('#error').hide();
 	$('#modal1Id').modal('show');
 	$('#modalFooterId').show();
@@ -218,6 +229,16 @@ function disableRadio(){
 	}
 	
 }
+function openTabRiesgo(){
+	
+	$('#formRiesgoId').show();	
+	$('#dataRiesgoId').hide();
+	
+}
+function openTabData(){
+	$('#formRiesgoId').hide();	
+	$('#dataRiesgoId').show();
+}
 </script>
 </head>
 <body>
@@ -236,6 +257,7 @@ function disableRadio(){
 <button type="button" class="btn btn-primary btn-sm" onclick="openForm()">
 		      <span class="glyphicon glyphicon-plus-sign"></span>
 </button>
+<span id="wait" class="glyphicon glyphicon-refresh spin" style="font-size: 1.5em;display:none"></span>
 </form>
 
  <table class="table table-striped small">
@@ -259,14 +281,18 @@ function disableRadio(){
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
+       <div class="">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><span id="tituloId"></span></h4>
-        <div id="error" class="alert alert-danger">
+       
+        <div id="dataResultado" class="alert alert-danger">
                
         </div>
+       <ul class="nav nav-tabs">
+             <li class="active"><a href="#" onclick="openTabRiesgo()"><span id="tituloId"></span></a></li>   
+             <li id="dataTabId"><a href="#" onclick="openTabData()">Data</a></li>
+      </ul>
       </div>
-      <div class="modal-body">
+      <div id="formRiesgoId" style="margin:1em">
              <form class="form-horizontal" id="form2" action="ProvisionalRiesgoUpdaterForYou" method="post"  role="form">
     			<input type="hidden" name="peligroId" id="peligroId" value="" readonly/>
     			<input type="hidden" name="riesgoId"  id="riesgoId" value="" readonly/>
@@ -288,12 +314,12 @@ function disableRadio(){
 				</div>
 				<div class="control-group">
                  <label for="">Texto</label><br>
-                 <textarea class="form-control" name="texto" id="texto" cols="70" rows="1"></textarea>
+                 <textarea class="form-control" name="texto" id="texto" cols="70" rows="3"></textarea>
                  </div>
                  
                  <div class="control-group">
                  <label for="">Text</label><br>
-                 <textarea class="form-control" name="text" id="text" cols="70" rows="1"></textarea>
+                 <textarea class="form-control" name="text" id="text" cols="70" rows="3"></textarea>
                  </div>
   
                 <div class="control-group">  
@@ -352,11 +378,15 @@ function disableRadio(){
 				</form>
 				
 	
+       <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="grabar" onclick="saveRiesgo()">
+        <input type="button" class="btn btn-primary" value="delete" onclick="deleteRiesgo()">
+       </div>
       </div>
-      <div class="modal-footer" id="modalFooterId">
-        <input type="submit" class="btn btn-primary" value="grabar" onclick="savedata()">
-        <input type="button" class="btn btn-primary" value="delete" onclick="deletedata()">
-      </div>
+      
+<div id="dataRiesgoId" style="display:none;margin: 1.5em">
+  <%@include file="showData2.jsp"%>
+</div>      
 </div>
 
 </div>

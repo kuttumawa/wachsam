@@ -3,10 +3,12 @@ package es.io.wachsam.model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,6 +21,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.validator.GenericValidator;
+
 import com.google.gson.annotations.Expose;
 
 /**
@@ -28,7 +32,7 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name = "riesgo")
-public class Riesgo {
+public class Riesgo implements ObjetoSistemaIF {
 
 	@Expose
 	@Id
@@ -239,7 +243,7 @@ public class Riesgo {
     public Integer calcularCaducidad(){
     	return (caducidad<0?999999:caducidad);
     }
-	public void iniRiesgoTransientInfo(){
+	public Riesgo iniRiesgoTransientInfo(){
 			if (isActivo()) setActivo(true);
 			valor=getValor();
 			if(caducidad>0){
@@ -248,7 +252,8 @@ public class Riesgo {
 				diasParaCaducar=-1;
 			}
 		
-			fechaActivacionFormatted=getFechaActivacionFormattedForDateHtmlInput(calcularFecha());			
+			fechaActivacionFormatted=getFechaActivacionFormattedForDateHtmlInput(calcularFecha());	
+			return this;
 	}
 
 	private Date calcularFecha() {
@@ -320,6 +325,18 @@ public class Riesgo {
 
 	public void setTendencia(Tendencia tendencia) {
 		this.tendencia = tendencia;
+	}
+
+	public List<String> validate() {
+		List<String> errores=new ArrayList<String>();
+		if(lugar==null) errores.add("Lugar Obligatorio;");
+		if(peligro==null) errores.add("Lugar Obligatorio;");
+		if(probabilidad==null) errores.add("Probabilidad es Obligatorio");
+		if(formulaDisipacion==null) errores.add("FormulaDisipacion es Obligatorio");
+		if(fechaActivacion==null && (mesActivacion==null && diaActivacion==null)) errores.add("FechaActivacion o (Mes y días)  es Obligatorio");
+		if(caducidad==null) errores.add("Caducidad Obligatorio;");
+		if(fechapub==null) fechapub=new Date();
+		return errores;
 	}
 
 

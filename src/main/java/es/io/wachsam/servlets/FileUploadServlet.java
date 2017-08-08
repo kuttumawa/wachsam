@@ -32,6 +32,7 @@ import es.io.wachsam.dao.AirportDao;
 import es.io.wachsam.dao.FactorDao;
 import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.model.Data;
+import es.io.wachsam.model.NivelProbabilidad;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Usuario;
@@ -71,6 +72,7 @@ public class FileUploadServlet extends HttpServlet {
 		
 	    final Part filePart = request.getPart("file");
 	    final String objeto = request.getParameter("objeto");
+	    final String separador = request.getParameter("separador");
 	    boolean actualizaObjeto = false;
 	    actualizaObjeto=request.getParameter("actualizaObjeto")!=null?true:false;
 
@@ -92,7 +94,7 @@ public class FileUploadServlet extends HttpServlet {
 	        Map<Object,List<Data>> dat=null;
 	       	
 	        if(errores.size()==0)
-	       	  dat=fileUploadService.cargarCsv(ObjetoSistema.valueOf(objeto),csv,errores);	
+	       	  dat=fileUploadService.cargarCsv(ObjetoSistema.valueOf(objeto),csv,errores,separador);	
 	       	
 	       	if(errores.size()>0){
 	        	 request.setAttribute("resultado",errores);

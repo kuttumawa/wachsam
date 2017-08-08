@@ -9,8 +9,6 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -23,14 +21,13 @@ import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.NodeAndLinks;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
-import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
-import es.io.wachsam.repositories.PeligroRepository;
 import es.io.wachsam.services.DataService;
+import junit.framework.TestCase;
 
 public class DataTest extends TestCase {
 	@Resource
-	private PeligroRepository repository;
+	
 	private List<Tag> tags=new ArrayList<Tag>();
 	private List<Data> datas=new ArrayList<Data>();
 	private DataDao dataDao;

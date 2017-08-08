@@ -1,6 +1,7 @@
 package es.io.wachsam.services;
 
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -21,7 +22,9 @@ import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
+import es.io.wachsam.model.FormulaDisipacion;
 import es.io.wachsam.model.Lugar;
+import es.io.wachsam.model.NivelProbabilidad;
 import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.ObjetoSistemaIF;
 import es.io.wachsam.model.OperationLog;
@@ -62,10 +65,10 @@ public class FileUploadService {
 		this.operationLogDao = operationLogDao;
 	}
 	
-	public Map<Object,List<Data>> cargarCsv(ObjetoSistema objetoSistema,String[] csv,List<String> errores){
-		return cargarCsv(objetoSistema,new ArrayList<String>(Arrays.asList(csv)),errores);
+	public Map<Object,List<Data>> cargarCsv(ObjetoSistema objetoSistema,String[] csv,List<String> errores,String separador){
+		return cargarCsv(objetoSistema,new ArrayList<String>(Arrays.asList(csv)),errores,separador);
 	}
-	public Map<Object,List<Data>> cargarCsv(ObjetoSistema objetoSistema,List<String> csv,List<String> errores){
+	public Map<Object,List<Data>> cargarCsv(ObjetoSistema objetoSistema,List<String> csv,List<String> errores,String separador){
 		Map<Object,List<Data>> dat=new LinkedHashMap<Object,List<Data>>();
 		String metadata=csv.get(0);
 		String errorPopulateCsv=null;
@@ -76,7 +79,7 @@ public class FileUploadService {
 				String line=csv.get(i);
 				ObjetoSistemaIF o=(ObjetoSistemaIF)objetoSistema.getInstanceObject();
 				List<Data> datas=new ArrayList<Data>();
-				errorPopulateCsv = populateObjectFromCsv(o,line,metadata,datas);;
+				errorPopulateCsv = populateObjectFromCsv(o,line,metadata,datas,separador);;
 				if(errorPopulateCsv!=null){
 					errores.add("Error en línea "+(i+1)+": "+ errorPopulateCsv );
 				}else{
@@ -87,7 +90,7 @@ public class FileUploadService {
 							errores.add("Error en línea "+(i+1)+": "+ errorNoExisteId );
 						}else{
 							datas.clear();
-							errorPopulateCsv = populateObjectFromCsv(oo,line,metadata,datas);
+							errorPopulateCsv = populateObjectFromCsv(oo,line,metadata,datas,separador);
 							o=oo;
 						}
 					}
@@ -109,10 +112,10 @@ public class FileUploadService {
 	 * @param metadata
 	 * @param datas  list of data added
 	 */
-	private String populateObjectFromCsv(Object object, String line, String metadata,List<Data> datas) {
+	private String populateObjectFromCsv(Object object, String line, String metadata,List<Data> datas,String separador) {
 		//populate from metadata
-		List<String> mm=new ArrayList<String>(Arrays.asList(metadata.split(",")));
-		String[] cols=line.split(",");
+		List<String> mm=new ArrayList<String>(Arrays.asList(metadata.split(separador)));
+		String[] cols=line.split(separador);
 		String error=null;
 		int colsIndex=0;
 		try{
@@ -170,6 +173,13 @@ public class FileUploadService {
 				field.set(object,Integer.valueOf(value));
 			}else if(field.getType().getName().equals("java.lang.Long")){
 				field.set(object,Long.valueOf(value));
+			}else if(field.getType().getName().equals("java.util.Date")){
+				    try{
+					  Date date= new SimpleDateFormat("yyyy-MM-dd").parse(value);
+					  field.set(object,date);
+					}catch(Exception e){
+						 throw e;
+					}				
 			}else if(field.getType().getName().equals("es.io.wachsam.model.TipoSitio")){
 				TipoSitio tipoSitio=new TipoSitio();
 				tipoSitio.setId(Long.valueOf(value));
@@ -178,7 +188,11 @@ public class FileUploadService {
 				Lugar lugar=new Lugar();
 				lugar.setId(Long.valueOf(value));
 				field.set(object,lugar);
-			}else if(field.getType().getName().equals("es.io.wachsam.model.Tag")){
+			}else if(field.getType().getName().equals("es.io.wachsam.model.Peligro")){
+				Peligro peligro=new Peligro();
+				peligro.setId(Long.valueOf(value));
+				field.set(object,peligro);
+	        }else if(field.getType().getName().equals("es.io.wachsam.model.Tag")){
 				Tag tag=new Tag();
 				tag.setId(Long.valueOf(value));
 				field.set(object,tag);
@@ -186,6 +200,10 @@ public class FileUploadService {
 				field.set(object,ObjetoSistema.valueOf(value));
 			}else if(field.getType().getName().equals("es.io.wachsam.model.DataValueTipo")){				
 				field.set(object,DataValueTipo.valueOf(value));
+			}else if(field.getType().getName().equals("es.io.wachsam.model.NivelProbabilidad")){				
+				field.set(object,NivelProbabilidad.valueOf(value));
+			}else if(field.getType().getName().equals("es.io.wachsam.model.FormulaDisipacion")){				
+				field.set(object,FormulaDisipacion.valueOf(value));
 			}
 			
 			else{//java.lang.String
@@ -272,10 +290,9 @@ public class FileUploadService {
     	return tag.get(0).getId()+""; 
 	}
 	public String F_ISO_3166_1_alpha2_to_lugar(String code){
-    	List<Long> lugarIds=lugarService.getLugarFromISO_3166_1_alpha2(code);
-    	if (lugarIds.size()>1) throw new RuntimeException("Código: "+code +" ambiguo para la formula: F_ISO_3166_1_alpha2_to_lugar");
-    	else if (lugarIds.size()<1) throw new RuntimeException("Código: "+code +" no encontrado formula: F_ISO_3166_1_alpha2_to_lugar");
-    	return lugarIds.get(0)+""; 
+    	Long lugarIds=lugarService.getLugarFromISO_3166_1_alpha2(code);
+    	if (lugarIds==null) throw new RuntimeException("Código: "+code +" no encontrado formula: F_ISO_3166_1_alpha2_to_lugar");
+    	return lugarIds.toString(); 
 	}
 	public String F_ISO_3166_1_alpha3_to_lugar(String code){
     	List<Long> lugarIds=lugarService.getLugarFromISO_3166_1_alpha3(code);
@@ -292,7 +309,6 @@ public class FileUploadService {
 	public void save(Map<Object, List<Data>> dat, String objeto, Usuario usuario,boolean actualizaObjeto) throws Exception {
 		String stamp=UUID.randomUUID().toString();
 		for(Object o: dat.keySet()){
-			System.out.println("----->"+((Sitio)o).getNombre());
 			ObjetoSistemaIF oo=(ObjetoSistemaIF) o;
 			OperationLog operationLog=new OperationLog(objeto,oo.getId(),Acciones.CREATE.name(),usuario.getId(),new Date(),stamp);
 			

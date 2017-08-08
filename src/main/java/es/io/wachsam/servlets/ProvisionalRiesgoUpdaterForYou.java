@@ -76,7 +76,7 @@ public class ProvisionalRiesgoUpdaterForYou extends HttpServlet {
 			for(Riesgo r: riesgos){
 				r.iniRiesgoTransientInfo();
 			}
-			Collections.sort(riesgos,Riesgo.getRiesgoLugarComparator());
+			Collections.sort(riesgos,Riesgo.getRiesgoValorComparator());
 			peligro=peligroDao.getPeligro(Long.parseLong(peligroId));
 			if(riesgos==null)  riesgos=new ArrayList<Riesgo>();
 		}

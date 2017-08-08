@@ -20,6 +20,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.Magno</servlet-class>
   </servlet>
+    <servlet>
+  	<servlet-name>MagnoRiesgo</servlet-name>
+  	<display-name>MagnoRiesgo</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.MagnoRiesgo</servlet-class>
+  </servlet>
   <servlet>
   	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
   	<display-name>ProvisionalAlertUpdaterForYou</display-name>
@@ -175,6 +181,10 @@
   <servlet-mapping>
   	<servlet-name>Magno</servlet-name>
   	<url-pattern>/Magno</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>MagnoRiesgo</servlet-name>
+  	<url-pattern>/riesgos</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>

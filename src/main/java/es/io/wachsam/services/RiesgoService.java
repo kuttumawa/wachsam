@@ -1,19 +1,25 @@
 package es.io.wachsam.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.RiesgoDao;
+import es.io.wachsam.exception.ApiBadRequestException;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
+import es.io.wachsam.model.ResultMetadata;
 import es.io.wachsam.model.Riesgo;
 import es.io.wachsam.model.Usuario;
+import es.io.wachsam.util.Tools;
 
 /**
  *
@@ -91,11 +97,11 @@ public class RiesgoService {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public List<Riesgo> getAllRiesgoForLugarConAscendentes(Long lugarId) {
+	public List<Riesgo> getAllRiesgoForLugarConAscendentes(Long lugarId,List<Long> peligroIds) {
 		List<Lugar> lugares=lugarService.getAscendientes(lugarId);
 		List<Riesgo> listRiesgo=new ArrayList<Riesgo>();
 		for(Lugar lugar:lugares){
-			List<Riesgo> listRiesgoTemp=dao.getRiesgosFromLugar(lugar.getId());
+			List<Riesgo> listRiesgoTemp=dao.getRiesgosFromLugar(lugar.getId(),peligroIds);
 			for(Riesgo r_candidato:listRiesgoTemp){
 				boolean addit=true;
 				for(Riesgo r_final:listRiesgo){
@@ -113,11 +119,38 @@ public class RiesgoService {
 		}		
 		return listRiesgo;
 	}
+	
 	public LugarService getLugarService() {
 		return lugarService;
 	}
 	public void setLugarService(LugarService lugarService) {
 		this.lugarService = lugarService;
+	}
+	public List<Riesgo> searchRiesgos(List<Long> countryIds, List<Long> peligroIds, String lang, Integer max,
+			Integer skip,ResultMetadata metadata) throws ApiBadRequestException {
+		final int MAX_NUM_RESULTS=100;
+		List<Riesgo> resultTemp=new ArrayList<Riesgo>();
+		for(Long lugarId:countryIds){
+			resultTemp.addAll(getAllRiesgoForLugarConAscendentes(lugarId,peligroIds));
+		}
+		List<Riesgo> result=new ArrayList<Riesgo>();
+		int indice=(skip!=null?skip:0);
+		int counter=0;
+		int maximo=(max!=null?max:MAX_NUM_RESULTS);
+		if(maximo>MAX_NUM_RESULTS) throw new ApiBadRequestException(HttpServletResponse.SC_BAD_REQUEST,"parameter max for  number of results requested  exceeds "
+				+ "maximum limit of "+MAX_NUM_RESULTS);
+		Collections.sort(resultTemp,Riesgo.getRiesgoValorComparator());
+		for(int i=indice;i<resultTemp.size();i++){
+			counter++;
+			if(counter>maximo) break;
+			result.add(resultTemp.get(i).iniRiesgoTransientInfo());
+			
+		}
+		metadata.setSkip(indice);
+		metadata.setMax(maximo);
+		metadata.setTotalResultMatching(resultTemp.size());
+		
+		return result;
 	}
 
 }

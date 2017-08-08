@@ -13,28 +13,31 @@
 <jsp:include page="cabecera.jsp"/>
 <head>
 <style>
-.fila {cursor: pointer}
-#modal1Id .modal-dialog  {width:75%;}
-</style>
+     
+      .fila {cursor: pointer}
+       #modal1Id .modal-dialog  {width:75%;}
+</style> 
+
 
 <script>
-function modifyData(e){
-	cleanForm();
-	$('#error').hide();
-	$('#modal1Id').modal('show');
-	$('#modalFooterId').show();
-	  
+var riesgoHeredado;
+
+function modifyRiesgo(e){
+	cleanFormRiesgo();
+	openTabRiesgo();
+	$('#error').hide();	  
 	var riesgoId = $(e).children().first().text();
 	var url="RiesgoServletJSON?oper=getRiesgo&riesgoId="+riesgoId;
 	$.getJSON(url,function(data){
         populateForm(data);
+        
 		});	
 	 
 	
 }
 
 
-function cleanForm(){
+function cleanFormRiesgo(){
 	 
 	 $('#riesgoId').val('');
 	 $('#peligroId').val('');
@@ -48,6 +51,8 @@ function cleanForm(){
 	 $("#desactivado").prop('checked', false);
 	 $('#diaActivacion').val('');
 	 $('#fechaAnual').text('');
+	 objetoId=undefined;
+	 riesgoHeredado=undefined;
 }
 function populateForm(data){
 	 $('#riesgoId').val(data.id);
@@ -78,11 +83,25 @@ function populateForm(data){
 			$('#error').text("Los riesgos heredados no se puden modificar desde el descendiente");
 			$('#error').show();
 			$('#modalFooterId').hide();
+			$('#dataButtonsId').hide();
+			riesgoHeredado=true;
 		}else{
 		    $('#error').text("");
 		    $('#error').hide();
+		   //data
+			 $('#objetoTipo').val(8);
+			 $('#objetoId').val(data.id);
+			 objetoId=data.id;
+			 objetoTipo=8;
+			 iniData();
+			//fin data
 		    $('#modalFooterId').show();
+		    $('#dataButtonsId').show();
+		    riesgoHeredado=false;
 	    }
+	 $('#dataTabId').show();
+	 $('#modal1Id').modal('show');
+	 
 }
 function getAllLugares(){
 	var url= "LugarServletJSON?&oper=getAll";
@@ -112,11 +131,11 @@ function getAllPeligros(){
 function fectchRiesgosFromLugar(){
 $("#tituloId").text("Riesgo: " + $("#lugarId_formFilter :selected").text());
 var url= "RiesgoServletJSON?lugarId="+$("#lugarId_formFilter").val()+"&oper=getAllForLugar";
-
+$('#wait').show();
 $.get(url,function (data){
 	$('#tbodyID').children().remove();
 	$.each(data, function(i, item) {
-	    var row = $('<tr id=\''+item.id+'\' onclick=\'modifyData(this)\' \'></tr>').addClass('fila');
+	    var row = $('<tr id=\''+item.id+'\' onclick=\'modifyRiesgo(this)\' \'></tr>').addClass('fila');
 	    row.append('<td>'+ item.id+'</td>');
 	    row.append('<td><span data-toggle=\'tooltip\' data-placement=\'top\' title=\''+ item.peligro.nombre +'\'>'+item.peligro.nombre+'</td>');
 	    row.append('<td>'+ item.probabilidad+'</td>');
@@ -159,14 +178,14 @@ $.get(url,function (data){
 		};
 	    $('#tbodyID').append(row);
 	});
-	
+	$('#wait').hide()
 
 	
 },"json");
 
 	
 }
-function savedata(){
+function saveRiesgo(){
 	 $.ajax({
 		    type: "POST",
 		    url: "RiesgoServletJSON?oper=save",
@@ -188,7 +207,7 @@ function savedata(){
 		  });
 		  return false;
 }
-function deletedata(){
+function deleteRiesgo(){
 	 $.ajax({
 		    type: "POST",
 		    url: "RiesgoServletJSON?oper=delete",
@@ -206,14 +225,18 @@ $(function(){
 	$("#lugarId_formFilter").on("change",fectchRiesgosFromLugar);
 	$('#radio1,#radio2').on('click',disableRadio);
 });
-function openForm(){
+function openFormRiesgo(){
 	if(!$('#lugarId_formFilter').val()){
 		alert("Seleccionar un Lugar");
 		return;
 	}else{
 		$('#lugarId').val($('#lugarId_formFilter').val());
 	}	
-	cleanForm();
+	cleanFormRiesgo();
+	cleanFormData();
+	openTabRiesgo();
+	$('#datatbodyID').children().remove();
+	$('#dataTabId').hide();
 	$('#error').hide();
 	$('#modal1Id').modal('show');
 	$('#modalFooterId').show();
@@ -233,6 +256,29 @@ function disableRadio(){
 	}
 	
 }
+function openTabRiesgo(){
+	
+	$('#formRiesgoId').show();
+	if(!riesgoHeredado){
+		$('#modalFooterId').show();
+	}else{
+		$('#modalFooterId').hide();
+	}
+	
+	$('#dataRiesgoId').hide();
+	
+}
+function openTabData(){
+	
+	$('#formRiesgoId').hide();
+	if(!riesgoHeredado){
+		$('#dataButtonsId').show();
+	}else{
+		$('#dataButtonsId').hide();
+	}	
+	$('#dataRiesgoId').show();
+	$('#modalFooterId').hide();
+}
 </script>
 </head>
 <body>
@@ -248,9 +294,10 @@ function disableRadio(){
 <select class="form-control" class="form-control input-sm" name="lugarId" id="lugarId_formFilter">
 		<option value=""></option>		
 </select>
-<button type="button" class="btn btn-primary btn-sm" onclick="openForm()">
-		      <span class="glyphicon glyphicon-plus-sign"></span>
+<button type="button" class="btn btn-primary btn-sm" onclick="openFormRiesgo()">
+		      <span class="glyphicon glyphicon-plus-sign"></span>		     
 </button>
+ <span id="wait" class="glyphicon glyphicon-refresh spin" style="font-size: 1.5em;display:none"></span>
 </form>
 
  <table class="table table-striped small">
@@ -261,7 +308,8 @@ function disableRadio(){
 
 </tbody>
 </table>
-
+          
+  
 </div>
 </div>
 </div>
@@ -274,14 +322,21 @@ function disableRadio(){
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title"><span id="tituloId"></span></h4>
+       
         <div id="error" class="alert alert-danger">
                
         </div>
+       <ul class="nav nav-tabs">
+             <li class="active"><a href="#" onclick="openTabRiesgo()"><span id="tituloId"></span></a></li>   
+             <li id="dataTabId"><a href="#" onclick="openTabData()">Data</a></li>
+      </ul>
       </div>
-      <div class="modal-body">
+      <div class="" style="margin:1em">
+     
+      <div id="formRiesgoId">
+      
              <form class="form-horizontal" id="form2" action="ProvisionalRiesgoUpdaterForYou" method="post"  role="form">
     			<input type="hidden" name="lugarId" id="lugarId" value="" readonly/>
     			<input type="hidden" name="riesgoId"  id="riesgoId" value="" readonly/>
@@ -304,12 +359,12 @@ function disableRadio(){
 				</div>
 				<div class="control-group">
                  <label for="">Texto</label><br>
-                 <textarea class="form-control" name="texto" id="texto" cols="70" rows="1"></textarea>
+                 <textarea class="form-control" name="texto" id="texto" cols="70" rows="3"></textarea>
                  </div>
                  
                  <div class="control-group">
                  <label for="">Text</label><br>
-                 <textarea class="form-control" name="text" id="text" cols="70" rows="1"></textarea>
+                 <textarea class="form-control" name="text" id="text" cols="70" rows="3"></textarea>
                  </div>
   
                 <div class="control-group">  
@@ -369,10 +424,17 @@ function disableRadio(){
 				
 	
       </div>
-      <div class="modal-footer" id="modalFooterId">
-        <input type="submit" class="btn btn-primary" value="grabar" onclick="savedata()">
-        <input type="button" class="btn btn-primary" value="delete" onclick="deletedata()">
+      <div class="modal-footer" id="modalFooterId" >
+        <input type="submit" class="btn btn-primary" value="grabar" onclick="saveRiesgo()">
+        <input type="button" class="btn btn-primary" value="delete" onclick="deleteRiesgo()">
       </div>
+</div>
+<div id="dataRiesgoId" style="display:none;margin: 1.5em">
+ <%@include file="showData2.jsp"%>
+</div>
+
+
+
 </div>
 
 </div>

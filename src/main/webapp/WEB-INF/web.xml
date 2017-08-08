@@ -20,6 +20,12 @@
   	<description></description>
   	<servlet-class>es.io.wachsam.servlets.Magno</servlet-class>
   </servlet>
+    <servlet>
+  	<servlet-name>MagnoRiesgo</servlet-name>
+  	<display-name>MagnoRiesgo</display-name>
+  	<description></description>
+  	<servlet-class>es.io.wachsam.servlets.MagnoRiesgo</servlet-class>
+  </servlet>
   <servlet>
   	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
   	<display-name>ProvisionalAlertUpdaterForYou</display-name>
@@ -176,6 +182,10 @@
   	<servlet-name>Magno</servlet-name>
   	<url-pattern>/Magno</url-pattern>
   </servlet-mapping>
+    <servlet-mapping>
+  	<servlet-name>MagnoRiesgo</servlet-name>
+  	<url-pattern>/riesgos</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>ProvisionalAlertUpdaterForYou</servlet-name>
   	<url-pattern>/ProvisionalAlertUpdaterForYou</url-pattern>
@@ -278,11 +288,11 @@
   	<url-pattern>/MitigacionServletJSON</url-pattern>
   </servlet-mapping>
   
-<error-page>
-    <!-- Missing login -->
+<!-- <error-page>
+    Missing login
     <error-code>401</error-code>
     <location>/general-error.html</location>
-</error-page>
+</error-page> -->
 <error-page>
     <!-- Forbidden directory listing -->
     <error-code>403</error-code>

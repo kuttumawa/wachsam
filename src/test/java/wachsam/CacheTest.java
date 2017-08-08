@@ -10,8 +10,6 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -26,17 +24,16 @@ import es.io.wachsam.dao.SitioDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Alert;
 import es.io.wachsam.model.Data;
-import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
-import es.io.wachsam.repositories.PeligroRepository;
+import junit.framework.TestCase;
 
 public class CacheTest extends TestCase {
 	@Resource
-	private PeligroRepository repository;
+
 	private List<Tag> tags=new ArrayList<Tag>();
 	private List<Data> datas=new ArrayList<Data>();
 	private List<Sitio> sitios=new ArrayList<Sitio>();

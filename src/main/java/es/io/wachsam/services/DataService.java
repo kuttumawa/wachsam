@@ -28,6 +28,7 @@ import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Peligro;
 import es.io.wachsam.model.Recurso;
+import es.io.wachsam.model.Riesgo;
 import es.io.wachsam.model.Sitio;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.Usuario;
@@ -155,6 +156,10 @@ public class DataService {
 				Recurso recurso= (Recurso) objeto;
 				data.setObjetoId(recurso.getId());
 				data.setObjetoTipo(ObjetoSistema.Recurso);
+			}else if(objeto instanceof Riesgo){
+				Riesgo riesgo= (Riesgo) objeto;
+				data.setObjetoId(riesgo.getId());
+				data.setObjetoTipo(ObjetoSistema.Riesgo);
 			}
 			if(data.getTipoValor()==null)data.setTipoValor(DataValueTipo.TEXTO);
 			dao.save(data);

@@ -29,7 +29,9 @@ function deleteOper(){
 <body>
 <jsp:include page="cabecera.jsp"/>
 <div class="container">
-
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-7">
 <%
 Factor factor = (Factor)request.getAttribute("factor");
 %>
@@ -98,7 +100,18 @@ Factor factor = (Factor)request.getAttribute("factor");
 <input type="button" class="btn btn-primary" value="limpiar" onclick="clearFields()">
 </div>
 </form>
-</fieldset>
+
 </div>
+
+<div class="col-sm-5">
+         <jsp:include page="showData.jsp" >
+		    <jsp:param name="objetoId" value="<%=factor.getId()!=null?factor.getId():null%>" />
+		    <jsp:param name="objetoTipo" value="3"/>
+		 </jsp:include>
+</div>
+</div>
+</div>
+</div>
+
 </body> 
 </html>

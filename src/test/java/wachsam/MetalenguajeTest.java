@@ -2,7 +2,6 @@ package wachsam;
 
 
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,8 +13,6 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
@@ -25,11 +22,11 @@ import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.model.Data;
 import es.io.wachsam.model.DataValueTipo;
 import es.io.wachsam.model.Tag;
-import es.io.wachsam.repositories.PeligroRepository;
+import junit.framework.TestCase;
 
 public class MetalenguajeTest extends TestCase {
 	@Resource
-	private PeligroRepository repository;
+	
 	private List<Tag> tags=new ArrayList<Tag>();
 	private List<Data> datas=new ArrayList<Data>();
 	private DataDao dataDao;

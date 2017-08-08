@@ -2,64 +2,46 @@ package wachsam;
 
 
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Random;
-
-import javax.annotation.Resource;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 
-import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.LugarDao;
 import es.io.wachsam.dao.PeligroDao;
 import es.io.wachsam.dao.RiesgoDao;
-import es.io.wachsam.dao.TagDao;
-import es.io.wachsam.exception.NoAutorizadoException;
-import es.io.wachsam.model.Data;
-import es.io.wachsam.model.DataValueTipo;
+import es.io.wachsam.exception.ApiBadRequestException;
 import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Mes;
-import es.io.wachsam.model.NodeAndLinks;
-import es.io.wachsam.model.ObjetoSistema;
+import es.io.wachsam.model.ResultMetadata;
 import es.io.wachsam.model.Riesgo;
-import es.io.wachsam.model.Tag;
-import es.io.wachsam.model.TipoSitio;
-import es.io.wachsam.model.Usuario;
-import es.io.wachsam.repositories.PeligroRepository;
-import es.io.wachsam.services.DataService;
+import es.io.wachsam.services.LugarService;
 import es.io.wachsam.services.RiesgoService;
+import es.io.wachsam.util.Tools;
+import junit.framework.TestCase;
 
 public class RiesgoTest extends TestCase {
-	@Resource
-
+	
 	
 	private RiesgoService riesgoService;
+	private LugarService lugarService;
 	private LugarDao lugarDao;
 	private PeligroDao peligroDao;
 	private RiesgoDao riesgoDao;
 
-	@Resource
-	private ElasticsearchTemplate template;
+	
 	
 	ClassPathXmlApplicationContext context;
 	protected void setUp() throws Exception {
 		super.setUp();
 		context = new 
-                ClassPathXmlApplicationContext("applicationContext_test.xml");
-		
-		
+                ClassPathXmlApplicationContext("applicationContext_test.xml");		
 		riesgoService=(RiesgoService) context.getBean("riesgoService");
+		lugarService=(LugarService) context.getBean("lugarService");
 		lugarDao=(LugarDao) context.getBean("lugarDao");
 		riesgoDao=(RiesgoDao) context.getBean("riesgoDao");
 		peligroDao=(PeligroDao) context.getBean("peligroDao");
@@ -73,9 +55,7 @@ public class RiesgoTest extends TestCase {
     	//                  Dengue(48)[25%]          Dengue(48)[50%]
     	//                  Escorpion(234)
     	//                                                               Accidente Aéreo(1)
-    	Lugar argelia = lugarDao.getLugar(36L);
-    	
-    	
+    	Lugar argelia = lugarDao.getLugar(36L);    	
     	//riesgoDao.save(new Riesgo());
     }
     private void deleteData(){
@@ -109,9 +89,13 @@ public class RiesgoTest extends TestCase {
     }
 	
 	@Test
-	public void testRiesgosFromLugar() throws IOException{
+	public void testRiesgosFromLugar() throws IOException, ApiBadRequestException{
 	 assertEquals(true,true);
-	 List<Riesgo> riesgos=riesgoService.getAllRiesgoForLugarConAscendentes(36L);
+	 String[] lugares={"AF"};
+	 String[] peligros={"271","440"};
+	 List<Long> countrycodesIds=lugarService.getLugarFromISO_3166_1_alpha2(lugares);
+	 List<Long>	peligrosIds=Tools.stringToLongList(peligros);
+	 List<Riesgo> riesgos=riesgoService.searchRiesgos(countrycodesIds, peligrosIds,null,null,null,null);
 	 assertNotNull(riesgos);
 	 System.out.println("res::> "+riesgos.size());
 	

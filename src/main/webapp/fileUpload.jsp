@@ -78,13 +78,21 @@
        <div class="form-group">
             <label for="file">File</label>
             <input  class="file-input-wrapper btn btn-info btn-xs" type="file" name="file" id="file" data-filename-placement="inside"/> 
-            <span id="wait" class="glyphicon glyphicon-refresh spin"></span>
+            <span id="wait" class="glyphicon glyphicon-refresh spin" style="display:none"></span>
         </div>  
+         <div class="controls form-inline">  
+              <label class="control-label" for="">Separador</label>                        
+			  <select class="form-control" name="separador">
+                  <option value=",">,</option>
+                  <option value=";">;</option>
+                  <option value="#">#</option>
+           </select>
+		</div> 
         <div class="form-group">
             <input type="checkbox" name="actualizaObjeto" value="ok">Actualiza Objeto principal</input>       
         </div>              
         <div class="btn-group center-block">
-            <input class="btn btn-primary" type="submit" value="Upload" name="upload" id="upload" />
+            <input class="btn btn-primary" type="submit" value="Upload" name="upload" id="upload" onclick="$('#wait').show()"/>
         </div>
       </form>
      

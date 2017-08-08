@@ -9,7 +9,6 @@ import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.io.wachsam.model.Data;
-import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.Tag;
 
 @Transactional

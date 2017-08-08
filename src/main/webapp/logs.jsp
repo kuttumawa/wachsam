@@ -9,7 +9,7 @@
     <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"  %> 
  
 
-   
+<jsp:include page="cabecera.jsp"/>  
 <%
 
 WebApplicationContext context= WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
@@ -19,7 +19,7 @@ Calendar q=Calendar.getInstance();
 q.add(Calendar.DAY_OF_MONTH,-30);
 logs=opedao.getDesde(q.getTime());
 %>  
-<jsp:include page="cabecera.jsp"/>
+
 <h3>Logs</h3>     
 
 <table class="table table-striped small">

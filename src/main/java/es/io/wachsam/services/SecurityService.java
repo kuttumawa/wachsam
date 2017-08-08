@@ -30,6 +30,7 @@ import es.io.wachsam.model.Usuario;
 public class SecurityService {
 	private UsuarioDao usuarioDao;
     private OperationLogDao operationLogDao;
+    private String apiSecretToken;
 	public UsuarioDao getUsuarioDao() {
 		return usuarioDao;
 	}
@@ -97,6 +98,19 @@ public class SecurityService {
 
 	public void setOperationLogDao(OperationLogDao operationLogDao) {
 		this.operationLogDao = operationLogDao;
+	}
+
+	public boolean verifyApiToken(String api_token) {
+		if(api_token.equals(apiSecretToken)) return true;
+		return false;
+	}
+
+	public String getApiSecretToken() {
+		return apiSecretToken;
+	}
+
+	public void setApiSecretToken(String apiSecretToken) {
+		this.apiSecretToken = apiSecretToken;
 	}
 
 	

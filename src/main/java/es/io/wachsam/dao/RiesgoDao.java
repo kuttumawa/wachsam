@@ -1,5 +1,7 @@
 package es.io.wachsam.dao;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -98,6 +100,23 @@ public class RiesgoDao {
 		q.setParameter("lugarId",riesgo.getLugar().getId());
 		if (q.getResultList()==null || q.getResultList().isEmpty()) return false;
 		else return true;
+	}
+
+	public List<Riesgo> searchRiesgos(String[] countrycodes, String[] countryIds, String[] peligroIds, String lang,
+			String max, String index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Riesgo> getRiesgosFromLugar(Long idpais, List<Long> peligroIds) {
+		String q1="SELECT p FROM Riesgo p where p.lugar.id = :lugarid and p.peligro.id in (:peligroIds) order by p.probabilidad desc";
+		String q2="SELECT p FROM Riesgo p where p.lugar.id = :lugarid  order by p.probabilidad desc";
+		String queryStr="SELECT p FROM Riesgo p where p.lugar.id = :lugarid  order by p.probabilidad desc";
+        if(peligroIds!=null && peligroIds.size()>0) queryStr=q1;
+		Query q = em.createQuery(queryStr, Riesgo.class);
+		q.setParameter("lugarid",idpais);
+		if(peligroIds!=null && peligroIds.size()>0) q.setParameter("peligroIds",peligroIds);		
+		return q.getResultList();
 	}
 
 	

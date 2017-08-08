@@ -14,7 +14,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-import es.io.wachsam.model.A;
+
 import es.io.wachsam.model.Sitio;
 
 
@@ -32,25 +32,7 @@ public class JSONtest {
 	}
 
 	
-	@Test
-	public void testThis() throws IOException{
-	   String json_1="{\"a\":\"lion1\","
-	   		         //+ "\"b\":\"lion2\","
-	   		         + "\"c\":3,"
-	   		         + "\"d\":\"z\"}";
-	   
-	   ObjectMapper objectMapper = new ObjectMapper();
-	   A a = objectMapper.readValue(json_1, A.class);
-		
-	   System.out.println(a);
-	   
-	   objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
-	   StringWriter stringEmp = new StringWriter();
-	   objectMapper.writeValue(stringEmp, a);
-	   System.out.println("---> "+stringEmp);
-	  
 	
- 	}
 
 	@Test
 	public void testIntrospection(){

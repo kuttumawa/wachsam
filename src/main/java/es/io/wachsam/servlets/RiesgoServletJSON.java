@@ -94,7 +94,7 @@ public class RiesgoServletJSON extends HttpServlet {
 				}								
 			}else if(oper.equalsIgnoreCase("getAllForLugar")){
 				Long lugarId=Long.parseLong(lugarIdstr);
-				riesgos=riesgoService.getAllRiesgoForLugarConAscendentes(lugarId);
+				riesgos=riesgoService.getAllRiesgoForLugarConAscendentes(lugarId,null);
 				iniRiesgosTransientInfo(riesgos,alertService);
 				Collections.sort(riesgos,Riesgo.getRiesgoValorComparator());
 				out.println(prettyGson.toJson(riesgos));

@@ -5,11 +5,8 @@ package wachsam;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import javax.annotation.Resource;
-
-import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -19,19 +16,16 @@ import es.io.wachsam.dao.DataDao;
 import es.io.wachsam.dao.TagDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Data;
-import es.io.wachsam.model.DataValueTipo;
-import es.io.wachsam.model.NodeAndLinks;
-import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
-import es.io.wachsam.repositories.PeligroRepository;
 import es.io.wachsam.services.DataService;
 import es.io.wachsam.services.TipoSitioService;
+import junit.framework.TestCase;
 
 public class SitioTest extends TestCase {
 	@Resource
-	private PeligroRepository repository;
+	
 	private List<Tag> tags=new ArrayList<Tag>();
 	private List<Data> datas=new ArrayList<Data>();
 	private DataDao dataDao;

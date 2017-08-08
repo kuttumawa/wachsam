@@ -1,5 +1,6 @@
 package es.io.wachsam.dao;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,11 +75,12 @@ public class LugarDao {
 		return q.getResultList();
 	}
 
-	public List<Long> getLugarFromISO_3166_1_alpha2(String code) {
+	public Long getLugarFromISO_3166_1_alpha2(String code) {
 		String query="SELECT lugar.id FROM lugar,data where lugar.id=data.objetoid and value='"+code+"' and data.tag_id=(select id from tag where tag.alias='ISO_3166_1_alpha2')";
 		Query q = em.createNativeQuery(query);
-		return q.getResultList();
+		return q.getResultList().size()>0?((BigInteger)q.getResultList().get(0)).longValue():null;
 	}
+	
 	
 	public List<Long> getLugarFromISO_3166_1_alpha3(String code) {
 		String query="SELECT lugar.id FROM lugar,data where lugar.id=data.objetoid and value='"+code+"' and data.tag_id=(select id from tag where tag.alias='ISO_3166_1_alpha3')";

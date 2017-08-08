@@ -27,7 +27,7 @@ import es.io.wachsam.model.ObjetoSistema;
 import es.io.wachsam.model.Tag;
 import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
-import es.io.wachsam.repositories.PeligroRepository;
+
 import es.io.wachsam.services.DataService;
 import es.io.wachsam.services.LugarService;
 

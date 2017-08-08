@@ -14,22 +14,27 @@
 
 
 <script>
-var objetoId = <%= request.getParameter("objetoId")%>
-var objetoTipo = <%= request.getParameter("objetoTipo")%>
+var objetoId = <%= request.getParameter("objetoId")%>;
+var objetoTipo = <%= request.getParameter("objetoTipo")%>;
 var callMeAfterFunction;
 
 function savedata(){
+	if(!$('#tipoValor').val()==='OBJETO_ID'){
+		$("#objetoDiv").show();
+		$('#objetoConnectedTipo').val('');
+		$('#objetoConnectedId').val('');
+	}
 	 $.ajax({
 		    type: "POST",
 		    url: "DataServletJSON?oper=save&objetoId="+objetoId,
 		    data: $("#formData").serialize(),
 		    success: function(data) {
 		    	if(data.error){
-			    	fectchData();
-		    	    $('#myModal').modal('hide');
+		    		 $('#dataResultado').text(data.messages);			  
 		    	}else{
-		    		 $('#dataResultado').text(data.messages);
-			    	}    
+		    	  	fectchData();
+		    	    $('#myModal').modal('hide');
+			    }    
 		    }
 		  });
 		  return false;
@@ -224,6 +229,7 @@ function modifyData(e){
 }
 function newData(){
 	cleanForm();
+	$('#tipoValor').val('TEXTO');
 	$('#myModal').modal('show');		
 }
 function paintGraph(){
@@ -245,20 +251,23 @@ function populateForm(data){
 	 $('#value').val(data.value);
 	 $('#tipoValor').val(data.tipoValor);
 	 $('#descripcion').val(data.descripcion);
-	 if($('#objetoConnectedTipo').val() == data.objetoConnectedTipo){
-	     $('#objetoConnectedId').val(data.connectToId);
-	 }else{
-		 $('#objetoConnectedTipo').val(data.objetoConnectedTipo);		 
-		 loadObjetoConnectedSelect(data.connectToId);
-	 }	    
-	 	
+     $('#objetoConnectedId').val(data.connectToId);
+	 $('#objetoConnectedTipo').val(data.objetoConnectedTipo);	
+	 tipoValorFunc();
 }
-
+function tipoValorFunc(){
+	if($('#tipoValor').val()==='OBJETO_ID'){
+		$("#objetoDiv").show();
+	}else{
+		$("#valorDiv").show();
+		$("#objetoDiv").hide();
+	}
+}
 $(function(){
 	fectchData();
-	loadObjetoConnectedSelect();
 	getAllTags();
-	$("#objetoConnectedTipo").on("change",loadObjetoConnectedSelect);
+	$("#objetoDiv").hide();
+	$("#tipoValor").on("change",tipoValorFunc);
 });
 </script>
 
@@ -309,8 +318,8 @@ $(function(){
         <h4 class="modal-title">Nuevo Dato</h4>
       </div>
       <div class="modal-body">
-      <div id="dataResultado"/>
- <form id="formData" action="ProvisionalDataUpdaterForYou" method="post" role="form">
+      <div id="dataResultado"></div>
+      <form id="formData" action="ProvisionalDataUpdaterForYou" method="post" role="form">
         <input type="hidden" name="objetoId" value="<%= request.getParameter("objetoId")%>" readonly/>
         <input type="hidden" name="objetoTipo" value="<%= request.getParameter("objetoTipo")%>" readonly/>
         <input type="hidden" name="dataId" id="dataId" readonly/>
@@ -321,11 +330,7 @@ $(function(){
 		   <option value=""></option>
 		</select>
 		</div>
-        
-		<div class="form-group">
-		<label for="">Valor</label>
-		<input class="form-control" type="text" id="value" name="value" value=""/>
-		</div>
+        		
 
 		<div class="form-group">
 		<label for="">Descripción del Dato</label>
@@ -337,37 +342,44 @@ $(function(){
 		<label for="">TipoValor</label>
 		
 		<select class="form-control" name="tipoValor" id="tipoValor">
-		    <option value="VACIO" >VACÍO</option>
-			<option value="NUMERICO" >NUMÉRICO</option>
-			<option value="TEXTO" >TEXTO</option>
-			<option value="DATE" >DATE</option>
+		    <%
+				for (DataValueTipo tipo : DataValueTipo.values()) {
+					 out.println("<option value=\""+tipo.name()+"\">"+tipo.getDescripcion()+"</option>");
+				}
+			%>
 		</select>
 		</div>
-
-
-		<div class="form-group">
-		<label for="">Objeto to Connect</label>
-			<select class="form-control" name="objetoConnectedTipo" id="objetoConnectedTipo">
-				<option value="0">Alert</option>
-				<option value="1">Peligro</option>
-				<option value="2">Lugar</option>
-				<option value="3">Factor</option>
-				<option value="4">Sitio</option>
-				<option value="5">Fuente</option>
-				<option value="6">Airport</option>
-				<option value="7">Usuario</option>
-			</select>
-		</div>
-
-		<div class="form-group">
-		<label for="">ObjetoConnected to</label>
 		
-		<select class="form-control" name="objetoConnectedId" id="objetoConnectedId">
-		<option value=""></option>
-		
-		</select>
-		</div>
+         <div class="control-group" id="valorDiv">
+                 <label for="">Valor</label><br>
+                 <textarea class="form-control" name="value" id="value" cols="70" rows="1"></textarea>
+         </div>
 
+         <div class="controls form-inline" id="objetoDiv">
+
+			<div class="form-group">
+			<label for="">Objeto</label>
+				<select class="form-control" name="objetoConnectedTipo" id="objetoConnectedTipo">
+					<option value="0">Alert</option>
+					<option value="1">Peligro</option>
+					<option value="2">Lugar</option>
+					<option value="3">Factor</option>
+					<option value="4">Sitio</option>
+					<option value="5">Fuente</option>
+					<option value="6">Airport</option>
+					<option value="7">Usuario</option>
+					<option value="8">Riesgo</option>
+					<option value="9">Recurso</option>
+				</select>
+			</div>
+	
+			<div class="form-group">
+		    	<label for="">Objeto Id</label>		
+		    	<input class="form-control" type="text" name="objetoConnectedId" id="objetoConnectedId"/>		
+			</div>
+		
+	
+        </div>
 
 
 

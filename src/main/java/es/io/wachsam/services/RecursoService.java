@@ -3,24 +3,20 @@ package es.io.wachsam.services;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.validator.GenericValidator;
 
-import com.amazonaws.services.s3.AmazonS3;
+import com.google.common.base.Charsets;
 
 import es.io.wachsam.dao.OperationLogDao;
 import es.io.wachsam.dao.RecursoDao;
 import es.io.wachsam.exception.NoAutorizadoException;
 import es.io.wachsam.model.Acciones;
-import es.io.wachsam.model.Lugar;
 import es.io.wachsam.model.OperationLog;
 import es.io.wachsam.model.Recurso;
-import es.io.wachsam.model.Sitio;
-import es.io.wachsam.model.TipoSitio;
 import es.io.wachsam.model.Usuario;
 
 
@@ -87,9 +83,9 @@ public class RecursoService {
 			}
 		}
 		
-		if(filter.containsKey("decripcion") && !GenericValidator.isBlankOrNull(filter.get("decripcion"))){
+		if(filter.containsKey("descripcion") && !GenericValidator.isBlankOrNull(filter.get("descripcion"))){
 			try{
-				recurso.setNombre(filter.get("decripcion"));
+				recurso.setNombre(filter.get("descripcion"));
 			}catch(Exception e){
 			
 			}
@@ -114,9 +110,9 @@ public class RecursoService {
 			}
 		}
 		
-		if(filter.containsKey("decripcion") && !GenericValidator.isBlankOrNull(filter.get("decripcion"))){
+		if(filter.containsKey("descripcion") && !GenericValidator.isBlankOrNull(filter.get("descripcion"))){
 			try{
-				recurso.setNombre(filter.get("decripcion"));
+				recurso.setNombre(filter.get("descripcion"));
 			}catch(Exception e){
 			
 			}
@@ -183,7 +179,7 @@ public class RecursoService {
 		if(recurso.getS3Publico()) {
 			s3service.changeObjectACLPublic(recurso.getS3Bucket(), recurso.getS3Key());			
 			try {
-				recurso.setUri(s3service.getS3_URL_CONTEXT()+s3service.getBUCKET_NAME()+"/"+ URLEncoder.encode(recurso.getS3Key(),StandardCharsets.ISO_8859_1.toString()));
+				recurso.setUri(s3service.getS3_URL_CONTEXT()+s3service.getBUCKET_NAME()+"/"+ URLEncoder.encode(recurso.getS3Key(),Charsets.ISO_8859_1.toString()));
 			} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 			}

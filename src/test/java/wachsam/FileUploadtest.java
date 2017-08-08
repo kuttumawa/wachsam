@@ -73,7 +73,7 @@ public class FileUploadtest extends TestCase {
 		};
 		
 		List<String> errores=new ArrayList<String>();
-		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Sitio, sitiosConDataCsv, errores);
+		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Sitio, sitiosConDataCsv, errores,",");
 		
 		assertEquals(0,errores.size());
 	    List sitios = new ArrayList(dat.keySet());
@@ -118,7 +118,7 @@ public class FileUploadtest extends TestCase {
 		
 		
 		List<String> errores=new ArrayList<String>();
-		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Data, sitiosConDataCsv, errores);
+		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Data, sitiosConDataCsv, errores,",");
 		
 		assertEquals(0,errores.size());
 	    List datas = new ArrayList(dat.keySet());
@@ -150,7 +150,7 @@ public class FileUploadtest extends TestCase {
 		
 		
 		List<String> errores=new ArrayList<String>();
-		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Lugar, csv, errores);
+		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Lugar, csv, errores,",");
 		
 		assertEquals(0,errores.size());
 	    List datas = new ArrayList(dat.keySet());
@@ -176,7 +176,7 @@ public class FileUploadtest extends TestCase {
 				"CHAD,CHAD_EN"
 		};	
 		List<String> errores=new ArrayList<String>();
-		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Lugar, csv, errores);
+		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Lugar, csv, errores,",");
 		
 		assertEquals(0,errores.size());
 	    List datas = new ArrayList(dat.keySet());
@@ -198,7 +198,7 @@ public class FileUploadtest extends TestCase {
 				"Aduanas,Aduanas_EN"
 		};	
 		List<String> errores=new ArrayList<String>();
-		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Peligro, csv, errores);
+		Map<Object,List<Data>> dat=fileUploadService.cargarCsv(ObjetoSistema.Peligro, csv, errores,",");
 		
 		assertEquals(0,errores.size());
 	    List datas = new ArrayList(dat.keySet());
