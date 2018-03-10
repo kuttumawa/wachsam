@@ -1,6 +1,13 @@
 <jsp:include page="cabecera.jsp"/>
 
 <pre>
+
+
+
+1.4.0 (11-03-2017)
+- Integración con ELK
+
+
 1.3.1 (7-08-2017)
 - API:
    Riesgo: Obtiene los riesgos de un lugar

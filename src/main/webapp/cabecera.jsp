@@ -102,7 +102,7 @@ if(usuario==null){
         <span class="icon-bar"></span>
         <span class="icon-bar"></span> 
       </button>
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="main.jsp">
        
        <img class="profile-img" src="https://s-media-cache-ak0.pinimg.com/236x/70/66/b1/7066b1c4998eb0e9343ceaba7b6845ab.jpg"
                     alt="Heimdallr"> 
