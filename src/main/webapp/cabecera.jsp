@@ -5,6 +5,7 @@
 <%@ page import="es.io.wachsam.model.*"  %>
 <%@ page import="org.springframework.web.context.WebApplicationContext"  %> 
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"  %> 
+<%@ page import="es.io.wachsam.util.*"  %>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -188,7 +189,11 @@ if(usuario==null){
         <ul class="dropdown-menu">
           <li><a href="ProvisionalFuenteUpdaterForYou">Fuente</a></li>
           <li><a href="ProvisionalTipoSitioUpdaterForYou">Tipo Sitio</a></li>
-           <li><a href="recurso">Recurso</a></li>
+          <li><a href="recurso">Recurso</a></li>
+          <li><a href="main.jsp">Dashboard 1</a></li>
+          <%if(Tools.getSystemProperty("HEIMDALLR_KIBANA_URL")!=null){ %>
+              <li><a href="<%=Tools.getSystemProperty("HEIMDALLR_KIBANA_URL")%>">Kibana</a></li>
+          <%}%>
         </ul>
       </li>
       <%}%>
@@ -200,7 +205,8 @@ if(usuario==null){
           <li><a href="ProvisionalUsuarioUpdaterForYou">Usuarios</a></li>
           <li><a href="ProvisionalPermisoUpdaterForYou">Permisos</a></li>  
           <li><a href="#">Tokens_OFF</a></li>
-          <li><a href="logs.jsp">Log</a></li>  
+          <li><a href="logs.jsp">Log</a></li>
+          <li><a href="whowhen.jsp">WhoWhen</a></li>   
         </ul>
       </li>
        <%}%>     

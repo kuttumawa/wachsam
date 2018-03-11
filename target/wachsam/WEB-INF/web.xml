@@ -288,11 +288,11 @@
   	<url-pattern>/MitigacionServletJSON</url-pattern>
   </servlet-mapping>
   
-<error-page>
-    <!-- Missing login -->
+<!-- <error-page>
+    Missing login
     <error-code>401</error-code>
     <location>/general-error.html</location>
-</error-page>
+</error-page> -->
 <error-page>
     <!-- Forbidden directory listing -->
     <error-code>403</error-code>

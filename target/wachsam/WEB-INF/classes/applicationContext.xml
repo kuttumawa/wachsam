@@ -19,7 +19,7 @@
     
     <tx:annotation-driven />
     <context:annotation-config />
-    <context:property-placeholder />
+    <context:property-placeholder ignore-unresolvable="true"/>
     <bean id="alertasDao" class="es.io.wachsam.dao.AlertasDao">
         <property name="cacheManager" ref="cacheManager"/>
      </bean>
@@ -59,6 +59,7 @@
      <bean id="securityService" class="es.io.wachsam.services.SecurityService">
           <property name="usuarioDao" ref="usuarioDao"/>
           <property name="operationLogDao"  ref="operationLogDao"/>
+          <property name="apiSecretToken" value="${API_SECRET_TOKEN}" />
      </bean>
      <bean id="operationLogDao" class="es.io.wachsam.dao.OperationLogDao" />
      <bean id="lugarService" class="es.io.wachsam.services.LugarService">

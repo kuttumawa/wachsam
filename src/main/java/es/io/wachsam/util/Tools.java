@@ -3,6 +3,7 @@ package es.io.wachsam.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.primitives.Longs;
 
@@ -36,6 +37,19 @@ public class Tools {
 			}
 		}
 		return res;
+	}
+	
+	public static String getSystemProperty(String name) {
+		String value=null;
+		if(System.getProperty(name)!=null) {
+			value=System.getProperty(name);
+		}else{
+			Map<String,String> env=System.getenv();
+			if(env.get(name)!=null){
+				value=env.get(name);
+			}
+		}
+		return value;
 	}
 
 }
