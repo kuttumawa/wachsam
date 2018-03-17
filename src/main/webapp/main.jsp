@@ -14,9 +14,10 @@ if(Tools.getSystemProperty("DASHBOARD_URL")!=null){
 try {
     URL url = new URL(strUrl);
     HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+    urlConn.setConnectTimeout(3000);
     urlConn.connect();
   
-} catch (IOException e) {
+} catch (Exception e) {
 	flag=false;
 }
 }
